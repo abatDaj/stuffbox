@@ -1,5 +1,8 @@
 package com.stuffbox;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -9,20 +12,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 
+	private ListView mainListView ;
+	private ArrayAdapter<String> listAdapter ;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
 
-        if (savedInstanceState == null) {
+        // because layout.main 
+        /*if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
-        }
+        }*/
+        
+        mainListView = (ListView) findViewById( R.id.mainListView );
+
+	    String[] categories = new String[] { "Bücher", "Filme", "Dokus", "Lebensmittel",
+	                                      "Tee-Sorten", "Holzbretter"};  
+	    ArrayList<String> categoryList = new ArrayList<String>();
+	    categoryList.addAll( Arrays.asList(categories) );
+
+	    listAdapter = new ArrayAdapter<String>(this, R.layout.category_row, categoryList);
+	    mainListView.setAdapter( listAdapter );  
     }
 
 
