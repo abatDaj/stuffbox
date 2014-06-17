@@ -1,8 +1,8 @@
 package com.stuffbox.model;
 
 public class FeatureType {
-	int id;
-	String name;
+	private int id;
+	private String name;
 
 	public FeatureType(int id, String name) {
 		super();

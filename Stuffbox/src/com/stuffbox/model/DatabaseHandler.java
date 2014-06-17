@@ -25,65 +25,79 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     // Database Version
     private static final int DATABASE_VERSION = 2;
  
-    private static final String UNDERLINE = "_";
+    public static final String UNDERLINE = "_";
     
     // Database Name
-    private static final String DATABASE_NAME = "stuffbox";
+    public static final String DATABASE_NAME = "stuffbox";
     
     // item table name;
-    private static final String TABLE_CATEGORY = "kategorie";
-    private static final String TABLE_FEATURE = "eigenschaft";
-    private static final String TABLE_TYPE = "art";
-    private static final String TABLE_ITEM = "item";
+    public static final String TABLE_CATEGORY = "kategorie";
+    public static final String TABLE_FEATURE = "eigenschaft";
+    public static final String TABLE_TYPE = "art";
+    public static final String TABLE_ITEM = "item";
     		
     // table columns names
-    private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_ICON = "icon";
-    private static final String KEY_TYPE = "art";
-    private static final String KEY_FEATURE = "eigenschaft";
-    
-    private static final String[] TYPES = {		"Text",
-    											"Dezimalzahl",
-    											"Ganzzahl",
-    											"Datum",
-    											"Ranking",
-    											"Foto",
-    											"Wahrheitswert"};
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_ICON = "icon";
+    public static final String KEY_TYPE = "art";
+    public static final String KEY_FEATURE = "eigenschaft";
       
-    private final Context context; 
+    public static final String SQL_OR = "OR";
     
+    private final Context context; 
+    private SQLiteDatabase database;
+    
+    private DataSourceType dataSourceType;
+    private DataSourceFeature dataSourceFeature;
     
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        
+        dataSourceType = new DataSourceType();
+        dataSourceFeature = new DataSourceFeature();
+        
+        database = getWritableDatabase();
     } 
 	 
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * @param database
+     * @param name
+     */
+    public void insertFeature(String name, FeatureType featureType){
+    	dataSourceFeature.insertFeature(database, name, featureType);
+    }
+    /**
+     * Gibt eine List aller Arten zurück
+     * @return
+     */
+    public ArrayList<FeatureType> getTypes() { 
+    	return dataSourceType.getTypes(database);
+    }
+    /**
+     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @param types
+     * @return
+     */
+    public ArrayList<Feature> getFeatures(ArrayList<Integer> selectFeatureIds, ArrayList<FeatureType> types) {
+    	return dataSourceFeature.getFeatures(database, selectFeatureIds, types);
+    }
+    
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
     	createItemTable(db);
-    	createTypeTable(db);
-    	createEigenschaftTable(db);
+    	dataSourceType.createTypeTable(db);
+    	dataSourceFeature.createFeatureTable(db);
     }
  
     private void createItemTable(SQLiteDatabase db){
         String CREATE_ITEM_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT" + ")";
         db.execSQL(CREATE_ITEM_TABLE);
-    }
-    
-    private void createEigenschaftTable(SQLiteDatabase db){
-        String CREATE_EIGENSCHAFT_TABLE = "CREATE TABLE " + TABLE_FEATURE + "("+ 
-        		//create column id
-        		KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
-        		//create column name
-        		KEY_NAME + " TEXT," + 
-        		//create column art
-                KEY_TYPE + " INTEGER," + 
-        		//add foreign key to table art
-                "FOREIGN KEY(" + KEY_TYPE + ") REFERENCES " + TABLE_TYPE + "(" + KEY_ID + ")" + ")";
-        db.execSQL(CREATE_EIGENSCHAFT_TABLE);
     }
     
     // Upgrading database
@@ -113,38 +127,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
 	
     /**
-     * Erstellt die Tabelle Art auf der Datenbank und erzeugt zusätzlich 
-     * die Einträge.
-     * @param database
-     */
-    private static void createTypeTable(SQLiteDatabase database){
-        String CREATE_ART_TABLE = "CREATE TABLE " + TABLE_TYPE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT" + ")";
-        database.execSQL(CREATE_ART_TABLE);
-        
-        //create entry for each feature
-        for(String name : TYPES){
-        	instertType(database, name);
-        }
-    }
-    
-    /**
-     * Speichert eine neue Art in der Tabelle Art.
-     * @param database
-     * @param name
-     */
-    private static void instertType(SQLiteDatabase database, String name){
-    	ContentValues values = new ContentValues();
-    	values.put(KEY_NAME, name);
-    	insertIntoDB(database, TABLE_TYPE, values);
-    } 
-    /**
      * Inserts one entry into the database
      * @param database
      * @param table
      * @param values
      */
-    private static void insertIntoDB(SQLiteDatabase database, String table, ContentValues values){
+    public static void insertIntoDB(SQLiteDatabase database, String table, ContentValues values){
     	long rowID = -1;
     	
     	try{
@@ -156,29 +144,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}
     }
     /**
-     * Returns a cursor to typequery
+     * Returns the Where Statement created from the passed list
+     * @param selectFeatureIds
      * @return
      */
-    public ArrayList<FeatureType> getTypes() {  
-    	//select types from database
-		SQLiteDatabase database = getReadableDatabase();
-		Cursor cursor = database.query(TABLE_TYPE, null, null, null, null, null, null);
-		
-		ArrayList<FeatureType> types = new ArrayList<FeatureType>();
-		
-		//add all types to list
-		if (cursor.moveToFirst()) {
-			do {
-				FeatureType type = 
-						new FeatureType(
-								Integer.parseInt(cursor.getString(cursor.getColumnIndex(KEY_ID))),
-							    cursor.getString(cursor.getColumnIndex(KEY_NAME)));
-
-              // Adding type to list
-				types.add(type);
-			} while (cursor.moveToNext());
+	public static String getWhereStatementFromIDList(ArrayList<Integer> selectFeatureIds) {
+		StringBuilder whereStatement = new StringBuilder();
+		for(Integer id : selectFeatureIds){
+			whereStatement.append(" ");
+			whereStatement.append(KEY_ID);
+			whereStatement.append(" = ");
+			whereStatement.append(id);
+			whereStatement.append(" ");
+			whereStatement.append(SQL_OR);
 		}
-		 
-		return types;
-    }  
+		
+		return whereStatement.substring(0, whereStatement.length()-SQL_OR.length());
+	} 
 }
