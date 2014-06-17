@@ -6,22 +6,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_category">Kategorie</string>
     <string name="button_arten">Arten-Screen</string>
-    <string name="title_activity_feature">Neue Eigenschaft anlegen</string>
+    <string name="title_activity_feature">neue Eigenschaft anlegen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="name">Name</string>
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
     
-<string-array name="planets_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
 
 </resources>

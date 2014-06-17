@@ -1,55 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical" >
-    
-    
 
-    
-     <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/abort" />
-          
-     <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/save" />
-
-
-<TextView 
-	 android:layout_width="fill_parent" 
-	 android:layout_height="wrap_content"
-	 android:padding="10dp"
-	 android:textSize="16sp" 
-	 android:text="@string/name" >
-</TextView>
-
-    <EditText android:id="@+id/edit_name"
+    <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:minWidth="100dip"
+        android:text="@string/abort" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/button2"
+        android:padding="10dp"
+        android:text="@string/name"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView2"
         android:layout_weight="1"
-        android:hint="@string/edit_name" />
+        android:ems="10"
+        android:hint="@string/edit_name" >
 
-     <TextView 
-	 android:layout_width="fill_parent" 
-	 android:layout_height="wrap_content"
-	 android:padding="10dp"
-	 android:textSize="16sp" 
-	 android:text="@string/feature" >
-</TextView>
+        <requestFocus />
+    </EditText>
 
-     
-     <Spinner
-    android:id="@+id/spinner_arten"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" />
-     
-     
-     
-     
- </LinearLayout>    
-     
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/edit_name"
+        android:layout_marginTop="22dp"
+        android:padding="10dp"
+        android:text="@string/feature"
+        android:textSize="16sp" />
 
+    <Spinner
+        android:id="@+id/spinner_arten"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button1"
+        android:fitsSystemWindows="true"
+        android:minWidth="50dip"
+        android:text="@string/save" />
+
+</RelativeLayout>
