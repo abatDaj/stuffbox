@@ -3,6 +3,7 @@ package com.stuffbox;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
@@ -22,6 +27,8 @@ public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
 	private ArrayAdapter<FeatureType> listAdapter ;
+	
+	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
 		//databaseHandler.instertItem("Test1");
 
 		ArrayList<FeatureType> types = databaseHandler.getTypes();
-		 
 		
         // because layout.main 
         /*if (savedInstanceState == null) {
@@ -43,6 +49,18 @@ public class MainActivity extends ActionBarActivity {
         }*/
         
         mainListView = (ListView) findViewById( R.id.mainListView );
+        
+        mainListView.setOnItemClickListener(new OnItemClickListener()
+        {
+	        @Override
+	        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+	        {
+		        Intent intent = new Intent();		        
+		        intent.setClassName(getPackageName(), getPackageName()+".CategoryActivity");
+		        intent.putExtra(EXTRA_KATEGORIE_NAME, mainListView.getAdapter().getItem(arg2).toString());
+		        startActivity(intent);
+	        }
+        });
 
 //	    String[] categories = new String[] { "Bücher", "Filme", "Dokus", "Lebensmittel",
 //	                                      "Tee-Sorten", "Holzbretter"};  
@@ -58,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
