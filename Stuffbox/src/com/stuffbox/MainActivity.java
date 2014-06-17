@@ -21,12 +21,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.stuffbox.model.DatabaseHandler;
+import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
 
 public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
-	private ArrayAdapter<FeatureType> listAdapter ;
+	private ArrayAdapter<Feature> listAdapter ;
 	
 	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
 	
@@ -40,6 +41,18 @@ public class MainActivity extends ActionBarActivity {
 		//databaseHandler.instertItem("Test1");
 
 		ArrayList<FeatureType> types = databaseHandler.getTypes();
+//		databaseHandler.insertFeature("Test1", types.get(0));
+//		databaseHandler.insertFeature("Test2", types.get(1));
+//		databaseHandler.insertFeature("Test3", types.get(2));
+//		databaseHandler.insertFeature("Test4", types.get(3));
+//		databaseHandler.insertFeature("Test5", types.get(4));
+		
+		ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
+		selectFeatureIds.add(1);
+		selectFeatureIds.add(9);
+		selectFeatureIds.add(6);
+		selectFeatureIds.add(3);
+		ArrayList<Feature> features = databaseHandler.getFeatures(selectFeatureIds, types);
 		
         // because layout.main 
         /*if (savedInstanceState == null) {
@@ -69,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
 
 //	    listAdapter = new ArrayAdapter<String>(this, R.layout.category_row, categoryList);
         
-        listAdapter = new ArrayAdapter<FeatureType>(this, R.layout.category_row, types);
+        listAdapter = new ArrayAdapter<Feature>(this, R.layout.category_row, features);
 	    mainListView.setAdapter( listAdapter );  
     }
 
