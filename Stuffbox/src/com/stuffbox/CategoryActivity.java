@@ -47,4 +47,12 @@ public class CategoryActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+    public void openArtenScreen(View view) {    	
+    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), getPackageName()+".FeatureActivity");
+        startActivity(intent);
+    }	
 }

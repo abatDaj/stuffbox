@@ -67,12 +67,10 @@ public class MainActivity extends ActionBarActivity {
 //	    ArrayList<String> categoryList = new ArrayList<String>();
 //	    categoryList.addAll( Arrays.asList(categories) );
 
-//	    listAdapter = new ArrayAdapter<String>(this, R.layout.category_row, categoryList);
         
         listAdapter = new ArrayAdapter<FeatureType>(this, R.layout.category_row, types);
-	    mainListView.setAdapter( listAdapter );  
+	    mainListView.setAdapter( listAdapter );
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,6 +91,7 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
 
     /**
      * A placeholder fragment containing a simple view.

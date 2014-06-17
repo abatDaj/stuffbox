@@ -26,6 +26,10 @@
             android:name="com.stuffbox.CategoryActivity"
             android:label="@string/title_activity_category" >
         </activity>
+        <activity
+            android:name="com.stuffbox.FeatureActivity"
+            android:label="@string/title_activity_feature" >
+        </activity>
     </application>
 
 </manifest>
