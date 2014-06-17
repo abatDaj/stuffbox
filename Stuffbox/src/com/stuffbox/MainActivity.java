@@ -3,6 +3,7 @@ package com.stuffbox;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -15,11 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.stuffbox.model.DatabaseHandler;
+import com.stuffbox.model.FeatureType;
 
 public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
-	private ArrayAdapter<String> listAdapter ;
+	private ArrayAdapter<FeatureType> listAdapter ;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
 
 		DatabaseHandler databaseHandler = new DatabaseHandler(this);
-		databaseHandler.instertItem("Test1");
+		//databaseHandler.instertItem("Test1");
 
+		ArrayList<FeatureType> types = databaseHandler.getTypes();
+		 
+		
         // because layout.main 
         /*if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -39,12 +44,14 @@ public class MainActivity extends ActionBarActivity {
         
         mainListView = (ListView) findViewById( R.id.mainListView );
 
-	    String[] categories = new String[] { "Bücher", "Filme", "Dokus", "Lebensmittel",
-	                                      "Tee-Sorten", "Holzbretter"};  
-	    ArrayList<String> categoryList = new ArrayList<String>();
-	    categoryList.addAll( Arrays.asList(categories) );
+//	    String[] categories = new String[] { "Bücher", "Filme", "Dokus", "Lebensmittel",
+//	                                      "Tee-Sorten", "Holzbretter"};  
+//	    ArrayList<String> categoryList = new ArrayList<String>();
+//	    categoryList.addAll( Arrays.asList(categories) );
 
-	    listAdapter = new ArrayAdapter<String>(this, R.layout.category_row, categoryList);
+//	    listAdapter = new ArrayAdapter<String>(this, R.layout.category_row, categoryList);
+        
+        listAdapter = new ArrayAdapter<FeatureType>(this, R.layout.category_row, types);
 	    mainListView.setAdapter( listAdapter );  
     }
 
