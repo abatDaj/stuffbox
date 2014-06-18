@@ -60,15 +60,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         
         database = getWritableDatabase();
     } 
-	 
-    /**
-     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
-     * @param database
-     * @param name
-     */
-    public void insertFeature(String name, FeatureType featureType){
-    	dataSourceFeature.insertFeature(database, name, featureType);
-    }
     /**
      * Gibt eine List aller Arten zurück
      * @return
@@ -84,6 +75,14 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      */
     public ArrayList<Feature> getFeatures(ArrayList<Integer> selectFeatureIds, ArrayList<FeatureType> types) {
     	return dataSourceFeature.getFeatures(database, selectFeatureIds, types);
+    }
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * @param database
+     * @param name
+     */
+    public void insertFeature(String name, FeatureType featureType){
+    	dataSourceFeature.insertFeature(database, name, featureType);
     }
     
     // Creating Tables

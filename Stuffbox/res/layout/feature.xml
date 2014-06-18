@@ -5,24 +5,17 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:minWidth="100dip"
-        android:text="@string/abort" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/linearlayout"
+        android:layout_marginTop="22dp"
         android:padding="10dp"
-        android:text="@string/name"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:text="@string/name" />
 
     <EditText
         android:id="@+id/edit_name"
@@ -30,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2"
-        android:layout_weight="1"
         android:ems="10"
         android:hint="@string/edit_name" >
 
@@ -45,8 +37,8 @@
         android:layout_below="@+id/edit_name"
         android:layout_marginTop="22dp"
         android:padding="10dp"
-        android:text="@string/feature"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:text="@string/feature" />
 
     <Spinner
         android:id="@+id/spinner_arten"
@@ -55,15 +47,33 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" />
 
-    <Button
-        android:id="@+id/button2"
+    <LinearLayout
+        android:id="@+id/linearlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button1"
-        android:fitsSystemWindows="true"
-        android:minWidth="50dip"
-        android:text="@string/save" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_cancel"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:minWidth="50dip"
+            android:onClick="onCancel"
+            android:text="@string/abort" />
+
+        <Button
+            android:id="@+id/button_save"
+        	android:layout_width="0dp"
+        	android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:minWidth="50dip"
+            android:onClick="onSave"
+            android:text="@string/save" />
+    </LinearLayout>
 
 </RelativeLayout>
