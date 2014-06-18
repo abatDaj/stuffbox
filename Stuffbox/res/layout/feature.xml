@@ -5,17 +5,11 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/linearlayout"
-        android:layout_marginTop="22dp"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:text="@string/name" />
+        android:text="@string/name" 
+        style="@style/identifier"/>
 
     <EditText
         android:id="@+id/edit_name"
@@ -31,14 +25,9 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/edit_name"
-        android:layout_marginTop="22dp"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:text="@string/feature" />
+        android:text="@string/feature"
+        style="@style/identifier" />
 
     <Spinner
         android:id="@+id/spinner_arten"
