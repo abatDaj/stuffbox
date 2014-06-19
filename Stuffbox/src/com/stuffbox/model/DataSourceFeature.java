@@ -2,6 +2,8 @@ package com.stuffbox.model;
 
 import java.util.ArrayList;
 
+import com.stuffbox.controller.Controller;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +14,7 @@ public class DataSourceFeature {
      * @param database
      */
     public void createFeatureTable(SQLiteDatabase db){
-        String CREATE_EIGENSCHAFT_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
+        String CREATE_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
         		//create column id
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
         		//create column name
@@ -22,7 +24,7 @@ public class DataSourceFeature {
         		//add foreign key to table art
                 "FOREIGN KEY(" + DatabaseHandler.KEY_TYPE + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_TYPE + "(" + DatabaseHandler.KEY_ID + ")" + ")";
-        db.execSQL(CREATE_EIGENSCHAFT_TABLE);
+        db.execSQL(CREATE_FEATURE_TABLE);
     }
 	
     /**

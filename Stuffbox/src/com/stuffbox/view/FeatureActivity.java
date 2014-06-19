@@ -1,10 +1,15 @@
-package com.stuffbox;
+package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import com.stuffbox.R;
+import com.stuffbox.R.id;
+import com.stuffbox.R.layout;
+import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
+import com.stuffbox.model.Icon;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -18,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.os.Build;
 
@@ -28,11 +34,15 @@ public class FeatureActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feature);
 		
+		Controller.initialize(this);
 		
-		DatabaseHandler databaseHandler = new DatabaseHandler(this);
-		//databaseHandler.instertItem("Test1");
-
-		ArrayList<FeatureType> types = databaseHandler.getTypes();
+		//Beispielcode um Image auf ImageView zu setzen
+	    ImageView img = (ImageView) findViewById(R.id.testimage);
+	    Icon icon = Controller.getIcons().get(0);
+	    Controller.setImageOnImageView(this, img, icon.getName());
+	    
+	    
+		ArrayList<FeatureType> types = Controller.getTypes();
 		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_arten);
 		// Create an ArrayAdapter using the string array and a default spinner layout
@@ -105,7 +115,7 @@ public class FeatureActivity extends ActionBarActivity {
 	 */
 	private void startNextActivity(String activity){
         Intent intent = new Intent();   
-        intent.setClassName(getPackageName(),  activity);
+        intent.setClassName(getPackageName(), activity);
         startActivity(intent);
 	}
 	

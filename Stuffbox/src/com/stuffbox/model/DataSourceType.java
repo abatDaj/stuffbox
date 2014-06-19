@@ -26,7 +26,7 @@ public class DataSourceType {
                 + DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + DatabaseHandler.KEY_NAME + " TEXT" + ")";
         database.execSQL(CREATE_ART_TABLE);
         
-        //create entry for each feature
+        //Einträge anlegen für jede Art
         for(String name : TYPES){
         	insertType(database, name);
         }

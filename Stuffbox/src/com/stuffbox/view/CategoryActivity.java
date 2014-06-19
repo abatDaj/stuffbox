@@ -1,4 +1,9 @@
-package com.stuffbox;
+package com.stuffbox.view;
+
+import com.stuffbox.R;
+import com.stuffbox.R.id;
+import com.stuffbox.R.layout;
+import com.stuffbox.R.menu;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -50,9 +55,8 @@ public class CategoryActivity extends ActionBarActivity {
 	
 	
     public void openArtenScreen(View view) {    	
-    	
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), getPackageName()+".FeatureActivity");
+        intent.setClassName(getPackageName(), FeatureActivity.class.getName());
         startActivity(intent);
     }	
 }

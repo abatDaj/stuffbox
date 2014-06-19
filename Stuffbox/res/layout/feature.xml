@@ -5,6 +5,8 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
+    
+    
     <TextView
         android:id="@+id/textView2"
         android:layout_below="@+id/linearlayout"
@@ -64,5 +66,13 @@
             android:onClick="onSave"
             android:text="@string/save" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/testimage"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearlayout"
+        android:src="@drawable/abc_ab_bottom_solid_dark_holo" />
 
 </RelativeLayout>

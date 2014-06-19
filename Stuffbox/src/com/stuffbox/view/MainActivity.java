@@ -1,4 +1,4 @@
-package com.stuffbox;
+package com.stuffbox.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,13 +17,19 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.stuffbox.R;
+import com.stuffbox.R.id;
+import com.stuffbox.R.layout;
+import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
+import com.stuffbox.model.Icon;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -38,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
         
         setContentView(R.layout.main);
 
-        Controller.initialize(this);
+        //Controller.initialize(this);
 		ArrayList<Feature> features = Controller.getFeatures(null);
 		
         // because layout.main 
@@ -56,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
 	        {
 		        Intent intent = new Intent();		        
-		        intent.setClassName(getPackageName(), getPackageName()+".CategoryActivity");
+		        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
 		        intent.putExtra(EXTRA_KATEGORIE_NAME, mainListView.getAdapter().getItem(arg2).toString());
 		        startActivity(intent);
 	        }

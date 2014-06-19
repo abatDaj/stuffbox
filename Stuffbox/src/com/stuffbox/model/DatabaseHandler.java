@@ -1,6 +1,7 @@
 package com.stuffbox.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	
 	// All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
  
     public static final String UNDERLINE = "_";
     
@@ -35,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String TABLE_FEATURE = "eigenschaft";
     public static final String TABLE_TYPE = "art";
     public static final String TABLE_ITEM = "item";
+    public static final String TABLE_ICON = "icon";
     		
     // table columns names
     public static final String KEY_ID = "id";
@@ -42,21 +44,28 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String KEY_ICON = "icon";
     public static final String KEY_TYPE = "art";
     public static final String KEY_FEATURE = "eigenschaft";
+    public static final String KEY_DESCRIPTION = "beschreibung";
       
     public static final String SQL_OR = "OR";
+    
+    private String DB_PATH;
     
     private final Context context; 
     private SQLiteDatabase database;
     
     private DataSourceType dataSourceType;
     private DataSourceFeature dataSourceFeature;
+    private DataSourceIcon dataSourceIcon;
     
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        File filesDir = context.getFilesDir();
+        DB_PATH = filesDir.getPath().substring(0, filesDir.getPath().length() - filesDir.getName().length());
         
         dataSourceType = new DataSourceType();
         dataSourceFeature = new DataSourceFeature();
+        dataSourceIcon = new DataSourceIcon();
         
         database = getWritableDatabase();
     } 
@@ -66,6 +75,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      */
     public ArrayList<FeatureType> getTypes() { 
     	return dataSourceType.getTypes(database);
+    }  
+    /**
+     * Gibt eine List aller Icons zurück
+     * @return
+     */
+    public ArrayList<Icon> getIcons(){
+    	return dataSourceIcon.getIcons(database);
     }
     /**
      * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
@@ -91,8 +107,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	createItemTable(db);
     	dataSourceType.createTypeTable(db);
     	dataSourceFeature.createFeatureTable(db);
+    	dataSourceIcon.createIconTable(db);
+    	
     }
- 
+    
     private void createItemTable(SQLiteDatabase db){
         String CREATE_ITEM_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT" + ")";
