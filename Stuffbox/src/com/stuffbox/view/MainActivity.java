@@ -98,6 +98,12 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     
+    public void openNewCategoryScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
+        startActivity(intent);
+    }	
+    
 
     /**
      * A placeholder fragment containing a simple view.

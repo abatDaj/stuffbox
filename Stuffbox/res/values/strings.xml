@@ -12,6 +12,6 @@
     <string name="name">Name</string>
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
-    
+    <string name="button_kategorie">Neue Kategorie anlegen</string>    
 
 </resources>

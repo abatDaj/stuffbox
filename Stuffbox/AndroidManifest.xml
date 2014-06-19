@@ -22,6 +22,10 @@
             android:label="@string/title_activity_category" >
         </activity>
         <activity
+            android:name="com.stuffbox.view.NewCategoryActivity"
+            android:label="@string/title_activity_category" >
+        </activity>
+        <activity
             android:name="com.stuffbox.view.FeatureActivity"
             android:label="@string/title_activity_feature" >
             <intent-filter>
