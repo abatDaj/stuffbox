@@ -2,6 +2,7 @@ package com.stuffbox;
 
 import java.util.ArrayList;
 
+import com.stuffbox.controller.Controller;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
 
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.os.Build;
 
@@ -53,7 +55,6 @@ public class FeatureActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.feature, menu);
 		return true;
@@ -61,13 +62,51 @@ public class FeatureActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+	    // Handle item selection
+		int itemId = item.getItemId();
+	    switch (itemId) {
+	        case R.id.menu_save:
+	        	onSave(null);
+	            return true;
+	        case R.id.menu_abort:
+	            onCancel(null);
+	            return true;
+	        case R.id.action_settings:
+	        	//TODO do something
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
+	
+	public void onCancel(View view){
+		//return to mainactivity
+		startNextActivity(CategoryActivity.class.getName());
+	}
+	
+	public void onSave(View view){
+		//TODO Prüfen, ob Name gefüllt ist und wenn nicht ausgabe
+		
+		//get set name
+		EditText textview_name = (EditText) findViewById(R.id.edit_name);
+		String name = textview_name.getText().toString();
+		//get set type
+		Spinner spinner_type = (Spinner) findViewById(R.id.spinner_arten);
+		FeatureType type = (FeatureType) spinner_type.getSelectedItem();
+		//insert feature into db
+		Controller.insertFeature(name, type);
+		
+		//return to mainactivity
+		startNextActivity(MainActivity.class.getName());
+	}
+	/**
+	 * Startet die übergebene Activity
+	 * @param activity
+	 */
+	private void startNextActivity(String activity){
+        Intent intent = new Intent();   
+        intent.setClassName(getPackageName(),  activity);
+        startActivity(intent);
+	}
+	
 }
