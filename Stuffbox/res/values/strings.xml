@@ -7,11 +7,13 @@
     <string name="title_activity_category">Kategorie</string>
     <string name="button_arten">Arten-Screen</string>
     <string name="title_activity_feature">neue Eigenschaft anlegen</string>
+    <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="name">Name</string>
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
     <string name="button_kategorie">Neue Kategorie anlegen</string>    
-
+    <string name="icon">Icon:</string>
+    
 </resources>

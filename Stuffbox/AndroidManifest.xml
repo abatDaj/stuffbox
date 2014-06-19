@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.NewCategoryActivity"
-            android:label="@string/title_activity_category" >
+            android:label="@string/title_activity_new_category" >
         </activity>
         <activity
             android:name="com.stuffbox.view.FeatureActivity"
