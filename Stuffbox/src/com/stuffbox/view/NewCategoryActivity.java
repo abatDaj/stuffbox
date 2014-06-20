@@ -1,5 +1,6 @@
 package com.stuffbox.view;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -36,26 +37,26 @@ public class NewCategoryActivity extends ActionBarActivity {
 		//((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME)+ " gewählt!");
 		
 		ArrayList<FeatureType> types = Controller.getTypes();
-		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
-		// Create an ArrayAdapter using the string array and a default spinner layout
+
+		// holt alle Icon-Namen
+        Field[] drawableFields = android.R.drawable.class.getFields();  
+		String[] drawableIDs = new String[drawableFields.length];
+		R.drawable drawableResources = new R.drawable();
 		
-		/*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.planets_array, android.R.layout.simple_spinner_item);
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		spinner.setAdapter(adapter);
-		*/
-
-	    String[] planets = new String[] { "Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune"};  
-		ArrayList<String> planetList = new ArrayList<String>();
-		planetList.addAll( Arrays.asList(planets) );
-		IconArrayAdapter adapter = new IconArrayAdapter(this,  planets);		
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-
+        for(int i = 0 ;i < drawableFields.length;i++)
+			try {
+				drawableIDs[i] = ""+ drawableFields[i].getInt(drawableResources);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        
+		IconArrayAdapter adapter = new IconArrayAdapter(this, drawableIDs);
+		spinner.setAdapter(adapter);	
 	}
 
 	@Override

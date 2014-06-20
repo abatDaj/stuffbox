@@ -57,7 +57,6 @@ public class FeatureActivity extends ActionBarActivity {
 		
 		ArrayAdapter<FeatureType> adapter = new ArrayAdapter<FeatureType>(this, android.R.layout.simple_spinner_item, types);
 		
-		
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
@@ -95,7 +94,7 @@ public class FeatureActivity extends ActionBarActivity {
 	}
 	
 	public void onSave(View view){
-		//TODO Prüfen, ob Name gefüllt ist und wenn nicht ausgabe
+		//TODO Prï¿½fen, ob Name gefï¿½llt ist und wenn nicht ausgabe
 		
 		//get set name
 		EditText textview_name = (EditText) findViewById(R.id.edit_name);
@@ -110,7 +109,7 @@ public class FeatureActivity extends ActionBarActivity {
 		startNextActivity(MainActivity.class.getName());
 	}
 	/**
-	 * Startet die übergebene Activity
+	 * Startet die ï¿½bergebene Activity
 	 * @param activity
 	 */
 	private void startNextActivity(String activity){

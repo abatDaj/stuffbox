@@ -104,7 +104,6 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }	
     
-
     /**
      * A placeholder fragment containing a simple view.
      */
