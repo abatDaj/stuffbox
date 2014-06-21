@@ -1,10 +1,8 @@
 package com.stuffbox.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -16,20 +14,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.model.DatabaseHandler;
+import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
-import com.stuffbox.model.FeatureType;
-import com.stuffbox.model.Icon;
 
 public class MainActivity extends ActionBarActivity {
 
