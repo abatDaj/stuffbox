@@ -14,21 +14,24 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.stuffbox.MainActivity"
+            android:name="com.stuffbox.view.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name="com.stuffbox.CategoryActivity"
+            android:name="com.stuffbox.view.CategoryActivity"
             android:label="@string/title_activity_category" >
         </activity>
         <activity
-            android:name="com.stuffbox.FeatureActivity"
+            android:name="com.stuffbox.view.NewCategoryActivity"
+            android:label="@string/title_activity_new_category" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.FeatureActivity"
             android:label="@string/title_activity_feature" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
