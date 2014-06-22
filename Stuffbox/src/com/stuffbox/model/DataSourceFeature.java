@@ -51,10 +51,7 @@ public class DataSourceFeature {
     										ArrayList<Integer> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
     	//erstelle where statement
-    	String whereStatment = null;
-    	if(selectFeatureIds != null){
-    		whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds);
-    	}
+    	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatment, null, null, null, null);

@@ -56,6 +56,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private DataSourceType dataSourceType;
     private DataSourceFeature dataSourceFeature;
     private DataSourceIcon dataSourceIcon;
+    private DataSourceCategorie dataSourceCategorie;
+    private DataSourceItem dataSourceItem;
     
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,9 +65,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         File filesDir = context.getFilesDir();
         DB_PATH = filesDir.getPath().substring(0, filesDir.getPath().length() - filesDir.getName().length());
         
+        //instance datasources
         dataSourceType = new DataSourceType();
         dataSourceFeature = new DataSourceFeature();
         dataSourceIcon = new DataSourceIcon();
+        dataSourceCategorie = new DataSourceCategorie();
+        dataSourceItem = new DataSourceItem();
         
         database = getWritableDatabase();
     } 
@@ -101,48 +106,53 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	dataSourceFeature.insertFeature(database, name, featureType);
     }
     
+    /**
+     * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste enthalten ist
+     * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @param types
+     * @return
+     */
+    public ArrayList<Category> getCategories(ArrayList<Integer> selectFeatureIds, ArrayList<Icon> icons) {
+    	return dataSourceCategorie.getCategories(database, selectFeatureIds, icons);
+    }
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * @param database
+     * @param name
+     */
+    public void insertCategory(String name, Icon icon){
+    	dataSourceCategorie.insertCategory(database, name, icon);
+    }
+    
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-    	createItemTable(db);
     	dataSourceType.createTypeTable(db);
     	dataSourceFeature.createFeatureTable(db);
     	dataSourceIcon.createIconTable(db);
-    	
-    }
-    
-    private void createItemTable(SQLiteDatabase db){
-        String CREATE_ITEM_TABLE = "CREATE TABLE " + TABLE_ITEM + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT" + ")";
-        db.execSQL(CREATE_ITEM_TABLE);
+    	dataSourceItem.createItemTable(db);
+    	dataSourceCategorie.createCategorieTable(db);
     }
     
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
- 
-        // Create tables again
-        onCreate(db);
-    }
-    
-    /**
-     * Fügt ein Item der Datenbank hinzu.
-     * TODO Daten des Items speichern
-     * @param name
-     */
-    public void instertItem(String name){
-    	ContentValues values = new ContentValues();
-    	values.put(KEY_NAME, name);
-    	
-    	SQLiteDatabase database = getWritableDatabase();
-    	insertIntoDB(database, TABLE_ITEM, values);
+    	database = db;
+    	initializeDatabase();
     }
 	
+    public void initializeDatabase(){
+        // Drop older table if existed
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+ 
+        // Create tables again
+        onCreate(database);
+    }
+    
     /**
      * Inserts one entry into the database
      * @param database
@@ -162,12 +172,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
     /**
      * Returns the Where Statement created from the passed list
-     * @param selectFeatureIds
+     * @param selectIds
      * @return
      */
-	public static String getWhereStatementFromIDList(ArrayList<Integer> selectFeatureIds) {
+	public static String getWhereStatementFromIDList(ArrayList<Integer> selectIds) {
+		if(selectIds == null){
+			return null;
+		}
 		StringBuilder whereStatement = new StringBuilder();
-		for(Integer id : selectFeatureIds){
+		for(Integer id : selectIds){
 			whereStatement.append(" ");
 			whereStatement.append(KEY_ID);
 			whereStatement.append(" = ");
