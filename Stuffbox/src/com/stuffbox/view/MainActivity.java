@@ -36,14 +36,7 @@ public class MainActivity extends ActionBarActivity {
 
         //Controller.initialize(this);
 		//ArrayList<Feature> features = Controller.getFeatures(null);
-		
-        // because layout.main 
-        /*if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }*/
-        
+	        
         mainListView = (ListView) findViewById( R.id.mainListView );
         
         mainListView.setOnItemClickListener(new OnItemClickListener()
