@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
 
         //Controller.initialize(this);
-		ArrayList<Feature> features = Controller.getFeatures(null);
+		//ArrayList<Feature> features = Controller.getFeatures(null);
 		
         // because layout.main 
         /*if (savedInstanceState == null) {
@@ -64,8 +64,8 @@ public class MainActivity extends ActionBarActivity {
 //	    categoryList.addAll( Arrays.asList(categories) );
 
         
-        listAdapter = new ArrayAdapter<Feature>(this, R.layout.category_row, features);
-	    mainListView.setAdapter( listAdapter );
+        //listAdapter = new ArrayAdapter<Feature>(this, R.layout.category_row, features);
+	    //mainListView.setAdapter( listAdapter );
     }
 
     @Override
