@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_category">Kategorie</string>
-    <string name="button_arten">Arten-Screen</string>
     <string name="title_activity_feature">neue Eigenschaft anlegen</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="abort">abbrechen</string>
@@ -13,7 +12,15 @@
     <string name="name">Name</string>
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
-    <string name="button_kategorie">Neue Kategorie anlegen</string>    
-    <string name="icon">Icon:</string>
-    
+    <string name="icon">Icon</string>
+    <string name="button_arten">Arten-Screen</string>
+    <string name="button_new_kategorie">Neue Kategorie Screen</string>
+    <string name="button_kategorie">Kategorie Screen</string>
+    <string name="button_formular">Formular Screen</string>
+    <string name="button_detail">Detail Screen</string>
+    <string name="button_abzeichen">Abzeichen Screen</string>
+    <string name="title_activity_formular">FormularActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_badge">BadgeActivity</string>
+
 </resources>

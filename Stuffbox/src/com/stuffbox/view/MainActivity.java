@@ -93,6 +93,37 @@ public class MainActivity extends ActionBarActivity {
         intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
         startActivity(intent);
     }	
+
+    public void openCategoryScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
+        startActivity(intent);
+    }	
+    
+    public void openFormularScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), FormularActivity.class.getName());
+        startActivity(intent);
+    }	
+    
+
+    public void openDetailScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), DetailActivity.class.getName());
+        startActivity(intent);
+    }	
+    
+    public void openAbzeichenScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), BadgeActivity.class.getName());
+        startActivity(intent);
+    }	
+    
+    public void openArtenScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), FeatureActivity.class.getName());
+        startActivity(intent);
+    }	    
     
     /**
      * A placeholder fragment containing a simple view.

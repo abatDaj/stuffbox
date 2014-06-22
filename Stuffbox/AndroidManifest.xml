@@ -30,8 +30,21 @@
             android:label="@string/title_activity_feature" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.FormularActivity"
+            android:label="@string/title_activity_formular" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.DetailActivity"
+            android:label="@string/title_activity_detail" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.BadgeActivity"
+            android:label="@string/title_activity_badge" >
         </activity>
     </application>
 
