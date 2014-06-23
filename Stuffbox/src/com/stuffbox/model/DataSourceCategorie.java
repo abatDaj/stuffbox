@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceCategorie {
+	
+	public static String ROOT_CATEGORY = "ROOT";
+	
     /**
      * Erstellt die Tabelle Kategorie auf der Datenbank
      * @param database
@@ -20,6 +23,9 @@ public class DataSourceCategorie {
         		//create column icon
         		DatabaseHandler.KEY_ICON + " TEXT" + ")";
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
+        
+        //insert rootcategory into the database
+        insertCategory(db, ROOT_CATEGORY, null);
     }
     
     /**

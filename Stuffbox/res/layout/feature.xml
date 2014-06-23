@@ -12,7 +12,7 @@
         android:layout_below="@+id/linearlayout"
         android:text="@string/name" 
         style="@style/identifier"/>
-
+    
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="wrap_content"

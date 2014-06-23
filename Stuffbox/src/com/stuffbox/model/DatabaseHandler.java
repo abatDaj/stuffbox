@@ -37,7 +37,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String TABLE_TYPE = "art";
     public static final String TABLE_ITEM = "item";
     public static final String TABLE_ICON = "icon";
-    		
+    public static final String TABLE_FORMULAR = "formular";
+    public static final String TABLE_FORMULAR_ITEM = DatabaseHandler.TABLE_FORMULAR 
+    												 + DatabaseHandler.UNDERLINE 
+    												 + DatabaseHandler.TABLE_ITEM;
+    public static final String TABLE_FEATURE_ITEM = DatabaseHandler.TABLE_FEATURE 
+													 + DatabaseHandler.UNDERLINE 
+													 + DatabaseHandler.TABLE_ITEM;
+    public static final String CATEGORY_ITEM = DatabaseHandler.TABLE_CATEGORY 
+													 + DatabaseHandler.UNDERLINE 
+													 + DatabaseHandler.TABLE_ITEM;
+    public static final String CATEGORY_CATEGORY = DatabaseHandler.TABLE_CATEGORY 
+													 + DatabaseHandler.UNDERLINE 
+													 + DatabaseHandler.TABLE_CATEGORY;
+    
     // table columns names
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
@@ -45,6 +58,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String KEY_TYPE = "art";
     public static final String KEY_FEATURE = "eigenschaft";
     public static final String KEY_DESCRIPTION = "beschreibung";
+    public static final String KEY_VALUE = "wert";
       
     public static final String SQL_OR = "OR";
     
