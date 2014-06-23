@@ -1,6 +1,9 @@
 package com.stuffbox.view;
 
+import java.lang.reflect.Field;
+
 import com.stuffbox.R;
+import com.stuffbox.model.Icon;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,11 +23,11 @@ import android.widget.TextView;
  *  
  * */
 
-public class IconArrayAdapter extends ArrayAdapter<String> {
+public class IconArrayAdapter extends ArrayAdapter<Icon> {
 	private final Context context;
-	private final String[] values;
+	private final Icon[] values;
 
-	public IconArrayAdapter(Context context, String[] values) {
+	public IconArrayAdapter(Context context, Icon[] values) {
 	    super(context, R.layout.new_category_spinner_row, values);
 	    this.context = context;
 	    this.values = values;
@@ -47,13 +50,19 @@ public class IconArrayAdapter extends ArrayAdapter<String> {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.new_category_spinner_row, parent, false);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.new_category_spinner_icon);
-		
-		// Falls keine Icons gefunden worden sind
-		//imageView.setImageResource(R.drawable.category_icon_pets);
+
 		try {
-			imageView.setImageResource(Integer.parseInt(values[position]));
-		} catch (NumberFormatException e) {
-			System.err.println("No category Icons where found");
+			Field f = R.drawable.class.getField(values[position].getName());
+			imageView.setImageResource(f.getInt(null));
+		} catch (NoSuchFieldException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rowView;

@@ -15,16 +15,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
+import com.stuffbox.model.Icon;
 
 public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
-	private ArrayAdapter<Feature> listAdapter ;
+	private ArrayAdapter<Category> listAdapter ;
 	
 	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
 	
@@ -34,8 +36,10 @@ public class MainActivity extends ActionBarActivity {
         
         setContentView(R.layout.main);
 
-        //Controller.initialize(this);
-		//ArrayList<Feature> features = Controller.getFeatures(null);
+        
+        
+        Controller.initialize(this);
+        ArrayList<Category> categories = Controller.getCategories(null);
 	        
         mainListView = (ListView) findViewById( R.id.mainListView );
         
@@ -56,9 +60,8 @@ public class MainActivity extends ActionBarActivity {
 //	    ArrayList<String> categoryList = new ArrayList<String>();
 //	    categoryList.addAll( Arrays.asList(categories) );
 
-        
-        //listAdapter = new ArrayAdapter<Feature>(this, R.layout.category_row, features);
-	    //mainListView.setAdapter( listAdapter );
+        listAdapter = new ArrayAdapter<Category>(this, R.layout.category_row, categories);
+	    mainListView.setAdapter( listAdapter );
     }
 
     @Override

@@ -44,7 +44,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		
-		Field[] drawableFields = R.drawable.class.getFields();
+		/*Field[] drawableFields = R.drawable.class.getFields();
 		LinkedList<String> list = new LinkedList<String>();
 		R.drawable drawableResources = new R.drawable(); 
 		
@@ -62,21 +62,28 @@ public class NewCategoryActivity extends ActionBarActivity {
 			}
 
 		Object[] os = list.toArray();
-		String[] icons = Arrays.asList(os).toArray(new String[os.length]);
-
-		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
-		spinner.setAdapter(adapter);
+		String[] icons = Arrays.asList(os).toArray(new String[os.length]);*/
 
 		Controller.initialize(this);
 		//Controller.fillIconTableWithSomeIcons(this);
 		ArrayList<Icon> allicons = Controller.getIcons();
-		
+		LinkedList<Icon> list = new LinkedList<Icon>();
+
 		for (Icon i : allicons)
-		{
-			TextView tv = ((TextView)findViewById(R.id.testIconDB));
-			String t = tv.getText().toString();
-			tv.setText("HiHi: " + t + i.getName());
-		}	
+			if (i.getName().contains(getResources().getText(R.string.prefix_icon_category))) 
+				list.add(i);
+		
+		Icon[] icons = new Icon[list.size()];
+		
+		for (int i = 0 ;i < list.size();i++)
+			icons[i] = list.get(i);
+
+		//Object[] os = list.toArray();
+		//String[] cat_icons = Arrays.asList(os).toArray(new String[os.length]);
+		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
+		spinner.setAdapter(adapter);
+
+		
 	}
 
 	@Override
@@ -91,20 +98,23 @@ public class NewCategoryActivity extends ActionBarActivity {
 		getMenuInflater().inflate(R.menu.new_category, menu);
 		return true;
 	}
-	
+	/**
+	 * 
+	 * Eine neue Kategorie wird angelegt.
+	 *
+	 * @param view
+	 */
 	public void onSave(View view){
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 
-		String iconID = (String) spinner.getSelectedItem();
+		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-
+		Controller.insertCategory(categoryName, selectedIcon);
 		
-		
-		CharSequence text = "fertig - IIHHAAHH IIHHAAAA";
-		int duration = 7;
-		Toast toast = Toast.makeText(this, categoryName, duration);
-		toast.show();
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
+        startActivity(intent);
 	}
 	
 	public void onCancel(View view){

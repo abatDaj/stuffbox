@@ -21,7 +21,7 @@ public class DataSourceCategorie {
         		//create column name
         		DatabaseHandler.KEY_NAME + " TEXT," + 
         		//create column icon
-        		DatabaseHandler.KEY_ICON + " TEXT" + ")";
+        		DatabaseHandler.KEY_ICON + " INTEGER" + ")";
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
         
         //insert rootcategory into the database
@@ -36,12 +36,12 @@ public class DataSourceCategorie {
     public void insertCategory(SQLiteDatabase database, String name, Icon icon){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.TABLE_TYPE, icon.getId());
+    	values.put(DatabaseHandler.KEY_ICON, icon.getId());
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values);
     } 
     
     /**
-     * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Kategorien zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectCategorieIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
@@ -61,16 +61,21 @@ public class DataSourceCategorie {
 		//add all types to list
 		if (cursor.moveToFirst()) {
 			do {
-				int iconid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_TYPE)));
 				Icon icon = null;
-				for(Icon temp : icons){
-					if(iconid == temp.getId()){
-						icon = temp;
+				try {
+					// NumberFormatException parseInt kann keine "null" verarbeiten (NumberFormatException), also
+					// wenn die Kategoruie kein Icon hat
+					int iconid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ICON)));
+					for(Icon temp : icons){
+						if(iconid == temp.getId()){
+							icon = temp;
+						}
 					}
 				}
-				if(icon == null){
+				catch (NumberFormatException e) {
 					//TODO Exception/Ausgabe
 				}
+				
 				Category category = 
 						new Category(
 								Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),

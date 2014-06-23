@@ -78,13 +78,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" />
-        
-        
+
       <TextView
-        android:id="@+id/testIconDB"
-        style="@style/identifier"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edit_category_name"
-        android:layout_marginTop="22dp"/>
+          android:id="@+id/testIconDB"
+          style="@style/identifier"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/spinner_new_category_icon" />
 
 </RelativeLayout>
