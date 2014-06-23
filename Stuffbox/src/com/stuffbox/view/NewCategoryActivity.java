@@ -11,6 +11,7 @@ import com.stuffbox.R.layout;
 import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.FeatureType;
+import com.stuffbox.model.Icon;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -45,7 +46,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 		
 		Field[] drawableFields = R.drawable.class.getFields();
 		LinkedList<String> list = new LinkedList<String>();
-		R.drawable drawableResources = new R.drawable();
+		R.drawable drawableResources = new R.drawable(); 
 		
 		// holt alle Icons mit dem Prefix "category_icon_"
 		for (int i = 0; i < drawableFields.length; i++)
@@ -65,6 +66,17 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
 		spinner.setAdapter(adapter);
+
+		Controller.initialize(this);
+		//Controller.fillIconTableWithSomeIcons(this);
+		ArrayList<Icon> allicons = Controller.getIcons();
+		
+		for (Icon i : allicons)
+		{
+			TextView tv = ((TextView)findViewById(R.id.testIconDB));
+			String t = tv.getText().toString();
+			tv.setText("HiHi: " + t + i.getName());
+		}	
 	}
 
 	@Override
@@ -82,9 +94,16 @@ public class NewCategoryActivity extends ActionBarActivity {
 	
 	public void onSave(View view){
 
+		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
+
+		String iconID = (String) spinner.getSelectedItem();
+		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
+
+		
+		
 		CharSequence text = "fertig - IIHHAAHH IIHHAAAA";
 		int duration = 7;
-		Toast toast = Toast.makeText(this, text, duration);
+		Toast toast = Toast.makeText(this, categoryName, duration);
 		toast.show();
 	}
 	

@@ -1,8 +1,13 @@
 package com.stuffbox.model;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import com.stuffbox.R;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,14 +25,14 @@ public class DataSourceIcon {
         		DatabaseHandler.KEY_DESCRIPTION + " TEXT " + ")";
         db.execSQL(CREATE_ICON_TABLE);
         
-        //Einträge anlegen für alle Icons
-        insertIcon(db, "icon_angry_minion", "Wütender Miniom");
+        //Eintrï¿½ge anlegen fï¿½r alle Icons
+        insertIcon(db, "icon_angry_minion", "Wï¿½tender Miniom");
     }
     
     /**
      * Speichert eine neues Icon in der Tabelle Icon. 
      * @param database
-     * @param name Bezeichnung für das Icon
+     * @param name Bezeichnung fï¿½r das Icon
      * @param description Kompletter Pfad inklusive Name und Dateiendung 
      */
     private void insertIcon(SQLiteDatabase database, String name, String description){
@@ -38,7 +43,7 @@ public class DataSourceIcon {
     } 
     
     /**
-     * Gibt eine List aller Icons zurück
+     * Gibt eine List aller Icons zurï¿½ck
      * @return
      */
     public ArrayList<Icon> getIcons(SQLiteDatabase database) {  
@@ -63,4 +68,19 @@ public class DataSourceIcon {
 		 
 		return icons;
     } 
+    
+    /**
+     * temporÃ¤r: FÃ¼llt ein paar die Tabelle mit ein paar Icons.
+     * 
+     */
+    public void fillIconTableWithSomeIcons (Context context, SQLiteDatabase database)
+    {
+    	Field[] drawableFields = R.drawable.class.getFields();
+		
+		// holt alle Icons mit dem Prefix "category_icon_"
+		for (int i = 0; i < drawableFields.length; i++)
+			if (drawableFields[i].getName().contains( context.getResources().getText(R.string.prefix_icon_category)))  
+				insertIcon(database,drawableFields[i].getName(),"egal");
+    }
+    
 }

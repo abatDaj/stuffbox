@@ -17,7 +17,7 @@ public class Controller {
 	private static ArrayList<FeatureType> types;
 	private static ArrayList<Icon> icons;
 	
-	//TODO eventuell Flag setzen und vor jeder Methode prüfen ob bereits initialisiert wurde
+	//TODO eventuell Flag setzen und vor jeder Methode prï¿½fen ob bereits initialisiert wurde
 	public static void initialize(Context context) {
 		//initialize database handler
 		databaseHandler = new DatabaseHandler(context);
@@ -28,7 +28,7 @@ public class Controller {
 	}
 	
     /**
-     * Gibt eine List aller Arten zurück
+     * Gibt eine List aller Arten zurï¿½ck
      * @return
      */
     public static ArrayList<FeatureType> getTypes() {
@@ -38,17 +38,16 @@ public class Controller {
     	return types;
     }
     /**
-     * Gibt eine List aller Icons zurück
+     * Gibt eine List aller Icons zurï¿½ck
      * @return
      */
     public static ArrayList<Icon> getIcons() {
-    	if(icons == null){
+    	if(icons == null)
     		icons = databaseHandler.getIcons();
-    	}
     	return icons;
     }
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -66,7 +65,7 @@ public class Controller {
     }
     
     /**
-     * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Kategorien zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -75,21 +74,21 @@ public class Controller {
     	return databaseHandler.getCategories(selectFeatureIds, icons);
     }
     /**
-     * Fügt Debugeinträge in die Tabelle Eigenschaft in die Datenbank ein
+     * Fï¿½gt Debugeintrï¿½ge in die Tabelle Eigenschaft in die Datenbank ein
      */
     public static void insertDebugFeatureEntries(){
-        //Debugeinträge schreiben
+        //Debugeintrï¿½ge schreiben
 		insertFeature("Name", types.get(0));
 		insertFeature("Seriennummer", types.get(1));
 		insertFeature("Bewertung", types.get(2));
 		insertFeature("gekauft am", types.get(3));
     }
     /**
-     * Fügt Debugeinträge in die Tabelle Kategorie in die Datenbank ein
+     * Fï¿½gt Debugeintrï¿½ge in die Tabelle Kategorie in die Datenbank ein
      */
     public static void insertDebugCategoryEntries(){
-        //Debugeinträge schreiben
-		insertCategory("Bücher", icons.get(0));
+        //Debugeintrï¿½ge schreiben
+		insertCategory("Bï¿½cher", icons.get(0));
 		insertCategory("Technik", icons.get(0));
 		insertCategory("Musik", icons.get(0));
     }
@@ -110,7 +109,7 @@ public class Controller {
     }
     
     /**
-     * Setzt das Bild mit dem übergebenen Namen auf den übergebenen Imageview
+     * Setzt das Bild mit dem ï¿½bergebenen Namen auf den ï¿½bergebenen Imageview
      * @param context
      * @param view
      * @param imageName
@@ -119,4 +118,8 @@ public class Controller {
 	    int resourceId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
+    
+    public static void fillIconTableWithSomeIcons(Context context) {
+    	databaseHandler.fillIconTableWithSomeIcons(context);
+    } 
 }

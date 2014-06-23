@@ -75,21 +75,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         database = getWritableDatabase();
     } 
     /**
-     * Gibt eine List aller Arten zurück
+     * Gibt eine List aller Arten zurï¿½ck
      * @return
      */
     public ArrayList<FeatureType> getTypes() { 
     	return dataSourceType.getTypes(database);
     }  
     /**
-     * Gibt eine List aller Icons zurück
+     * Gibt eine List aller Icons zurï¿½ck
      * @return
      */
     public ArrayList<Icon> getIcons(){
     	return dataSourceIcon.getIcons(database);
     }
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -107,7 +107,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
     
     /**
-     * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Kategorien zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -191,4 +191,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		
 		return whereStatement.substring(0, whereStatement.length()-SQL_OR.length());
 	} 
+	
+	public void fillIconTableWithSomeIcons (Context context)
+	{
+		dataSourceIcon.fillIconTableWithSomeIcons(context, database);
+	}
+	
 }
