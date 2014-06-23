@@ -26,7 +26,7 @@ import com.stuffbox.model.Icon;
 public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
-	private ArrayAdapter<Category> listAdapter ;
+	private CategoryArrayAdapter categoryAdapter ;
 	
 	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
 	
@@ -35,9 +35,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
-
-        
-        
         Controller.initialize(this);
         ArrayList<Category> categories = Controller.getCategories(null);
 	        
@@ -59,9 +56,16 @@ public class MainActivity extends ActionBarActivity {
 //	                                      "Tee-Sorten", "Holzbretter"};  
 //	    ArrayList<String> categoryList = new ArrayList<String>();
 //	    categoryList.addAll( Arrays.asList(categories) );
+        
+        //insertIcon(database,drawableFields[i].getName(),"egal");
+        
+		Category[] cats = new Category[categories.size()];
+		
+		for (int i = 0 ;i < categories.size();i++)
+			cats[i] = categories.get(i);
 
-        listAdapter = new ArrayAdapter<Category>(this, R.layout.category_row, categories);
-	    mainListView.setAdapter( listAdapter );
+        categoryAdapter = new CategoryArrayAdapter (this, cats);
+	    mainListView.setAdapter( categoryAdapter );
     }
 
     @Override

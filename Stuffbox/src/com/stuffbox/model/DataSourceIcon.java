@@ -32,10 +32,10 @@ public class DataSourceIcon {
     /**
      * Speichert eine neues Icon in der Tabelle Icon. 
      * @param database
-     * @param name Bezeichnung f�r das Icon
+     * @param name Bezeichnung für das Icon
      * @param description Kompletter Pfad inklusive Name und Dateiendung 
      */
-    private void insertIcon(SQLiteDatabase database, String name, String description){
+    public void insertIcon(SQLiteDatabase database, String name, String description){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.KEY_DESCRIPTION, description);

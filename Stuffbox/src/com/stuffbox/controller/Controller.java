@@ -109,6 +109,15 @@ public class Controller {
     }
     
     /**
+     * Speichert eine neues Icon in der Tabelle Icon
+     * @param name
+     * @param description
+     */
+    public static void insertIcon(String name, String description){
+    	databaseHandler.insertIcon(name, description);
+    }
+    
+    /**
      * Setzt das Bild mit dem �bergebenen Namen auf den �bergebenen Imageview
      * @param context
      * @param view

@@ -1,7 +1,27 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"   
-	 android:id="@+id/categoryRowTextView" 
-	 android:layout_width="fill_parent" 
-	 android:layout_height="wrap_content"
-	 android:padding="10dp"
-	 android:textSize="16sp" >
-</TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip" >
+
+    <ImageView
+        android:id="@+id/cat_row_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="TODO"/>
+
+    <TextView
+        android:id="@+id/cat_row_text1"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/cat_row_icon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Description"
+        android:textSize="16sp" />
+
+</RelativeLayout> 

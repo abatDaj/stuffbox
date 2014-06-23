@@ -138,6 +138,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	dataSourceCategorie.insertCategory(database, name, icon);
     }
     
+    /**
+     * Speichert eine neues Icon in der Tabelle Icon
+     * @param name
+     * @param icon
+     */
+    public void insertIcon(String name, String description){
+    	dataSourceIcon.insertIcon(database, name, description);
+    }    
+  
+    
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {

@@ -3,6 +3,7 @@ package com.stuffbox.view;
 import java.lang.reflect.Field;
 
 import com.stuffbox.R;
+import com.stuffbox.model.Category;
 import com.stuffbox.model.Icon;
 
 import android.content.Context;
@@ -11,26 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * 
- * Dem Objekt wird bei der Instanzierung ein Icon-Array übergeben und das Objekt selber
- * wird beispielsweise einem "Spinner" übergeben. Die Methode getCustomView
- * wird bei jeder Iteration aufgerufen und dort kann jede einzelne Zeile (Spinner-Reihe z.B.)
- * modifziert werden. Hier wird dem View-Objekt der Icon "zugewiesen".
- *  
- * */
-
-public class IconArrayAdapter extends ArrayAdapter<Icon> {
+public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 	private final Context context;
-	private final Icon[] values;
+	private final Category[] values;
 
-	public IconArrayAdapter(Context context, Icon[] values) {
-	    super(context, R.layout.new_category_spinner_row, values);
-	    this.context = context;
-	    this.values = values;
+	public CategoryArrayAdapter(Context context, Category[] values) {
+		super(context, R.layout.category_row, values);
+		this.context = context;
+		this.values = values;
 	}
-	
+
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -46,23 +39,32 @@ public class IconArrayAdapter extends ArrayAdapter<Icon> {
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.new_category_spinner_row, parent, false);
-		ImageView imageView = (ImageView) rowView.findViewById(R.id.new_category_spinner_icon);
+		View rowView = inflater.inflate(R.layout.category_row, parent, false);
+		ImageView imageView = (ImageView) rowView.findViewById(R.id.cat_row_icon);
+		TextView mainText = (TextView) rowView.findViewById(R.id.cat_row_text1);
+
+		Icon icon = values[position].getIcon();
+
+		String iconName = icon == null ? "category_icon_default" : icon.getName();
 
 		try {
-			Field f = R.drawable.class.getField(values[position].getName());
+			// category_icon_default: Der Default-Icon Name (temporär)
+			Field f = R.drawable.class.getField(iconName);
 			imageView.setImageResource(f.getInt(null));
-		} catch (NoSuchFieldException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (IllegalAccessException e) {
+		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		mainText.setText(values[position].getName());
+
+
 		return rowView;
 	}
 }
