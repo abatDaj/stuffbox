@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
         Controller.initialize(this);
         ArrayList<Category> categories = Controller.getCategories(null);
-	        
+	    //Controller.fillIconTableWithSomeIcons(this);    
         mainListView = (ListView) findViewById( R.id.mainListView );
         
         mainListView.setOnItemClickListener(new OnItemClickListener()
@@ -51,13 +51,6 @@ public class MainActivity extends ActionBarActivity {
 		        startActivity(intent);
 	        }
         });
-
-//	    String[] categories = new String[] { "Bücher", "Filme", "Dokus", "Lebensmittel",
-//	                                      "Tee-Sorten", "Holzbretter"};  
-//	    ArrayList<String> categoryList = new ArrayList<String>();
-//	    categoryList.addAll( Arrays.asList(categories) );
-        
-        //insertIcon(database,drawableFields[i].getName(),"egal");
         
 		Category[] cats = new Category[categories.size()];
 		

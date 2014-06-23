@@ -44,26 +44,6 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		
-		/*Field[] drawableFields = R.drawable.class.getFields();
-		LinkedList<String> list = new LinkedList<String>();
-		R.drawable drawableResources = new R.drawable(); 
-		
-		// holt alle Icons mit dem Prefix "category_icon_"
-		for (int i = 0; i < drawableFields.length; i++)
-			try {
-				if (drawableFields[i].getName().contains( this.getResources().getText(R.string.prefix_icon_category))) 
-					list.add("" + drawableFields[i].getInt(drawableResources));
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		Object[] os = list.toArray();
-		String[] icons = Arrays.asList(os).toArray(new String[os.length]);*/
-
 		Controller.initialize(this);
 		//Controller.fillIconTableWithSomeIcons(this);
 		ArrayList<Icon> allicons = Controller.getIcons();
@@ -77,9 +57,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 		
 		for (int i = 0 ;i < list.size();i++)
 			icons[i] = list.get(i);
-
-		//Object[] os = list.toArray();
-		//String[] cat_icons = Arrays.asList(os).toArray(new String[os.length]);
+		
 		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
 		spinner.setAdapter(adapter);
 
