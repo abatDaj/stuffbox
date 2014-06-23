@@ -36,7 +36,8 @@ public class DataSourceCategorie {
     public void insertCategory(SQLiteDatabase database, String name, Icon icon){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.KEY_ICON, icon.getId());
+    	if (icon != null)
+    		values.put(DatabaseHandler.KEY_ICON, icon.getId());
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values);
     } 
     
