@@ -86,7 +86,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-		Controller.insertCategory(categoryName, selectedIcon);
+		Controller.insertCategory(categoryName, selectedIcon, 0); //TODO hier statt 0 id der vorgängerkategorie reingeben
 		
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), CategoryActivity.class.getName());

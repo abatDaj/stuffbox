@@ -2,6 +2,8 @@ package com.stuffbox.model;
 
 import java.util.ArrayList;
 
+import com.stuffbox.controller.Controller;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,14 +39,39 @@ public class DataSourceItem {
 	
     /**
      * Fügt ein Item der Datenbank hinzu.
-     * TODO Daten des Items speichern
+     * TODO Kategoriezuordnung speichern
      * @param name
      */
-    public void insertItem(String name, SQLiteDatabase database){
+    public void insertItem(Item item, SQLiteDatabase database){
     	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
+    	values.put(DatabaseHandler.KEY_NAME, item.getName());
     	
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values);
+    	
+    	//TODO ID erhalten
+    	
+    	Formular formular = item.getFormular();
+    	for (Feature feature : formular.getFeatures()) {
+    		insertFeatureOfItem(database, feature, item);
+		}
+    	
+    	//TODO Kategorie Zuordnung speichern
+    }
+    
+    /**
+     * Fügt den Wert einer Eigenschaft eines Items in der Datenbank hinzu
+
+     * @param database
+     * @param feature
+     * @param item
+     */
+    public void insertFeatureOfItem(SQLiteDatabase database, Feature feature, Item item){
+    	ContentValues values = new ContentValues();
+    	values.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+    	values.put(DatabaseHandler.KEY_VALUE, DataSourceFeature.getDatabaseStringOfValue(feature.getValue(), feature.getType()));
+    	values.put(DatabaseHandler.TABLE_ITEM, item.getId());
+    	
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values);
     }
     
     /**

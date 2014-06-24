@@ -102,9 +102,9 @@ public class Controller {
      */
     public static void insertDebugCategoryEntries(){
         //Debugeintraege schreiben
-		insertCategory("Buecher", icons.get(1));
-		insertCategory("Technik", icons.get(4));
-		insertCategory("Sport", icons.get(6));
+		insertCategory("Buecher", icons.get(1),0);
+		insertCategory("Technik", icons.get(4),0);
+		insertCategory("Sport", icons.get(6),0);
     }
     
     /**
@@ -136,8 +136,8 @@ public class Controller {
      * @param database
      * @param name
      */
-    public static void insertCategory(String name, Icon icon){
-    	databaseHandler.insertCategory(name, icon);
+    public static void insertCategory(String name, Icon icon, int precategory){
+    	databaseHandler.insertCategory(name, icon, precategory);
     }
     
     /**

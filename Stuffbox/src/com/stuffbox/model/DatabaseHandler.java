@@ -137,8 +137,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param name
      */
-    public void insertCategory(String name, Icon icon){
-    	dataSourceCategorie.insertCategory(database, name, icon);
+    public void insertCategory(String name, Icon icon, int precategory){
+    	dataSourceCategorie.insertCategory(database, name, icon, precategory);
     }
     
     /**

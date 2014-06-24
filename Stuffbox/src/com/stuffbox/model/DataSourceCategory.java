@@ -30,7 +30,7 @@ public class DataSourceCategory {
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
         
         //insert rootcategory into the database
-        insertCategory(db, ROOT_CATEGORY, null);
+        insertCategory(db, ROOT_CATEGORY, null, -1);
     }
     
     /**
@@ -38,12 +38,14 @@ public class DataSourceCategory {
      * @param database
      * @param name
      */
-    public void insertCategory(SQLiteDatabase database, String name, Icon icon){
+    public void insertCategory(SQLiteDatabase database, String name, Icon icon, int precategory){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	if (icon != null){
     		values.put(DatabaseHandler.KEY_ICON, icon.getId());
     	}
+    	values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
+    	
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values);
     } 
     

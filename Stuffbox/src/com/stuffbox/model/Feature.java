@@ -48,5 +48,4 @@ public class Feature implements Comparable<Feature>{
 		sortnumber.compareTo(another.getSortnumber());
 		return 0;
 	}
-	
 }

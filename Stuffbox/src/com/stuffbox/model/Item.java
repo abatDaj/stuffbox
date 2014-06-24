@@ -5,12 +5,11 @@ public class Item {
 	private String name;
 	private Formular formular;
 	
-	//TODO Prüfen ob hier auch noch die zugehörigen Kategorien gespeichert werden sollen
-	
-	public Item(int id, String name) {
+	public Item(int id, String name, Formular formular) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.formular = formular;
 	}
 	public String getName() {
 		return name;
@@ -20,5 +19,11 @@ public class Item {
 	}
 	public int getId() {
 		return id;
+	}
+	public Formular getFormular(){
+		return formular;
+	}
+	public void setFormular(Formular formular){
+		this.formular = formular;
 	}
 }

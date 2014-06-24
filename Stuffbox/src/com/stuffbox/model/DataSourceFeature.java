@@ -84,4 +84,24 @@ public class DataSourceFeature {
 		 
 		return features;
     }
+    /**
+     * Erstellt aus dem übergebenen Objekt einen speicherbaren String
+     * TODO Type einbeziehen
+     * @param value
+     * @param type
+     * @return
+     */
+	public static String getDatabaseStringOfValue(Object value, FeatureType type){
+		return value.toString();
+	}
+	/**
+	 * Erstellt aus dem übergebenen String einen entsprechendes Objekt
+	 * TODO Type einbeziehen
+	 * @param value
+	 * @param type
+	 * @return
+	 */
+	public Object getValueFromDatabaseString(String value, FeatureType type){
+		return value;
+	}
 }
