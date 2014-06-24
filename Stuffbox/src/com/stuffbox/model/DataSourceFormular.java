@@ -1,6 +1,10 @@
 package com.stuffbox.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import com.stuffbox.controller.Controller;
 
@@ -39,23 +43,6 @@ public class DataSourceFormular {
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +")";
         db.execSQL(CREATE_FORMULAR_FEATURE_TABLE);
-        
-        //Erstellt die Item-Eigenschaft-Wert Verknüpfungstabelle
-        String CREATE_FORMULAR_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE_ITEM + "("+ 
-        		//create column formular
-        		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
-        		//create column item
-        		DatabaseHandler.TABLE_ITEM + " INTEGER," + 
-        		//create column wert
-        		DatabaseHandler.KEY_VALUE + " STRING," + 
-        		"PRIMARY KEY(" + DatabaseHandler.TABLE_FEATURE + "," + DatabaseHandler.TABLE_ITEM + ")," +
-        		//add foreign key to table formular
-                "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +
-        		//add foreign key to table item
-                "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
-        db.execSQL(CREATE_FORMULAR_ITEM_TABLE);
     }
 	
     /**
@@ -69,75 +56,75 @@ public class DataSourceFormular {
     	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values);
     } 
-    
 	
     /**
      * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
      * @param database
-     * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @param selectFormularIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
      */
-    public ArrayList<Feature> getFeatures(	SQLiteDatabase database, 
-    										ArrayList<Integer> selectFeatureIds, 
-    										ArrayList<FeatureType> types) {  
+    public ArrayList<Formular> getFormular(	SQLiteDatabase database, 
+    										ArrayList<Integer> selectFormularIds) {  
     	//erstelle where statement
-    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,null);
+    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);
     	
     	//select types from database
-    	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatement, null, null, null, null);
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR, null, whereStatement, null, null, null, null);
 		
-		ArrayList<Feature> features = new ArrayList<Feature>();
+		ArrayList<Formular> formulars = new ArrayList<Formular>();
 		
 		//add all types to list
 		if (cursor.moveToFirst()) {
 			do {
-				int typeid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_TYPE)));
-				FeatureType type = null;
-				for(FeatureType temp : types){
-					if(typeid == temp.getId()){
-						type = temp;
-					}
-				}
-				if(type == null){
-					//TODO Exception/Ausgabe
-				}
-				Feature feature = 
-						new Feature(
-								Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
+				int formularId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+				
+				SortedSet<Feature> features;
+				features = new TreeSet<Feature>(getFeaturesOfFormular(database, formularId));
+				
+				//Formular erstellen
+				Formular formular = 
+						new Formular(
+								formularId,
 							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
-							    type);
+							    features);
 
               // Adding type to list
-				features.add(feature);
+				formulars.add(formular);
 			} while (cursor.moveToNext());
 		}
 		 
-		return features;
+		return formulars;
     }
     
-    public  void selectValuesOfFeatures( SQLiteDatabase database,
-    								 	 String itemid,
-    								 	 ArrayList<Feature> features ){
+    /**
+     * Selektiert alle Eigenschaften des übergebenen Formulars
+     * @param database
+     * @param formularid
+     * @return
+     */
+    public ArrayList<Feature> getFeaturesOfFormular(SQLiteDatabase database,
+		 	 						  				Integer formularid){
     	//erstelle where statement
     	StringBuilder whereStatement = new StringBuilder();
 		whereStatement.append(" ");
-		whereStatement.append(DatabaseHandler.TABLE_ITEM);
+		whereStatement.append(DatabaseHandler.TABLE_FORMULAR);
 		whereStatement.append(" = ");
-		whereStatement.append(itemid);
+		whereStatement.append(formularid);
 		whereStatement.append(" ");
-		whereStatement.append(DatabaseHandler.SQL_AND);
-		
-    	ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
-    	for(Feature feature : features){
-    		selectFeatureIds.add(feature.getId());
-    	}
-		whereStatement.append("(");
-		whereStatement.append(DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,DatabaseHandler.TABLE_FEATURE));
-		whereStatement.append(")");
-    	
-    	
+    	 	
     	//select types from database
-    	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE_ITEM, null, whereStatement.toString(), null, null, null, null);
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR_FEATURE, null, whereStatement.toString(), null, null, null, null);
+    	
+    	ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
+    	
+		//Werte in Feature speichern
+		if (cursor.moveToFirst()) {
+			do {
+				selectFeatureIds.add(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FEATURE))));
+			} while (cursor.moveToNext());
+		}
+		
+		return Controller.getFeatures(selectFeatureIds);
     }
 }

@@ -60,6 +60,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String KEY_DESCRIPTION = "beschreibung";
     public static final String KEY_VALUE = "wert";
     public static final String KEY_SORTNUMBER = "sortiernummer";
+    public static final String KEY_PRECATEGORY = "pre";
       
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
@@ -72,7 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private DataSourceType dataSourceType;
     private DataSourceFeature dataSourceFeature;
     private DataSourceIcon dataSourceIcon;
-    private DataSourceCategorie dataSourceCategorie;
+    private DataSourceCategory dataSourceCategorie;
     private DataSourceItem dataSourceItem;
     
     public DatabaseHandler(Context context) {
@@ -85,7 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         dataSourceType = new DataSourceType();
         dataSourceFeature = new DataSourceFeature();
         dataSourceIcon = new DataSourceIcon();
-        dataSourceCategorie = new DataSourceCategorie();
+        dataSourceCategorie = new DataSourceCategory();
         dataSourceItem = new DataSourceItem();
         
         database = getWritableDatabase();

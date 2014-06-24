@@ -7,13 +7,14 @@ public class Category {
 	private String name;
 	private Icon icon;
 	private ArrayList<Item> items;
-	private ArrayList<Category> categories;
+	private int precategory;
 	
-	public Category(int id, String name, Icon icon) {
+	public Category(int id, String name, Icon icon, int precategory) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.icon = icon;
+		this.precategory = precategory;
 	}
 	public String getName() {
 		return name;
@@ -39,11 +40,11 @@ public class Category {
 	public boolean addItem(Item entry){
 		return items.add(entry);
 	}
-	public ArrayList<Category> getCategories(){
-		return categories;
+	public int getPreCategory(){
+		return precategory;
 	}
-	public boolean addCategory(Category category){
-		return categories.add(category);
+	public void setPreCategory(int precategory){
+		this.precategory = precategory;
 	}
 	public String toString(){
 		return id + " " + name;

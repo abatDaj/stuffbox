@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class DataSourceCategorie {
+public class DataSourceCategory {
 	
 	public static String ROOT_CATEGORY = "ROOT";
 	
@@ -21,7 +21,12 @@ public class DataSourceCategorie {
         		//create column name
         		DatabaseHandler.KEY_NAME + " TEXT," + 
         		//create column icon
-        		DatabaseHandler.KEY_ICON + " INTEGER" + ")";
+        		DatabaseHandler.KEY_ICON + " INTEGER" +
+        		//create column precategory
+        		DatabaseHandler.KEY_PRECATEGORY + " INTEGER" + 
+        		//add foreign key to table category
+                "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
+        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")";
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
         
         //insert rootcategory into the database
@@ -83,7 +88,8 @@ public class DataSourceCategorie {
 						new Category(
 								Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
 							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
-							    icon);
+							    icon,
+							    Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY))));
 
               // Adding type to list
 				categories.add(category);
