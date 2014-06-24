@@ -43,8 +43,6 @@ public class NewCategoryActivity extends ActionBarActivity {
 		// " gewählt!");
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
-		
-		Controller.initialize(this);
 		//Controller.fillIconTableWithSomeIcons(this);
 		ArrayList<Icon> allicons = Controller.getIcons();
 		LinkedList<Icon> list = new LinkedList<Icon>();

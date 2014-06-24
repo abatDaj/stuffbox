@@ -22,16 +22,36 @@ public class DataSourceFormular {
         		DatabaseHandler.KEY_NAME + " TEXT," + ")";
         db.execSQL(CREATE_FORMULAR_TABLE);
         
-        //Erstellt die Item-Formular Verknüpfungstabelle
-        String CREATE_FORMULAR_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR_ITEM + "("+ 
+        //Erstellt die Formular-Eigenschaft Verknüpfungstabelle
+        String CREATE_FORMULAR_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR_FEATURE + "("+ 
         		//create column formular
         		DatabaseHandler.TABLE_FORMULAR + " INTEGER," + 
         		//create column item
-        		DatabaseHandler.TABLE_ITEM + " INTEGER," + 
-        		"PRIMARY KEY(" + DatabaseHandler.TABLE_FORMULAR + "," + DatabaseHandler.TABLE_ITEM + ")," +
+        		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
+        		//create column sortnumber
+        		DatabaseHandler.KEY_SORTNUMBER + " INTEGER," + 
+        		//create primary key
+        		"PRIMARY KEY(" + DatabaseHandler.TABLE_FORMULAR + "," + DatabaseHandler.TABLE_FEATURE + ")," +
         		//add foreign key to table formular
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_FORMULAR + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_FORMULAR + "(" + DatabaseHandler.KEY_ID + ")" +
+        		//add foreign key to table item
+                "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
+        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +")";
+        db.execSQL(CREATE_FORMULAR_FEATURE_TABLE);
+        
+        //Erstellt die Item-Eigenschaft-Wert Verknüpfungstabelle
+        String CREATE_FORMULAR_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE_ITEM + "("+ 
+        		//create column formular
+        		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
+        		//create column item
+        		DatabaseHandler.TABLE_ITEM + " INTEGER," + 
+        		//create column wert
+        		DatabaseHandler.KEY_VALUE + " STRING," + 
+        		"PRIMARY KEY(" + DatabaseHandler.TABLE_FEATURE + "," + DatabaseHandler.TABLE_ITEM + ")," +
+        		//add foreign key to table formular
+                "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
+        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +
         		//add foreign key to table item
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
@@ -62,10 +82,10 @@ public class DataSourceFormular {
     										ArrayList<Integer> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
     	//erstelle where statement
-    	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds);
+    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,null);
     	
     	//select types from database
-    	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatment, null, null, null, null);
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatement, null, null, null, null);
 		
 		ArrayList<Feature> features = new ArrayList<Feature>();
 		
@@ -94,5 +114,30 @@ public class DataSourceFormular {
 		}
 		 
 		return features;
+    }
+    
+    public  void selectValuesOfFeatures( SQLiteDatabase database,
+    								 	 String itemid,
+    								 	 ArrayList<Feature> features ){
+    	//erstelle where statement
+    	StringBuilder whereStatement = new StringBuilder();
+		whereStatement.append(" ");
+		whereStatement.append(DatabaseHandler.TABLE_ITEM);
+		whereStatement.append(" = ");
+		whereStatement.append(itemid);
+		whereStatement.append(" ");
+		whereStatement.append(DatabaseHandler.SQL_AND);
+		
+    	ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
+    	for(Feature feature : features){
+    		selectFeatureIds.add(feature.getId());
+    	}
+		whereStatement.append("(");
+		whereStatement.append(DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,DatabaseHandler.TABLE_FEATURE));
+		whereStatement.append(")");
+    	
+    	
+    	//select types from database
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE_ITEM, null, whereStatement.toString(), null, null, null, null);
     }
 }

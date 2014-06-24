@@ -69,18 +69,4 @@ public class DataSourceIcon {
 		return icons;
     } 
     
-    /**
-     * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
-     * 
-     */
-    public void fillIconTableWithSomeIcons (Context context, SQLiteDatabase database)
-    {
-    	Field[] drawableFields = R.drawable.class.getFields();
-		
-		// holt alle Icons mit dem Prefix "category_icon_"
-		for (int i = 0; i < drawableFields.length; i++)
-			if (drawableFields[i].getName().contains( context.getResources().getText(R.string.prefix_icon_category)))  
-				insertIcon(database,drawableFields[i].getName(),"egal");
-    }
-    
 }

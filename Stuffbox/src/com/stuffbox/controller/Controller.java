@@ -1,8 +1,10 @@
 package com.stuffbox.controller;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.ImageView;
 
 import com.stuffbox.R;
@@ -16,15 +18,27 @@ public class Controller {
 	private static DatabaseHandler databaseHandler;
 	private static ArrayList<FeatureType> types;
 	private static ArrayList<Icon> icons;
+	private static boolean wasInitialized = false;
 	
-	//TODO eventuell Flag setzen und vor jeder Methode pr�fen ob bereits initialisiert wurde
+	/**
+	 * Initialisiert Controller falls er nicht bereits initialisiert wurde
+	 * @param context
+	 */
 	public static void initialize(Context context) {
-		//initialize database handler
-		databaseHandler = new DatabaseHandler(context);
-		//initialize static data
-		getTypes();
-		getIcons();
-		
+		if(!wasInitialized){
+			//initialize database handler
+			databaseHandler = new DatabaseHandler(context);
+			//initialize static data
+			getTypes();
+			getIcons();
+			//initialise database
+	        initializeDatabase(context);
+			//initialize static data
+			getTypes();
+			getIcons();
+			
+			wasInitialized = true;
+		}
 	}
 	
     /**
@@ -47,7 +61,7 @@ public class Controller {
     	return icons;
     }
     /**
-     * Gibt eine Liste aller Features zur�ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -65,7 +79,7 @@ public class Controller {
     }
     
     /**
-     * Gibt eine Liste aller Kategorien zur�ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
@@ -74,29 +88,47 @@ public class Controller {
     	return databaseHandler.getCategories(selectFeatureIds, icons);
     }
     /**
-     * F�gt Debugeintr�ge in die Tabelle Eigenschaft in die Datenbank ein
+     * Fuegt Debugeintraege in die Tabelle Eigenschaft in die Datenbank ein
      */
     public static void insertDebugFeatureEntries(){
-        //Debugeintr�ge schreiben
+        //Debugeintraege schreiben
 		insertFeature("Name", types.get(0));
 		insertFeature("Seriennummer", types.get(1));
 		insertFeature("Bewertung", types.get(2));
 		insertFeature("gekauft am", types.get(3));
     }
     /**
-     * F�gt Debugeintr�ge in die Tabelle Kategorie in die Datenbank ein
+     * Fuegt Debugeintraege in die Tabelle Kategorie in die Datenbank ein
      */
     public static void insertDebugCategoryEntries(){
-        //Debugeintr�ge schreiben
-		insertCategory("B�cher", icons.get(0));
-		insertCategory("Technik", icons.get(0));
-		insertCategory("Musik", icons.get(0));
+        //Debugeintraege schreiben
+		insertCategory("Buecher", icons.get(1));
+		insertCategory("Technik", icons.get(4));
+		insertCategory("Sport", icons.get(6));
     }
+    
+    /**
+     * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
+     * 
+     */
+    public static void fillIconTableWithSomeIcons (Context context)
+    {
+    	Field[] drawableFields = R.drawable.class.getFields();
+		
+		// holt alle Icons mit dem Prefix "category_icon_"
+		for (int i = 0; i < drawableFields.length; i++)
+			if (drawableFields[i].getName().contains( context.getResources().getText(R.string.prefix_icon_category)))  
+				databaseHandler.insertIcon(drawableFields[i].getName(),"egal");
+    }
+    
     /**
      * Setzt die Datenbank neu auf
      */
-    public static void initializeDatabase(){
+    public static void initializeDatabase(Context context){
     	databaseHandler.initializeDatabase();
+    	insertDebugCategoryEntries();
+    	insertDebugFeatureEntries();
+    	fillIconTableWithSomeIcons(context);
     }
     
     /**
@@ -119,6 +151,10 @@ public class Controller {
     
     /**
      * Setzt das Bild mit dem �bergebenen Namen auf den �bergebenen Imageview
+     * 	//Beispielcode um Image auf ImageView zu setzen
+     * 	//    ImageView img = (ImageView) findViewById(R.id.testimage);
+     * 	//    Icon icon = Controller.getIcons().get(0);
+     * 	//    Controller.setImageOnImageView(this, img, icon.getName());
      * @param context
      * @param view
      * @param imageName
@@ -128,7 +164,4 @@ public class Controller {
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
     
-    public static void fillIconTableWithSomeIcons(Context context) {
-    	databaseHandler.fillIconTableWithSomeIcons(context);
-    } 
 }

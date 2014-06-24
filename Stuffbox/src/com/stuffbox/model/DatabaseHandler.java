@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	
 	// All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
  
     public static final String UNDERLINE = "_";
     
@@ -38,9 +38,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String TABLE_ITEM = "item";
     public static final String TABLE_ICON = "icon";
     public static final String TABLE_FORMULAR = "formular";
-    public static final String TABLE_FORMULAR_ITEM = DatabaseHandler.TABLE_FORMULAR 
+    public static final String TABLE_FORMULAR_FEATURE = DatabaseHandler.TABLE_FORMULAR 
     												 + DatabaseHandler.UNDERLINE 
-    												 + DatabaseHandler.TABLE_ITEM;
+    												 + DatabaseHandler.TABLE_FEATURE;
     public static final String TABLE_FEATURE_ITEM = DatabaseHandler.TABLE_FEATURE 
 													 + DatabaseHandler.UNDERLINE 
 													 + DatabaseHandler.TABLE_ITEM;
@@ -59,8 +59,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String KEY_FEATURE = "eigenschaft";
     public static final String KEY_DESCRIPTION = "beschreibung";
     public static final String KEY_VALUE = "wert";
+    public static final String KEY_SORTNUMBER = "sortiernummer";
       
     public static final String SQL_OR = "OR";
+    public static final String SQL_AND = "AND";
     
     private String DB_PATH;
     
@@ -175,6 +177,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
  
         // Create tables again
         onCreate(database);
+        
+        
     }
     
     /**
@@ -197,16 +201,20 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     /**
      * Returns the Where Statement created from the passed list
      * @param selectIds
+     * @param idName name of id table (if null then default is id)
      * @return
      */
-	public static String getWhereStatementFromIDList(ArrayList<Integer> selectIds) {
+	public static String getWhereStatementFromIDList(ArrayList<Integer> selectIds, String idName) {
 		if(selectIds == null){
 			return null;
+		}
+		if(idName == null){
+			idName = KEY_ID;
 		}
 		StringBuilder whereStatement = new StringBuilder();
 		for(Integer id : selectIds){
 			whereStatement.append(" ");
-			whereStatement.append(KEY_ID);
+			whereStatement.append(idName);
 			whereStatement.append(" = ");
 			whereStatement.append(id);
 			whereStatement.append(" ");
@@ -215,10 +223,5 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		
 		return whereStatement.substring(0, whereStatement.length()-SQL_OR.length());
 	} 
-	
-	public void fillIconTableWithSomeIcons (Context context)
-	{
-		dataSourceIcon.fillIconTableWithSomeIcons(context, database);
-	}
 	
 }

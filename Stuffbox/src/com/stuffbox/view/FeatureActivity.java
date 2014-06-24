@@ -32,15 +32,7 @@ public class FeatureActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.feature);
-		
-		Controller.initialize(this);
-		
-		//Beispielcode um Image auf ImageView zu setzen
-	    ImageView img = (ImageView) findViewById(R.id.testimage);
-	    Icon icon = Controller.getIcons().get(0);
-	    Controller.setImageOnImageView(this, img, icon.getName());
-	    
+		setContentView(R.layout.feature);	    
 	    
 		ArrayList<FeatureType> types = Controller.getTypes();
 		

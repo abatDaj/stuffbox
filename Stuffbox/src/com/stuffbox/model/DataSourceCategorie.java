@@ -36,8 +36,9 @@ public class DataSourceCategorie {
     public void insertCategory(SQLiteDatabase database, String name, Icon icon){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
-    	if (icon != null)
+    	if (icon != null){
     		values.put(DatabaseHandler.KEY_ICON, icon.getId());
+    	}
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values);
     } 
     
@@ -52,7 +53,8 @@ public class DataSourceCategorie {
 	    										ArrayList<Integer> selectCategorieIds, 
 	    										ArrayList<Icon> icons) {  
     	//erstelle where statement
-    	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectCategorieIds);
+    	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectCategorieIds,
+																		   null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatment, null, null, null, null);

@@ -36,7 +36,9 @@ public class MainActivity extends ActionBarActivity {
         
         setContentView(R.layout.main);
         Controller.initialize(this);
+
         ArrayList<Category> categories = Controller.getCategories(null);
+        
 	    //Controller.fillIconTableWithSomeIcons(this);    
         mainListView = (ListView) findViewById( R.id.mainListView );
         
