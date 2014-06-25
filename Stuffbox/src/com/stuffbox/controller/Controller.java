@@ -96,7 +96,7 @@ public class Controller {
      * @param features
      * @return
      */
-    public static Formular insertFormlar(String name, SortedSet<Feature> features){
+    public static Formular insertFormlar(String name, ArrayList<Feature> features){
     	return databaseHandler.insertFormlar(name, features);
     }
     /**
@@ -144,21 +144,21 @@ public class Controller {
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
     	//erstellen Formular Buecheraufbau
-    	SortedSet<Feature> featuresFormular1 = new TreeSet<Feature>();
+    	ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
     	features.get(0).setSortnumber(1);
     	featuresFormular1.add(features.get(0));
     	features.get(2).setSortnumber(3);
     	featuresFormular1.add(features.get(2));
-    	features.get(2).setSortnumber(3);
-    	featuresFormular1.add(features.get(2));
+    	features.get(3).setSortnumber(2);
+    	featuresFormular1.add(features.get(3));
     	createdFormulars.add(insertFormlar("Buecheraufbau", featuresFormular1));
     	
     	//erstellen Formular Musikaufbau
-    	SortedSet<Feature> featuresFormular2 = new TreeSet<Feature>();
+    	ArrayList<Feature> featuresFormular2 = new ArrayList<Feature>();
     	features.get(0).setSortnumber(1);
-    	featuresFormular1.add(features.get(0));
+    	featuresFormular2.add(features.get(0));
     	features.get(3).setSortnumber(3);
-    	featuresFormular1.add(features.get(3));
+    	featuresFormular2.add(features.get(3));
     	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));
     	
     	return createdFormulars;
@@ -202,7 +202,7 @@ public class Controller {
     	getIcons();
     	insertDebugCategoryEntries();
     	
-    	ArrayList<Formular> formulars = getFormulars(null);    	
+    	//ArrayList<Formular> formulars = getFormulars(null);    	
     }
     
     /**

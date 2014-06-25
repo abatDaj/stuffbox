@@ -1,12 +1,12 @@
 package com.stuffbox.model;
 
-import java.util.SortedSet;
+import java.util.ArrayList;
 
 public class Formular {
 	private long id;
 	private String name;
-	private SortedSet<Feature> features;
-	public Formular(long id, String name, SortedSet<Feature> features) {
+	private ArrayList<Feature> features;
+	public Formular(long id, String name, ArrayList<Feature> features) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -21,7 +21,7 @@ public class Formular {
 	public long getId() {
 		return id;
 	}
-	public SortedSet<Feature> getFeatures() {
+	public ArrayList<Feature> getFeatures() {
 		return features;
 	}
 	public void removeFeature(Feature feature){

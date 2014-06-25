@@ -40,7 +40,7 @@ public class DataSourceType {
     private void insertType(SQLiteDatabase database, String name){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_TYPE, values);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_TYPE, values, name);
     } 
 	
     /**

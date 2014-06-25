@@ -46,9 +46,7 @@ public class DataSourceItem {
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, item.getName());
     	
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values);
-    	
-    	//TODO ID erhalten
+    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, item.getName());
     	
     	Formular formular = item.getFormular();
     	for (Feature feature : formular.getFeatures()) {
@@ -71,7 +69,7 @@ public class DataSourceItem {
     	values.put(DatabaseHandler.KEY_VALUE, DataSourceFeature.getDatabaseStringOfValue(feature.getValue(), feature.getType()));
     	values.put(DatabaseHandler.TABLE_ITEM, item.getId());
     	
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
     
     /**

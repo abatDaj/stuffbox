@@ -54,7 +54,7 @@ public class DataSourceFormular {
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, name);
     } 
 	
     /**
@@ -62,11 +62,11 @@ public class DataSourceFormular {
      * @param database
      * @param name
      */
-    public Formular insertFormlar(SQLiteDatabase database, String name, SortedSet<Feature> features){
+    public Formular insertFormlar(SQLiteDatabase database, String name, ArrayList<Feature> features){
     	//Formular in Datenbank einfügen
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
-    	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values);
+    	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values, name);
     	
     	//Eigenschaften in Datenbank einfügen
     	for (Feature feature : features) {
@@ -74,7 +74,9 @@ public class DataSourceFormular {
         	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formularId);
         	featurevalues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
         	featurevalues.put(DatabaseHandler.KEY_SORTNUMBER, feature.getSortnumber());
-        	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues);
+        	String logString = DatabaseHandler.TABLE_FORMULAR + " " + name  + "(" + formularId + ")" + " - " 
+        					   + DatabaseHandler.TABLE_FEATURE + " " + feature.getName()  + "(" + feature.getId() + ")";
+        	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, logString);
 		}
     	
     	return new Formular(formularId, name, features);
@@ -103,8 +105,8 @@ public class DataSourceFormular {
 				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
 				String formularName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				
-				SortedSet<Feature> features;
-				features = new TreeSet<Feature>(getFeaturesOfFormular(database, formularId));
+				ArrayList<Feature> features;
+				features = getFeaturesOfFormular(database, formularId);
 				
 				//Formular erstellen
 				Formular formular = 

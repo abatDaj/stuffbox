@@ -142,7 +142,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param features
      * @return
      */
-    public Formular insertFormlar(String name, SortedSet<Feature> features){
+    public Formular insertFormlar(String name, ArrayList<Feature> features){
     	return dataSourceFormular.insertFormlar(database, name, features);
     }
     
@@ -213,15 +213,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param table
      * @param values
      */
-    public static long insertIntoDB(SQLiteDatabase database, String table, ContentValues values){
+    public static long insertIntoDB(SQLiteDatabase database, String table, ContentValues values, String logString){
     	long rowID = -1;
     	
     	try{
 	    	rowID = database.insert(table, null, values);
     	}catch(SQLiteException e){
-    		Log.e(TAG, "insert " + table,e);
+    		Log.e(TAG, "insert " + table + " " + logString, e);
     	}finally{
-    		Log.d(TAG, "insert + table: rowId=" + rowID);
+    		Log.d(TAG, "insert " + table + " rowId=" + rowID + " " + logString);
     	}
     	return rowID;
     }
@@ -232,7 +232,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
 	public static String getWhereStatementFromIDList(ArrayList<Long> selectIds, String idName) {
-		if(selectIds == null){
+		if(selectIds == null || selectIds.isEmpty()){
 			return null;
 		}
 		if(idName == null){
@@ -248,7 +248,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 			whereStatement.append(SQL_OR);
 		}
 		
-		return whereStatement.substring(0, whereStatement.length()-SQL_OR.length());
+		String whereStatementFromIDList = whereStatement.toString();
+		if(selectIds != null){
+			whereStatementFromIDList = whereStatementFromIDList.substring(0, whereStatementFromIDList.length()-SQL_OR.length());
+		}
+		
+		return whereStatementFromIDList;
 	} 
 	
 }

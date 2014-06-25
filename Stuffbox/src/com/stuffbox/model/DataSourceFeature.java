@@ -36,7 +36,7 @@ public class DataSourceFeature {
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values);
+    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, name);
     	return new Feature(id, name, featureType);
     } 
     
@@ -85,6 +85,7 @@ public class DataSourceFeature {
 		 
 		return features;
     }
+    
     /**
      * Erstellt aus dem übergebenen Objekt einen speicherbaren String
      * TODO Type einbeziehen

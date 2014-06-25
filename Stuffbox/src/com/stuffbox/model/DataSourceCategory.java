@@ -46,7 +46,7 @@ public class DataSourceCategory {
     	}
     	values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
     	
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
     } 
     
     /**

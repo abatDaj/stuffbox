@@ -39,7 +39,7 @@ public class DataSourceIcon {
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.KEY_DESCRIPTION, description);
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ICON, values);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ICON, values, name);
     } 
     
     /**
