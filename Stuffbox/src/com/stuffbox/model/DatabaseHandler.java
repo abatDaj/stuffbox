@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -72,6 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     
     private DataSourceType dataSourceType;
     private DataSourceFeature dataSourceFeature;
+    private DataSourceFormular dataSourceFormular;
     private DataSourceIcon dataSourceIcon;
     private DataSourceCategory dataSourceCategorie;
     private DataSourceItem dataSourceItem;
@@ -85,6 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         //instance datasources
         dataSourceType = new DataSourceType();
         dataSourceFeature = new DataSourceFeature();
+        dataSourceFormular = new DataSourceFormular();
         dataSourceIcon = new DataSourceIcon();
         dataSourceCategorie = new DataSourceCategory();
         dataSourceItem = new DataSourceItem();
@@ -92,44 +95,64 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         database = getWritableDatabase();
     } 
     /**
-     * Gibt eine List aller Arten zurï¿½ck
+     * Gibt eine List aller Arten zurueck
      * @return
      */
     public ArrayList<FeatureType> getTypes() { 
     	return dataSourceType.getTypes(database);
     }  
     /**
-     * Gibt eine List aller Icons zurï¿½ck
+     * Gibt eine List aller Icons zurueck
      * @return
      */
     public ArrayList<Icon> getIcons(){
     	return dataSourceIcon.getIcons(database);
     }
     /**
-     * Gibt eine Liste aller Features zurï¿½ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
      */
-    public ArrayList<Feature> getFeatures(ArrayList<Integer> selectFeatureIds, ArrayList<FeatureType> types) {
+    public ArrayList<Feature> getFeatures(ArrayList<Long> selectFeatureIds, ArrayList<FeatureType> types) {
     	return dataSourceFeature.getFeatures(database, selectFeatureIds, types);
     }
     /**
      * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
-     * @param database
      * @param name
+     * @param featureType
      */
-    public void insertFeature(String name, FeatureType featureType){
-    	dataSourceFeature.insertFeature(database, name, featureType);
+    public Feature insertFeature(String name, FeatureType featureType){
+    	return dataSourceFeature.insertFeature(database, name, featureType);
     }
     
     /**
-     * Gibt eine Liste aller Kategorien zurï¿½ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Formulare zurueck, deren ids in der id Liste enthalten ist
+     * @param selectFormularIds
+     * @return
+     */
+    public ArrayList<Formular> getFormulars(ArrayList<Long> selectFormularIds){
+    	return dataSourceFormular.getFormulars(database, selectFormularIds);
+    }
+    
+    /**
+     * Speichert ein Formular in der Tabelle Formular und dessen zugeorndete
+     * Eigenschaften in der Verknüpfungstabelle.
+     * @param name
+     * @param features
+     * @return
+     */
+    public Formular insertFormlar(String name, SortedSet<Feature> features){
+    	return dataSourceFormular.insertFormlar(database, name, features);
+    }
+    
+    /**
+     * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
      */
-    public ArrayList<Category> getCategories(ArrayList<Integer> selectFeatureIds, ArrayList<Icon> icons) {
+    public ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds, ArrayList<Icon> icons) {
     	return dataSourceCategorie.getCategories(database, selectFeatureIds, icons);
     }
     /**
@@ -140,7 +163,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void insertCategory(String name, Icon icon, int precategory){
     	dataSourceCategorie.insertCategory(database, name, icon, precategory);
     }
-    
     /**
      * Speichert eine neues Icon in der Tabelle Icon
      * @param name
@@ -149,13 +171,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void insertIcon(String name, String description){
     	dataSourceIcon.insertIcon(database, name, description);
     }    
-  
     
-    // Creating Tables
+    /**
+     * Tabellen erstellen
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
     	dataSourceType.createTypeTable(db);
     	dataSourceFeature.createFeatureTable(db);
+    	dataSourceFormular.createFormularTable(db);;
     	dataSourceIcon.createIconTable(db);
     	dataSourceItem.createItemTable(db);
     	dataSourceCategorie.createCategorieTable(db);
@@ -172,14 +196,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         // Drop older table if existed
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
  
         // Create tables again
         onCreate(database);
-        
-        
     }
     
     /**
@@ -188,7 +213,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param table
      * @param values
      */
-    public static void insertIntoDB(SQLiteDatabase database, String table, ContentValues values){
+    public static long insertIntoDB(SQLiteDatabase database, String table, ContentValues values){
     	long rowID = -1;
     	
     	try{
@@ -198,6 +223,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "insert + table: rowId=" + rowID);
     	}
+    	return rowID;
     }
     /**
      * Returns the Where Statement created from the passed list
@@ -205,7 +231,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param idName name of id table (if null then default is id)
      * @return
      */
-	public static String getWhereStatementFromIDList(ArrayList<Integer> selectIds, String idName) {
+	public static String getWhereStatementFromIDList(ArrayList<Long> selectIds, String idName) {
 		if(selectIds == null){
 			return null;
 		}
@@ -213,7 +239,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 			idName = KEY_ID;
 		}
 		StringBuilder whereStatement = new StringBuilder();
-		for(Integer id : selectIds){
+		for(Long id : selectIds){
 			whereStatement.append(" ");
 			whereStatement.append(idName);
 			whereStatement.append(" = ");

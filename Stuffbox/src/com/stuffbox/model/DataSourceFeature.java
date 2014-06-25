@@ -32,11 +32,12 @@ public class DataSourceFeature {
      * @param database
      * @param name
      */
-    public void insertFeature(SQLiteDatabase database, String name, FeatureType featureType){
+    public Feature insertFeature(SQLiteDatabase database, String name, FeatureType featureType){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values);
+    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values);
+    	return new Feature(id, name, featureType);
     } 
     
 	
@@ -48,7 +49,7 @@ public class DataSourceFeature {
      * @return
      */
     public ArrayList<Feature> getFeatures(	SQLiteDatabase database, 
-    										ArrayList<Integer> selectFeatureIds, 
+    										ArrayList<Long> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
     	//erstelle where statement
     	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,null);

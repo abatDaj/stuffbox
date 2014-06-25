@@ -23,7 +23,7 @@ public class DataSourceFormular {
         		//create column id
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
         		//create column name
-        		DatabaseHandler.KEY_NAME + " TEXT," + ")";
+        		DatabaseHandler.KEY_NAME + " TEXT" + ")";
         db.execSQL(CREATE_FORMULAR_TABLE);
         
         //Erstellt die Formular-Eigenschaft Verknüpfungstabelle
@@ -58,14 +58,37 @@ public class DataSourceFormular {
     } 
 	
     /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * @param database
+     * @param name
+     */
+    public Formular insertFormlar(SQLiteDatabase database, String name, SortedSet<Feature> features){
+    	//Formular in Datenbank einfügen
+    	ContentValues values = new ContentValues();
+    	values.put(DatabaseHandler.KEY_NAME, name);
+    	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values);
+    	
+    	//Eigenschaften in Datenbank einfügen
+    	for (Feature feature : features) {
+        	ContentValues featurevalues = new ContentValues();
+        	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formularId);
+        	featurevalues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+        	featurevalues.put(DatabaseHandler.KEY_SORTNUMBER, feature.getSortnumber());
+        	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues);
+		}
+    	
+    	return new Formular(formularId, name, features);
+    } 
+    
+    /**
      * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFormularIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
      */
-    public ArrayList<Formular> getFormular(	SQLiteDatabase database, 
-    										ArrayList<Integer> selectFormularIds) {  
+    public ArrayList<Formular> getFormulars( SQLiteDatabase database, 
+    										 ArrayList<Long> selectFormularIds) {  
     	//erstelle where statement
     	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);
     	
@@ -77,7 +100,8 @@ public class DataSourceFormular {
 		//add all types to list
 		if (cursor.moveToFirst()) {
 			do {
-				int formularId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+				String formularName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				
 				SortedSet<Feature> features;
 				features = new TreeSet<Feature>(getFeaturesOfFormular(database, formularId));
@@ -86,7 +110,7 @@ public class DataSourceFormular {
 				Formular formular = 
 						new Formular(
 								formularId,
-							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
+							    formularName,
 							    features);
 
               // Adding type to list
@@ -103,8 +127,8 @@ public class DataSourceFormular {
      * @param formularid
      * @return
      */
-    public ArrayList<Feature> getFeaturesOfFormular(SQLiteDatabase database,
-		 	 						  				Integer formularid){
+    private ArrayList<Feature> getFeaturesOfFormular(SQLiteDatabase database,
+		 	 						  				Long formularid){
     	//erstelle where statement
     	StringBuilder whereStatement = new StringBuilder();
 		whereStatement.append(" ");
@@ -116,12 +140,12 @@ public class DataSourceFormular {
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR_FEATURE, null, whereStatement.toString(), null, null, null, null);
     	
-    	ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
+    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
     	
 		//Werte in Feature speichern
 		if (cursor.moveToFirst()) {
 			do {
-				selectFeatureIds.add(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FEATURE))));
+				selectFeatureIds.add(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FEATURE))));
 			} while (cursor.moveToNext());
 		}
 		

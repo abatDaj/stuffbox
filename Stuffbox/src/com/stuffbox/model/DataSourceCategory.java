@@ -21,12 +21,12 @@ public class DataSourceCategory {
         		//create column name
         		DatabaseHandler.KEY_NAME + " TEXT," + 
         		//create column icon
-        		DatabaseHandler.KEY_ICON + " INTEGER" +
+        		DatabaseHandler.KEY_ICON + " INTEGER," +
         		//create column precategory
-        		DatabaseHandler.KEY_PRECATEGORY + " INTEGER" + 
+        		DatabaseHandler.KEY_PRECATEGORY + " INTEGER," + 
         		//add foreign key to table category
                 "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")";
+        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")"+ ")";
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
         
         //insert rootcategory into the database
@@ -57,7 +57,7 @@ public class DataSourceCategory {
      * @return
      */
     public ArrayList<Category> getCategories(	SQLiteDatabase database, 
-	    										ArrayList<Integer> selectCategorieIds, 
+	    										ArrayList<Long> selectCategorieIds, 
 	    										ArrayList<Icon> icons) {  
     	//erstelle where statement
     	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectCategorieIds,

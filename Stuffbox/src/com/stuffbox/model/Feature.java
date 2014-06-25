@@ -1,13 +1,13 @@
 package com.stuffbox.model;
 
 public class Feature implements Comparable<Feature>{
-	private int id;
+	private long id;
 	private Integer sortnumber; //TODO besserer name
 	private String name;
 	private FeatureType type;
 	private Object value;
 	
-	public Feature(int id, String name, FeatureType type) {
+	public Feature(long id, String name, FeatureType type) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -25,7 +25,7 @@ public class Feature implements Comparable<Feature>{
 	public void setType(FeatureType type) {
 		this.type = type;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public int getSortnumber(){

@@ -92,7 +92,7 @@ public class DataSourceItem {
 		whereStatement.append(" ");
 		whereStatement.append(DatabaseHandler.SQL_AND);
 		
-    	ArrayList<Integer> selectFeatureIds = new ArrayList<Integer>();
+    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
     	for(Feature feature : features){
     		selectFeatureIds.add(feature.getId());
     	}

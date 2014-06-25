@@ -3,10 +3,10 @@ package com.stuffbox.model;
 import java.util.SortedSet;
 
 public class Formular {
-	private int id;
+	private long id;
 	private String name;
 	private SortedSet<Feature> features;
-	public Formular(int id, String name, SortedSet<Feature> features) {
+	public Formular(long id, String name, SortedSet<Feature> features) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -18,7 +18,7 @@ public class Formular {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public SortedSet<Feature> getFeatures() {
