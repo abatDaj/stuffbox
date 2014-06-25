@@ -65,6 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
       
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
+    public static final String PREFIX_ICON_CATEGORY = "category_icon_";
     
     private String DB_PATH;
     
@@ -137,7 +138,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     
     /**
      * Speichert ein Formular in der Tabelle Formular und dessen zugeorndete
-     * Eigenschaften in der Verknüpfungstabelle.
+     * Eigenschaften in der Verknï¿½pfungstabelle.
      * @param name
      * @param features
      * @return

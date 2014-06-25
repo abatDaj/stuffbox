@@ -19,29 +19,28 @@ import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 
 public class Controller {
+	
+	private static Controller instance;
 	private static DatabaseHandler databaseHandler;
 	private static ArrayList<FeatureType> types;
 	private static ArrayList<Icon> icons;
-	private static boolean wasInitialized = false;
 	
-	/**
-	 * Initialisiert Controller falls er nicht bereits initialisiert wurde
-	 * @param context
-	 */
-	public static void initialize(Context context) {
-		if(!wasInitialized){
-			//initialize database handler
-			databaseHandler = new DatabaseHandler(context);
-			//initialize static data
-			getTypes();
-			//initialise database
-	        initializeDatabase(context);
-			//initialize static data
-			getTypes();
-			getIcons();
-			
-			wasInitialized = true;
-		}
+	private Controller (Context context) {
+		databaseHandler = new DatabaseHandler(context);
+		//initialize static data
+		getTypes();
+		//initialise database
+        initializeDatabase(context);
+		//initialize static data
+		getTypes();
+		getIcons();
+	}
+
+	public static Controller getInstance (Context context) {
+		if (instance == null) {
+	      instance = new Controller (context);
+	    }
+	    return instance;
 	}
 	
     /**
@@ -91,7 +90,7 @@ public class Controller {
     
     /**
      * Speichert ein Formular in der Tabelle Formular und dessen zugeorndete
-     * Eigenschaften in der Verknüpfungstabelle.
+     * Eigenschaften in der Verknï¿½pfungstabelle.
      * @param name
      * @param features
      * @return

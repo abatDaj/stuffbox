@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
-        Controller.initialize(this);
+        Controller.getInstance(this);
 
         ArrayList<Category> categories = Controller.getCategories(null);
         
