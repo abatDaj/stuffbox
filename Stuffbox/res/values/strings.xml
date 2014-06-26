@@ -24,4 +24,8 @@
     <string name="title_activity_badge">BadgeActivity</string>
     <string name="prefix_icon_category">category_icon_</string>
     
+    <string name="msg_alert_de_missingvalue_1">Das Feld\u0020</string>
+    <string name="msg_alert_de_missingvalue_2">\u0020darf nicht leer sein.</string>
+    <string name="msg_alert_de_exists">Dieser Eintrag existiert bereits.</string>
+    
 </resources>
