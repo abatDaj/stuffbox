@@ -10,6 +10,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,20 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
-import com.stuffbox.model.DatabaseHandler;
-import com.stuffbox.model.Feature;
-import com.stuffbox.model.Formular;
-import com.stuffbox.model.Icon;
 
 public class MainActivity extends ActionBarActivity {
 

@@ -22,6 +22,7 @@ public class Controller {
 	private static ArrayList<Icon> icons;
 	private static Category currentCategory;
 	private static Feature newInsertedFeature;
+	private static Formular newInsertedFormular;
 	
 	private Controller (Context context) {
 		databaseHandler = new DatabaseHandler(context);
@@ -115,14 +116,26 @@ public class Controller {
     
     /**
      * Speichert ein Formular in der Tabelle Formular und dessen zugeorndete
-     * Eigenschaften in der Verknï¿½pfungstabelle.
+     * Eigenschaften in der Verknuepfungstabelle.
+     * Speichert das Formular als zuletzt angelegte im Controller
      * @param name
      * @param features
      * @return
      */
     public static Formular insertFormlar(String name, ArrayList<Feature> features){
-    	return databaseHandler.insertFormlar(name, features);
+    	newInsertedFormular = databaseHandler.insertFormlar(name, features);
+    	return newInsertedFormular;
     }
+	/**
+	 * Gibt die zuletzt angelegtes Formular zurück und
+	 * entfernt es aus dem Controller
+	 * @return
+	 */
+	public static Formular popLastInsertedFormular(){
+		Formular formular = newInsertedFormular;
+		newInsertedFormular = null;
+		return formular;
+	}
     /**
      * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
