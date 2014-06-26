@@ -7,14 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceType {
-	
-    public static final String[] TYPES = {	"Text",
-		"Dezimalzahl",
-		"Ganzzahl",
-		"Datum",
-		"Ranking",
-		"Foto",
-		"Wahrheitswert"};
     
     /**
      * Erstellt die Tabelle Art auf der Datenbank und erzeugt zusätzlich 
@@ -27,8 +19,8 @@ public class DataSourceType {
         database.execSQL(CREATE_ART_TABLE);
         
         //Einträge anlegen für jede Art
-        for(String name : TYPES){
-        	insertType(database, name);
+        for(FeatureType type : FeatureType.values()){
+        	insertType(database, type.toString());
         }
     }
     
@@ -57,8 +49,8 @@ public class DataSourceType {
 		if (cursor.moveToFirst()) {
 			do {
 				FeatureType type = 
-						new FeatureType(
-								Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
+						FeatureType.getFeatureType(
+								Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
 							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)));
 
               // Adding type to list

@@ -21,6 +21,7 @@ public class Controller {
 	private static ArrayList<FeatureType> types;
 	private static ArrayList<Icon> icons;
 	private static Category currentCategory;
+	private static Feature newInsertedFeature;
 	
 	private Controller (Context context) {
 		databaseHandler = new DatabaseHandler(context);
@@ -39,7 +40,6 @@ public class Controller {
 	    }
 	    return instance;
 	}
-	
     /**
      * Gibt eine List aller Arten zurueck
      * @return
@@ -50,6 +50,22 @@ public class Controller {
     	}
     	return types;
     }
+    
+    /**
+     * Gibt die Arten zurueck deren Name dem übergebenen entspricht
+     * @param name
+     * @return
+     */
+    public static FeatureType getTypeWithName(String name) {
+    	ArrayList<FeatureType> features = getTypes();
+    	for (FeatureType featureType : features) {
+			if(featureType.toString().equals(name)){
+				return featureType;
+			}
+		}
+    	return null;
+    }
+    
     /**
      * Gibt eine List aller Icons zurueck
      * @return
@@ -69,13 +85,25 @@ public class Controller {
     	return databaseHandler.getFeatures(selectFeatureIds, types);
     }
     /**
-     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft und
+     * speichert die Eigenschaft als zuletzt angelegte im Controller
      * @param database
      * @param name
      */
     public static Feature insertFeature(String name, FeatureType featureType){
-    	return databaseHandler.insertFeature(name, featureType);
+    	newInsertedFeature = databaseHandler.insertFeature(name, featureType);
+    	return newInsertedFeature;
     }
+	/**
+	 * Gibt die zuletzt angelegte Eigenschaft zurück und
+	 * entfernt sie aus dem Controller
+	 * @return
+	 */
+	public static Feature popLastInsertedFeature(){
+		Feature feature = newInsertedFeature;
+		newInsertedFeature = null;
+		return feature;
+	}
     /**
      * Gibt eine Liste aller Formulare zurueck, deren ids in der id Liste enthalten ist
      * @param selectFormularIds
@@ -128,7 +156,7 @@ public class Controller {
     public static ArrayList<Feature> insertDebugFeatureEntries(){
     	ArrayList<Feature> createdFeatures = new ArrayList<Feature>();
         //Debugeintraege schreiben
-    	createdFeatures.add(insertFeature("Name", types.get(0)));
+//    	createdFeatures.add(insertFeature("Name", types.get(0)));
     	createdFeatures.add(insertFeature("Seriennummer", types.get(1)));
     	createdFeatures.add(insertFeature("Bewertung", types.get(2)));
     	createdFeatures.add(insertFeature("gekauft am", types.get(3)));
@@ -190,7 +218,8 @@ public class Controller {
      */
     public static void initializeDatabase(Context context){
     	databaseHandler.initializeDatabase();
-    	ArrayList<Feature> features = insertDebugFeatureEntries();
+    	insertDebugFeatureEntries();
+    	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
     	
     	fillIconTableWithSomeIcons(context);

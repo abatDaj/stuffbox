@@ -29,6 +29,7 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Feature;
+import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 
 public class MainActivity extends ActionBarActivity {

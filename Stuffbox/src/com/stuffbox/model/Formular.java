@@ -3,6 +3,10 @@ package com.stuffbox.model;
 import java.util.ArrayList;
 
 public class Formular {
+	//TODO mach das Sinn die hier zu speichern
+	public static final long idOfNameFeature = 1;
+	public static final long idOfPictureFeature = 2;
+	
 	private long id;
 	private String name;
 	private ArrayList<Feature> features;

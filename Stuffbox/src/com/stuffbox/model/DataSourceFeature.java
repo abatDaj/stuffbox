@@ -9,11 +9,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceFeature {
+	//TODO Zuorndung Text und Foto könnte schöner sein
+    public static final String[] DEFAULT_FEATURES 
+    = {	"Name",
+		"Bild"};
+    public static final String[] DEFAULT_FEATURE_TYPES 
+    = {	"Text",
+		"Foto"};
+    
     /**
      * Erstellt die Tabelle Eigenschaft auf der Datenbank
      * @param database
      */
     public void createFeatureTable(SQLiteDatabase db){
+    	//Tabelle eigenschaft anlegen
         String CREATE_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
         		//create column id
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
@@ -25,6 +34,16 @@ public class DataSourceFeature {
                 "FOREIGN KEY(" + DatabaseHandler.KEY_TYPE + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_TYPE + "(" + DatabaseHandler.KEY_ID + ")" + ")";
         db.execSQL(CREATE_FEATURE_TABLE);
+        
+        //Eigenschaften anlegen für default features
+        ArrayList<FeatureType> types = Controller.getTypes();
+        for (int i = 0; i < DEFAULT_FEATURES.length; i++) {
+        	for (FeatureType type : types) {
+				if(DEFAULT_FEATURE_TYPES[i].equals(type.toString())){
+					insertFeature(db, DEFAULT_FEATURES[i], type);
+				}
+			}
+        }
     }
 	
     /**

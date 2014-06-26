@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -113,12 +114,23 @@ public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
 			sortnumberText.setText(R.string.empty_string);
 		}
 		
-		//ändere presymbol zu plus
+		//aendere presymbol zu plus
 		if(!selectedList){
 			TextView preText = (TextView) rowView.findViewById(R.id.presymbol);
 			preText.setText(R.string.plus);
 		}
 
 		return rowView;
+	}
+	/**
+	 * Returns the items that this adapter holds
+	 * @return
+	 */
+	public ArrayList<Feature> getFeatures(){
+		ArrayList<Feature> features = new ArrayList<Feature>();
+		for(Feature feature : mIdMap.keySet()){
+			features.add(feature);
+		}
+		return features;
 	}
 }

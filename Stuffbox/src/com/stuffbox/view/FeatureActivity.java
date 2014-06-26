@@ -29,6 +29,8 @@ import android.os.Build;
 
 public class FeatureActivity extends ActionBarActivity {
 
+	public static final int REQUEST_NEW_FEATURE = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,7 +88,7 @@ public class FeatureActivity extends ActionBarActivity {
 	}
 	
 	public void onSave(View view){
-		//TODO Pr�fen, ob Name gef�llt ist und wenn nicht ausgabe
+		//TODO Pruefen, ob Name gef�llt ist und wenn nicht ausgabe
 		
 		//get set name
 		EditText textview_name = (EditText) findViewById(R.id.edit_name);
@@ -97,8 +99,10 @@ public class FeatureActivity extends ActionBarActivity {
 		//insert feature into db
 		Controller.insertFeature(name, type);
 		
-		//return to mainactivity
-		startNextActivity(MainActivity.class.getName());
+		//return to activity
+        Intent intentMessage=new Intent();
+        setResult(FeatureActivity.REQUEST_NEW_FEATURE,intentMessage);
+		finish();
 	}
 	/**
 	 * Startet die �bergebene Activity

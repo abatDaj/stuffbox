@@ -2,6 +2,7 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,13 +11,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
+import com.stuffbox.model.FeatureType;
+import com.stuffbox.model.Formular;
 
 public class NewFormularActivity  extends ActionBarActivity {
+	
+	private static final long idNewFeatureEntry = -1;
 	
 	private DynamicListView listFeaturesSelected;
 	private ListView listFeaturesNotSelected;
@@ -28,15 +34,31 @@ public class NewFormularActivity  extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.formular_new);
 		
-		initializeListFeaturesNotSelected();
-		initializeListFeaturesSelected();         
+		//initialisiere Listen für selektierte und nicht selektierte Eigenschaften
+		ArrayList<Feature> features = Controller.getFeatures(null);
+		ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
+		ArrayList<Feature> notSelectedFeatures = new ArrayList<Feature>();
+		Feature newFeatureEntry = new Feature(idNewFeatureEntry, 
+				getResources().getText(R.string.title_activity_feature).toString(), 
+				FeatureType.Text);
+		notSelectedFeatures.add(newFeatureEntry);
+		
+		for (Feature feature : features) {
+			if(feature.getId() == Formular.idOfNameFeature ){
+				selectedFeatures.add(feature);
+			}else{
+				notSelectedFeatures.add(feature);
+			}
+		}
+		
+		initializeListFeaturesNotSelected(notSelectedFeatures);
+		initializeListFeaturesSelected(selectedFeatures);         
 	}
 	
 	/**
 	 * Initializes the list with features selected (initial null)
 	 */
-	private void initializeListFeaturesNotSelected(){
-		ArrayList<Feature> notSelectedfeatures = Controller.getFeatures(null);
+	private void initializeListFeaturesNotSelected(ArrayList<Feature> features){
 		listFeaturesNotSelected = (ListView) findViewById( R.id.list_features_not_selected );
 		listFeaturesNotSelected.setOnItemClickListener(new OnItemClickListener()
         {
@@ -44,17 +66,27 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> l, View v, int position, long id)
 	        {
 	        	Feature choosenFeature = selectedNotFeaturesAdapter.getItem(position);
-	        	selectedNotFeaturesAdapter.remove(choosenFeature);
-	        	selectedfeaturesAdapter.add(choosenFeature);
+	        	if(choosenFeature.getId() == idNewFeatureEntry){
+	        		//neuer Eintrag soll angelegt werden
+	        		
+	        		//TODO bisherige Eingabe speichern
+	                Intent intent = new Intent();        
+	                intent.setClassName(getPackageName(), FeatureActivity.class.getName());
+	                //startActivity(intent);
+	                startActivityForResult(intent, FeatureActivity.REQUEST_NEW_FEATURE);
+	        	}else{
+	        		//verschiebe Eigenschaft in Auswahlliste
+		        	selectedNotFeaturesAdapter.remove(choosenFeature);
+		        	selectedfeaturesAdapter.add(choosenFeature);
+	        	}
 	        }
         });
 		
-		selectedNotFeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, notSelectedfeatures, false);
+		selectedNotFeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, false);
 		listFeaturesNotSelected.setAdapter( selectedNotFeaturesAdapter );	
 	}
-
-	private void initializeListFeaturesSelected(){
-		ArrayList<Feature> selectedfeatures = new ArrayList<Feature>();
+	
+	private void initializeListFeaturesSelected(ArrayList<Feature> features){
 
         listFeaturesSelected = (DynamicListView) findViewById(R.id.list_features_selected);
         listFeaturesSelected.setOnItemClickListener(new OnItemClickListener()
@@ -63,16 +95,27 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> l, View v, int position, long id)
 	        {
 	        	Feature choosenFeature = selectedfeaturesAdapter.getItem(position);
-	        	selectedfeaturesAdapter.remove(choosenFeature);
-	        	selectedNotFeaturesAdapter.add(choosenFeature);
+	        	if(choosenFeature.getId() != Formular.idOfNameFeature ){
+	        		//entferne Eigenschaft aus Auswahlliste wenn es sich nicht um den Namen handelt
+		        	selectedfeaturesAdapter.remove(choosenFeature);
+		        	selectedNotFeaturesAdapter.add(choosenFeature);
+	        	}
 	        }
         });
         
-        selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, selectedfeatures, true);
-        listFeaturesSelected.setItemList(selectedfeatures);
+        selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, true);
+        listFeaturesSelected.setItemList(features);
         listFeaturesSelected.setAdapter(selectedfeaturesAdapter);
         listFeaturesSelected.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
+	
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == FeatureActivity.REQUEST_NEW_FEATURE) {
+        	//fuegt neue Eigenschaft an selektierte Eigenschaften an
+            selectedfeaturesAdapter.add(Controller.popLastInsertedFeature());;
+        }
+    }
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,8 +129,16 @@ public class NewFormularActivity  extends ActionBarActivity {
 	 * @param view
 	 */
 	public void onSave(View view){
-
-		//TODO
+		//speicher Formular auf der Datenbank
+		String formularName = ((TextView)findViewById(R.id.new_formular_name)).getText().toString();
+		ArrayList<Feature> features = selectedfeaturesAdapter.getFeatures();
+		
+		Controller.insertFormlar(formularName, features);
+		
+		//starte naechsten Screen
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), MainActivity.class.getName());
+        startActivity(intent);
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
