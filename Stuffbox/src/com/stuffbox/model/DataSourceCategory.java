@@ -31,6 +31,7 @@ public class DataSourceCategory {
         
         //insert rootcategory into the database
         insertCategory(db, ROOT_CATEGORY, null, -1);
+
     }
     
     /**
@@ -50,10 +51,11 @@ public class DataSourceCategory {
     } 
     
     /**
-     * Gibt eine Liste aller Kategorien zur�ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectCategorieIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
+     * 
      * @return
      */
     public ArrayList<Category> getCategories(	SQLiteDatabase database, 

@@ -24,6 +24,7 @@ public class Controller {
 	private static DatabaseHandler databaseHandler;
 	private static ArrayList<FeatureType> types;
 	private static ArrayList<Icon> icons;
+	private static Category currentCategory;
 	
 	private Controller (Context context) {
 		databaseHandler = new DatabaseHandler(context);
@@ -217,6 +218,13 @@ public class Controller {
     public static void setImageOnImageView(Context context, ImageView view, String imageName){
 	    int resourceId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
+    }
+    
+    public static ArrayList<Object> getEntities(String tableName,
+			String column,
+			ArrayList<Object> selectValues,
+			Class clas) { 
+    	return databaseHandler.getEntities (tableName, column, selectValues, clas);
     }
     
 }

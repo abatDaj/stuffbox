@@ -6,7 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -256,5 +261,84 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		
 		return whereStatementFromIDList;
 	} 
+	
+	  /**
+     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * @param database
+     * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @param types
+     * @return
+     */
+    public ArrayList<Object> getEntities(	String tableName,
+    										String column,
+    										ArrayList<Object> selectValues,
+    										Class clas) {  
+    	String whereStatment = DatabaseHandler.getWhereStatementFromSomeList(column, selectValues);
+    	String[] columns = {column};
+    	Cursor cursor = database.query(tableName, null, whereStatment, null, null, null, null);
+		ArrayList<Object> entities = new ArrayList<Object>();
+		Constructor constructor = null;
+		try {
+			constructor = clas.getConstructor();
+		} catch (NoSuchMethodException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		if (cursor.moveToFirst()) {
+			do {				
+				Field[] atts = clas.getFields();
+				Object entity = 0;
+				
+				try {
+					entity = constructor.newInstance();
+					Method[] methods = clas.getMethods();
+				
+					for (Method m : methods) {
+						String methodName = m.getName();
+						if (methodName.startsWith("set"))
+						{
+							String curColumn = methodName.substring(3).toLowerCase();
+							int pos = cursor.getColumnIndex(curColumn);
+							if (pos > -1) {
+								String curValue = cursor.getString(cursor.getColumnIndex(curColumn));
+								try {
+								m.invoke(entity,  curColumn.equals(DatabaseHandler.KEY_ID) ? Integer.parseInt(curValue.toString()) : curValue );
+								}catch(IllegalArgumentException e){}
+								}
+						}	
+					}
+				} catch (InstantiationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvocationTargetException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				entities.add(entity);
+			} while (cursor.moveToNext());
+		}
+		return entities;
+    }	
+	
+
+/**
+ * Stellt ein where-Statement zusammen.
+ * @param column Spalte
+ * @param selectValues Werte
+ * @return
+ */
+public static String getWhereStatementFromSomeList(String column, ArrayList<Object> selectValues) {
+	if(selectValues == null || selectValues.isEmpty() || column == null)
+		return null;
+	String whereStatement = "";
+	for(Object value : selectValues)
+		whereStatement += " "   + column + " = "  + value + " " + SQL_OR;	
+	return whereStatement.substring(0,whereStatement.length()-SQL_OR.length());
+} 
+	
 	
 }

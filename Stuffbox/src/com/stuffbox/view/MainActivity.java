@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.Icon;
 
@@ -37,7 +38,17 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.main);
         Controller.getInstance(this);
 
-        ArrayList<Category> categories = Controller.getCategories(null);
+     
+        ArrayList<Object> os = new ArrayList<Object>();
+        os.add(0);
+        os.add(1);
+        os.add(2);
+        os.add(3);
+        os.add(4);
+
+        ArrayList<Object> ents = Controller.getEntities(DatabaseHandler.TABLE_CATEGORY, DatabaseHandler.KEY_ID, null, Category.class);
+        
+        //ArrayList<Category> categories = Controller.getCategories(null);
         
 	    //Controller.fillIconTableWithSomeIcons(this);    
         mainListView = (ListView) findViewById( R.id.mainListView );
@@ -54,10 +65,10 @@ public class MainActivity extends ActionBarActivity {
 	        }
         });
         
-		Category[] cats = new Category[categories.size()];
+		Category[] cats = new Category[ents.size()];
 		
-		for (int i = 0 ;i < categories.size();i++)
-			cats[i] = categories.get(i);
+		for (int i = 0 ;i < ents.size();i++)
+			cats[i] = (Category) ents.get(i);
 
         categoryAdapter = new CategoryArrayAdapter (this, cats);
 	    mainListView.setAdapter( categoryAdapter );
