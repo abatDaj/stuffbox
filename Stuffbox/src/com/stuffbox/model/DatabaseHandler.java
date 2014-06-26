@@ -1,7 +1,6 @@
 package com.stuffbox.model;
 
 import java.io.File;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,10 +15,9 @@ import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.SortedSet;
 
-import java.util.ArrayList;
-
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
