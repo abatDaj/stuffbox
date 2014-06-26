@@ -45,6 +45,15 @@
             android:layout_height="wrap_content"
             android:onClick="openAbzeichenScreen"
             android:text="@string/button_abzeichen" />
+
+        <ImageButton
+            android:id="@+id/imageButtonFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="openFotoScreen"
+            android:src="@drawable/image_button_foto" />
+        
+
     </LinearLayout>
 
     <ListView

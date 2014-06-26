@@ -1,11 +1,16 @@
 package com.stuffbox.view;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +19,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
@@ -28,8 +35,10 @@ public class MainActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
 	private CategoryArrayAdapter categoryAdapter ;
+	private ImageButton btn ;
 	
 	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
+	private static final String TAG = MainActivity.class.getSimpleName();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +146,25 @@ public class MainActivity extends ActionBarActivity {
         intent.setClassName(getPackageName(), FeatureActivity.class.getName());
         startActivity(intent);
     }	    
+    
+    public void openFotoScreen(View view) {    	
+    	Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+    	startActivityForResult(cameraIntent, 42);
+    }	
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	try {
+        if (requestCode == 42) {
+            Bitmap thumb = (Bitmap) data.getExtras().get("data"); 
+            btn = (ImageButton)findViewById(R.id.imageButtonFoto);
+            btn.setImageBitmap(thumb);
+            OutputStream stream = new FileOutputStream("/sdcard/test.jpg");
+            thumb.compress(CompressFormat.JPEG, 100, stream);
+        }
+    	}catch (Exception e) {
+    		Log.e(TAG, "Fehler beim Fotografieren: ", e);
+    	}
+    }
     
     /**
      * A placeholder fragment containing a simple view.
