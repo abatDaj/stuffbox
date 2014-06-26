@@ -39,6 +39,14 @@
             android:label="@string/title_activity_formular" >
         </activity>
         <activity
+            android:name="com.stuffbox.view.NewFormularActivity"
+            android:label="@string/title_activity_new_formular" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.ListViewDraggingAnimation"
+            android:label="@string/title_activity_new_formular" >
+        </activity>
+        <activity
             android:name="com.stuffbox.view.DetailActivity"
             android:label="@string/title_activity_detail" >
         </activity>

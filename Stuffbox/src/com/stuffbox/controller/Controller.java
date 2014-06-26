@@ -2,12 +2,8 @@ package com.stuffbox.controller;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.stuffbox.R;

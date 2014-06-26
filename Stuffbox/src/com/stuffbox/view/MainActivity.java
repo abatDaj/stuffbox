@@ -10,7 +10,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
@@ -81,10 +81,10 @@ public class MainActivity extends ActionBarActivity {
 	        }
         });
         
-		Category[] cats = new Category[ents.size()];
+		Category[] cats = new Category[categories.size()];
 		
 		for (int i = 0 ;i < categories.size();i++)
-			cats[i] = (Category) categories.get(i);
+			cats[i] = categories.get(i);
 
         categoryAdapter = new CategoryArrayAdapter (this, cats);
 	    mainListView.setAdapter( categoryAdapter );
@@ -128,7 +128,12 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }	
     
-
+    public void openFormularNewScreen(View view){    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), NewFormularActivity.class.getName());
+        startActivity(intent);
+    }	
+    
     public void openDetailScreen(View view) {    	
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), DetailActivity.class.getName());
@@ -146,7 +151,7 @@ public class MainActivity extends ActionBarActivity {
         intent.setClassName(getPackageName(), FeatureActivity.class.getName());
         startActivity(intent);
     }	    
-    
+
     public void openFotoScreen(View view) {    	
     	Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
     	startActivityForResult(cameraIntent, 42);
@@ -164,8 +169,13 @@ public class MainActivity extends ActionBarActivity {
     	}catch (Exception e) {
     		Log.e(TAG, "Fehler beim Fotografieren: ", e);
     	}
-    }
+    }	    
     
+    public void openTest(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), ListViewDraggingAnimation.class.getName());
+        startActivity(intent);
+    }	
     /**
      * A placeholder fragment containing a simple view.
      */

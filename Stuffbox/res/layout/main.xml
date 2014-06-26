@@ -13,9 +13,21 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="openTest"
+            android:text="Test" />
+        
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="openFormularScreen"
             android:text="@string/button_formular" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="openFormularNewScreen"
+            android:text="@string/title_activity_new_formular" />        
+        
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
