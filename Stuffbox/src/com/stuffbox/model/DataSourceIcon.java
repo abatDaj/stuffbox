@@ -69,4 +69,22 @@ public class DataSourceIcon {
 		return icons;
     } 
     
+    /**
+     * Holt sich ein Icon
+     *  
+     * @param id
+
+     */
+    public Icon getIcon(SQLiteDatabase database, int id){
+    	String[] columns = {DatabaseHandler.KEY_ID};
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_ICON, columns, String.valueOf(id), null, null, null, null);
+    	Icon icon = null;
+		if (cursor.moveToFirst()) 
+			icon = new Icon( Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
+							 cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
+							 cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_DESCRIPTION)));
+		return icon;
+	}
+ 
+    
 }

@@ -16,6 +16,11 @@ public class Category {
 		this.icon = icon;
 		this.precategory = precategory;
 	}
+	
+	public Category() {
+		super();
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -34,6 +39,11 @@ public class Category {
 	public int getId() {
 		return id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public ArrayList<Item> getItems(){
 		return items;
 	}

@@ -42,7 +42,7 @@ public class DataSourceFeature {
     
 	
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurÃ¼ck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
@@ -87,7 +87,7 @@ public class DataSourceFeature {
     }
     
     /**
-     * Erstellt aus dem übergebenen Objekt einen speicherbaren String
+     * Erstellt aus dem ï¿½bergebenen Objekt einen speicherbaren String
      * TODO Type einbeziehen
      * @param value
      * @param type
@@ -97,7 +97,7 @@ public class DataSourceFeature {
 		return value.toString();
 	}
 	/**
-	 * Erstellt aus dem übergebenen String einen entsprechendes Objekt
+	 * Erstellt aus dem ï¿½bergebenen String einen entsprechendes Objekt
 	 * TODO Type einbeziehen
 	 * @param value
 	 * @param type
