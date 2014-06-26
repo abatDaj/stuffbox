@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
         Controller.getInstance(this);
 
      
-        ArrayList<Object> os = new ArrayList<Object>();
+        /*ArrayList<Object> os = new ArrayList<Object>();
         os.add(0);
         os.add(1);
         os.add(2);
@@ -48,7 +48,14 @@ public class MainActivity extends ActionBarActivity {
 
         ArrayList<Object> ents = Controller.getEntities(DatabaseHandler.TABLE_CATEGORY, DatabaseHandler.KEY_ID, null, Category.class);
         
-        //ArrayList<Category> categories = Controller.getCategories(null);
+        		Category[] cats = new Category[ents.size()];
+		
+		for (int i = 0 ;i < ents.size();i++)
+			cats[i] = (Category) ents.get(i);
+        
+        */
+        
+        ArrayList<Category> categories = Controller.getCategories(null);
         
 	    //Controller.fillIconTableWithSomeIcons(this);    
         mainListView = (ListView) findViewById( R.id.mainListView );
@@ -67,8 +74,8 @@ public class MainActivity extends ActionBarActivity {
         
 		Category[] cats = new Category[ents.size()];
 		
-		for (int i = 0 ;i < ents.size();i++)
-			cats[i] = (Category) ents.get(i);
+		for (int i = 0 ;i < categories.size();i++)
+			cats[i] = (Category) categories.get(i);
 
         categoryAdapter = new CategoryArrayAdapter (this, cats);
 	    mainListView.setAdapter( categoryAdapter );
