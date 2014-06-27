@@ -28,9 +28,10 @@
     <string name="minus">-</string>
     <string name="init_sortnumber">-1</string>
     <string name="empty_string"></string>
-    
+    <string name="button_list_categories">List Categories</string>
     <string name="msg_alert_de_missingvalue_1">Das Feld\u0020</string>
     <string name="msg_alert_de_missingvalue_2">\u0020darf nicht leer sein.</string>
     <string name="msg_alert_de_exists">Dieser Eintrag existiert bereits.</string>
-    
+    <string name="title_activity_list_categories">ListCategoriesActivity</string>
+
 </resources>

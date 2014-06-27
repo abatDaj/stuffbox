@@ -44,7 +44,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		//Controller.fillIconTableWithSomeIcons(this);
-		ArrayList<Icon> allicons = Controller.getIcons();
+		ArrayList<Icon> allicons = Controller.getInstance().getIcons();
 		LinkedList<Icon> list = new LinkedList<Icon>();
 
 		for (Icon i : allicons)
@@ -86,7 +86,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-		Controller.insertCategory(categoryName, selectedIcon, 0); //TODO hier statt 0 id der vorgängerkategorie reingeben
+		Controller.getInstance().insertCategory(categoryName, selectedIcon, 0); //TODO hier statt 0 id der vorgï¿½ngerkategorie reingeben
 		
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), CategoryActivity.class.getName());

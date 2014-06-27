@@ -17,10 +17,6 @@ public class Category {
 		this.precategory = precategory;
 	}
 	
-	public Category() {
-		super();
-	}
-	
 	public String getName() {
 		return name;
 	}

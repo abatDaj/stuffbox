@@ -34,8 +34,8 @@ public class NewFormularActivity  extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.formular_new);
 		
-		//initialisiere Listen für selektierte und nicht selektierte Eigenschaften
-		ArrayList<Feature> features = Controller.getFeatures(null);
+		//initialisiere Listen fï¿½r selektierte und nicht selektierte Eigenschaften
+		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
 		ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
 		ArrayList<Feature> notSelectedFeatures = new ArrayList<Feature>();
 		Feature newFeatureEntry = new Feature(idNewFeatureEntry, 
@@ -112,7 +112,7 @@ public class NewFormularActivity  extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FeatureActivity.REQUEST_NEW_FEATURE) {
         	//fuegt neue Eigenschaft an selektierte Eigenschaften an
-            selectedfeaturesAdapter.add(Controller.popLastInsertedFeature());;
+            selectedfeaturesAdapter.add(Controller.getInstance().popLastInsertedFeature());;
         }
     }
 
@@ -133,7 +133,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 		String formularName = ((TextView)findViewById(R.id.new_formular_name)).getText().toString();
 		ArrayList<Feature> features = selectedfeaturesAdapter.getFeatures();
 		
-		Controller.insertFormlar(formularName, features);
+		Controller.getInstance().insertFormlar(formularName, features);
 		
 		//starte naechsten Screen
         Intent intent = new Intent();        

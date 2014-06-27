@@ -26,7 +26,7 @@ public class DataSourceFormular {
         		DatabaseHandler.KEY_NAME + " TEXT" + ")";
         db.execSQL(CREATE_FORMULAR_TABLE);
         
-        //Erstellt die Formular-Eigenschaft Verknüpfungstabelle
+        //Erstellt die Formular-Eigenschaft Verknï¿½pfungstabelle
         String CREATE_FORMULAR_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR_FEATURE + "("+ 
         		//create column formular
         		DatabaseHandler.TABLE_FORMULAR + " INTEGER," + 
@@ -63,12 +63,12 @@ public class DataSourceFormular {
      * @param name
      */
     public Formular insertFormlar(SQLiteDatabase database, String name, ArrayList<Feature> features){
-    	//Formular in Datenbank einfügen
+    	//Formular in Datenbank einfï¿½gen
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values, name);
     	
-    	//Eigenschaften in Datenbank einfügen
+    	//Eigenschaften in Datenbank einfï¿½gen
     	for (Feature feature : features) {
         	ContentValues featurevalues = new ContentValues();
         	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formularId);
@@ -83,7 +83,7 @@ public class DataSourceFormular {
     } 
     
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurï¿½ck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFormularIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
@@ -124,7 +124,7 @@ public class DataSourceFormular {
     }
     
     /**
-     * Selektiert alle Eigenschaften des übergebenen Formulars
+     * Selektiert alle Eigenschaften des ï¿½bergebenen Formulars
      * @param database
      * @param formularid
      * @return
@@ -151,6 +151,6 @@ public class DataSourceFormular {
 			} while (cursor.moveToNext());
 		}
 		
-		return Controller.getFeatures(selectFeatureIds);
+		return Controller.getInstance(null).getFeatures(selectFeatureIds);
     }
 }

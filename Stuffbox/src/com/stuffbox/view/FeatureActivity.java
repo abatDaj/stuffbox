@@ -35,8 +35,8 @@ public class FeatureActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feature);	    
-	    
-		ArrayList<FeatureType> types = Controller.getTypes();
+	    Controller.getInstance(this);
+		ArrayList<FeatureType> types = Controller.getInstance().getTypes();
 		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_arten);
 		// Create an ArrayAdapter using the string array and a default spinner layout
@@ -97,7 +97,7 @@ public class FeatureActivity extends ActionBarActivity {
 		Spinner spinner_type = (Spinner) findViewById(R.id.spinner_arten);
 		FeatureType type = (FeatureType) spinner_type.getSelectedItem();
 		//insert feature into db
-		Controller.insertFeature(name, type);
+		Controller.getInstance().insertFeature(name, type);
 		
 		//return to activity
         Intent intentMessage=new Intent();

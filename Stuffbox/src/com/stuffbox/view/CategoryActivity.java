@@ -1,23 +1,14 @@
 package com.stuffbox.view;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.os.Build;
 
 public class CategoryActivity extends ActionBarActivity {
 
@@ -26,14 +17,14 @@ public class CategoryActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_detail);
 		Intent intent = getIntent();
-		((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME)+ " gewählt!");
+		((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME)+ " gewählt!");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
 		Intent intent = getIntent();
-		String message = intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME);
+		String message = intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME);
 		getSupportActionBar().setTitle(message);
 
 		//Inflate the menu; this adds items to the action bar if it is present.

@@ -2,7 +2,6 @@ package com.stuffbox.view;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,22 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Category;
+
 
 public class MainActivity extends ActionBarActivity {
 
-	private ListView mainListView ;
-	private CategoryArrayAdapter categoryAdapter ;
 	private ImageButton btn ;
 	
-	public final static String EXTRA_KATEGORIE_NAME = "com.stuffbox.KATEGORIENAME";
 	private static final String TAG = MainActivity.class.getSimpleName();
 	
     @Override
@@ -40,48 +33,6 @@ public class MainActivity extends ActionBarActivity {
         
         setContentView(R.layout.main);
         Controller.getInstance(this);
-
-     
-        /*ArrayList<Object> os = new ArrayList<Object>();
-        os.add(0);
-        os.add(1);
-        os.add(2);
-        os.add(3);
-        os.add(4);
-
-        ArrayList<Object> ents = Controller.getEntities(DatabaseHandler.TABLE_CATEGORY, DatabaseHandler.KEY_ID, null, Category.class);
-        
-        		Category[] cats = new Category[ents.size()];
-		
-		for (int i = 0 ;i < ents.size();i++)
-			cats[i] = (Category) ents.get(i);
-        
-        */
-        
-        ArrayList<Category> categories = Controller.getCategories(null);
-        
-	    //Controller.fillIconTableWithSomeIcons(this);    
-        mainListView = (ListView) findViewById( R.id.mainListView );
-        
-        mainListView.setOnItemClickListener(new OnItemClickListener()
-        {
-	        @Override
-	        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
-	        {
-		        Intent intent = new Intent();		        
-		        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
-		        intent.putExtra(EXTRA_KATEGORIE_NAME, mainListView.getAdapter().getItem(arg2).toString());
-		        startActivity(intent);
-	        }
-        });
-        
-		Category[] cats = new Category[categories.size()];
-		
-		for (int i = 0 ;i < categories.size();i++)
-			cats[i] = categories.get(i);
-
-        categoryAdapter = new CategoryArrayAdapter (this, cats);
-	    mainListView.setAdapter( categoryAdapter );
     }
 
     @Override
@@ -146,6 +97,13 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }	    
 
+    
+    public void openListCategories(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);
+    }	 
+    
     public void openFotoScreen(View view) {    	
     	Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
     	startActivityForResult(cameraIntent, 42);

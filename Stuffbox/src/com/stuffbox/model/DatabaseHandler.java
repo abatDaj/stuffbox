@@ -278,9 +278,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		
 		if (cursor.moveToFirst()) {
 			do {				
-				Field[] atts = clas.getFields();
 				Object entity = 0;
-				
 				try {
 					entity = constructor.newInstance();
 					Method[] methods = clas.getMethods();
@@ -293,10 +291,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 							int pos = cursor.getColumnIndex(curColumn);
 							if (pos > -1) {
 								String curValue = cursor.getString(cursor.getColumnIndex(curColumn));
-								try {
-								m.invoke(entity,  curColumn.equals(DatabaseHandler.KEY_ID) ? Integer.parseInt(curValue.toString()) : curValue );
-								}catch(IllegalArgumentException e){}
-								}
+								try { //TODO
+									m.invoke(entity,  curColumn.equals(DatabaseHandler.KEY_ID) ? Integer.parseInt(curValue.toString()) : curValue );
+								}catch(IllegalArgumentException e) {}
+							}
 						}	
 					}
 				} catch (InstantiationException e1) {

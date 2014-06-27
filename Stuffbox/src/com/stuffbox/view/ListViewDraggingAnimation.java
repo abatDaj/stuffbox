@@ -42,7 +42,7 @@ public class ListViewDraggingAnimation extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
 
-		ArrayList<Feature> features = Controller.getFeatures(null);	
+		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);	
 
         StableArrayAdapter adapter = new StableArrayAdapter(this, R.layout.text_view, features);
         DynamicListView listView = (DynamicListView) findViewById(R.id.listview);

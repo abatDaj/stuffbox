@@ -57,6 +57,12 @@
             android:layout_height="wrap_content"
             android:onClick="openAbzeichenScreen"
             android:text="@string/button_abzeichen" />
+        
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="openListCategories"
+            android:text="@string/button_list_categories" />
 
         <ImageButton
             android:id="@+id/imageButtonFoto"

@@ -17,21 +17,20 @@ import com.stuffbox.model.Icon;
 public class Controller {
 	
 	private static Controller instance;
-	private static DatabaseHandler databaseHandler;
-	private static ArrayList<FeatureType> types;
-	private static ArrayList<Icon> icons;
-	private static Category currentCategory;
-	private static Feature newInsertedFeature;
-	private static Formular newInsertedFormular;
+	private DatabaseHandler databaseHandler;
+	private ArrayList<FeatureType> types = null;
+	private ArrayList<Icon> icons;
+	private Category currentCategory;
+	private Feature newInsertedFeature;
+	private Formular newInsertedFormular;
 	
 	private Controller (Context context) {
 		databaseHandler = new DatabaseHandler(context);
-		//initialize static data
+		//initialize data
 		getTypes();
 		//initialise database
         initializeDatabase(context);
-		//initialize static data
-		getTypes();
+		//initialize data
 		getIcons();
 	}
 
@@ -41,11 +40,17 @@ public class Controller {
 	    }
 	    return instance;
 	}
+	
+	//TODO
+	public static Controller getInstance () {
+		return getInstance (null);
+	}
+	
     /**
      * Gibt eine List aller Arten zurueck
      * @return
      */
-    public static ArrayList<FeatureType> getTypes() {
+    public ArrayList<FeatureType> getTypes() {
     	if(types == null){
     		types = databaseHandler.getTypes();
     	}
@@ -53,11 +58,11 @@ public class Controller {
     }
     
     /**
-     * Gibt die Arten zurueck deren Name dem übergebenen entspricht
+     * Gibt die Arten zurueck deren Name dem ï¿½bergebenen entspricht
      * @param name
      * @return
      */
-    public static FeatureType getTypeWithName(String name) {
+    public FeatureType getTypeWithName(String name) {
     	ArrayList<FeatureType> features = getTypes();
     	for (FeatureType featureType : features) {
 			if(featureType.toString().equals(name)){
@@ -71,7 +76,7 @@ public class Controller {
      * Gibt eine List aller Icons zurueck
      * @return
      */
-    public static ArrayList<Icon> getIcons() {
+    public ArrayList<Icon> getIcons() {
     	if(icons == null)
     		icons = databaseHandler.getIcons();
     	return icons;
@@ -82,7 +87,7 @@ public class Controller {
      * @param types
      * @return
      */
-    public static ArrayList<Feature> getFeatures(ArrayList<Long> selectFeatureIds) {
+    public ArrayList<Feature> getFeatures(ArrayList<Long> selectFeatureIds) {
     	return databaseHandler.getFeatures(selectFeatureIds, types);
     }
     /**
@@ -91,16 +96,16 @@ public class Controller {
      * @param database
      * @param name
      */
-    public static Feature insertFeature(String name, FeatureType featureType){
+    public Feature insertFeature(String name, FeatureType featureType){
     	newInsertedFeature = databaseHandler.insertFeature(name, featureType);
     	return newInsertedFeature;
     }
 	/**
-	 * Gibt die zuletzt angelegte Eigenschaft zurück und
+	 * Gibt die zuletzt angelegte Eigenschaft zurï¿½ck und
 	 * entfernt sie aus dem Controller
 	 * @return
 	 */
-	public static Feature popLastInsertedFeature(){
+	public Feature popLastInsertedFeature(){
 		Feature feature = newInsertedFeature;
 		newInsertedFeature = null;
 		return feature;
@@ -110,7 +115,7 @@ public class Controller {
      * @param selectFormularIds
      * @return
      */
-    public static ArrayList<Formular> getFormulars(ArrayList<Long> selectFormularIds){
+    public ArrayList<Formular> getFormulars(ArrayList<Long> selectFormularIds){
     	return databaseHandler.getFormulars(selectFormularIds);
     }
     
@@ -122,16 +127,16 @@ public class Controller {
      * @param features
      * @return
      */
-    public static Formular insertFormlar(String name, ArrayList<Feature> features){
+    public Formular insertFormlar(String name, ArrayList<Feature> features){
     	newInsertedFormular = databaseHandler.insertFormlar(name, features);
     	return newInsertedFormular;
     }
 	/**
-	 * Gibt die zuletzt angelegtes Formular zurück und
+	 * Gibt die zuletzt angelegtes Formular zurï¿½ck und
 	 * entfernt es aus dem Controller
 	 * @return
 	 */
-	public static Formular popLastInsertedFormular(){
+	public Formular popLastInsertedFormular(){
 		Formular formular = newInsertedFormular;
 		newInsertedFormular = null;
 		return formular;
@@ -142,7 +147,7 @@ public class Controller {
      * @param types
      * @return
      */
-    public static ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds) {
+    public ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds) {
     	return databaseHandler.getCategories(selectFeatureIds, icons);
     }
     /**
@@ -150,7 +155,7 @@ public class Controller {
      * @param database
      * @param name
      */
-    public static void insertCategory(String name, Icon icon, int precategory){
+    public void insertCategory(String name, Icon icon, int precategory){
     	databaseHandler.insertCategory(name, icon, precategory);
     }
     
@@ -159,14 +164,14 @@ public class Controller {
      * @param name
      * @param description
      */
-    public static void insertIcon(String name, String description){
+    public void insertIcon(String name, String description){
     	databaseHandler.insertIcon(name, description);
     }
     
     /**
      * Fuegt Debugeintraege in die Tabelle Eigenschaft in die Datenbank ein
      */
-    public static ArrayList<Feature> insertDebugFeatureEntries(){
+    public ArrayList<Feature> insertDebugFeatureEntries(){
     	ArrayList<Feature> createdFeatures = new ArrayList<Feature>();
         //Debugeintraege schreiben
 //    	createdFeatures.add(insertFeature("Name", types.get(0)));
@@ -177,11 +182,11 @@ public class Controller {
     	return createdFeatures;
     }
     
-    public static ArrayList<Formular> insertDebugFormularEntries(ArrayList<Feature> features){   	
+    public ArrayList<Formular> insertDebugFormularEntries(ArrayList<Feature> features){   	
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
     	//erstellen Formular Buecheraufbau
-    	ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
+    	/*ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
     	features.get(0).setSortnumber(1);
     	featuresFormular1.add(features.get(0));
     	features.get(2).setSortnumber(3);
@@ -196,7 +201,7 @@ public class Controller {
     	featuresFormular2.add(features.get(0));
     	features.get(3).setSortnumber(3);
     	featuresFormular2.add(features.get(3));
-    	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));
+    	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));*/
     	
     	return createdFormulars;
     }
@@ -204,7 +209,7 @@ public class Controller {
     /**
      * Fuegt Debugeintraege in die Tabelle Kategorie in die Datenbank ein
      */
-    public static void insertDebugCategoryEntries(){
+    public void insertDebugCategoryEntries(){
         //Debugeintraege schreiben
 //		insertCategory("Buecher", icons.get(1), 0);
 //		insertCategory("Technik", icons.get(4), 0);
@@ -216,7 +221,7 @@ public class Controller {
      * temporÃ¤r: FÃ¼llt ein paar die Tabelle mit ein paar Icons.
      * 
      */
-    public static void fillIconTableWithSomeIcons (Context context)
+    public void fillIconTableWithSomeIcons (Context context)
     {
     	Field[] drawableFields = R.drawable.class.getFields();
 		
@@ -229,7 +234,7 @@ public class Controller {
     /**
      * Setzt die Datenbank neu auf
      */
-    public static void initializeDatabase(Context context){
+    public void initializeDatabase(Context context){
     	databaseHandler.initializeDatabase();
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
@@ -253,12 +258,12 @@ public class Controller {
      * @param view
      * @param imageName
      */
-    public static void setImageOnImageView(Context context, ImageView view, String imageName){
+    public void setImageOnImageView(Context context, ImageView view, String imageName){
 	    int resourceId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
     
-    public static ArrayList<Object> getEntities(String tableName,
+    public ArrayList<Object> getEntities(String tableName,
 			String column,
 			ArrayList<Object> selectValues,
 			Class clas) { 
