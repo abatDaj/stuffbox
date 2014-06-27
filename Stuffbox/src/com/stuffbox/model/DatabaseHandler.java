@@ -62,6 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
     public static final String PREFIX_ICON_CATEGORY = "category_icon_";
+    public static final int INDEX_OF_ROOT_CATEGORY = -1;
     
     private String DB_PATH;
     
@@ -180,6 +181,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	dataSourceIcon.createIconTable(db);
     	dataSourceItem.createItemTable(db);
     	dataSourceCategorie.createCategorieTable(db);
+    	dataSourceCategorie.createCategoryCategoryTable(db);
     }
     
     // Upgrading database
@@ -199,6 +201,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+    	database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
+
  
         // Create tables again
         onCreate(database);

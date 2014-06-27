@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class DataSourceType {
     
     /**
-     * Erstellt die Tabelle Art auf der Datenbank und erzeugt zus‰tzlich 
-     * die Eintr‰ge.
+     * Erstellt die Tabelle Art auf der Datenbank und erzeugt zus√§tzlich 
+     * die Eintr√§ge.
      * @param database
      */
     public void createTypeTable(SQLiteDatabase database){
@@ -18,7 +18,7 @@ public class DataSourceType {
                 + DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + DatabaseHandler.KEY_NAME + " TEXT" + ")";
         database.execSQL(CREATE_ART_TABLE);
         
-        //Eintr‰ge anlegen f¸r jede Art
+        //Eintr√§ge anlegen f√ºr jede Art
         for(FeatureType type : FeatureType.values()){
         	insertType(database, type.toString());
         }
@@ -36,7 +36,7 @@ public class DataSourceType {
     } 
 	
     /**
-     * Gibt eine List aller Arten zur¸ck
+     * Gibt eine List aller Arten zur√ºck
      * @return
      */
     public ArrayList<FeatureType> getTypes(SQLiteDatabase database) {  

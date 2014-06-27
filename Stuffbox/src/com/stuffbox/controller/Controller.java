@@ -214,7 +214,7 @@ public class Controller {
 //		insertCategory("Buecher", icons.get(1), 0);
 //		insertCategory("Technik", icons.get(4), 0);
 //		insertCategory("Sport", icons.get(6), 0);
-		insertCategory("Buecher", null, 0);
+		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
     
     /**

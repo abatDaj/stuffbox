@@ -70,7 +70,7 @@ public class DataSourceIcon {
     } 
     
     /**
-     * Holt sich ein Icon
+     * Holt+ sich ein Icon
      *  
      * @param id
 

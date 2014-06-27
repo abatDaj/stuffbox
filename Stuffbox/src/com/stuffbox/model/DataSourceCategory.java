@@ -28,16 +28,29 @@ public class DataSourceCategory {
                 "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")"+ ")";
         db.execSQL(CREATE_EIGENSCHAFT_TABLE);
-        
-        //insert rootcategory into the database
-        insertCategory(db, ROOT_CATEGORY, null, -1);
-
+    }
+    
+    /**
+     * Erstellt die Vernüpfungstabelle zwischen Kategorie und Oberkategorie
+     * @param database
+     */
+    public void createCategoryCategoryTable(SQLiteDatabase db) {
+        String CREATE_CATEGORY_CATEGORY_TABLE = "CREATE TABLE " + DatabaseHandler.CATEGORY_CATEGORY + "("+ 
+        		//die ID der Kategorie
+        		DatabaseHandler.KEY_ID + " INTEGER NOT NULL," + 
+        		//die ID der Vorgänger Kategorie
+        		DatabaseHandler.KEY_PRECATEGORY + " INTEGER NOT NULL," + 
+        		//Beide als Schlüssel festlegen
+        		"PRIMARY KEY("+DatabaseHandler.KEY_ID+", "+DatabaseHandler.KEY_PRECATEGORY+"))";
+        db.execSQL(CREATE_CATEGORY_CATEGORY_TABLE);
     }
     
     /**
      * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
      * @param database
      * @param name
+     * @param icon Ein Icon oder null (Default-Icon wird gesetzt)
+     * @param Die ID der Oberkategorie
      */
     public void insertCategory(SQLiteDatabase database, String name, Icon icon, int precategory){
     	ContentValues values = new ContentValues();
@@ -48,6 +61,29 @@ public class DataSourceCategory {
     	values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
     	
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
+    	
+    	if (precategory > -1 ){
+	    	Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, "SELECT MAX("+DatabaseHandler.KEY_ID+") FROM "+DatabaseHandler.TABLE_CATEGORY+";", null, null, null, null);
+	    	if (!cursor.moveToFirst())
+	    		throw new RuntimeException("Something went horribly wrong :-O");
+	    	int newCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID));
+	    	int newPreCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY));
+	    	insertPreCategory(database, newCategoryId, newPreCategoryId );
+    	}
+    } 
+    
+    /**
+     * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
+     * @param database
+     * @param name
+     * @param icon Ein Icon oder null (Default-Icon wird gesetzt)
+     * @param Die ID der Oberkategorie
+     */
+    private void insertPreCategory(SQLiteDatabase database, int category, int precategory){
+    	ContentValues values = new ContentValues();
+    	values.put(DatabaseHandler.KEY_ID, category);
+    	values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.CATEGORY_CATEGORY, values, "try to make a category, precatagory connection");
     } 
     
     /**
