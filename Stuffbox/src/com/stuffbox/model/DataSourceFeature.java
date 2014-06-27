@@ -21,7 +21,7 @@ public class DataSourceFeature {
      * Erstellt die Tabelle Eigenschaft auf der Datenbank
      * @param database
      */
-    public void createFeatureTable(SQLiteDatabase db){
+    public void createFeatureTable(SQLiteDatabase db, ArrayList<FeatureType> types){
     	//Tabelle eigenschaft anlegen
         String CREATE_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
         		//create column id
@@ -36,14 +36,13 @@ public class DataSourceFeature {
         db.execSQL(CREATE_FEATURE_TABLE);
         
         //Eigenschaften anlegen für default features
-        /*ArrayList<FeatureType> types = Controller.getInstance().getTypes();
         for (int i = 0; i < DEFAULT_FEATURES.length; i++) {
         	for (FeatureType type : types) {
 				if(DEFAULT_FEATURE_TYPES[i].equals(type.toString())){
 					insertFeature(db, DEFAULT_FEATURES[i], type);
 				}
 			}
-        }*/
+        }
     }
 	
     /**

@@ -175,7 +175,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
     	dataSourceType.createTypeTable(db);
-    	dataSourceFeature.createFeatureTable(db);
+    	dataSourceFeature.createFeatureTable(db, getTypes());
     	dataSourceFormular.createFormularTable(db);;
     	dataSourceIcon.createIconTable(db);
     	dataSourceItem.createItemTable(db);
