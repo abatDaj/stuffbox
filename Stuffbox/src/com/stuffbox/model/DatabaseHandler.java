@@ -153,6 +153,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds, ArrayList<Icon> icons) {
     	return dataSourceCategorie.getCategories(database, selectFeatureIds, icons);
     }
+    
+	/**
+	 * Returniert alle Unterkategorien einer Kategorie
+	 * 
+	 * @param categoryID
+	 * @return Die Unterkategorien
+	 */
+    public ArrayList<Category> getSubCategories(int categoryID) {
+    	return dataSourceCategorie.getSubCategories(database, categoryID);
+    }
+    
     /**
      * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
      * @param database

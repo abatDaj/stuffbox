@@ -8,6 +8,7 @@ import com.stuffbox.R.layout;
 import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DatabaseHandler;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -35,7 +36,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_categories);
 			       
-        ArrayList<Category> categories = Controller.getInstance().getCategories(null);
+        ArrayList<Category> mainCategories = Controller.getInstance().getSubCategories(DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
         
         mainListView = (ListView) findViewById( R.id.categoryListView );
         
@@ -51,10 +52,10 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        }
         });
         
-		Category[] cats = new Category[categories.size()];
+		Category[] cats = new Category[mainCategories.size()];
 		
-		for (int i = 0 ;i < categories.size();i++)
-			cats[i] = categories.get(i);
+		for (int i = 0 ;i < mainCategories.size();i++)
+			cats[i] = mainCategories.get(i);
 
         categoryAdapter = new CategoryArrayAdapter (this, cats);
 	    mainListView.setAdapter( categoryAdapter );

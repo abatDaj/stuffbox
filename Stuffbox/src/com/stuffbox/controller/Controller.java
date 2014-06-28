@@ -150,6 +150,17 @@ public class Controller {
     public ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds) {
     	return databaseHandler.getCategories(selectFeatureIds, icons);
     }
+    
+    /**
+	 * Returniert alle Unterkategorien einer Kategorie
+	 * 
+	 * @param categoryID
+	 * @return Die Unterkategorien oder null, falls ein Fehler auftrat
+	 */
+    public ArrayList<Category> getSubCategories(int categoryId) {
+    	return databaseHandler.getSubCategories(categoryId);
+    }
+    
     /**
      * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
      * @param database
