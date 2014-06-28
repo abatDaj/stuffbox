@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.widget.ImageView;
 
 import com.stuffbox.R;
@@ -23,31 +24,34 @@ public class Controller {
 	private Category currentCategory;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
+	private Context context = null;
 	
-	private Controller (Context context) {
-		databaseHandler = new DatabaseHandler(context);
-		//initialize data
+	private  Controller (Context context) {
+		this.context = context;
+		databaseHandler = new DatabaseHandler(context);		
+	}
+	
+	public void init (){
 		getTypes();
 		//initialise database
         initializeDatabase(context);
 		//initialize data
 		getIcons();
 	}
-
-	public static Controller getInstance (Context context) {
-		if (instance == null) {
-	      instance = new Controller (context);
-	    }
-	    return instance;
-	}
 	
 	//TODO
-	public static Controller getInstance () {
-		return getInstance (null);
+	public static Controller getInstance (Context context) {
+		if (instance == null) 
+			instance = new Controller (context);
+		return instance;
+	}
+	
+	public static Controller getInstance () {			
+		return instance;
 	}
 	
     /**
-     * Gibt eine List aller Arten zurueck
+     * Gibt eine Liste aller Arten zurueck
      * @return
      */
     public ArrayList<FeatureType> getTypes() {
@@ -58,7 +62,7 @@ public class Controller {
     }
     
     /**
-     * Gibt die Arten zurueck deren Name dem �bergebenen entspricht
+     * Gibt die Arten zurueck deren Name dem übergebenen entspricht
      * @param name
      * @return
      */
@@ -228,6 +232,8 @@ public class Controller {
 		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
     
+    public void bla(){System.out.println("Ajasduasdbuhaidasudui");}
+    
     /**
      * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
      * 
@@ -273,6 +279,39 @@ public class Controller {
 	    int resourceId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
+    
+    /**
+     * Returniert die aktuelle Kategorie
+     * 
+     * @return Die aktuelle Kategorie
+     */
+    public Category getCurrentCategory() { 
+    	return currentCategory;
+    }
+    
+    /**
+     * Überschreibt die aktuelle Kategorie
+     * 
+	 * @param newCurrentCategory
+     */
+    public void setCurrentCategory(Category newCurrentCategory) { 
+    	currentCategory = newCurrentCategory;
+    }
+    
+	/**
+	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.
+	 * Es wird der SQL Befehl: "Select MAX(nameOfIdColumn), columns[0], columns[1]... from tabelName;"
+	 * ausgeführt.
+	 *  
+	 * @param tabelName
+	 * @param nameOfIdColumn Solle ein Primärschlüssel sein und AUTOINCREMENT.
+	 * @param columns
+	 *
+	 * @return Den Cursor der letzten Reihe der Tabelle oder null, falls die Tabelle leer ist.
+	 */
+	public Cursor getNewestRow (String tabelName, String nameOfIdColumn, String[] columns) {
+		return databaseHandler.getNewestRow(tabelName, nameOfIdColumn, columns);
+	}
     
     public ArrayList<Object> getEntities(String tableName,
 			String column,

@@ -79,7 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        File filesDir = context.getFilesDir();
+        File filesDir = this.context.getFilesDir();
         DB_PATH = filesDir.getPath().substring(0, filesDir.getPath().length() - filesDir.getName().length());
         
         //instance datasources
@@ -267,6 +267,31 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		
 		return whereStatementFromIDList;
 	} 
+	
+	/**
+	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.
+	 * Es wird der SQL Befehl: "Select MAX(nameOfIdColumn), columns[0], columns[1]... from tabelName;"
+	 * ausgeführt.
+	 *  
+	 * @param tabelName
+	 * @param nameOfIdColumn Solle ein Primärschlüssel sein und AUTOINCREMENT.
+	 * @param columns
+	 *
+	 * @return Den Cursor der letzten Reihe der Tabelle oder null, falls die Tabelle leer ist.
+	 */
+	public Cursor getNewestRow (String tabelName, String nameOfIdColumn, String[] columns) {
+			String[] columnsWithMax = new String[columns.length + 1];
+			columnsWithMax[0] = "MAX("+ nameOfIdColumn +")";
+			System.arraycopy(columns, 0, columnsWithMax, 1, columns.length);
+			Cursor cursor = database.query(tabelName, columnsWithMax , null, null, null, null, null);
+			
+			// Sicherstellung der Constraints dieser Methode. 1 Reihe sollte wiedergegeben werden
+			// und nameOfIdColumn sollte ein Schlüssel sein.
+			if (cursor.getCount() > 1 && !cursor.getExtras().containsKey(nameOfIdColumn))
+				return null; 
+			
+			return cursor;	
+	}
 	
 	  /**
      * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist

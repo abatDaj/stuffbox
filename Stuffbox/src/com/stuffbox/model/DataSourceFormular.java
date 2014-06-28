@@ -151,6 +151,6 @@ public class DataSourceFormular {
 			} while (cursor.moveToNext());
 		}
 		
-		return Controller.getInstance(null).getFeatures(selectFeatureIds);
+		return Controller.getInstance().getFeatures(selectFeatureIds);
     }
 }

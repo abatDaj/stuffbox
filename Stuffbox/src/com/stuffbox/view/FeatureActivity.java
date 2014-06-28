@@ -35,7 +35,7 @@ public class FeatureActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feature);	    
-	    Controller.getInstance(this);
+	    Controller.getInstance();
 		ArrayList<FeatureType> types = Controller.getInstance().getTypes();
 		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_arten);

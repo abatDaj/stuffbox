@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
-        Controller.getInstance(this);
+        Controller.getInstance(this).init();
     }
 
     @Override

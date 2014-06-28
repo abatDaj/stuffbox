@@ -73,23 +73,16 @@ public class DataSourceCategory {
 		}
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
 
-		long rowid = DatabaseHandler.insertIntoDB(database,
-				DatabaseHandler.TABLE_CATEGORY, values, name);
+		long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
 
 		if (rowid > -1) {
-			
-			String[] columns = {"MAX("+DatabaseHandler.KEY_ID+")",
-								DatabaseHandler.KEY_ID,
-								DatabaseHandler.KEY_PRECATEGORY};
-			
-			Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY,columns , null, null, null, null, null);
-			
+			Cursor cursor = Controller.getInstance().getNewestRow(DatabaseHandler.TABLE_CATEGORY, 
+																  DatabaseHandler.KEY_ID, 
+																  new String[]{DatabaseHandler.KEY_ID, DatabaseHandler.KEY_PRECATEGORY});
+
 			if (!cursor.moveToFirst())
 				throw new RuntimeException("Something went horribly wrong :-O");
 			
-			//System.err.print("\n\n ABC: "+ cursor.getColumnNames().length + " \n\n");
-			//for(String s : cursor.getColumnNames())
-			//		System.err.print(" Ä:"+s);
 			int newCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID));
 			int newPreCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY));
 			insertPreCategory(database, newCategoryId, newPreCategoryId);
@@ -97,7 +90,7 @@ public class DataSourceCategory {
 			// also falls rowid == -1 ist ?
 		}
 	}
-
+	
 	/**
 	 * Speichert Relation zwischen Ober- und Unterkategorie
 	 * 
@@ -106,14 +99,11 @@ public class DataSourceCategory {
 	 * @param precategory
 	 * @return Die rowid
 	 */
-	private long insertPreCategory(SQLiteDatabase database, int category,
-			int precategory) {
+	private long insertPreCategory(SQLiteDatabase database, int category, int precategory) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHandler.KEY_ID, category);
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
-		return DatabaseHandler.insertIntoDB(database,
-				DatabaseHandler.CATEGORY_CATEGORY, values,
-				"try to make a category, precatagory connection");
+		return DatabaseHandler.insertIntoDB(database,DatabaseHandler.CATEGORY_CATEGORY, values,"try to make a category, precatagory connection");
 	}
 
 	/**
