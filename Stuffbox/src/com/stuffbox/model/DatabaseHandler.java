@@ -62,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
     public static final String PREFIX_ICON_CATEGORY = "category_icon_";
-    public static final int INDEX_OF_ROOT_CATEGORY = -1;
+    public static final int INDEX_OF_ROOT_CATEGORY = 1;
     
     private String DB_PATH;
     
@@ -73,7 +73,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private DataSourceFeature dataSourceFeature;
     private DataSourceFormular dataSourceFormular;
     private DataSourceIcon dataSourceIcon;
-    private DataSourceCategory dataSourceCategorie;
+    private DataSourceCategory dataSourceCategory;
     private DataSourceItem dataSourceItem;
     
     public DatabaseHandler(Context context) {
@@ -87,11 +87,49 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         dataSourceFeature = new DataSourceFeature();
         dataSourceFormular = new DataSourceFormular();
         dataSourceIcon = new DataSourceIcon();
-        dataSourceCategorie = new DataSourceCategory();
+        dataSourceCategory = new DataSourceCategory();
         dataSourceItem = new DataSourceItem();
         
         database = getWritableDatabase();
     } 
+    
+    /**
+     * Tabellen erstellen
+     */
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+    	dataSourceType.createTypeTable(db);
+    	dataSourceFeature.createFeatureTable(db, getTypes());
+    	dataSourceFormular.createFormularTable(db);;
+    	dataSourceIcon.createIconTable(db);
+    	dataSourceItem.createItemTable(db);
+    	dataSourceCategory.createCategorieTable(db);
+    	dataSourceCategory.createCategoryCategoryTable(db);
+    }   
+    
+    public void initializeDatabase(){
+        // Drop older table if existed
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+    	database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
+    	
+        // Create tables again
+        onCreate(database);
+    }   
+        
+    // Upgrading database
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    	database = db;
+    	initializeDatabase();
+    }     
+    
     /**
      * Gibt eine List aller Arten zurueck
      * @return
@@ -151,7 +189,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public ArrayList<Category> getCategories(ArrayList<Long> selectFeatureIds, ArrayList<Icon> icons) {
-    	return dataSourceCategorie.getCategories(database, selectFeatureIds, icons);
+    	return dataSourceCategory.getCategories(database, selectFeatureIds, icons);
     }
     
 	/**
@@ -161,7 +199,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	 * @return Die Unterkategorien
 	 */
     public ArrayList<Category> getSubCategories(int categoryID) {
-    	return dataSourceCategorie.getSubCategories(database, categoryID);
+    	return dataSourceCategory.getSubCategories(database, categoryID);
     }
     
     /**
@@ -169,8 +207,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param name
      */
-    public void insertCategory(String name, Icon icon, int precategory){
-    	dataSourceCategorie.insertCategory(database, name, icon, precategory);
+    public Category insertCategory(String name, Icon icon, int precategory){
+    	return dataSourceCategory.insertCategory(database, name, icon, precategory);
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -180,45 +218,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void insertIcon(String name, String description){
     	dataSourceIcon.insertIcon(database, name, description);
     }    
-    
-    /**
-     * Tabellen erstellen
-     */
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-    	dataSourceType.createTypeTable(db);
-    	dataSourceFeature.createFeatureTable(db, getTypes());
-    	dataSourceFormular.createFormularTable(db);;
-    	dataSourceIcon.createIconTable(db);
-    	dataSourceItem.createItemTable(db);
-    	dataSourceCategorie.createCategorieTable(db);
-    	dataSourceCategorie.createCategoryCategoryTable(db);
-    }
-    
-    // Upgrading database
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    	database = db;
-    	initializeDatabase();
-    }
-	
-    public void initializeDatabase(){
-        // Drop older table if existed
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
-    	database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
-
- 
-        // Create tables again
-        onCreate(database);
-    }
-    
+	    
     /**
      * Inserts one entry into the database
      * @param database

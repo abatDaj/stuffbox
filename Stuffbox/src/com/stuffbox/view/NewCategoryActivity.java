@@ -1,8 +1,6 @@
 package com.stuffbox.view;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 import com.stuffbox.R;
@@ -10,6 +8,8 @@ import com.stuffbox.R.id;
 import com.stuffbox.R.layout;
 import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Category;
+import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Icon;
 
@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.os.Build;
 
 public class NewCategoryActivity extends ActionBarActivity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,10 +86,10 @@ public class NewCategoryActivity extends ActionBarActivity {
 
 		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-		Controller.getInstance().insertCategory(categoryName, selectedIcon, 0); //TODO hier statt 0 id der vorg�ngerkategorie reingeben
+		Controller.getInstance().insertCategory(categoryName, selectedIcon, Controller.getInstance().getCurrentCategory().getId());
 		
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);
 	}
 	

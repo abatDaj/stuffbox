@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.stuffbox.R;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
@@ -170,8 +171,8 @@ public class Controller {
      * @param database
      * @param name
      */
-    public void insertCategory(String name, Icon icon, int precategory){
-    	databaseHandler.insertCategory(name, icon, precategory);
+    public Category insertCategory(String name, Icon icon, int precategory){
+    	return databaseHandler.insertCategory(name, icon, precategory);
     }
     
     /**
@@ -220,7 +221,7 @@ public class Controller {
     	
     	return createdFormulars;
     }
-    
+        
     /**
      * Fuegt Debugeintraege in die Tabelle Kategorie in die Datenbank ein
      */
@@ -229,7 +230,12 @@ public class Controller {
 //		insertCategory("Buecher", icons.get(1), 0);
 //		insertCategory("Technik", icons.get(4), 0);
 //		insertCategory("Sport", icons.get(6), 0);
+    	
 		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+		insertCategory("Sportartikel", icons.get(6), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+		insertCategory("Musik", icons.get(7), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+		insertCategory("Suppen", icons.get(5), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+		insertCategory("Sonstiges", icons.get(3), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
         
     /**
@@ -254,12 +260,13 @@ public class Controller {
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
-    	
     	fillIconTableWithSomeIcons(context);
     	//TODO Icons von fill verwenden
     	getIcons();
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, null, -1);    
+		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
-    	
+
     	//ArrayList<Formular> formulars = getFormulars(null);    	
     }
     

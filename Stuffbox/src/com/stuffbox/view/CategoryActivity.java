@@ -17,15 +17,15 @@ public class CategoryActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_detail);
 		Intent intent = getIntent();
-		((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME)+ " gewählt!");
+		//((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME)+ " gewählt!");
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
 		Intent intent = getIntent();
-		String message = intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME);
-		getSupportActionBar().setTitle(message);
+		//String message = intent.getStringExtra(ListCategoriesActivity.EXTRA_KATEGORIE_NAME);
+		//getSupportActionBar().setTitle(message);
 
 		//Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.category, menu);
