@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DatabaseHandler;
@@ -14,23 +11,14 @@ import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Icon;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.os.Build;
 
 public class NewCategoryActivity extends ActionBarActivity {
 	
@@ -40,7 +28,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 		setContentView(R.layout.category_new);
 		// Intent intent = getIntent();
 		// ((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME)+
-		// " gewählt!");
+		// " gewaehlt!");
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		//Controller.fillIconTableWithSomeIcons(this);

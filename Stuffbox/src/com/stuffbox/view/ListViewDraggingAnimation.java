@@ -18,13 +18,13 @@ package com.stuffbox.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
-
 import com.stuffbox.R;
 
 /**
@@ -49,6 +49,6 @@ public class ListViewDraggingAnimation extends Activity {
 
         listView.setItemList(features);
         listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
 }

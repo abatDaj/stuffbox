@@ -3,9 +3,6 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
@@ -13,23 +10,18 @@ import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.os.Build;
 
 public class ListCategoriesActivity extends ActionBarActivity {
 

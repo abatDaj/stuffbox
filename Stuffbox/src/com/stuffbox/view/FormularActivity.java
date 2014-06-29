@@ -1,20 +1,10 @@
 package com.stuffbox.view;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
-
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 public class FormularActivity extends ActionBarActivity {
 

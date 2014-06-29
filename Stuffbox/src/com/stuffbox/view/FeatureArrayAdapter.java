@@ -53,7 +53,8 @@ public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
      * Fügt eine Eigenschaft in die Liste
      * @param feature
      */
-    public void add(Feature feature){
+    @Override
+	public void add(Feature feature){
     	mIdMap.put(feature, mIdMap.size());
     	super.add(feature);
     }
@@ -61,7 +62,8 @@ public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
      * Entfernt eine Eigenschaft aus der Liste
      * @param position
      */
-    public void remove(Feature feature){
+    @Override
+	public void remove(Feature feature){
     	mIdMap.remove(feature);
     	super.remove(feature);
     }

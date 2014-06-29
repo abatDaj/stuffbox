@@ -40,9 +40,9 @@ public class DataSourceCategory {
 		String CREATE_CATEGORY_CATEGORY_TABLE = "CREATE TABLE " + DatabaseHandler.CATEGORY_CATEGORY + "(" +
 		// die ID der Kategorie
 		        DatabaseHandler.KEY_ID + " INTEGER NOT NULL," +
-		        // die ID der Vorgänger Kategorie
+		        // die ID der Vorgaenger Kategorie
 		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER NOT NULL," +
-		        // Beide als Schlüssel festlegen
+		        // Beide als Schluessel festlegen
 		        "PRIMARY KEY(" + DatabaseHandler.KEY_ID + ", " + DatabaseHandler.KEY_PRECATEGORY + "))";
 		db.execSQL(CREATE_CATEGORY_CATEGORY_TABLE);
 	}
@@ -60,23 +60,28 @@ public class DataSourceCategory {
 	public Category insertCategory(SQLiteDatabase database, String name, Icon icon, int precategoryId) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHandler.KEY_NAME, name);
-		if (icon != null)
+		if (icon != null){
 			values.put(DatabaseHandler.KEY_ICON, icon.getId());
+		}
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategoryId);
+		
 		long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
+		
 		if (rowid > -1) {
+			
 			Cursor cursor = Controller.getInstance().getNewestRow(DatabaseHandler.TABLE_CATEGORY, DatabaseHandler.KEY_ID,
 			        new String[] { DatabaseHandler.KEY_ID });
 			if (!cursor.moveToFirst())
 				return null;
+			
 			int newCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID));
-			// Der Root-Kategorie wird -1 als precategoryId übergeben und die
+			// Der Root-Kategorie wird -1 als precategoryId uebergeben und die
 			// braucht keine Oberkategorie
 			// if (precategoryId > -1)
 			insertPreCategory(database, newCategoryId, precategoryId);
 			return new Category(newCategoryId, name, icon, precategoryId);
-		} else
-			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -95,7 +100,7 @@ public class DataSourceCategory {
 	}
 
 	/**
-	 * Returniert alle Unterkategorien einer Kategorie
+	 * Gibt alle Unterkategorien einer Kategorie zurueck
 	 * 
 	 * @param database
 	 * @param categoryId
@@ -105,17 +110,19 @@ public class DataSourceCategory {
 		String whereStatement = DatabaseHandler.KEY_PRECATEGORY + "=" + categoryId;
 		Cursor cursor = database.query(DatabaseHandler.CATEGORY_CATEGORY, null, whereStatement, null, null, null, null);
 		ArrayList<Long> subCategoryIds = new ArrayList<Long>();
-		if (cursor.moveToFirst())
-			do
+		if (cursor.moveToFirst()){
+			do{
 				subCategoryIds.add(Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID))));
+			}
 			while (cursor.moveToNext());
-		else
+		}else{
 			return new ArrayList<Category>();
+		}
 		return  getCategories(database, subCategoryIds, Controller.getInstance().getIcons());
 	}
 
 	/**
-	 * Gibt eine Liste aller Kategorien zurück, deren ids in der id Liste
+	 * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste
 	 * enthalten ist
 	 * 
 	 * @param database

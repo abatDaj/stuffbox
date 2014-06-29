@@ -52,6 +52,7 @@ public class Category {
 	public void setPreCategory(int precategory){
 		this.precategory = precategory;
 	}
+	@Override
 	public String toString(){
 		return id + " " + name;
 	}

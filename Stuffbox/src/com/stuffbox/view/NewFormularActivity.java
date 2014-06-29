@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -106,10 +107,11 @@ public class NewFormularActivity  extends ActionBarActivity {
         selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, true);
         listFeaturesSelected.setItemList(features);
         listFeaturesSelected.setAdapter(selectedfeaturesAdapter);
-        listFeaturesSelected.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listFeaturesSelected.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 	}
 	
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FeatureActivity.REQUEST_NEW_FEATURE) {
         	//fuegt neue Eigenschaft an selektierte Eigenschaften an
             selectedfeaturesAdapter.add(Controller.getInstance().popLastInsertedFeature());;

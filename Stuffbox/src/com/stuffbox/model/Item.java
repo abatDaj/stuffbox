@@ -1,11 +1,11 @@
 package com.stuffbox.model;
 
 public class Item {
-	private int id;
+	private long id;
 	private String name;
 	private Formular formular;
 	
-	public Item(int id, String name, Formular formular) {
+	public Item(long id, String name, Formular formular) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -17,7 +17,7 @@ public class Item {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	public Formular getFormular(){

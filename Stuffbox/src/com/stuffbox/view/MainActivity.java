@@ -109,7 +109,8 @@ public class MainActivity extends ActionBarActivity {
     	startActivityForResult(cameraIntent, 42);
     }	
     
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	try {
         if (requestCode == 42) {
             Bitmap thumb = (Bitmap) data.getExtras().get("data"); 
@@ -121,13 +122,7 @@ public class MainActivity extends ActionBarActivity {
     	}catch (Exception e) {
     		Log.e(TAG, "Fehler beim Fotografieren: ", e);
     	}
-    }	    
-    
-    public void openTest(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), ListViewDraggingAnimation.class.getName());
-        startActivity(intent);
-    }	
+    }	    	
     /**
      * A placeholder fragment containing a simple view.
      */
