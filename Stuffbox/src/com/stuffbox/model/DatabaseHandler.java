@@ -287,7 +287,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 			
 			// Sicherstellung der Constraints dieser Methode. 1 Reihe sollte wiedergegeben werden
 			// und nameOfIdColumn sollte ein Schlüssel sein.
-			if (cursor.getCount() > 1 && !cursor.getExtras().containsKey(nameOfIdColumn))
+			if (cursor.getCount() != 1 && !cursor.getExtras().containsKey(nameOfIdColumn))
 				return null; 
 			
 			return cursor;	

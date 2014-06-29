@@ -231,9 +231,7 @@ public class Controller {
 //		insertCategory("Sport", icons.get(6), 0);
 		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
-    
-    public void bla(){System.out.println("Ajasduasdbuhaidasudui");}
-    
+        
     /**
      * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
      * 

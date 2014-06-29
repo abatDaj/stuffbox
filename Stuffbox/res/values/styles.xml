@@ -26,7 +26,22 @@
         <item name="android:textSize">16sp</item>
     </style>
     
+    <style name="aLinearRowCreatingSomething">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">fill_parent</item>
+         <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@android:drawable/list_selector_background</item>        
+    </style>
     
+    <style name="aLinearRowCreatingSomethingText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center</item>         
+	     <item name="android:textSize">20sp</item>       
+    </style>
+
     <style name="Divider">
 	    <item name="android:layout_width">match_parent</item>
 	    <item name="android:layout_height">4dp</item>

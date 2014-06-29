@@ -1,20 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.stuffbox.ListCategoriesActivity$PlaceholderFragment" >
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/categoryListView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </ListView>
+   <LinearLayout
+       android:id="@+id/linearlayout"
+       style="@style/aLinearRowCreatingSomething"
+       android:onClick="openNewCategoryScreen">
+     
+ 		<ImageButton
+ 		    android:id="@+id/to_new_category_imagebutton"
+ 		    android:padding="2dp"
+ 		    android:scaleType="fitCenter"
+ 		    android:layout_width="60dp"
+ 		    android:layout_height="60dp"
+ 		    android:background="@null"
+ 		    android:contentDescription="@string/to_new_category_imagebutton_desc"
+ 		    android:fitsSystemWindows="true"
+ 		    android:src="@drawable/imagebutton_to_new_category" />
+ 		
+ 		<TextView
+     		android:id="@+id/textViewNewCategoryButton"
+    		android:text="@string/to_new_category_imagebutton_desc"
+ 		    style="@style/aLinearRowCreatingSomethingText">
+    	</TextView>
+        
+    </LinearLayout>
     
-    
-    
+   <View
+       	    android:id="@+id/div"
+    android:layout_width="fill_parent"
+    android:layout_height="1dp"
+    	    android:layout_below="@+id/linearlayout"
+    android:background="@android:color/darker_gray"/>
 
-</LinearLayout>
+ 	<ListView
+	    android:id="@+id/categoryListView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" 
+	    android:layout_below="@+id/div"
+	    android:layout_alignParentLeft="true">
+	</ListView>
+ 		
+
+</RelativeLayout>
+

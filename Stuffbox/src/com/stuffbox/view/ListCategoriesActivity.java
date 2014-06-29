@@ -82,6 +82,12 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+    public void openNewCategoryScreen(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
+        startActivity(intent);
+    }	
 
 
 }
