@@ -12,13 +12,8 @@
      
  		<ImageButton
  		    android:id="@+id/to_new_category_imagebutton"
- 		    android:padding="2dp"
- 		    android:scaleType="fitCenter"
- 		    android:layout_width="60dp"
- 		    android:layout_height="60dp"
- 		    android:background="@null"
+ 		    style="@style/aLinearRowCreatingSomethingImageButton"
  		    android:contentDescription="@string/to_new_category_imagebutton_desc"
- 		    android:fitsSystemWindows="true"
  		    android:src="@drawable/imagebutton_to_new_category" />
  		
  		<TextView
