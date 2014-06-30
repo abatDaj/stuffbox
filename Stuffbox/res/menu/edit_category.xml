@@ -2,15 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.ListCategoriesActivity" >
-
     
-    <item android:id="@+id/menu_create_category"
-          android:icon="@drawable/action_create" 
-          app:showAsAction="always"/>     
-    
-    <item android:id="@+id/menu_edit_category"
-          android:icon="@drawable/action_change" 
+    <item android:id="@+id/menu_update_category"
+          android:icon="@drawable/action_save" 
           app:showAsAction="always"/>  
+    
+    <item android:id="@+id/menu_chancel_category"
+          android:icon="@drawable/action_chancel"
+          app:showAsAction="always"/> 
+          
+    <item android:id="@+id/menu_delete_category"
+          android:icon="@drawable/action_delete"
+          app:showAsAction="always"/> 
           
     <item
         android:id="@+id/action_settings"

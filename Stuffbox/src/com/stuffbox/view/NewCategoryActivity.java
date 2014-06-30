@@ -85,45 +85,57 @@ public class NewCategoryActivity extends ActionBarActivity {
 	 *
 	 * @param view
 	 */
-	public void onSave(View view){
-
+	public void onSaveCategory(){
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
-
 		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-		Controller.getInstance().insertCategory(categoryName, selectedIcon, Controller.getInstance().getCurrentCategory().getId());
-		
+		Category newCategory = Controller.getInstance().insertCategory(categoryName, selectedIcon, Controller.getInstance().getCurrentCategory().getId());
+		Controller.getInstance().setCurrentCategory(newCategory);
         Intent intent = new Intent();   
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);
 	}
 	
-	public void onCancel(View view){
+	public void onUpdate(){
+		Toast.makeText(this, "Update", 7).show();
+	}	
 
-		CharSequence text = "abbrechen - Miauuuuu, Miauuuuu";
-		int duration = 7;
-		Toast toast = Toast.makeText(this, text, duration);
-		toast.show();
+	/**
+	 * 
+	 * Zurück zur aktuellen Kategorie
+	 */	
+	public void onChancel(){
+        Intent intent = new Intent();   
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);				
+		this.finish();
+	}
+	
+	public void onDelete(){
+		Toast.makeText(this, "Delete", 7).show();
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {	
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int itemId = item.getItemId();
-	    switch (itemId) {
-	        case R.id.menu_save:
-	        	onSave(null);
-	            return true;
-	        case R.id.menu_abort:
-	            onCancel(null);
-	            return true;
-	        case R.id.action_settings:
-	        	//TODO do something
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+			int itemId = item.getItemId();
+		    switch (itemId) {
+		        case R.id.menu_save_new_category:
+		        	onSaveCategory();
+		            return true;
+		        case R.id.menu_update_category:
+		        	onUpdate();
+		            return true;
+		        case R.id.menu_delete_category:
+		            onDelete();
+		            return true;
+		        case R.id.menu_chancel_category:
+		            onChancel();
+		            return true;
+		        case R.id.action_settings:
+		        	//TODO do something
+		        	return true;
+		        default:
+		            return super.onOptionsItemSelected(item);
+		    }		
 	}
 }

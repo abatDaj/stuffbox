@@ -41,8 +41,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	        {		        
 				Category clickedCategory = (Category) parent.getItemAtPosition(position);
-				Category thisCategory =  Controller.getInstance().getCurrentCategory();
-				Controller.getInstance().setOldCategory(thisCategory);
 		        Controller.getInstance().setCurrentCategory(clickedCategory);
 		        Intent intent = new Intent();		        
 		        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
@@ -58,14 +56,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
 			cats[i] = mainCategories.get(i);
 
         categoryAdapter = new CategoryArrayAdapter (this, cats);
-
-        
 	    mainListView.setAdapter( categoryAdapter );	
 	}
 
-	
-	
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {	
 		Category currentCategory = Controller.getInstance().getCurrentCategory();
@@ -92,9 +85,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        case R.id.menu_edit_category:
 	        	onEdit();
 	            return true;
-	        case R.id.menu_delete_category:
-	            onDelete();
-	            return true;
 	        case R.id.action_settings:
 	        	//TODO do something
 	        	return true;
@@ -105,9 +95,15 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	
 	@Override
 	public void onBackPressed () {
-		Category oldCategory = Controller.getInstance().getOldCategory();
-		Controller.getInstance().setCurrentCategory(oldCategory);
-		this.finish();
+		Category currentCategory = Controller.getInstance().getCurrentCategory();
+		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) {
+			Category preCategory = Controller.getInstance().getPreCategory(Controller.getInstance().getCurrentCategory());
+			Controller.getInstance().setCurrentCategory(preCategory);		
+	        Intent intent = new Intent();   
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+	        startActivity(intent);				
+			this.finish();
+		}
 	}
 	
 	/**

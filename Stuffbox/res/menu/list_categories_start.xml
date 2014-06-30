@@ -7,10 +7,6 @@
     <item android:id="@+id/menu_create_category"
           android:icon="@drawable/action_create" 
           app:showAsAction="always"/>     
-    
-    <item android:id="@+id/menu_edit_category"
-          android:icon="@drawable/action_change" 
-          app:showAsAction="always"/>  
           
     <item
         android:id="@+id/action_settings"

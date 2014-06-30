@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.widget.ImageView;
 
 import com.stuffbox.R;
@@ -26,7 +27,6 @@ public class Controller {
 	private ArrayList<FeatureType> types = null;
 	private ArrayList<Icon> icons;
 	private Category currentCategory;
-	private Category oldCategory;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
 	private Context context = null;
@@ -317,24 +317,16 @@ public class Controller {
     	currentCategory = newCurrentCategory;
     }
     
-    /**
-     * Returniert die "alte" Kategorie
-     * 
-     * @return Die aktuelle Kategorie
-     */
-
-	public Category getOldCategory() {
-		return oldCategory;
-	}
-
-    /**
-     * Überschreibt die "alte" Kategorie
-     * 
-	 * @param newCurrentCategory
-     */
-	public void setOldCategory(Category oldCategory) {
-		this.oldCategory = oldCategory;
-	}
+	/**
+	 * Gibt Oberkategorie zurueck
+	 * 
+	 * @param database
+	 * @param category
+	 * @return Die Oberkategorien
+	 */
+	public Category getPreCategory(Category category) {
+		return databaseHandler.getPreCategory(category);
+	}	
     
 	/**
 	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.

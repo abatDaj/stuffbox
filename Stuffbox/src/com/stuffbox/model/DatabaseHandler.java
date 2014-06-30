@@ -229,6 +229,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void insertIcon(String name, String description){
     	dataSourceIcon.insertIcon(database, name, description);
     }    
+    
+	/**
+	 * Gibt Oberkategorie zurueck
+	 * 
+	 * @param database
+	 * @param category
+	 * @return Die Oberkategorien
+	 */
+	public Category getPreCategory(Category category) {
+		return dataSourceCategory.getPreCategory(database, category);
+	}	
 	    
     /**
      * Inserts one entry into the database

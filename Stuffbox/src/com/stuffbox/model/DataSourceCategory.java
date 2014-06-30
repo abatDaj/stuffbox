@@ -120,6 +120,19 @@ public class DataSourceCategory {
 		}
 		return  getCategories(database, subCategoryIds, Controller.getInstance().getIcons());
 	}
+	
+	/**
+	 * Gibt Oberkategorie zurueck
+	 * 
+	 * @param database
+	 * @param category
+	 * @return Die Oberkategorien
+	 */
+	public Category getPreCategory(SQLiteDatabase database, Category category) {
+		ArrayList<Long> preId = new ArrayList<Long>();
+		preId.add(Long.valueOf(category.getPreCategory()));
+		return getCategories(database, preId, Controller.getInstance().getIcons()).get(0);
+	}
 
 	/**
 	 * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste
