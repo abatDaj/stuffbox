@@ -1,6 +1,9 @@
 package com.stuffbox.model;
 
 import java.util.ArrayList;
+
+import com.stuffbox.R;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
