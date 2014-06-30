@@ -34,5 +34,5 @@
     <string name="msg_alert_de_exists">Dieser Eintrag existiert bereits.</string>
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
     <string name="to_new_category_imagebutton_desc">neue Kategorie anlegen</string>
-    
+    <string name="actionbartitle_edit_category">Kategorie ändern</string>
 </resources>

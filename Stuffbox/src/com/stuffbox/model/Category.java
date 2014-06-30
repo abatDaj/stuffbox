@@ -1,8 +1,9 @@
 package com.stuffbox.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Category {
+public class Category implements Serializable {
 	private int id;
 	private String name;
 	private Icon icon;

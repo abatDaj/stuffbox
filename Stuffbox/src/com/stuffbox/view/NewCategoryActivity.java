@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Icon;
@@ -16,19 +17,19 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewCategoryActivity extends ActionBarActivity {
 	
+	Category categoryToEdit = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_new);
-		// Intent intent = getIntent();
-		// ((TextView)(findViewById(R.id.categoryText))).setText("Es wurde "+intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME)+
-		// " gewaehlt!");
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		//Controller.fillIconTableWithSomeIcons(this);
@@ -46,20 +47,36 @@ public class NewCategoryActivity extends ActionBarActivity {
 		
 		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
 		spinner.setAdapter(adapter);
-
 		
+		Category serializedCategory = (Category) getIntent().getSerializableExtra(Controller.EXTRA_EDIT_CATEGORY);
+		if (serializedCategory != null) {
+			if (!serializedCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) {
+				categoryToEdit = serializedCategory;
+				// setzt den aktuellen Icon
+				for (int i = 0; i < icons.length; i++)
+					if (icons[i].getId() == serializedCategory.getIcon().getId()) {
+						spinner.setSelection(i);
+						break;
+					}
+				EditText editTextName = (EditText) findViewById(R.id.edit_category_name);
+				editTextName.setText(categoryToEdit.getName());
+			}
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		if (categoryToEdit != null) {
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_category));
+			getMenuInflater().inflate(R.menu.edit_category, menu);
+		}
+		else
+			getMenuInflater().inflate(R.menu.new_category, menu);
 
-		// Intent intent = getIntent();
-		// String message =
-		// intent.getStringExtra(MainActivity.EXTRA_KATEGORIE_NAME);
-		// getSupportActionBar().setTitle(message);
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_category, menu);
+		Icon icon = Controller.getInstance().getCurrentCategory().getIcon();
+		if (icon !=null) 
+			getSupportActionBar().setIcon(icon.getDrawableId());
+		
 		return true;
 	}
 	/**
@@ -76,7 +93,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
 		Controller.getInstance().insertCategory(categoryName, selectedIcon, Controller.getInstance().getCurrentCategory().getId());
 		
-        Intent intent = new Intent();        
+        Intent intent = new Intent();   
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);
 	}

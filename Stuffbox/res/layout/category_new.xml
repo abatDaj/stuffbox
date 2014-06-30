@@ -5,50 +5,10 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-   <LinearLayout
-        android:id="@+id/linearlayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_cancel"
-        	android:layout_width="0dp"
-        	android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:minWidth="50dip"
-            android:onClick="onCancel"
-            android:text="@string/abort" />
-
-        
- 		<ImageButton
-     		android:id="@+id/back_to_categories"
-			android:layout_width="0dp"
-        	android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:minWidth="50dip"
-    		android:src="@drawable/back_to_categories"/>       
-        
- 		<ImageButton
-     		android:id="@+id/new_entry"
-			android:layout_width="0dp"
-        	android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:minWidth="50dip"
-    		android:src="@drawable/new_entry"/>              
-        
-    </LinearLayout>
-
     <TextView
         android:id="@+id/textView2"
         style="@style/identifier"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/linearlayout"
         android:layout_marginTop="35dp"
         android:text="@string/name" />
 

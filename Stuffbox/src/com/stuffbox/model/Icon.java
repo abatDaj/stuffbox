@@ -1,12 +1,13 @@
 package com.stuffbox.model;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
-public class Icon {
+public class Icon implements Serializable {
 	int id;
 	String name;
 	String description;

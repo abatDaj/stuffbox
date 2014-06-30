@@ -41,6 +41,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	        {		        
 				Category clickedCategory = (Category) parent.getItemAtPosition(position);
+				Category thisCategory =  Controller.getInstance().getCurrentCategory();
+				Controller.getInstance().setOldCategory(thisCategory);
 		        Controller.getInstance().setCurrentCategory(clickedCategory);
 		        Intent intent = new Intent();		        
 		        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
@@ -61,30 +63,75 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	    mainListView.setAdapter( categoryAdapter );	
 	}
 
+	
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {	
-		getSupportActionBar().setTitle(Controller.getInstance().getCurrentCategory().getName());
+		Category currentCategory = Controller.getInstance().getCurrentCategory();
+		getSupportActionBar().setTitle(currentCategory.getName());
 
-		Icon icon = Controller.getInstance().getCurrentCategory().getIcon();
-		
+		Icon icon = currentCategory.getIcon();
 		if (icon !=null)
 			getSupportActionBar().setIcon(icon.getDrawableId());
 
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.list_categories, menu);
+		if (currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY))
+			getMenuInflater().inflate(R.menu.list_categories_start, menu);
+		else
+			getMenuInflater().inflate(R.menu.list_categories, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+	    switch (itemId) {
+	        case R.id.menu_create_category:
+	        	onNew();
+	            return true;
+	        case R.id.menu_edit_category:
+	        	onEdit();
+	            return true;
+	        case R.id.menu_delete_category:
+	            onDelete();
+	            return true;
+	        case R.id.action_settings:
+	        	//TODO do something
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }		
+	}
+	
+	@Override
+	public void onBackPressed () {
+		Category oldCategory = Controller.getInstance().getOldCategory();
+		Controller.getInstance().setCurrentCategory(oldCategory);
+		this.finish();
+	}
+	
+	/**
+	 * Löscht die Kategorie
+	 */
+	public void onDelete () {
+		Toast.makeText(getApplicationContext(), "LÖSCHEN !!!", 7).show();
+	}
+	
+	/**
+	 * Ändert die Kategorie
+	 */
+	public void onEdit () {
+		//ClassName details = new ClassName();
+		Intent i = new Intent(this, NewCategoryActivity.class);
+		i.putExtra(Controller.EXTRA_EDIT_CATEGORY, Controller.getInstance().getCurrentCategory());
+		startActivity(i);		
+	}
+	
+	/**
+	 * Ändert die Kategorie
+	 */
+	public void onNew () {
+		Toast.makeText(getApplicationContext(), "NEU !!!", 7).show();
 	}
 	
     public void openNewCategoryScreen(View view) {    	

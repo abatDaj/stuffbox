@@ -19,11 +19,14 @@ import com.stuffbox.model.Item;
 
 public class Controller {
 	
+	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
+	
 	private static Controller instance;
 	private DatabaseHandler databaseHandler;
 	private ArrayList<FeatureType> types = null;
 	private ArrayList<Icon> icons;
 	private Category currentCategory;
+	private Category oldCategory;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
 	private Context context = null;
@@ -273,7 +276,8 @@ public class Controller {
     	fillIconTableWithSomeIcons(context);
     	//TODO Icons von fill verwenden
     	getIcons();
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, null, -1);    
+    	
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(3), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
 
@@ -312,6 +316,25 @@ public class Controller {
     public void setCurrentCategory(Category newCurrentCategory) { 
     	currentCategory = newCurrentCategory;
     }
+    
+    /**
+     * Returniert die "alte" Kategorie
+     * 
+     * @return Die aktuelle Kategorie
+     */
+
+	public Category getOldCategory() {
+		return oldCategory;
+	}
+
+    /**
+     * Überschreibt die "alte" Kategorie
+     * 
+	 * @param newCurrentCategory
+     */
+	public void setOldCategory(Category oldCategory) {
+		this.oldCategory = oldCategory;
+	}
     
 	/**
 	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.

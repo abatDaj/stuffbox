@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceCategory {
-	public static String	ROOT_CATEGORY	= "ROOT";
+	public static String	ROOT_CATEGORY	= "Stuffbox";
 
 	/**
 	 * Erstellt die Tabelle Kategorie auf der Datenbank

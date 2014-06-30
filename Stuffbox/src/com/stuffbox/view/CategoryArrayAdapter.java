@@ -45,7 +45,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 
 		Icon icon = values[position].getIcon();
 
-		String iconName = icon == null ? "category_icon_default" : icon.getName();
+		String iconName = icon == null || !icon.getName().startsWith("category_icon_") ? "category_icon_default" : icon.getName();
 
 		try {
 			// category_icon_default: Der Default-Icon Name (temporär)

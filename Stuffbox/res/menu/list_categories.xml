@@ -3,10 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.ListCategoriesActivity" >
 
+    
+    <item android:id="@+id/menu_create_category"
+          android:icon="@drawable/action_create" 
+          app:showAsAction="always"/>     
+    
+    <item android:id="@+id/menu_edit_category"
+          android:icon="@drawable/action_change" 
+          app:showAsAction="always"/>  
+    
+    <item android:id="@+id/menu_delete_category"
+          android:icon="@drawable/action_delete" 
+          app:showAsAction="always"/> 
+          
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
-
+        app:showAsAction="ifRoom"/>
+    
 </menu>
