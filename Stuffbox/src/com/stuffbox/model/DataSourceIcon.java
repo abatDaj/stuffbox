@@ -55,17 +55,26 @@ public class DataSourceIcon {
 		//add all types to list
 		if (cursor.moveToFirst()) {
 			do {
+				
+				String iconName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				Icon icon = 
 						new Icon(
-								Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
-							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
+								cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID)),
+								iconName,
 							    cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_DESCRIPTION)));
-
-              // Adding type to list
+				try {
+	                int drawableId = R.drawable.class.getField(iconName).getInt(null);
+	                icon.setDrawableId(drawableId);
+                } catch (NoSuchFieldException e) { 
+	                e.printStackTrace();
+                }
+				catch (IllegalAccessException e) { 
+	                e.printStackTrace();
+				}
+				// Adding type to list
 				icons.add(icon);
 			} while (cursor.moveToNext());
 		}
-		 
 		return icons;
     } 
     

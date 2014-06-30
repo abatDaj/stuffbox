@@ -10,6 +10,8 @@ public class Icon {
 	int id;
 	String name;
 	String description;
+	int drawableId;
+	
 	public Icon(int id, String name, String description) {
 		super();
 		this.id = id;
@@ -53,4 +55,11 @@ public class Icon {
 	        return Resources.getSystem().getDrawable(resourceId);
 	    }
 	}
+	
+	public int getDrawableId() {
+		return drawableId;
+	}
+	public void setDrawableId(int drawableId) {
+		this.drawableId = drawableId;
+	}	
 }

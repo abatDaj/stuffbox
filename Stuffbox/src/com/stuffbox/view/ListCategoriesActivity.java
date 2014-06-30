@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -71,6 +72,12 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {	
 		getSupportActionBar().setTitle(Controller.getInstance().getCurrentCategory().getName());
+
+		Icon icon = Controller.getInstance().getCurrentCategory().getIcon();
+		
+		if (icon !=null)
+			getSupportActionBar().setIcon(icon.getDrawableId());
+
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_categories, menu);
 		return true;

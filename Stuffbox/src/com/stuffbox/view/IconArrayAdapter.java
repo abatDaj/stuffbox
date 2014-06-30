@@ -44,8 +44,7 @@ public class IconArrayAdapter extends ArrayAdapter<Icon> {
 	}
 
 	public View getCustomView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.new_category_spinner_row, parent, false);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.new_category_spinner_icon);
 
