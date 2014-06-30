@@ -1,11 +1,6 @@
 package com.stuffbox.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
@@ -50,25 +45,13 @@ public class DataSourceFormular {
      * @param database
      * @param name
      */
-    public void insertFeature(SQLiteDatabase database, String name, FeatureType featureType){
-    	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, name);
-    } 
-	
-    /**
-     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
-     * @param database
-     * @param name
-     */
     public Formular insertFormlar(SQLiteDatabase database, String name, ArrayList<Feature> features){
-    	//Formular in Datenbank einf�gen
+    	//Formular in Datenbank einfuegen
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values, name);
     	
-    	//Eigenschaften in Datenbank einf�gen
+    	//Eigenschaften in Datenbank einfuegen
     	for (Feature feature : features) {
         	ContentValues featurevalues = new ContentValues();
         	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formularId);
@@ -83,14 +66,14 @@ public class DataSourceFormular {
     } 
     
     /**
-     * Gibt eine Liste aller Features zur�ck, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFormularIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
      * @return
      */
-    public ArrayList<Formular> getFormulars( SQLiteDatabase database, 
-    										 ArrayList<Long> selectFormularIds) {  
+    public static ArrayList<Formular> getFormulars( SQLiteDatabase database, 
+    										 		ArrayList<Long> selectFormularIds) {  
     	//erstelle where statement
     	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);
     	
@@ -106,7 +89,10 @@ public class DataSourceFormular {
 				String formularName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				
 				ArrayList<Feature> features;
-				features = getFeaturesOfFormular(database, formularId);
+				features = DataSourceFeature.getFeaturesOfConjunctionTable(database, 
+														 formularId, 
+														 DatabaseHandler.TABLE_FORMULAR, 
+														 DatabaseHandler.TABLE_FORMULAR_FEATURE);
 				
 				//Formular erstellen
 				Formular formular = 
@@ -121,36 +107,5 @@ public class DataSourceFormular {
 		}
 		 
 		return formulars;
-    }
-    
-    /**
-     * Selektiert alle Eigenschaften des �bergebenen Formulars
-     * @param database
-     * @param formularid
-     * @return
-     */
-    private ArrayList<Feature> getFeaturesOfFormular(SQLiteDatabase database,
-		 	 						  				Long formularid){
-    	//erstelle where statement
-    	StringBuilder whereStatement = new StringBuilder();
-		whereStatement.append(" ");
-		whereStatement.append(DatabaseHandler.TABLE_FORMULAR);
-		whereStatement.append(" = ");
-		whereStatement.append(formularid);
-		whereStatement.append(" ");
-    	 	
-    	//select types from database
-    	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR_FEATURE, null, whereStatement.toString(), null, null, null, null);
-    	
-    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
-    	
-		//Werte in Feature speichern
-		if (cursor.moveToFirst()) {
-			do {
-				selectFeatureIds.add(Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FEATURE))));
-			} while (cursor.moveToNext());
-		}
-		
-		return Controller.getInstance().getFeatures(selectFeatureIds);
     }
 }

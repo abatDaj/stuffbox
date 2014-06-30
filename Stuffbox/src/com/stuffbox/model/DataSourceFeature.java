@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceFeature {
-	//TODO Zuorndung Text und Foto k�nnte sch�ner sein
+	//TODO Zuorndung Text und Foto koennte schoener sein
     public static final String[] DEFAULT_FEATURES 
     = {	"Name",
 		"Bild"};
@@ -35,7 +35,7 @@ public class DataSourceFeature {
         			+ DatabaseHandler.TABLE_TYPE + "(" + DatabaseHandler.KEY_ID + ")" + ")";
         db.execSQL(CREATE_FEATURE_TABLE);
         
-        //Eigenschaften anlegen für default features
+        //Eigenschaften anlegen fuer default features
         for (int i = 0; i < DEFAULT_FEATURES.length; i++) {
         	for (FeatureType type : types) {
 				if(DEFAULT_FEATURE_TYPES[i].equals(type.toString())){
@@ -124,4 +124,38 @@ public class DataSourceFeature {
 	public Object getValueFromDatabaseString(String value, FeatureType type){
 		return value;
 	}
+	
+    /**
+     * Selektiert alle Eigenschaften des uebergebenen Formulars
+     * @param database
+     * @param formularid
+     * @return
+     */
+    public static ArrayList<Feature> getFeaturesOfConjunctionTable(
+    		SQLiteDatabase database,
+			Long formularid,
+			String keyName,
+			String tableName){
+    	//erstelle where statement
+    	StringBuilder whereStatement = new StringBuilder();
+		whereStatement.append(" ");
+		whereStatement.append(keyName);
+		whereStatement.append(" = ");
+		whereStatement.append(formularid);
+		whereStatement.append(" ");
+    	 	
+    	//select types from database
+    	Cursor cursor = database.query(tableName, null, whereStatement.toString(), null, null, null, null);
+    	
+    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
+    	
+		//Werte in Feature speichern
+		if (cursor.moveToFirst()) {
+			do {
+				selectFeatureIds.add(Long.parseLong(cursor.getString(cursor.getColumnIndex(keyName))));
+			} while (cursor.moveToNext());
+		}
+		
+		return Controller.getInstance().getFeatures(selectFeatureIds);
+    }
 }

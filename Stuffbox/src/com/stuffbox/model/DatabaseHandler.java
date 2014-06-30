@@ -2,7 +2,6 @@ package com.stuffbox.model;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -180,6 +179,18 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      */
     public Formular insertFormlar(String name, ArrayList<Feature> features){
     	return dataSourceFormular.insertFormlar(database, name, features);
+    }
+    
+    /**
+     * Speichert ein Item in der Tabelle Item und dessen zugeorndete
+     * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
+     * Speichert das Formular als zuletzt angelegte im Controller
+     * @param name
+     * @param formular
+     * @return
+     */
+    public Item insertItem(String name, Formular formular){
+    	return dataSourceItem.insertItem(database, name, formular);
     }
     
     /**

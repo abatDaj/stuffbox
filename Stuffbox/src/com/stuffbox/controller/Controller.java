@@ -15,6 +15,7 @@ import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
+import com.stuffbox.model.Item;
 
 public class Controller {
 	
@@ -146,6 +147,19 @@ public class Controller {
 		newInsertedFormular = null;
 		return formular;
 	}
+	
+    /**
+     * Speichert ein Item in der Tabelle Item und dessen zugeorndete
+     * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
+     * Speichert das Formular als zuletzt angelegte im Controller
+     * @param name
+     * @param formular
+     * @return
+     */
+    public Item insertItem(String name, Formular formular){
+    	return databaseHandler.insertItem(name, formular);
+    }
+	
     /**
      * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
@@ -202,7 +216,7 @@ public class Controller {
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
     	//erstellen Formular Buecheraufbau
-    	/*ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
+    	ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
     	features.get(0).setSortnumber(1);
     	featuresFormular1.add(features.get(0));
     	features.get(2).setSortnumber(3);
@@ -217,7 +231,7 @@ public class Controller {
     	featuresFormular2.add(features.get(0));
     	features.get(3).setSortnumber(3);
     	featuresFormular2.add(features.get(3));
-    	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));*/
+    	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));
     	
     	return createdFormulars;
     }
@@ -227,17 +241,13 @@ public class Controller {
      */
     public void insertDebugCategoryEntries(){
         //Debugeintraege schreiben
-//		insertCategory("Buecher", icons.get(1), 0);
-//		insertCategory("Technik", icons.get(4), 0);
-//		insertCategory("Sport", icons.get(6), 0);
-    	
 		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		insertCategory("Sportartikel", icons.get(6), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		insertCategory("Musik", icons.get(7), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		insertCategory("Suppen", icons.get(5), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		insertCategory("Sonstiges", icons.get(3), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
-        
+    
     /**
      * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
      * 

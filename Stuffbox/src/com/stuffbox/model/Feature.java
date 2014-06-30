@@ -40,6 +40,7 @@ public class Feature implements Comparable<Feature>{
 	public void setValue(Object value){
 		this.value = value;
 	}
+	@Override
 	public String toString(){
 		return id + " " + name + " " + type;
 	}

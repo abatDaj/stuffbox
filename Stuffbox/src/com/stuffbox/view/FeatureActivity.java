@@ -3,29 +3,17 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
-import com.stuffbox.model.Icon;
-
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.os.Build;
 
 public class FeatureActivity extends ActionBarActivity {
 
