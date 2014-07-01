@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;

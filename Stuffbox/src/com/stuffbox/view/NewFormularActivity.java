@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	private static final long idNewFeatureEntry = -1;
 	
-	private DynamicListView listFeaturesSelected;
+	private ListView listFeaturesSelected;
 	private ListView listFeaturesNotSelected;
 	private FeatureArrayAdapter selectedfeaturesAdapter;
 	private FeatureArrayAdapter selectedNotFeaturesAdapter;
@@ -35,15 +36,16 @@ public class NewFormularActivity  extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.formular_new);
 		
-		//initialisiere Listen fï¿½r selektierte und nicht selektierte Eigenschaften
+		//initialisiere Listen fuer selektierte und nicht selektierte Eigenschaften
 		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
 		ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
 		ArrayList<Feature> notSelectedFeatures = new ArrayList<Feature>();
+		//Eintrag neue Eigenschaft einfügen
 		Feature newFeatureEntry = new Feature(idNewFeatureEntry, 
 				getResources().getText(R.string.title_activity_feature).toString(), 
 				FeatureType.Text);
 		notSelectedFeatures.add(newFeatureEntry);
-		
+		//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
 		for (Feature feature : features) {
 			if(feature.getId() == Formular.idOfNameFeature ){
 				selectedFeatures.add(feature);
@@ -51,7 +53,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 				notSelectedFeatures.add(feature);
 			}
 		}
-		
+		//Listen erstellen
 		initializeListFeaturesNotSelected(notSelectedFeatures);
 		initializeListFeaturesSelected(selectedFeatures);         
 	}
@@ -73,7 +75,6 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        		//TODO bisherige Eingabe speichern
 	                Intent intent = new Intent();        
 	                intent.setClassName(getPackageName(), FeatureActivity.class.getName());
-	                //startActivity(intent);
 	                startActivityForResult(intent, FeatureActivity.REQUEST_NEW_FEATURE);
 	        	}else{
 	        		//verschiebe Eigenschaft in Auswahlliste
@@ -88,8 +89,15 @@ public class NewFormularActivity  extends ActionBarActivity {
 	}
 	
 	private void initializeListFeaturesSelected(ArrayList<Feature> features){
-
-        listFeaturesSelected = (DynamicListView) findViewById(R.id.list_features_selected);
+		//pruefen der sdk version von android um dynamischen listview ein- bzw. abzuschalten
+		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT) >= 11){
+			listFeaturesSelected = (DynamicListView) findViewById(R.id.list_features_selected_dynamiclistview);
+			findViewById(R.id.linearlayout_features_selected_listview).setVisibility(LinearLayout.GONE);
+		}else{
+			listFeaturesSelected = (ListView) findViewById(R.id.list_features_selected_listview);
+			findViewById(R.id.linearlayout_features_selected_dynamiclistview).setVisibility(LinearLayout.GONE);
+		}
+		
         listFeaturesSelected.setOnItemClickListener(new OnItemClickListener()
         {
 	        @Override
@@ -105,7 +113,9 @@ public class NewFormularActivity  extends ActionBarActivity {
         });
         
         selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, true);
-        listFeaturesSelected.setItemList(features);
+        if(listFeaturesSelected instanceof DynamicListView){
+            ((DynamicListView) listFeaturesSelected).setItemList(features);
+        }
         listFeaturesSelected.setAdapter(selectedfeaturesAdapter);
         listFeaturesSelected.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 	}

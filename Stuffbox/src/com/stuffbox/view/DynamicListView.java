@@ -96,6 +96,8 @@ public class DynamicListView extends ListView {
     private boolean mIsWaitingForScrollFinish = false;
     private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 
+    private boolean isDragDropEnabled = true;
+    
     public DynamicListView(Context context) {
         super(context);
         init(context);
@@ -111,6 +113,10 @@ public class DynamicListView extends ListView {
         init(context);
     }
 
+    public void setDragDropEnabled(boolean enabled){
+    	isDragDropEnabled = enabled;
+    }
+    
     public void init(Context context) {
         setOnItemLongClickListener(mOnItemLongClickListener);
         setOnScrollListener(mScrollListener);

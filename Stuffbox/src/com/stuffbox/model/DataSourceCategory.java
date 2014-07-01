@@ -85,23 +85,6 @@ public class DataSourceCategory {
 	    }
 		return null;
 	}
-	
-//	/**
-//	 * Speichert Relation zwischen Ober- und Unterkategorie
-//	 * 
-//	 * @param database
-//	 * @param category
-//	 * @param precategory
-//	 * @return Die rowid
-//	 */
-//	//TODO kann eventuell raus, da wir nur Vorgaenger speichern
-//	private long insertPreCategory(SQLiteDatabase database, long category, long precategory) {
-//		ContentValues values = new ContentValues();
-//		values.put(DatabaseHandler.KEY_ID, category);
-//		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
-//		return DatabaseHandler.insertIntoDB(database, DatabaseHandler.CATEGORY_CATEGORY, values, "try to make a category, precatagory connection");
-//	}
-	
 
 	/**
 	 * Loescht eine Kategorie

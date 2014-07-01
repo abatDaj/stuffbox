@@ -47,9 +47,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String CATEGORY_ITEM = DatabaseHandler.TABLE_CATEGORY 
 													 + DatabaseHandler.UNDERLINE 
 													 + DatabaseHandler.TABLE_ITEM;
-//    public static final String CATEGORY_CATEGORY = DatabaseHandler.TABLE_CATEGORY 
-//													 + DatabaseHandler.UNDERLINE 
-//													 + DatabaseHandler.TABLE_CATEGORY;
     
     // table columns names
     public static final String KEY_ID = "id";
@@ -68,8 +65,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final int INDEX_OF_ROOT_CATEGORY = 1;
     public static final long INITIAL_ID = -1; 
     
-    private String DB_PATH;
-    
     private final Context context; 
     private SQLiteDatabase database;
     
@@ -83,8 +78,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
-        File filesDir = this.context.getFilesDir();
-        DB_PATH = filesDir.getPath().substring(0, filesDir.getPath().length() - filesDir.getName().length());
         
         //instance datasources
         dataSourceType = new DataSourceType();
@@ -121,7 +114,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
-    	//database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
     	
         // Create tables again
         onCreate(database);
