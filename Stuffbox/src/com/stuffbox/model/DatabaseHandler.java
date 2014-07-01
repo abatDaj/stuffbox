@@ -47,9 +47,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String CATEGORY_ITEM = DatabaseHandler.TABLE_CATEGORY 
 													 + DatabaseHandler.UNDERLINE 
 													 + DatabaseHandler.TABLE_ITEM;
-    public static final String CATEGORY_CATEGORY = DatabaseHandler.TABLE_CATEGORY 
-													 + DatabaseHandler.UNDERLINE 
-													 + DatabaseHandler.TABLE_CATEGORY;
+//    public static final String CATEGORY_CATEGORY = DatabaseHandler.TABLE_CATEGORY 
+//													 + DatabaseHandler.UNDERLINE 
+//													 + DatabaseHandler.TABLE_CATEGORY;
     
     // table columns names
     public static final String KEY_ID = "id";
@@ -121,7 +121,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
-    	database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
+    	//database.execSQL("DROP TABLE IF EXISTS " + CATEGORY_CATEGORY);
     	
         // Create tables again
         onCreate(database);
@@ -284,6 +284,9 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param table
      * @param values
+     * @param whereValues
+     * @param logString
+     * @return number of updated rows
      */
     public static long updateEntryInDB(SQLiteDatabase database, 
     		String table, 

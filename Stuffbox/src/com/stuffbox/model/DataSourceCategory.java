@@ -37,14 +37,14 @@ public class DataSourceCategory {
 	 * @param database
 	 */
 	public void createCategoryCategoryTable(SQLiteDatabase db) {
-		String CREATE_CATEGORY_CATEGORY_TABLE = "CREATE TABLE " + DatabaseHandler.CATEGORY_CATEGORY + "(" +
-		// die ID der Kategorie
-		        DatabaseHandler.KEY_ID + " INTEGER NOT NULL," +
-		        // die ID der Vorgaenger Kategorie
-		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER NOT NULL," +
-		        // Beide als Schluessel festlegen
-		        "PRIMARY KEY(" + DatabaseHandler.KEY_ID + ", " + DatabaseHandler.KEY_PRECATEGORY + "))";
-		db.execSQL(CREATE_CATEGORY_CATEGORY_TABLE);
+//		String CREATE_CATEGORY_CATEGORY_TABLE = "CREATE TABLE " + DatabaseHandler.CATEGORY_CATEGORY + "(" +
+//		// die ID der Kategorie
+//		        DatabaseHandler.KEY_ID + " INTEGER NOT NULL," +
+//		        // die ID der Vorgaenger Kategorie
+//		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER NOT NULL," +
+//		        // Beide als Schluessel festlegen
+//		        "PRIMARY KEY(" + DatabaseHandler.KEY_ID + ", " + DatabaseHandler.KEY_PRECATEGORY + "))";
+//		db.execSQL(CREATE_CATEGORY_CATEGORY_TABLE);
 	}
 
 	/**
@@ -68,38 +68,39 @@ public class DataSourceCategory {
 		long rowid;
 		
 	    if ( id != DatabaseHandler.INITIAL_ID ) {
+	    	//update
 	    	ContentValues whereValues = new ContentValues();
 	    	whereValues.put(DatabaseHandler.KEY_ID, id);
 	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, name);
+	        if (rowid > 0){
+	        	//TODO vorherige kategorie zurückgeben
+	        	return new Category(id, name, icon, precategoryId);
+	        }
 	    } else {
+	    	//insert
 	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
+			if (rowid > DatabaseHandler.INITIAL_ID) {	
+				return new Category(rowid, name, icon, precategoryId);
+			}
 	    }
-		
-		if (rowid > DatabaseHandler.INITIAL_ID) {	
-			// Der Root-Kategorie wird -1 als precategoryId uebergeben und die
-			// braucht keine Oberkategorie
-			// if (precategoryId > -1)
-			insertPreCategory(database, rowid, precategoryId);
-			return new Category(rowid, name, icon, precategoryId);
-		}
 		return null;
 	}
 	
-	/**
-	 * Speichert Relation zwischen Ober- und Unterkategorie
-	 * 
-	 * @param database
-	 * @param category
-	 * @param precategory
-	 * @return Die rowid
-	 */
-	//TODO kann eventuell raus, da wir nur Vorgaenger speichern
-	private long insertPreCategory(SQLiteDatabase database, long category, long precategory) {
-		ContentValues values = new ContentValues();
-		values.put(DatabaseHandler.KEY_ID, category);
-		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
-		return DatabaseHandler.insertIntoDB(database, DatabaseHandler.CATEGORY_CATEGORY, values, "try to make a category, precatagory connection");
-	}
+//	/**
+//	 * Speichert Relation zwischen Ober- und Unterkategorie
+//	 * 
+//	 * @param database
+//	 * @param category
+//	 * @param precategory
+//	 * @return Die rowid
+//	 */
+//	//TODO kann eventuell raus, da wir nur Vorgaenger speichern
+//	private long insertPreCategory(SQLiteDatabase database, long category, long precategory) {
+//		ContentValues values = new ContentValues();
+//		values.put(DatabaseHandler.KEY_ID, category);
+//		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
+//		return DatabaseHandler.insertIntoDB(database, DatabaseHandler.CATEGORY_CATEGORY, values, "try to make a category, precatagory connection");
+//	}
 	
 
 	/**
@@ -124,7 +125,7 @@ public class DataSourceCategory {
 	 */
 	public ArrayList<Category> getSubCategories(SQLiteDatabase database, long categoryId) {
 		String whereStatement = DatabaseHandler.KEY_PRECATEGORY + "=" + categoryId;
-		Cursor cursor = database.query(DatabaseHandler.CATEGORY_CATEGORY, null, whereStatement, null, null, null, null);
+		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatement, null, null, null, null);
 		ArrayList<Long> subCategoryIds = new ArrayList<Long>();
 		if (cursor.moveToFirst()){
 			do{
