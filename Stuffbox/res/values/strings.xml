@@ -23,6 +23,7 @@
     <string name="title_activity_formular">FormularActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_badge">BadgeActivity</string>
+    <string name="title_activity_new_item">Neuer Gegenstand</string>
     <string name="prefix_icon_category">category_icon_</string>
     <string name="plus">+</string>
     <string name="minus">-</string>

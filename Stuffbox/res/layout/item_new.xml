@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/identifier"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="35dp"
+        android:text="@string/name" />
+
+    <EditText
+        android:id="@+id/edit_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView2"
+        android:ems="10"
+        android:hint="@string/edit_name" >
+
+        <requestFocus />
+    </EditText>
+
+
+</RelativeLayout>

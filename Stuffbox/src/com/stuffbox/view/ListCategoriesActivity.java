@@ -139,7 +139,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	 * Ändert die Kategorie
 	 */
 	public void onNewItem () {
-		Toast.makeText(getApplicationContext(), "NEU !!!", 7).show();
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), NewItemActivity.class.getName());
+        startActivity(intent);
 	}	
 	
     public void openNewCategoryScreen(View view) {    	
