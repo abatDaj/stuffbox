@@ -55,18 +55,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     
-    public void openNewCategoryScreen(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
-        startActivity(intent);
-    }	
-
-    public void openCategoryScreen(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), CategoryActivity.class.getName());
-        startActivity(intent);
-    }	
-    
     public void openFormularScreen(View view) {    	
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), FormularActivity.class.getName());
@@ -77,13 +65,7 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), NewFormularActivity.class.getName());
         startActivity(intent);
-    }	
-    
-    public void openDetailScreen(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), DetailActivity.class.getName());
-        startActivity(intent);
-    }	
+    }		
     
     public void openAbzeichenScreen(View view) {    	
         Intent intent = new Intent();        

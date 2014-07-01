@@ -23,10 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.stuffbox.view.CategoryActivity"
-            android:label="@string/title_activity_category" >
-        </activity>
-        <activity
             android:name="com.stuffbox.view.NewCategoryActivity"
             android:label="@string/title_activity_new_category" >
         </activity>
@@ -45,10 +41,6 @@
         <activity
             android:name="com.stuffbox.view.ListViewDraggingAnimation"
             android:label="@string/title_activity_new_formular" >
-        </activity>
-        <activity
-            android:name="com.stuffbox.view.DetailActivity"
-            android:label="@string/title_activity_detail" >
         </activity>
         <activity
             android:name="com.stuffbox.view.BadgeActivity"

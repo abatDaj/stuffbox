@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
+  <LinearLayout
         android:id="@+id/das"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,26 +25,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="openNewCategoryScreen"
-            android:text="@string/button_new_kategorie" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="openDetailScreen"
-            android:text="@string/button_detail" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:onClick="openArtenScreen"
             android:text="@string/button_arten" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="openCategoryScreen"
-            android:text="@string/button_kategorie" />
 
         <Button
             android:layout_width="wrap_content"
