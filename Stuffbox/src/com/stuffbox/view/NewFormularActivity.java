@@ -91,7 +91,9 @@ public class NewFormularActivity  extends ActionBarActivity {
 	private void initializeListFeaturesSelected(ArrayList<Feature> features){
 		//pruefen der sdk version von android um dynamischen listview ein- bzw. abzuschalten
 		if(Integer.valueOf(android.os.Build.VERSION.SDK_INT) >= 11){
-			listFeaturesSelected = (DynamicListView) findViewById(R.id.list_features_selected_dynamiclistview);
+			LinearLayout layout = (LinearLayout) findViewById(R.id.linearlayout_features_selected_dynamiclistview);
+			listFeaturesSelected = new DynamicListView(this);
+			layout.addView(listFeaturesSelected);
 			findViewById(R.id.linearlayout_features_selected_listview).setVisibility(LinearLayout.GONE);
 		}else{
 			listFeaturesSelected = (ListView) findViewById(R.id.list_features_selected_listview);

@@ -30,15 +30,16 @@
    	
 	<LinearLayout android:layout_weight="2" 
 	    		  android:id="@+id/linearlayout_features_selected_dynamiclistview"
-		          android:layout_height="fill_parent" 
+		          android:layout_height="fill_parent"
+		          android:orientation="horizontal" 
 		          android:layout_width="wrap_content">
 		
-         <com.stuffbox.view.DynamicListView
+<!--          <com.stuffbox.view.DynamicListView
             android:id="@+id/list_features_selected_dynamiclistview"
             android:background="#0000"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-	</LinearLayout>
+            android:layout_height="fill_parent" /> -->
+	</LinearLayout> 
 	
 	<LinearLayout android:layout_weight="2" 
 	    				android:id="@+id/linearlayout_features_selected_listview"
