@@ -98,6 +98,20 @@ public class DataSourceCategory {
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
 		return DatabaseHandler.insertIntoDB(database, DatabaseHandler.CATEGORY_CATEGORY, values, "try to make a category, precatagory connection");
 	}
+	
+
+	/**
+	 * Löscht eine Kategorie
+	 * 
+	 * @param categoryId
+	 * @return Ob es erfolgreich gelöscht wurde 
+	 */
+	public boolean deleteCategory(SQLiteDatabase database, Category category) {
+		ContentValues whereValues = new ContentValues();
+		whereValues.put(DatabaseHandler.KEY_ID, category.getId());
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_CATEGORY, whereValues);
+		return delRows == 1 ? true : false;
+	}
 
 	/**
 	 * Gibt alle Unterkategorien einer Kategorie zurueck

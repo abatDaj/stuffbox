@@ -5,6 +5,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -259,6 +261,45 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}
     	return rowID;
     }
+    
+    /**
+     * Löscht einen Tupel
+     * @param table
+     * @param whereValues
+     * @param logString
+     * 
+     * @return Die Anzahl der gelöschten Zeilen
+     */
+    public static long deletefromDB(SQLiteDatabase database, String table, ContentValues whereValues){
+    	long delRows = 0;
+    	String whereClause = createWhereStatementFromContentValues(whereValues); 	
+    	try{
+    		delRows = database.delete(table, whereClause, null);
+    	}catch(SQLiteException e){
+    		Log.e(TAG, "delete " + table + " " + table, e);
+    	}finally{
+    		Log.d(TAG, "delete " + table + " deleted Rows=" + delRows + " " + table);
+    	}
+    	return delRows;
+    }
+    
+	public boolean deleteCategory(Category category) {
+		return dataSourceCategory.deleteCategory(database, category);
+	}
+    
+    /**
+     * Erstellt einen where-Statement aus ContentValues
+     * 
+     * @param whereValues
+     * @return the where Clause
+     */
+	public static String createWhereStatementFromContentValues(ContentValues whereValues) {
+		String whereClause = "";
+		for (Map.Entry<String,Object> e : whereValues.valueSet())
+			whereClause += e.getKey() + "=" + e.getValue().toString() + " " + SQL_OR+ " "; 
+		return whereClause.substring(0, whereClause.length() - SQL_OR.length() - 1);
+	}     
+    
     /**
      * Returns the Where Statement created from the passed list
      * @param selectIds

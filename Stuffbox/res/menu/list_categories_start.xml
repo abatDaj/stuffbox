@@ -4,7 +4,7 @@
     tools:context="com.stuffbox.ListCategoriesActivity" >
 
     
-    <item android:id="@+id/menu_create_category"
+    <item android:id="@+id/menu_new_item"
           android:icon="@drawable/action_create" 
           app:showAsAction="always"/>     
           

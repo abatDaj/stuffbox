@@ -22,7 +22,7 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	
-	private static Controller instance;
+	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
 	private ArrayList<FeatureType> types = null;
 	private ArrayList<Icon> icons;
@@ -30,6 +30,7 @@ public class Controller {
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
 	private Context context = null;
+	private Boolean init = false;
 	
 	private  Controller (Context context) {
 		this.context = context;
@@ -37,11 +38,14 @@ public class Controller {
 	}
 	
 	public void init (){
+		if (init)
+			return;
 		getTypes();
 		//initialise database
         initializeDatabase(context);
 		//initialize data
 		getIcons();
+		init = true;
 	}
 	
 	//TODO
@@ -306,6 +310,10 @@ public class Controller {
      */
     public Category getCurrentCategory() { 
     	return currentCategory;
+    }
+    
+    public boolean deleteCategory(Category category) { 
+    	return databaseHandler.deleteCategory(category);
     }
     
     /**

@@ -11,6 +11,7 @@ import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Icon;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewCategoryActivity extends ActionBarActivity {
+public class NewCategoryActivity extends ActionBarActivity implements DeleteDialogFragment.DeleteDialogListener  {
 	
 	Category categoryToEdit = null;
 	
@@ -98,7 +99,7 @@ public class NewCategoryActivity extends ActionBarActivity {
 	
 	public void onUpdate(){
 		Toast.makeText(this, "Update", 7).show();
-	}	
+	}
 
 	/**
 	 * 
@@ -111,9 +112,26 @@ public class NewCategoryActivity extends ActionBarActivity {
 		this.finish();
 	}
 	
+	/**
+	 * 
+	 * Löscht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
+	 */	
 	public void onDelete(){
-		Toast.makeText(this, "Delete", 7).show();
+		DialogFragment dialog = new DeleteDialogFragment();
+        dialog.show(getSupportFragmentManager(), "DeleteDialogFragment");
 	}
+	
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+		Controller.getInstance().deleteCategory(categoryToEdit);
+		//TODO Vll. einen Toast anziegen, der da lautet "Kategorie soundso mit soundso vielen Einträgen gelöscht"
+		ListCategoriesActivity.navigateBack(this);  
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    	// Nirwana
+    }
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {	
