@@ -24,6 +24,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     // Database Version
     private static final int DATABASE_VERSION = 4;
  
+    public static final String SQL_INSERT_OR_REPLACE = "__sql_insert_or_replace__";
+    
     public static final String UNDERLINE = "_";
     
     // Database Name
@@ -64,6 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String SQL_AND = "AND";
     public static final String PREFIX_ICON_CATEGORY = "category_icon_";
     public static final int INDEX_OF_ROOT_CATEGORY = 1;
+    public static final long INITIAL_ID = -1; 
     
     private String DB_PATH;
     
@@ -211,7 +214,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	 * @param categoryID
 	 * @return Die Unterkategorien
 	 */
-    public ArrayList<Category> getSubCategories(int categoryID) {
+    public ArrayList<Category> getSubCategories(long categoryID) {
     	return dataSourceCategory.getSubCategories(database, categoryID);
     }
     
@@ -220,8 +223,21 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param name
      */
-    public Category insertCategory(String name, Icon icon, int precategory){
-    	return dataSourceCategory.insertCategory(database, name, icon, precategory);
+    public Category insertOrUpdateCategory(String name, Icon icon, long precategory){
+    	return dataSourceCategory.insertOrUpdateCategory(database, INITIAL_ID, name, icon, precategory);
+    }
+    
+    /**
+     * Speichert die Aenderungen einer Kategorie in der Tabelle Kategorie.
+     * @param category
+     * @return
+     */
+    public Category updateCategory(Category category){
+    	return dataSourceCategory.insertOrUpdateCategory(database, 
+    			category.getId(), 
+    			category.getName(), 
+    			category.getIcon(), 
+    			category.getPreCategory());
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -253,7 +269,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	long rowID = -1;
     	
     	try{
-	    	rowID = database.insert(table, null, values);
+    	    rowID = database.insert(table, null, values);
+	    	
     	}catch(SQLiteException e){
     		Log.e(TAG, "insert " + table + " " + logString, e);
     	}finally{
@@ -263,12 +280,38 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
     
     /**
-     * Löscht einen Tupel
+     * Inserts one entry into the database
+     * @param database
+     * @param table
+     * @param values
+     */
+    public static long updateEntryInDB(SQLiteDatabase database, 
+    		String table, 
+    		ContentValues values, 
+    		ContentValues whereValues, 
+    		String logString){
+    	long rowID = -1;
+    	
+    	String whereClause = createWhereStatementFromContentValues(whereValues); 
+    	
+    	try{
+    		rowID = database.update(table, values, whereClause, null);
+    	}catch(SQLiteException e){
+    		Log.e(TAG, "update " + table + " " + logString, e);
+    	}finally{
+    		Log.d(TAG, "update " + table + " rowId=" + rowID + " " + logString);
+    	}
+    	return rowID;
+    }    
+	
+    
+    /**
+     * Loescht einen Tupel
      * @param table
      * @param whereValues
      * @param logString
      * 
-     * @return Die Anzahl der gelöschten Zeilen
+     * @return Die Anzahl der geloeschten Zeilen
      */
     public static long deletefromDB(SQLiteDatabase database, String table, ContentValues whereValues){
     	long delRows = 0;

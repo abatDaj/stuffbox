@@ -183,17 +183,28 @@ public class Controller {
 	 * @param categoryID
 	 * @return Die Unterkategorien oder null, falls ein Fehler auftrat
 	 */
-    public ArrayList<Category> getSubCategories(int categoryId) {
+    public ArrayList<Category> getSubCategories(long categoryId) {
     	return databaseHandler.getSubCategories(categoryId);
     }
     
     /**
-     * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
-     * @param database
+     * Speichert eine neue Kategorie in der Tabelle Kategorie.
      * @param name
+     * @param icon
+     * @param precategory
+     * @return
      */
-    public Category insertCategory(String name, Icon icon, int precategory){
-    	return databaseHandler.insertCategory(name, icon, precategory);
+    public Category insertCategory(String name, Icon icon, long precategory){
+    	return databaseHandler.insertOrUpdateCategory(name, icon, precategory);
+    }
+    
+    /**
+     * Speichert die Aenderungen einer Kategorie in der Tabelle Kategorie.
+     * @param category
+     * @return
+     */
+    public Category updateCategory(Category category){
+    	return databaseHandler.updateCategory(category);
     }
     
     /**

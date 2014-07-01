@@ -32,8 +32,8 @@ public class DataSourceCategory {
 	}
 
 	/**
-	 * Erstellt die Vernüpfungstabelle zwischen Kategorie und Oberkategorie
-	 * 
+	 * Erstellt die Vernuepfungstabelle zwischen Kategorie und Oberkategorie
+	 *TODO kann eventuell raus
 	 * @param database
 	 */
 	public void createCategoryCategoryTable(SQLiteDatabase db) {
@@ -57,7 +57,7 @@ public class DataSourceCategory {
 	 * @param precategory
 	 *            Die ID der Oberkategorie
 	 */
-	public Category insertCategory(SQLiteDatabase database, String name, Icon icon, int precategoryId) {
+	public Category insertOrUpdateCategory(SQLiteDatabase database, long id, String name, Icon icon, long precategoryId) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHandler.KEY_NAME, name);
 		if (icon != null){
@@ -65,25 +65,26 @@ public class DataSourceCategory {
 		}
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategoryId);
 		
-		long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
+		long rowid;
 		
-		if (rowid > -1) {
-			
-			Cursor cursor = Controller.getInstance().getNewestRow(DatabaseHandler.TABLE_CATEGORY, DatabaseHandler.KEY_ID,
-			        new String[] { DatabaseHandler.KEY_ID });
-			if (!cursor.moveToFirst())
-				return null;
-			
-			int newCategoryId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID));
+	    if ( id != DatabaseHandler.INITIAL_ID ) {
+	    	ContentValues whereValues = new ContentValues();
+	    	whereValues.put(DatabaseHandler.KEY_ID, id);
+	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, name);
+	    } else {
+	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
+	    }
+		
+		if (rowid > DatabaseHandler.INITIAL_ID) {	
 			// Der Root-Kategorie wird -1 als precategoryId uebergeben und die
 			// braucht keine Oberkategorie
 			// if (precategoryId > -1)
-			insertPreCategory(database, newCategoryId, precategoryId);
-			return new Category(newCategoryId, name, icon, precategoryId);
+			insertPreCategory(database, rowid, precategoryId);
+			return new Category(rowid, name, icon, precategoryId);
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Speichert Relation zwischen Ober- und Unterkategorie
 	 * 
@@ -92,7 +93,8 @@ public class DataSourceCategory {
 	 * @param precategory
 	 * @return Die rowid
 	 */
-	private long insertPreCategory(SQLiteDatabase database, int category, int precategory) {
+	//TODO kann eventuell raus, da wir nur Vorgaenger speichern
+	private long insertPreCategory(SQLiteDatabase database, long category, long precategory) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHandler.KEY_ID, category);
 		values.put(DatabaseHandler.KEY_PRECATEGORY, precategory);
@@ -101,10 +103,10 @@ public class DataSourceCategory {
 	
 
 	/**
-	 * Löscht eine Kategorie
+	 * Loescht eine Kategorie
 	 * 
 	 * @param categoryId
-	 * @return Ob es erfolgreich gelöscht wurde 
+	 * @return Ob es erfolgreich geloescht wurde 
 	 */
 	public boolean deleteCategory(SQLiteDatabase database, Category category) {
 		ContentValues whereValues = new ContentValues();
@@ -120,7 +122,7 @@ public class DataSourceCategory {
 	 * @param categoryId
 	 * @return Die Unterkategorien, gegebenenfalls eine leere Liste
 	 */
-	public ArrayList<Category> getSubCategories(SQLiteDatabase database, int categoryId) {
+	public ArrayList<Category> getSubCategories(SQLiteDatabase database, long categoryId) {
 		String whereStatement = DatabaseHandler.KEY_PRECATEGORY + "=" + categoryId;
 		Cursor cursor = database.query(DatabaseHandler.CATEGORY_CATEGORY, null, whereStatement, null, null, null, null);
 		ArrayList<Long> subCategoryIds = new ArrayList<Long>();

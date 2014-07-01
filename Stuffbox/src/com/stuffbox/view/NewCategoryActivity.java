@@ -3,25 +3,22 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import com.stuffbox.R;
-import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Category;
-import com.stuffbox.model.DataSourceCategory;
-import com.stuffbox.model.DatabaseHandler;
-import com.stuffbox.model.FeatureType;
-import com.stuffbox.model.Icon;
-
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Category;
+import com.stuffbox.model.DataSourceCategory;
+import com.stuffbox.model.Icon;
 
 public class NewCategoryActivity extends ActionBarActivity implements DeleteDialogFragment.DeleteDialogListener  {
 	
@@ -81,29 +78,60 @@ public class NewCategoryActivity extends ActionBarActivity implements DeleteDial
 		return true;
 	}
 	/**
-	 * 
 	 * Eine neue Kategorie wird angelegt.
-	 *
-	 * @param view
 	 */
 	public void onSaveCategory(){
+		Category newCategory = saveCategory(false);
+		Controller.getInstance().setCurrentCategory(newCategory);
+		//TODO ordnetlichen dialog anzeigen - Erfolg/Misserfolg
+		goToNewCurrentCategory();
+	}
+	/**
+	 * Die Aenderungen an der aktuellen Kategorie werden auf die Datenbank gespeichert
+	 */
+	public void onUpdate(){
+		Category updatedCategory = saveCategory(true);
+		//TODO ordnetlichen dialog anzeigen - Erfolg/Misserfolg
+		Controller.getInstance().setCurrentCategory(updatedCategory);
+		goToNewCurrentCategory();
+	}
+	/**
+	 * Speichert oder aendert die akutelle Kategorie
+	 * TODO evntuell statt boolean ein enum anlegen
+	 * @param isUpdate gibt an, ob insert oder update ausgefuehrt werden soll
+	 * @return
+	 */
+	private Category saveCategory(boolean isUpdate){
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
-		Category newCategory = Controller.getInstance().insertCategory(categoryName, selectedIcon, Controller.getInstance().getCurrentCategory().getId());
-		Controller.getInstance().setCurrentCategory(newCategory);
+		Category category = null;
+		if(!isUpdate){
+			//neue Kategorie einfeugen
+			category = Controller.getInstance().insertCategory(
+					categoryName, 
+					selectedIcon, 
+					Controller.getInstance().getCurrentCategory().getId());
+		}else{
+			//ausgewaehlte Kategorie aktualisieren
+			Category updatecategory = Controller.getInstance().getCurrentCategory();
+			updatecategory.setName(categoryName);
+			updatecategory.setIcon(selectedIcon);
+			
+			category = Controller.getInstance().updateCategory(updatecategory);
+		}
+		return category;
+	}
+	
+	private void goToNewCurrentCategory(){
         Intent intent = new Intent();   
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);
 	}
-	
-	public void onUpdate(){
-		Toast.makeText(this, "Update", 7).show();
-	}
 
 	/**
 	 * 
-	 * Zurück zur aktuellen Kategorie
+	 * Zurueck zur aktuellen Kategorie
 	 */	
 	public void onChancel(){
         Intent intent = new Intent();   
@@ -114,7 +142,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DeleteDial
 	
 	/**
 	 * 
-	 * Löscht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
+	 * Loescht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
 	 */	
 	public void onDelete(){
 		DialogFragment dialog = new DeleteDialogFragment();

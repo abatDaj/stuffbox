@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Category implements Serializable {
-	private int id;
+	private long id;
 	private String name;
 	private Icon icon;
 	private ArrayList<Item> items;
-	private int precategory;
+	private long precategory;
 	
-	public Category(int id, String name, Icon icon, int precategory) {
+	public Category(long id, String name, Icon icon, long precategory) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -33,11 +33,11 @@ public class Category implements Serializable {
 		this.icon = icon;
 	}
 	
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
@@ -47,10 +47,10 @@ public class Category implements Serializable {
 	public boolean addItem(Item entry){
 		return items.add(entry);
 	}
-	public int getPreCategory(){
+	public long getPreCategory(){
 		return precategory;
 	}
-	public void setPreCategory(int precategory){
+	public void setPreCategory(long precategory){
 		this.precategory = precategory;
 	}
 	@Override
