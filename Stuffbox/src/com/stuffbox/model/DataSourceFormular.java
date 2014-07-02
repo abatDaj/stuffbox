@@ -72,7 +72,7 @@ public class DataSourceFormular {
      * @param types
      * @return
      */
-    public static ArrayList<Formular> getFormulars( SQLiteDatabase database, 
+    public ArrayList<Formular> getFormulars( SQLiteDatabase database, 
     										 		ArrayList<Long> selectFormularIds) {  
     	//erstelle where statement
     	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);

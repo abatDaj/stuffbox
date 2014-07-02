@@ -103,7 +103,7 @@ public class DataSourceItem {
 				//selektiere Formular für item
 				ArrayList<Long> selectFormularId = new ArrayList<Long>();
 				selectFormularId.add(formularId);
-				Formular formular = DataSourceFormular.getFormulars(database, selectFormularId).get(0);
+				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);
 				setValuesOfFeatures(database, itemId, formular.getFeatures());
 				
 				//Item erstellen

@@ -32,22 +32,6 @@ public class DataSourceCategory {
 	}
 
 	/**
-	 * Erstellt die Vernuepfungstabelle zwischen Kategorie und Oberkategorie
-	 *TODO kann eventuell raus
-	 * @param database
-	 */
-	public void createCategoryCategoryTable(SQLiteDatabase db) {
-//		String CREATE_CATEGORY_CATEGORY_TABLE = "CREATE TABLE " + DatabaseHandler.CATEGORY_CATEGORY + "(" +
-//		// die ID der Kategorie
-//		        DatabaseHandler.KEY_ID + " INTEGER NOT NULL," +
-//		        // die ID der Vorgaenger Kategorie
-//		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER NOT NULL," +
-//		        // Beide als Schluessel festlegen
-//		        "PRIMARY KEY(" + DatabaseHandler.KEY_ID + ", " + DatabaseHandler.KEY_PRECATEGORY + "))";
-//		db.execSQL(CREATE_CATEGORY_CATEGORY_TABLE);
-	}
-
-	/**
 	 * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
 	 * 
 	 * @param database

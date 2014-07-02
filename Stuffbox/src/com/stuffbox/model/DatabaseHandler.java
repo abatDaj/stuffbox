@@ -101,7 +101,6 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	dataSourceIcon.createIconTable(db);
     	dataSourceItem.createItemTable(db);
     	dataSourceCategory.createCategorieTable(db);
-    	dataSourceCategory.createCategoryCategoryTable(db);
     }   
     
     public void initializeDatabase(){
