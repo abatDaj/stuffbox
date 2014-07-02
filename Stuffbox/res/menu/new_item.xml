@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.NewCategoryActivity" >
     
-    <item android:id="@+id/menu_save_new_item"
-          android:icon="@drawable/action_create" 
-          app:showAsAction="always"/>  
-    
     <item android:id="@+id/menu_chancel_item"
-          android:icon="@drawable/action_chancel" 
+          android:icon="@drawable/ic_action_cancel" 
+          android:title="@string/abort" 
           app:showAsAction="always"/> 
+              
+    <item android:id="@+id/menu_save_new_item"
+          android:icon="@drawable/ic_action_accept" 
+          android:title="@string/save"
+          app:showAsAction="always"/>  
           
     <item
         android:id="@+id/action_settings"

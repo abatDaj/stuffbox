@@ -13,12 +13,12 @@
  		<ImageButton
  		    android:id="@+id/to_new_category_imagebutton"
  		    style="@style/aLinearRowCreatingSomethingImageButton"
- 		    android:contentDescription="@string/to_new_category_imagebutton_desc"
+ 		    android:contentDescription="@string/title_activity_new_category"
  		    android:src="@drawable/imagebutton_to_new_category" />
  		
  		<TextView
      		android:id="@+id/textViewNewCategoryButton"
-    		android:text="@string/to_new_category_imagebutton_desc"
+    		android:text="@string/title_activity_new_category"
  		    style="@style/aLinearRowCreatingSomethingText">
     	</TextView>
         

@@ -5,12 +5,12 @@
 
     <item android:id="@+id/menu_abort"
           android:title="@string/abort"
-          android:icon="@drawable/action_chancel"  
+          android:icon="@drawable/ic_action_cancel"  
           app:showAsAction="ifRoom"/>
     
     <item android:id="@+id/menu_save"
           android:title="@string/save"
-          android:icon="@drawable/action_save"
+          android:icon="@drawable/ic_action_accept"
           app:showAsAction="ifRoom"/>
     
     <item

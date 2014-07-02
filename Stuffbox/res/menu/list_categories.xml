@@ -5,11 +5,13 @@
 
     
     <item android:id="@+id/menu_new_item"
-          android:icon="@drawable/action_create" 
+          android:icon="@drawable/ic_action_new" 
+          android:title="@string/title_activity_new_item"
           app:showAsAction="always"/>     
     
     <item android:id="@+id/menu_edit_category"
-          android:icon="@drawable/action_change" 
+          android:icon="@drawable/ic_action_edit" 
+          android:title="@string/actionbartitle_edit_category"
           app:showAsAction="always"/>  
           
     <item
