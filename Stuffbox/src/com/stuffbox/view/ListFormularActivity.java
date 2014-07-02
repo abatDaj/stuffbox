@@ -24,9 +24,9 @@ public class ListFormularActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.formular_list);
+		setContentView(R.layout.list);
 		
-		mainListView = (ListView) findViewById( R.id.formularListView );
+		mainListView = (ListView) findViewById( R.id.listView );
         
         ArrayList<Formular> formulars = new ArrayList<Formular>();
         

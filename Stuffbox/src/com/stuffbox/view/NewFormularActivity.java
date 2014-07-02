@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
@@ -137,7 +136,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.new_formlar, menu);
+		getMenuInflater().inflate(R.menu.change_menu, menu);
 		return true;
 	}
 	/**
@@ -168,9 +167,6 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {	
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:

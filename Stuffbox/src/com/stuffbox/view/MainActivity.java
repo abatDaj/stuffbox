@@ -86,6 +86,12 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }	 
     
+    public void chooseCategories(View view) {    	
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
+        startActivity(intent);
+    }
+    
     public void openFotoScreen(View view) {    	
     	Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
     	startActivityForResult(cameraIntent, 42);

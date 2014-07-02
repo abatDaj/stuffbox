@@ -12,12 +12,13 @@
         android:background="@android:color/darker_gray" />
 
     <ListView
-        android:id="@+id/formularListView"
+        android:id="@+id/listView"
         android:choiceMode="singleChoice"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight=".50"
         android:drawSelectorOnTop="true"
+        android:descendantFocusability="blocksDescendants"
         android:padding="10dp" >
 
     </ListView>

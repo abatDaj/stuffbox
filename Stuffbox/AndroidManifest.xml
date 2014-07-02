@@ -58,6 +58,10 @@
             android:name="com.stuffbox.view.DetailItemActivity"
             android:label="@string/title_activity_detail_item" >
         </activity>
+        <activity
+            android:name="com.stuffbox.view.ChooseCategoriesActivity"
+            android:label="@string/title_activity_choose_category" >
+        </activity>
     </application>
 
 </manifest>
