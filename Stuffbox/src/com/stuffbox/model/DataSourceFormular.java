@@ -88,11 +88,14 @@ public class DataSourceFormular {
 				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
 				String formularName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				
-				ArrayList<Feature> features;
-				features = DataSourceFeature.getFeaturesOfConjunctionTable(database, 
-														 formularId, 
-														 DatabaseHandler.TABLE_FORMULAR, 
-														 DatabaseHandler.TABLE_FORMULAR_FEATURE);
+				//erhalte ids verknuepfter eigeschaften aus der verknuepfungstabelle
+				ArrayList<Long> selectedFeatureIds = DatabaseHandler.getEntriesOfConjunctionTable(database, 
+																			 formularId, 
+																			 DatabaseHandler.TABLE_FORMULAR, 
+																			 DatabaseHandler.TABLE_FEATURE, 
+																			 DatabaseHandler.TABLE_FORMULAR_FEATURE);
+				//erhalte daten der eigenschaften aller verknuepften eigenschaften aus der eigenschaftentabelle
+				ArrayList<Feature> features = Controller.getInstance().getFeatures(selectedFeatureIds);
 				
 				//Formular erstellen
 				Formular formular = 

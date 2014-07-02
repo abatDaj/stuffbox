@@ -118,7 +118,7 @@ public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
 		
 		//aendere presymbol zu plus
 		if(!selectedList){
-			TextView preText = (TextView) rowView.findViewById(R.id.presymbol);
+			TextView preText = (TextView) rowView.findViewById(R.id.presymbol_feature);
 			preText.setText(R.string.plus);
 		}
 

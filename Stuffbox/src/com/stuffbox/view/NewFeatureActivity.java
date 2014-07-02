@@ -76,28 +76,18 @@ public class NewFeatureActivity extends ActionBarActivity {
 	public void onSave(){
 		//TODO Pruefen, ob Name gefuellt ist und wenn nicht ausgabe
 		
-		//get set name
+		//erhalte gesetzten Namen
 		EditText textview_name = (EditText) findViewById(R.id.edit_name);
 		String name = textview_name.getText().toString();
-		//get set type
+		//erhalte gesetzte Art
 		Spinner spinner_type = (Spinner) findViewById(R.id.spinner_arten);
 		FeatureType type = (FeatureType) spinner_type.getSelectedItem();
-		//insert feature into db
+		//einfuegen der Eigenschaft in die Datenbank
 		Controller.getInstance().insertFeature(name, type);
 		
-		//return to activity
+		//Zurueck zur anfragenden activity
         Intent intentMessage=new Intent();
         setResult(NewFeatureActivity.REQUEST_NEW_FEATURE,intentMessage);
 		finish();
-	}
-	/**
-	 * Startet die uebergebene Activity
-	 * @param activity
-	 */
-	private void startNextActivity(String activity){
-        Intent intent = new Intent();   
-        intent.setClassName(getPackageName(), activity);
-        startActivity(intent);
-	}
-	
+	}	
 }

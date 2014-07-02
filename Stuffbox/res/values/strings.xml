@@ -10,6 +10,8 @@
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>
     <string name="actionbartitle_edit_category">Kategorie ändern</string>
+    <string name="title_activity_detail_item">neuer Eintrag</string>
+    <string name="title_activity_choose_formular">Formular auswählen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="delete">löschen</string>
@@ -50,8 +52,6 @@
     <string name="delete_dialog_yes">Ja</string>
     <string name="delete_dialog_no">Nein</string>
     <string name="new_item_select_formular_step1">Schritt 1:</string>
-    <string name="new_item_select_formular_text1">Wählen Sie ein Formular für ihren neuen Eintrag aus...</string>
-    <string name="new_item_select_formular_text2">... oder erstellen Sie ein neues Formular für den neuen Eintrag.</string>
     <string name="to_new_formular">Formular anlegen</string>
 
 </resources>

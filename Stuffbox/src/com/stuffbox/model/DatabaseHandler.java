@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
+import com.stuffbox.controller.Controller;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	
 	// All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
  
     public static final String SQL_INSERT_OR_REPLACE = "__sql_insert_or_replace__";
     
@@ -44,7 +46,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String TABLE_FEATURE_ITEM = DatabaseHandler.TABLE_FEATURE 
 													 + DatabaseHandler.UNDERLINE 
 													 + DatabaseHandler.TABLE_ITEM;
-    public static final String CATEGORY_ITEM = DatabaseHandler.TABLE_CATEGORY 
+    public static final String TABLE_CATEGORY_ITEM = DatabaseHandler.TABLE_CATEGORY 
 													 + DatabaseHandler.UNDERLINE 
 													 + DatabaseHandler.TABLE_ITEM;
     
@@ -105,14 +107,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     
     public void initializeDatabase(){
         // Drop older table if existed
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
     	
         // Create tables again
         onCreate(database);
@@ -168,7 +171,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     
     /**
      * Speichert ein Formular in der Tabelle Formular und dessen zugeorndete
-     * Eigenschaften in der Verkn�pfungstabelle.
+     * Eigenschaften in der Verknuepfungstabelle.
      * @param name
      * @param features
      * @return
@@ -178,6 +181,15 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     }
     
     /**
+     * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
+     * @param database
+     * @param selectIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @return
+     */
+    public ArrayList<Item> getItems(ArrayList<Long> selectIds){
+    	return dataSourceItem.getItems(database, selectIds);
+    }
+    /**
      * Speichert ein Item in der Tabelle Item und dessen zugeorndete
      * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
      * Speichert das Formular als zuletzt angelegte im Controller
@@ -185,8 +197,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param formular
      * @return
      */
-    public Item insertItem(String name, Formular formular){
-    	return dataSourceItem.insertItem(database, name, formular);
+    public Item insertItem(String name, Formular formular, ArrayList<Category> categories){
+    	return dataSourceItem.insertItem(database, name, formular, categories);
     }
     
     /**
@@ -368,106 +380,44 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		return whereStatementFromIDList;
 	} 
 	
-	/**
-	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.
-	 * Es wird der SQL Befehl: "Select MAX(nameOfIdColumn), columns[0], columns[1]... from tabelName;"
-	 * ausgeführt.
-	 *  
-	 * @param tabelName
-	 * @param nameOfIdColumn Solle ein Primärschlüssel sein und AUTOINCREMENT.
-	 * @param columns
-	 *
-	 * @return Den Cursor der letzten Reihe der Tabelle oder null, falls die Tabelle leer ist.
+    /**
+     * Alle Eintraege die in der Tabelle tableName in der Spalte keyGivenIdName 
+     * den Wert id haben, werden selektiert und als Ergebnis wird eine Liste mit 
+     * den Werten der Spalte keySearchedIdName aller gefundener Eintraege 
+     * zurueckgegeben.
+	 * @param database
+	 * @param id 
+	 * @param keyGivenIdName
+	 * @param keySearchedIdName
+	 * @param tableName
+	 * @return
 	 */
-	public Cursor getNewestRow (String tabelName, String nameOfIdColumn, String[] columns) {
-			String[] columnsWithMax = new String[columns.length + 1];
-			columnsWithMax[0] = "MAX("+ nameOfIdColumn +")";
-			System.arraycopy(columns, 0, columnsWithMax, 1, columns.length);
-			Cursor cursor = database.query(tabelName, columnsWithMax , null, null, null, null, null);
-			
-			// Sicherstellung der Constraints dieser Methode. 1 Reihe sollte wiedergegeben werden
-			// und nameOfIdColumn sollte ein Schlüssel sein.
-			if (cursor.getCount() != 1 && !cursor.getExtras().containsKey(nameOfIdColumn))
-				return null; 
-			
-			return cursor;	
-	}
-	
-	  /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
-     * @param database
-     * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
-     * @param types
-     * @return
-     */
-    public ArrayList<Object> getEntities(	String tableName,
-    										String column,
-    										ArrayList<Object> selectValues,
-    										Class clas) {  
-    	String whereStatment = DatabaseHandler.getWhereStatementFromSomeList(column, selectValues);
-    	String[] columns = {column};
-    	Cursor cursor = database.query(tableName, null, whereStatment, null, null, null, null);
-		ArrayList<Object> entities = new ArrayList<Object>();
-		Constructor constructor = null;
-		try {
-			constructor = clas.getConstructor();
-		} catch (NoSuchMethodException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
+    public static ArrayList<Long> getEntriesOfConjunctionTable(
+    		SQLiteDatabase database,
+			Long id,
+			String keyGivenIdName,
+			String keySearchedIdName,
+			String tableName){
+    	//erstelle where statement
+    	StringBuilder whereStatement = new StringBuilder();
+		whereStatement.append(" ");
+		whereStatement.append(keyGivenIdName);
+		whereStatement.append(" = ");
+		whereStatement.append(id);
+		whereStatement.append(" ");
+    	 	
+    	//select types from database
+    	Cursor cursor = database.query(tableName, null, whereStatement.toString(), null, null, null, null);
+    	
+    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
+    	
+		//Werte in Feature speichern
 		if (cursor.moveToFirst()) {
-			do {				
-				Object entity = 0;
-				try {
-					entity = constructor.newInstance();
-					Method[] methods = clas.getMethods();
-				
-					for (Method m : methods) {
-						String methodName = m.getName();
-						if (methodName.startsWith("set"))
-						{
-							String curColumn = methodName.substring(3).toLowerCase();
-							int pos = cursor.getColumnIndex(curColumn);
-							if (pos > -1) {
-								String curValue = cursor.getString(cursor.getColumnIndex(curColumn));
-								try { //TODO
-									m.invoke(entity,  curColumn.equals(DatabaseHandler.KEY_ID) ? Integer.parseInt(curValue.toString()) : curValue );
-								}catch(IllegalArgumentException e) {}
-							}
-						}	
-					}
-				} catch (InstantiationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IllegalAccessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InvocationTargetException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				entities.add(entity);
+			do {
+				selectFeatureIds.add(Long.parseLong(cursor.getString(cursor.getColumnIndex(keySearchedIdName))));
 			} while (cursor.moveToNext());
 		}
-		return entities;
-    }	
-	
-
-/**
- * Stellt ein where-Statement zusammen.
- * @param column Spalte
- * @param selectValues Werte
- * @return
- */
-public static String getWhereStatementFromSomeList(String column, ArrayList<Object> selectValues) {
-	if(selectValues == null || selectValues.isEmpty() || column == null)
-		return null;
-	String whereStatement = "";
-	for(Object value : selectValues)
-		whereStatement += " "   + column + " = "  + value + " " + SQL_OR;	
-	return whereStatement.substring(0,whereStatement.length()-SQL_OR.length());
-} 
-	
-	
+		
+		return selectFeatureIds;
+    }
 }

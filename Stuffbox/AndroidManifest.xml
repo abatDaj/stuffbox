@@ -51,8 +51,12 @@
             android:label="@string/title_activity_list_categories" >
         </activity>
         <activity
-            android:name="com.stuffbox.view.NewItemActivity"
-            android:label="@string/title_activity_new_item" >
+            android:name="com.stuffbox.view.ListFormularActivity"
+            android:label="@string/title_activity_choose_formular" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.DetailItemActivity"
+            android:label="@string/title_activity_detail_item" >
         </activity>
     </application>
 

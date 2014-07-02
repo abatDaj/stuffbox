@@ -105,7 +105,7 @@ public class DataSourceFeature {
     }
     
     /**
-     * Erstellt aus dem �bergebenen Objekt einen speicherbaren String
+     * Erstellt aus dem uebergebenen Objekt einen speicherbaren String
      * TODO Type einbeziehen
      * @param value
      * @param type
@@ -115,7 +115,7 @@ public class DataSourceFeature {
 		return value.toString();
 	}
 	/**
-	 * Erstellt aus dem �bergebenen String einen entsprechendes Objekt
+	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt
 	 * TODO Type einbeziehen
 	 * @param value
 	 * @param type
@@ -124,38 +124,4 @@ public class DataSourceFeature {
 	public Object getValueFromDatabaseString(String value, FeatureType type){
 		return value;
 	}
-	
-    /**
-     * Selektiert alle Eigenschaften des uebergebenen Formulars
-     * @param database
-     * @param formularid
-     * @return
-     */
-    public static ArrayList<Feature> getFeaturesOfConjunctionTable(
-    		SQLiteDatabase database,
-			Long formularid,
-			String keyName,
-			String tableName){
-    	//erstelle where statement
-    	StringBuilder whereStatement = new StringBuilder();
-		whereStatement.append(" ");
-		whereStatement.append(keyName);
-		whereStatement.append(" = ");
-		whereStatement.append(formularid);
-		whereStatement.append(" ");
-    	 	
-    	//select types from database
-    	Cursor cursor = database.query(tableName, null, whereStatement.toString(), null, null, null, null);
-    	
-    	ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
-    	
-		//Werte in Feature speichern
-		if (cursor.moveToFirst()) {
-			do {
-				selectFeatureIds.add(Long.parseLong(cursor.getString(cursor.getColumnIndex(keyName))));
-			} while (cursor.moveToNext());
-		}
-		
-		return Controller.getInstance().getFeatures(selectFeatureIds);
-    }
 }

@@ -24,6 +24,7 @@ import com.stuffbox.model.Formular;
 
 public class NewFormularActivity  extends ActionBarActivity {
 	
+	public static final int REQUEST_NEW_FORMULAR = 0;
 	private static final long idNewFeatureEntry = -1;
 	
 	private ListView listFeaturesSelected;
@@ -70,7 +71,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        {
 	        	Feature choosenFeature = selectedNotFeaturesAdapter.getItem(position);
 	        	if(choosenFeature.getId() == idNewFeatureEntry){
-	        		//neuer Eintrag soll angelegt werden
+	        		//neue Eigenschaft soll angelegt werden
 	        		
 	        		//TODO bisherige Eingabe speichern
 	                Intent intent = new Intent();        
@@ -151,11 +152,11 @@ public class NewFormularActivity  extends ActionBarActivity {
 		ArrayList<Feature> features = selectedfeaturesAdapter.getFeatures();
 		
 		Controller.getInstance().insertFormlar(formularName, features);
-		
-		//starte naechsten Screen
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), MainActivity.class.getName());
-        startActivity(intent);
+        
+		//urueck zur anfragenden activity
+        Intent intentMessage=new Intent();
+        setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
+		finish();
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen

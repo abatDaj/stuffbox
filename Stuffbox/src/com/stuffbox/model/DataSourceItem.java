@@ -17,7 +17,7 @@ public class DataSourceItem {
     	//Erstellt die Item Tabelle
         String CREATE_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_ITEM + "("
                 + DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
-        		+ DatabaseHandler.KEY_NAME + " TEXT" 
+        		+ DatabaseHandler.KEY_NAME + " TEXT," 
                 + DatabaseHandler.TABLE_FORMULAR + " INTEGER" + ")";
         db.execSQL(CREATE_ITEM_TABLE);
         
@@ -37,6 +37,21 @@ public class DataSourceItem {
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
         db.execSQL(CREATE_FORMULAR_ITEM_TABLE);
+        
+        //Erstellt die Item-Kategorie-Wert Verknüpfungstabelle
+        String CREATE_CATEGORY_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_CATEGORY_ITEM + "("+ 
+        		//create column kategorie
+        		DatabaseHandler.TABLE_CATEGORY + " INTEGER," + 
+        		//create column item
+        		DatabaseHandler.TABLE_ITEM + " INTEGER," +
+        		"PRIMARY KEY(" + DatabaseHandler.TABLE_CATEGORY + "," + DatabaseHandler.TABLE_ITEM + ")," +
+        		//add foreign key to table kategorie
+                "FOREIGN KEY(" + DatabaseHandler.TABLE_CATEGORY + ") REFERENCES " 
+        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" +
+        		//add foreign key to table item
+                "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
+        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
+        db.execSQL(CREATE_CATEGORY_ITEM_TABLE); 
     }
 	
     /**
@@ -44,26 +59,28 @@ public class DataSourceItem {
      * TODO Kategoriezuordnung speichern
      * @param name
      */
-    public Item insertItem(SQLiteDatabase database, String name, Formular formular){
+    public Item insertItem(SQLiteDatabase database, String name, Formular formular, ArrayList<Category> categories){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, name);
     	values.put(DatabaseHandler.TABLE_FORMULAR, formular.getId());
     	
     	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, name);
     	
-    	Item item = new Item(id, name, formular);
+    	Item item = new Item(id, name, formular, categories);
     	
     	for (Feature feature : formular.getFeatures()) {
     		insertFeatureOfItem(database, feature, item);
 		}
     	
-    	//TODO Kategorie Zuordnung speichern
+    	for(Category category : categories){
+    		insertCategoryOfItem(database, category, item);
+    	}
     	
     	return item;
     }
     
     /**
-     * Fügt den Wert einer Eigenschaft eines Items in der Datenbank hinzu
+     * Fügt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
 
      * @param database
      * @param feature
@@ -78,15 +95,29 @@ public class DataSourceItem {
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
     /**
+     * Fügt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
+
+     * @param database
+     * @param feature
+     * @param item
+     */
+    public void insertCategoryOfItem(SQLiteDatabase database, Category category, Item item){
+    	ContentValues values = new ContentValues();
+    	values.put(DatabaseHandler.TABLE_CATEGORY, category.getId());
+    	values.put(DatabaseHandler.TABLE_ITEM, item.getId());
+    	
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY_ITEM, values, item.getName());
+    }
+    /**
      * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
      * @param database
-     * @param selectFormularIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @param selectIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @return
      */
     public ArrayList<Item> getItems( SQLiteDatabase database, 
-			 			  ArrayList<Long> selectFormularIds){
+			 			  ArrayList<Long> selectIds){
     	//erstelle where statement
-    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);
+    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_ITEM, null, whereStatement, null, null, null, null);
@@ -106,10 +137,17 @@ public class DataSourceItem {
 				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);
 				setValuesOfFeatures(database, itemId, formular.getFeatures());
 				
+				//erhalte ids verknuepfter kategorien aus der verknuepfungstabelle
+				ArrayList<Long> selectedFeatureIds = DatabaseHandler.getEntriesOfConjunctionTable(database, 
+						 itemId, 
+						 DatabaseHandler.TABLE_ITEM, 
+						 DatabaseHandler.TABLE_CATEGORY,
+						 DatabaseHandler.TABLE_CATEGORY_ITEM);
+				//erhalte daten der kategrien aller verknuepften kategorien aus der kategorietabelle
+				ArrayList<Category> categories =Controller.getInstance().getCategories(selectedFeatureIds);
+				
 				//Item erstellen
-				Item item = new Item(itemId, itemName, formular);
-
-				//TODO Kategorie
+				Item item = new Item(itemId, itemName, formular, categories);
 				
 				// Adding type to list
 				items.add(item);
@@ -169,6 +207,8 @@ public class DataSourceItem {
 				if (!featureWasFound) {
 					//TODO Exception/Ausgabe
 				}
+				
+				//TODO kategorie
 			} while (cursor.moveToNext());
 		}
     }
