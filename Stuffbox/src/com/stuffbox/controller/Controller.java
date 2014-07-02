@@ -163,8 +163,8 @@ public class Controller {
      * @param formular
      * @return
      */
-    public Item insertItem(String name, Formular formular){
-    	return databaseHandler.insertItem(name, formular);
+    public Item insertItem(String name, Formular formular, ArrayList<Category> categories){
+    	return databaseHandler.insertItem(name, formular, categories);
     }
 	
     /**
@@ -208,6 +208,15 @@ public class Controller {
     }
     
     /**
+     * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
+     * @param selectIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
+     * @return
+     */
+    public ArrayList<Item> getItems(ArrayList<Long> selectIds){
+    	return databaseHandler.getItems(selectIds);
+    }
+    
+    /**
      * Speichert eine neues Icon in der Tabelle Icon
      * @param name
      * @param description
@@ -222,14 +231,18 @@ public class Controller {
     public ArrayList<Feature> insertDebugFeatureEntries(){
     	ArrayList<Feature> createdFeatures = new ArrayList<Feature>();
         //Debugeintraege schreiben
-//    	createdFeatures.add(insertFeature("Name", types.get(0)));
     	createdFeatures.add(insertFeature("Seriennummer", types.get(1)));
     	createdFeatures.add(insertFeature("Bewertung", types.get(2)));
     	createdFeatures.add(insertFeature("gekauft am", types.get(3)));
     	
     	return createdFeatures;
     }
-    
+    /**
+     * Fuegt Debugeintraege in die Tabelle Formular und Verknuepfungstabelle
+     * in die Datenbank ein
+     * @param features
+     * @return
+     */
     public ArrayList<Formular> insertDebugFormularEntries(ArrayList<Feature> features){   	
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
@@ -289,12 +302,27 @@ public class Controller {
 		insertCategory("Suppen", icons.get(5), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		insertCategory("Sonstiges", icons.get(3), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     }
+    /**
+     * Fuegt Debugeintraege in die Tabelle Item und Verknuepfungstabellen 
+     * in die Datenbank ein
+     */
+    public void insertDebugItemEntries(ArrayList<Formular> formulars, ArrayList<Category> categories){
+    	ArrayList<Item> items = new ArrayList<Item>();
+    	
+    	Formular formular = formulars.get(1);
+    	formular.getFeatures().get(0).setValue("Test");
+    	formular.getFeatures().get(1).setValue("haha");
+    	ArrayList<Category> itemcategories = new ArrayList<Category>();
+    	itemcategories.add(categories.get(1));
+    	itemcategories.add(categories.get(3));
+    	items.add(insertItem("Song1", formular, itemcategories));
+    }
     
     /**
-     * temporär: Füllt ein paar die Tabelle mit ein paar Icons.
-     * 
+     * temporaer: Fuellt ein paar die Tabelle mit ein paar Icons.
+     * TODO richtig machen
      */
-    public void fillIconTableWithSomeIcons (Context context)
+    public void fillIconTableWithIcons (Context context)
     {
     	Field[] drawableFields = R.drawable.class.getFields();
 		
@@ -312,15 +340,20 @@ public class Controller {
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
-    	fillIconTableWithSomeIcons(context);
+    	fillIconTableWithIcons(context);
     	//TODO Icons von fill verwenden
     	getIcons();
     	
+    	//TODO warum wird die root categorie nicht aus der DB gelesen
 		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(3), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
 
-    	//ArrayList<Formular> formulars = getFormulars(null);    	
+    	ArrayList<Formular> formulars = getFormulars(null); 
+    	ArrayList<Category> categories = getCategories(null); 
+    	insertDebugItemEntries(formulars, categories);
+    	
+    	getItems(null);
     }
     
     /**
@@ -339,7 +372,7 @@ public class Controller {
     }
     
     /**
-     * Returniert die aktuelle Kategorie
+     * Gibt die aktuelle Kategorie zurueck
      * 
      * @return Die aktuelle Kategorie
      */
@@ -352,7 +385,7 @@ public class Controller {
     }
     
     /**
-     * Überschreibt die aktuelle Kategorie
+     * Ueberschreibt die aktuelle Kategorie
      * 
 	 * @param newCurrentCategory
      */
@@ -370,27 +403,5 @@ public class Controller {
 	public Category getPreCategory(Category category) {
 		return databaseHandler.getPreCategory(category);
 	}	
-    
-	/**
-	 * Returniert die neuste Reihe (Cursor) einer Tabelle mit den angegebenen Spalten.
-	 * Es wird der SQL Befehl: "Select MAX(nameOfIdColumn), columns[0], columns[1]... from tabelName;"
-	 * ausgeführt.
-	 *  
-	 * @param tabelName
-	 * @param nameOfIdColumn Solle ein Primärschlüssel sein und AUTOINCREMENT.
-	 * @param columns
-	 *
-	 * @return Den Cursor der letzten Reihe der Tabelle oder null, falls die Tabelle leer ist.
-	 */
-	public Cursor getNewestRow (String tabelName, String nameOfIdColumn, String[] columns) {
-		return databaseHandler.getNewestRow(tabelName, nameOfIdColumn, columns);
-	}
-    
-    public ArrayList<Object> getEntities(String tableName,
-			String column,
-			ArrayList<Object> selectValues,
-			Class clas) { 
-    	return databaseHandler.getEntities (tableName, column, selectValues, clas);
-    }
     
 }
