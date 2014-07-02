@@ -86,14 +86,18 @@ public class NewItemActivity extends ActionBarActivity {
 	
 	/**
 	 * 
-	 * Eine neue Kategorie wird angelegt.
+	 * Die Detail-Item-Aktivität wird gestartet und das ausgewählte Formular
+	 * wird an diese verschickt.
 	 *
-	 * @param view
 	 */
 	public void onSaveItem(){
+		
 		Formular selectedFormular = formularAdapter.getCurrentFormular();
-		if (selectedFormular != null)
-			Toast.makeText(getApplicationContext(), selectedFormular.getName(), 7).show();
+		if (selectedFormular != null) {
+			Intent i = new Intent(this, DetailItemActivity.class);
+			i.putExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM, selectedFormular);
+			startActivity(i);	
+		}
 		else
 			Toast.makeText(getApplicationContext(), "You should select at least one formular you moron.", 7).show();
 	}
@@ -114,7 +118,4 @@ public class NewItemActivity extends ActionBarActivity {
         intent.setClassName(getPackageName(), NewFormularActivity.class.getName());
         startActivity(intent);
     }		
-	
-	
-	
 }

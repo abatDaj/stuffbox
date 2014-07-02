@@ -1,6 +1,8 @@
 package com.stuffbox.model;
 
-public class Feature implements Comparable<Feature>{
+import java.io.Serializable;
+
+public class Feature implements Comparable<Feature>, Serializable{
 	private long id;
 	private Integer sortnumber; //TODO besserer name
 	private String name;
@@ -47,6 +49,6 @@ public class Feature implements Comparable<Feature>{
 	@Override
 	public int compareTo(Feature another) {
 		sortnumber.compareTo(another.getSortnumber());
-		return 0;
+		return 0; // TODO ?!?
 	}
 }

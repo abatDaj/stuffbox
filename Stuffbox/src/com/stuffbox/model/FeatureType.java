@@ -1,8 +1,10 @@
 package com.stuffbox.model;
 
+import java.io.Serializable;
+
 import android.util.Log;
 
-public enum FeatureType {
+public enum FeatureType implements Serializable{
 	Text(1l),
 	Dezimalzahl(2l),
 	Ganzzahl(3l),
