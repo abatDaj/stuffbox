@@ -7,22 +7,69 @@
 
     <TextView
         android:id="@+id/textView2"
-        style="@style/identifier"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="35dp"
-        android:text="@string/name" />
-
-    <EditText
-        android:id="@+id/edit_category_name"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/new_item_select_formular_text1"
+        android:textSize="20sp" >
+    </TextView>
+
+    <View
+        android:id="@+id/div1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textView2"
+        android:background="@android:color/darker_gray" />
+
+    <ListView
+        android:id="@+id/formularListView"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2"
-        android:ems="10"
-        android:hint="@string/edit_name" >
+        android:padding="10dp" >
+    </ListView>
 
-        <requestFocus />
-    </EditText>
+    <View
+        android:id="@+id/div2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/formularListView"
+        android:background="@android:color/darker_gray" />
 
+     <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/new_item_select_formular_text2"
+        android:textSize="20sp"
+        android:layout_below="@+id/div2" >
+    </TextView>   
+    
+    
+    <LinearLayout
+        android:id="@+id/chooeseToMakeAnOwnFormularForThatItem"
+        style="@style/aLinearRowCreatingSomething"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView3"
+        android:gravity="top"
+        android:onClick="openFormularNewScreen"
+        android:padding="10dp" >
+
+        <ImageButton
+            android:id="@+id/to_new_category_imagebutton"
+            style="@style/aLinearRowCreatingSomethingImageButton"
+            android:contentDescription="@string/title_activity_new_item"
+            android:src="@drawable/action_create" />
+
+        <TextView
+            android:id="@+id/textViewNewCategoryButton"
+            style="@style/aLinearRowCreatingSomethingText"
+            android:text="@string/to_new_formular" >
+        </TextView>
+    </LinearLayout>
 
 </RelativeLayout>
