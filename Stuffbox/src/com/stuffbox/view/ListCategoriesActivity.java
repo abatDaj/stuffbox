@@ -140,7 +140,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	 */
 	public void onNewItem () {
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), NewItemActivity.class.getName());
+        intent.setClassName(getPackageName(), ListFormularActivity.class.getName());
         startActivity(intent);
 	}	
 	
