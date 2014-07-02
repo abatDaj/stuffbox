@@ -39,17 +39,8 @@ public class NewItemActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_item);
 		
-		
 		mainListView = (ListView) findViewById( R.id.formularListView );
-        mainListView.setOnItemClickListener(new OnItemClickListener()
-        {
-	        @Override
-	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-	        {		        
-				Formular clickedFormular = (Formular) parent.getItemAtPosition(position);
-				Toast.makeText(getApplicationContext(), clickedFormular.getName(), 7).show();
-	        }
-        });
+
         		
         ArrayList<Formular> formulars = Controller.getInstance().getFormulars(null);
         Formular[] forms = new Formular[formulars.size()];
@@ -100,7 +91,11 @@ public class NewItemActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void onSaveItem(){
-		Toast.makeText(getApplicationContext(), "Speichern !!!", 7).show();
+		Formular selectedFormular = formularAdapter.getCurrentFormular();
+		if (selectedFormular != null)
+			Toast.makeText(getApplicationContext(), selectedFormular.getName(), 7).show();
+		else
+			Toast.makeText(getApplicationContext(), "You should select at least one formular you moron.", 7).show();
 	}
 	
 	/**

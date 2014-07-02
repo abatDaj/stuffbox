@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
@@ -19,42 +19,38 @@
         android:id="@+id/div1"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/textView2"
         android:background="@android:color/darker_gray" />
 
     <ListView
         android:id="@+id/formularListView"
+        android:choiceMode="singleChoice"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView2"
+        android:layout_height="0dp"
+        android:layout_weight=".50"
+        android:drawSelectorOnTop="true"
         android:padding="10dp" >
+
     </ListView>
 
     <View
         android:id="@+id/div2"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/formularListView"
         android:background="@android:color/darker_gray" />
 
-     <TextView
+    <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/new_item_select_formular_text2"
-        android:textSize="20sp"
-        android:layout_below="@+id/div2" >
-    </TextView>   
-    
-    
+        android:textSize="20sp" >
+    </TextView>
+
     <LinearLayout
         android:id="@+id/chooeseToMakeAnOwnFormularForThatItem"
         style="@style/aLinearRowCreatingSomething"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView3"
         android:gravity="top"
         android:onClick="openFormularNewScreen"
         android:padding="10dp" >
@@ -72,4 +68,4 @@
         </TextView>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

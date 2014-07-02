@@ -251,6 +251,30 @@ public class Controller {
     	featuresFormular2.add(features.get(3));
     	createdFormulars.add(insertFormlar("Musikaufbau", featuresFormular2));
     	
+    	//erstellen Formular Filmaufbau
+    	ArrayList<Feature> featuresFormular3 = new ArrayList<Feature>();
+    	features.get(0).setSortnumber(1);
+    	featuresFormular3.add(features.get(0));
+    	features.get(3).setSortnumber(3);
+    	featuresFormular3.add(features.get(3));
+    	createdFormulars.add(insertFormlar("Filmaufbau", featuresFormular3));
+    	
+    	//erstellen Formular Haustieraufbau
+    	ArrayList<Feature> featuresFormular4 = new ArrayList<Feature>();
+    	features.get(0).setSortnumber(1);
+    	featuresFormular4.add(features.get(0));
+    	features.get(3).setSortnumber(3);
+    	featuresFormular4.add(features.get(3));
+    	createdFormulars.add(insertFormlar("Haustieraufbau", featuresFormular4));
+    	
+    	//erstellen Formular Elektrogeraetaufbau
+    	ArrayList<Feature> featuresFormular5 = new ArrayList<Feature>();
+    	features.get(0).setSortnumber(1);
+    	featuresFormular5.add(features.get(0));
+    	features.get(3).setSortnumber(3);
+    	featuresFormular5.add(features.get(3));
+    	createdFormulars.add(insertFormlar("Elektrogerätaufbau", featuresFormular5));
+    	
     	return createdFormulars;
     }
         
