@@ -11,6 +11,9 @@
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="name">Name</string>
+    <string name="name_formular">Formularname</string>
+    <string name="name_category">Kategoriename</string>
+    <string name="name_feature">Eigenschaftsname</string>
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
     <string name="icon">Icon</string>

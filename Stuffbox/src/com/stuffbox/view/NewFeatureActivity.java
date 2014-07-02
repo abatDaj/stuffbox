@@ -10,19 +10,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class FeatureActivity extends ActionBarActivity {
+public class NewFeatureActivity extends ActionBarActivity {
 
 	public static final int REQUEST_NEW_FEATURE = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.feature);	    
+		setContentView(R.layout.new_feature);	    
 	    Controller.getInstance();
 		ArrayList<FeatureType> types = Controller.getInstance().getTypes();
 		
@@ -47,7 +46,7 @@ public class FeatureActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.feature, menu);
+		getMenuInflater().inflate(R.menu.new_feature, menu);
 		return true;
 	}
 
@@ -57,10 +56,10 @@ public class FeatureActivity extends ActionBarActivity {
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:
-	        	onSave(null);
+	        	onSave();
 	            return true;
 	        case R.id.menu_abort:
-	            onCancel(null);
+	            onCancel();
 	            return true;
 	        case R.id.action_settings:
 	        	//TODO do something
@@ -70,13 +69,12 @@ public class FeatureActivity extends ActionBarActivity {
 	    }
 	}
 	
-	public void onCancel(View view){
-		//return to mainactivity
-		startNextActivity(CategoryActivity.class.getName());
+	public void onCancel(){
+		this.finish();
 	}
 	
-	public void onSave(View view){
-		//TODO Pruefen, ob Name gef�llt ist und wenn nicht ausgabe
+	public void onSave(){
+		//TODO Pruefen, ob Name gefuellt ist und wenn nicht ausgabe
 		
 		//get set name
 		EditText textview_name = (EditText) findViewById(R.id.edit_name);
@@ -89,11 +87,11 @@ public class FeatureActivity extends ActionBarActivity {
 		
 		//return to activity
         Intent intentMessage=new Intent();
-        setResult(FeatureActivity.REQUEST_NEW_FEATURE,intentMessage);
+        setResult(NewFeatureActivity.REQUEST_NEW_FEATURE,intentMessage);
 		finish();
 	}
 	/**
-	 * Startet die �bergebene Activity
+	 * Startet die uebergebene Activity
 	 * @param activity
 	 */
 	private void startNextActivity(String activity){

@@ -4,11 +4,13 @@
     tools:context="com.stuffbox.FeatureActivity" >
 
     <item android:id="@+id/menu_abort"
-          android:title="@string/abort" 
+          android:title="@string/abort"
+          android:icon="@drawable/action_chancel"  
           app:showAsAction="ifRoom"/>
     
     <item android:id="@+id/menu_save"
           android:title="@string/save"
+          android:icon="@drawable/action_save"
           app:showAsAction="ifRoom"/>
     
     <item

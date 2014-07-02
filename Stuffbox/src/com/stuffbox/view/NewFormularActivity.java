@@ -34,7 +34,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.formular_new);
+		setContentView(R.layout.new_formular);
 		
 		//initialisiere Listen fuer selektierte und nicht selektierte Eigenschaften
 		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
@@ -74,8 +74,8 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        		
 	        		//TODO bisherige Eingabe speichern
 	                Intent intent = new Intent();        
-	                intent.setClassName(getPackageName(), FeatureActivity.class.getName());
-	                startActivityForResult(intent, FeatureActivity.REQUEST_NEW_FEATURE);
+	                intent.setClassName(getPackageName(), NewFeatureActivity.class.getName());
+	                startActivityForResult(intent, NewFeatureActivity.REQUEST_NEW_FEATURE);
 	        	}else{
 	        		//verschiebe Eigenschaft in Auswahlliste
 		        	selectedNotFeaturesAdapter.remove(choosenFeature);
@@ -124,9 +124,12 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FeatureActivity.REQUEST_NEW_FEATURE) {
+        if (requestCode == NewFeatureActivity.REQUEST_NEW_FEATURE) {
         	//fuegt neue Eigenschaft an selektierte Eigenschaften an
-            selectedfeaturesAdapter.add(Controller.getInstance().popLastInsertedFeature());;
+        	Feature feature = Controller.getInstance().popLastInsertedFeature();
+        	if(feature != null){
+        		selectedfeaturesAdapter.add(feature);
+        	}
         }
     }
 
@@ -158,12 +161,8 @@ public class NewFormularActivity  extends ActionBarActivity {
 	 * Vorgang wird abgebrochen - Daten werden verworfen
 	 * @param view
 	 */
-	public void onCancel(View view){
-
-		CharSequence text = "abbrechen - Miauuuuu, Miauuuuu";
-		int duration = 7;
-		Toast toast = Toast.makeText(this, text, duration);
-		toast.show();
+	public void onCancel(View view){			
+		this.finish();
 	}
 	
 	@Override

@@ -44,7 +44,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list_categories);
+		setContentView(R.layout.category_list);
 		
         mainListView = (ListView) findViewById( R.id.categoryListView );
         mainListView.setOnItemClickListener(new OnItemClickListener()

@@ -10,7 +10,7 @@
         style="@style/identifier"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="35dp"
-        android:text="@string/name" />
+        android:text="@string/name_category" />
 
     <EditText
         android:id="@+id/edit_category_name"

@@ -27,7 +27,7 @@ public class NewItemActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.item_new);
+		setContentView(R.layout.new_item);
 	}
 
 	@Override

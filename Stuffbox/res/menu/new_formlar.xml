@@ -4,10 +4,12 @@
     tools:context="com.stuffbox.NewFormularActivity" >
     
     <item android:id="@+id/menu_abort"
+          android:icon="@drawable/action_chancel" 
           android:title="@string/abort" 
           app:showAsAction="ifRoom"/>
     
     <item android:id="@+id/menu_save"
+          android:icon="@drawable/action_save" 
           android:title="@string/save"
           app:showAsAction="ifRoom"/>
     <item

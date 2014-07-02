@@ -9,8 +9,7 @@
     
     <TextView
         android:id="@+id/textView2"
-        android:layout_below="@+id/linearlayout"
-        android:text="@string/name" 
+        android:text="@string/name_feature" 
         style="@style/identifier"/>
     
     <EditText
@@ -37,34 +36,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" />
-
-    <LinearLayout
-        android:id="@+id/linearlayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_cancel"
-        	android:layout_width="0dp"
-        	android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:minWidth="50dip"
-            android:onClick="onCancel"
-            android:text="@string/abort" />
-
-        <Button
-            android:id="@+id/button_save"
-        	android:layout_width="0dp"
-        	android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:minWidth="50dip"
-            android:onClick="onSave"
-            android:text="@string/save" />
-    </LinearLayout>
 
 </RelativeLayout>

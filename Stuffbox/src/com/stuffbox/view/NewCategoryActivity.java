@@ -26,7 +26,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DeleteDial
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.category_new);
+		setContentView(R.layout.new_category);
 
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		//Controller.fillIconTableWithSomeIcons(this);

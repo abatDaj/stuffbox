@@ -5,10 +5,12 @@
     
     <item android:id="@+id/menu_chancel_category"
           android:icon="@drawable/action_chancel" 
+          android:title="@string/abort"
           app:showAsAction="always"/> 
 
     <item android:id="@+id/menu_save_new_category"
-          android:icon="@drawable/action_create" 
+          android:icon="@drawable/action_save" 
+          android:title="@string/save"
           app:showAsAction="always"/>      
     
     <item

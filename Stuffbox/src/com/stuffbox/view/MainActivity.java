@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
     
     public void openArtenScreen(View view) {    	
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), FeatureActivity.class.getName());
+        intent.setClassName(getPackageName(), NewFeatureActivity.class.getName());
         startActivity(intent);
     }	    
 
