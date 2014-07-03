@@ -7,6 +7,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world"
+        android:text="@string/txt_badge_headline"
         android:gravity="center"/>
+    
+    <ListView
+	    android:id="@+id/badgeListView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" 
+	    android:layout_below="@+id/div"
+	    android:layout_alignParentLeft="true">
+	</ListView>
+ 		
 </LinearLayout>
