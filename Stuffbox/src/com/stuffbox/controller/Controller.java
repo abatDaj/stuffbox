@@ -45,7 +45,7 @@ public class Controller {
 	public void init (){
 		if (init)
 			return;
-		getTypes();
+		//getTypes();
 		//initialise database
         initializeDatabase(context);
 		//initialize data
@@ -342,6 +342,9 @@ public class Controller {
      */
     public void initializeDatabase(Context context){
     	databaseHandler.initializeDatabase();
+    	
+    	getTypes();
+    	
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);

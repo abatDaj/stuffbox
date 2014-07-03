@@ -13,6 +13,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -42,7 +43,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		return getCustomView(position, convertView, parent);
 	}
 	
-	public View getCustomView(int position, View convertView, ViewGroup parent) {
+	public View getCustomView(final int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.row_detail_item_feature, parent, false);
@@ -52,25 +53,43 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		mainText.setText(features.get(position).getName());
 		
 		//erstelle Inputfeld entsprechend der Art
-		Feature feature = features.get(position);
+		final Feature feature = features.get(position);
 		
-		TextView editText = (TextView) rowView.findViewById(R.id.editItemText);
+		final TextView editText = (TextView) rowView.findViewById(R.id.editItemText);
 		ImageButton editImage = (ImageButton) rowView.findViewById(R.id.editItemImage);
+		//TODO restliche Eigeschaften
+		
+		
 		switch (feature.getType()) {
+		//Eigenschaft hat Typ Text
 		case Text:
-			//editText.setText(features.get(position).getValue().toString());
 			editImage.setVisibility(LinearLayout.GONE);
-			feature.setValue(editText.getText().toString());
+			editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+				public void onFocusChange(View v, boolean hasFocus) {
+					feature.setValue(editText.getText().toString());
+				}
+			});
 			break;
+		//Eigenschaft hat Typ Foto
 		case Foto:
 			editImage.setImageDrawable(context.getResources().getDrawable( R.drawable.item_photo ));
-			feature.setValue("Test");
+			editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+				public void onFocusChange(View v, boolean hasFocus) {
+					feature.setValue("Image");
+				}
+			});
 			editText.setVisibility(LinearLayout.GONE);
 			break;
+		//TODO restliche Typen
 		default:
 			//editText.setText(features.get(position).getValue().toString());
-			feature.setValue(editText.getText().toString());
+			//feature.setValue(editText.getText().toString());
 			editImage.setVisibility(LinearLayout.GONE);
+			editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+				public void onFocusChange(View v, boolean hasFocus) {
+					feature.setValue(editText.getText().toString());
+				}
+			});
 			break;
 		}
 		//View editFuture = (View) rowView.findViewById(R.id.editFeature);

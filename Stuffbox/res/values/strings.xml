@@ -48,6 +48,8 @@
     <string name="btn_alert_de_yes">Ja</string>
     <string name="btn_alert_de_no">Nein</string>
     
+    <string name="txt_badge_headline">Deine Abzeichen</string>
+    
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
     <string name="delete_dialog_category">Wollen Sie wirklich die Kategorie samt allen Unterkategorien und Dateien löschen ?</string>
     <string name="delete_dialog_yes">Ja</string>
