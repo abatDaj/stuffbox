@@ -323,7 +323,7 @@ public class Controller {
     }
     
     /**
-     * temporaer: Fuellt ein paar die Tabelle mit ein paar Icons.
+     * temporaer: Fuellt ein paars die Tabelle mit ein paar Icons.
      * TODO richtig machen
      */
     public void fillIconTableWithIcons (Context context)
@@ -395,7 +395,7 @@ public class Controller {
      */
     public void setCurrentCategory(Category newCurrentCategory) { 
     	currentCategory = newCurrentCategory;
-    }
+    } 
     
 	/**
 	 * Gibt Oberkategorie zurueck

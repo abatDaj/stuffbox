@@ -31,7 +31,8 @@ public class DetailItemActivity extends ActionBarActivity {
 	
 	private ListView mainListView ;
 	private FeatureArrayAdapterForDetailItem formularAdapter;
-
+	private CategoryChooseArrayAdapter categoryChooseAdapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,20 +41,19 @@ public class DetailItemActivity extends ActionBarActivity {
 		Formular serializedCategory = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
 		if (serializedCategory != null) {
 			
-			
-			
-			Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
-			//Controller.fillIconTableWithSomeIcons(this);
+			// Spinner mit Kategorien füllen
 			ArrayList<Category> allcats = Controller.getInstance().getCategories(null);
+			Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
+			CategoryChooseArrayAdapter categoryChooseAdapter = new CategoryChooseArrayAdapter(this, allcats);
+			spinner.setAdapter(categoryChooseAdapter);
 
-			CategorySpinnerArrayAdapter adapter = new CategorySpinnerArrayAdapter(this, allcats);
-			spinner.setAdapter(adapter);
-
+			
+			// Alle Eigenschaften des Formulars anzeigen
 			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 	        ArrayList<Feature> features = serializedCategory.getFeatures();
-	        
 			formularAdapter = new FeatureArrayAdapterForDetailItem (this, features);
-		    mainListView.setAdapter( formularAdapter );		
+		    mainListView.setAdapter( formularAdapter );
+		    // Größe der Liste anhand der Anzahl der Eigenschaften berechnen.
 	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO

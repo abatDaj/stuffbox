@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Icon;
 
@@ -55,34 +56,31 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
 		
 		Icon icon = values.get(position).getIcon();
 
+		// TODO .. dat kann man schöner machen (default icon)
 		String iconName = null;
 		if(icon == null || !icon.getName().startsWith("category_icon_")){
 			iconName = "category_icon_default";
 		}else{
 			iconName = icon.getName();
 		}
-
-		try {
-			//TODO category_icon_default: Der Default-Icon Name (temporaer)
-			Field f = R.drawable.class.getField(iconName);
-			imageView.setImageResource(f.getInt(null));
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		imageView.setImageResource(values.get(position).getIcon().getDrawableId());
+		CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.cat_row_checkbox);
+		
+		// TODO Aktuelle ID sollte angeklickt und am besten vorne sein,
+		// beides klappt noch nicht.
+		if (values.get(position).getId() == Controller.getInstance().getCurrentCategory().getId()) {
+			checkbox.setSelected(true);
+			rowView.bringToFront();
 		}
-
+		
         rowView.setOnClickListener(new View.OnClickListener()
         {
+    		CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.cat_row_checkbox);
+    		
             @Override
             public void onClick(View v)
             {
-            	CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.cat_row_checkbox);
                 if(checkbox.isSelected()){
                 	selectedvalues.remove(values.get(position));
                 	checkbox.setSelected(false);
