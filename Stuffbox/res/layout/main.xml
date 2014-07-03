@@ -40,6 +40,12 @@
             android:onClick="openListCategories"
             android:text="@string/button_list_categories" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="chooseCategories"
+            android:text="@string/title_activity_choose_category" />        
+        
         <ImageButton
             android:id="@+id/imageButtonFoto"
             android:layout_width="wrap_content"

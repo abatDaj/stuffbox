@@ -14,7 +14,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
@@ -24,6 +23,7 @@ import com.stuffbox.model.Formular;
 
 public class NewFormularActivity  extends ActionBarActivity {
 	
+	public static final int REQUEST_NEW_FORMULAR = 0;
 	private static final long idNewFeatureEntry = -1;
 	
 	private ListView listFeaturesSelected;
@@ -70,7 +70,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        {
 	        	Feature choosenFeature = selectedNotFeaturesAdapter.getItem(position);
 	        	if(choosenFeature.getId() == idNewFeatureEntry){
-	        		//neuer Eintrag soll angelegt werden
+	        		//neue Eigenschaft soll angelegt werden
 	        		
 	        		//TODO bisherige Eingabe speichern
 	                Intent intent = new Intent();        
@@ -136,7 +136,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.new_formlar, menu);
+		getMenuInflater().inflate(R.menu.change_menu, menu);
 		return true;
 	}
 	/**
@@ -151,11 +151,11 @@ public class NewFormularActivity  extends ActionBarActivity {
 		ArrayList<Feature> features = selectedfeaturesAdapter.getFeatures();
 		
 		Controller.getInstance().insertFormlar(formularName, features);
-		
-		//starte naechsten Screen
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), MainActivity.class.getName());
-        startActivity(intent);
+        
+		//urueck zur anfragenden activity
+        Intent intentMessage=new Intent();
+        setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
+		finish();
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
@@ -167,9 +167,6 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {	
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:

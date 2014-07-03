@@ -2,34 +2,21 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
-import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
-import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Category;
-import com.stuffbox.model.Formular;
-import com.stuffbox.model.Icon;
-
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.os.Build;
 
-public class NewItemActivity extends ActionBarActivity {
+import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Formular;
+
+public class ListFormularActivity extends ActionBarActivity {
+	public static final long idNewFormularEntry = -1;
 	
 	private ListView mainListView ;
 	private FormularArrayAdapter formularAdapter;
@@ -37,25 +24,29 @@ public class NewItemActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.new_item);
+		setContentView(R.layout.list);
 		
-		mainListView = (ListView) findViewById( R.id.formularListView );
-
-        		
-        ArrayList<Formular> formulars = Controller.getInstance().getFormulars(null);
-        Formular[] forms = new Formular[formulars.size()];
-		
-		for (int i = 0 ;i < formulars.size();i++)
-			forms[i] = formulars.get(i);
-
-		formularAdapter = new FormularArrayAdapter (this, forms);
+		mainListView = (ListView) findViewById( R.id.listView );
+        
+        ArrayList<Formular> formulars = new ArrayList<Formular>();
+        
+		//Eintrag neues Formular einfuegen
+		Formular newFormularEntry = new Formular(idNewFormularEntry, 
+				getResources().getText(R.string.title_activity_new_formular).toString(), 
+				null);
+        formulars.add(newFormularEntry);
+        
+        //vorhandene Formulare an Liste anfuegen
+        formulars.addAll(Controller.getInstance().getFormulars(null));
+        
+		formularAdapter = new FormularArrayAdapter (this, formulars);
 	    mainListView.setAdapter( formularAdapter );
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_item, menu);
+		getMenuInflater().inflate(R.menu.feature_list, menu);
 		return true;
 	}
 	
@@ -71,7 +62,7 @@ public class NewItemActivity extends ActionBarActivity {
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	    	case R.id.menu_save_new_item:
-	    		onSaveItem();
+	    		onSave();
 		        return true;
 		    case R.id.menu_chancel_item:
 		    	onChancel();
@@ -90,21 +81,23 @@ public class NewItemActivity extends ActionBarActivity {
 	 * wird an diese verschickt.
 	 *
 	 */
-	public void onSaveItem(){
-		
+
+	public void onSave(){
 		Formular selectedFormular = formularAdapter.getCurrentFormular();
-		if (selectedFormular != null) {
+		//TODO Ausgabe ordentlich (Toasts sind eher schlecht, Text kann so bleiben ;)
+		if (selectedFormular != null){
 			Intent i = new Intent(this, DetailItemActivity.class);
 			i.putExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM, selectedFormular);
-			startActivity(i);	
-		}
-		else
+			startActivity(i);
+			Toast.makeText(getApplicationContext(), selectedFormular.getName(), 7).show();
+		}else{
 			Toast.makeText(getApplicationContext(), "You should select at least one formular you moron.", 7).show();
+		}
 	}
 	
 	/**
 	 * 
-	 * Zurück zur aktuellen Kategorie
+	 * Zurueck zur aktuellen Kategorie
 	 */	
 	public void onChancel(){
         Intent intent = new Intent();   
@@ -112,6 +105,17 @@ public class NewItemActivity extends ActionBarActivity {
         startActivity(intent);				
 		this.finish();
 	}
+	
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == NewFormularActivity.REQUEST_NEW_FORMULAR) {
+        	//fuegt neues formular an Auswahlliste an
+        	Formular formular = Controller.getInstance().popLastInsertedFormular();
+        	if(formular != null){
+        		formularAdapter.add(formular);
+        	}
+        }
+    }
 	
     public void openFormularNewScreen(View view){    	
         Intent intent = new Intent();        

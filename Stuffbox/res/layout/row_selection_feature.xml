@@ -9,11 +9,9 @@
         android:orientation="horizontal" >
         
 	<TextView
-        android:id="@+id/presymbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:textAppearance="?android:attr/textAppearanceLarge" />         
+        android:id="@+id/presymbol_feature"
+        style="@style/presymbol"
+        android:text="@string/minus" />         
 	    
 	    <TextView
 	        android:id="@+id/selected_feature_name"

@@ -62,12 +62,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
         
         Category currentCategory = Controller.getInstance().getCurrentCategory();
         ArrayList<Category> mainCategories = Controller.getInstance().getSubCategories(currentCategory.getId());
-		Category[] cats = new Category[mainCategories.size()];
-		
-		for (int i = 0 ;i < mainCategories.size();i++)
-			cats[i] = mainCategories.get(i);
-
-        categoryAdapter = new CategoryArrayAdapter (this, cats);
+        
+        categoryAdapter = new CategoryArrayAdapter (this, mainCategories);
 	    mainListView.setAdapter( categoryAdapter );	
 	}
 
@@ -140,7 +136,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	 */
 	public void onNewItem () {
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), NewItemActivity.class.getName());
+        intent.setClassName(getPackageName(), ListFormularActivity.class.getName());
         startActivity(intent);
 	}	
 	
