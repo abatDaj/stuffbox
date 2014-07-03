@@ -1,6 +1,7 @@
 package com.stuffbox.view;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import com.stuffbox.R;
 import com.stuffbox.model.Category;
@@ -17,12 +18,12 @@ import android.widget.TextView;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private final Context context;
-	private final Feature[] values;
+	private final ArrayList<Feature> features;
 
-	public FeatureArrayAdapterForDetailItem(Context context, Feature[] values) {
-		super(context, R.layout.row_detail_item_feature, values);
+	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features) {
+		super(context, R.layout.row_detail_item_feature, features);
 		this.context = context;
-		this.values = values;
+		this.features = features;
 	}
 
 	@Override
@@ -41,8 +42,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.row_detail_item_feature, parent, false);
-		TextView mainText = (TextView) rowView.findViewById(R.id.aFeatureName);
-		mainText.setText(values[position].getName());
+		TextView mainText = (TextView) rowView.findViewById(R.id.featureName);
+		mainText.setText(features.get(position).getName());
+		//View editFuture = (View) rowView.findViewById(R.id.editFeature);
 		return rowView;
 	}
 }

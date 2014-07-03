@@ -47,5 +47,8 @@
     <string name="new_item_select_formular_text1">Wählen Sie ein Formular für ihren neuen Eintrag aus...</string>
     <string name="new_item_select_formular_text2">... oder erstellen Sie ein neues Formular für den neuen Eintrag.</string>
     <string name="to_new_formular">Formular anlegen</string>
+    <string name="labelFeatureName">Bezeichnung</string>
+    <string name="labelFeatureImage">Bild</string>
+    <string name="category">Kategorie</string>
 
 </resources>

@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <ListView
-        android:id="@+id/featureListViewInDetailItem"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".50"
-        android:drawSelectorOnTop="true"
-        android:padding="10dp" >
-    </ListView>
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical" >
 
+        <TextView
+            style="@style/identifier"
+            android:singleLine="true"
+            android:text="@string/labelFeatureName" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/editNameFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="" >
+        </EditText>
+
+        <TextView
+            style="@style/identifier"
+            android:singleLine="true"
+            android:text="@string/labelFeatureImage" />
+
+        <ImageButton
+            android:id="@+id/imageButtonItem"
+            style="@style/aLinearRowCreatingSomethingImageButton"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:background="@null"
+            android:contentDescription="@string/title_activity_new_category"
+            android:fitsSystemWindows="true"
+            android:padding="2dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/item_photo" />
+
+        <TextView
+            style="@style/identifier"
+            android:singleLine="true"
+            android:text="@string/category" />
+
+        <Spinner
+            android:id="@+id/spinner_categories_in_item"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/featureListViewInDetailItem"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:drawSelectorOnTop="true"
+            android:padding="10dp"
+            android:scrollbars="none" >
+        </ListView>
+    </LinearLayout>
+
+</ScrollView>

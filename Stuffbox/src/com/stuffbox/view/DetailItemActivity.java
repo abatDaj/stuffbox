@@ -1,6 +1,7 @@
 package com.stuffbox.view;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.stuffbox.R;
 import com.stuffbox.R.id;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.os.Build;
 
@@ -37,20 +39,22 @@ public class DetailItemActivity extends ActionBarActivity {
 		
 		Formular serializedCategory = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
 		if (serializedCategory != null) {
+			
+			
+			
+			Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
+			//Controller.fillIconTableWithSomeIcons(this);
+			ArrayList<Category> allcats = Controller.getInstance().getCategories(null);
 
-			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);
+			CategorySpinnerArrayAdapter adapter = new CategorySpinnerArrayAdapter(this, allcats);
+			spinner.setAdapter(adapter);
 
-			ArrayList<Feature> g = Controller.getInstance().getFormulars(null).get(0).getFeatures();
-	        		
+			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 	        ArrayList<Feature> features = serializedCategory.getFeatures();
 	        
-	        Feature[] feas = new Feature[g.size()];
-			Controller.getInstance().sayIt("ZAHL: " + g.size());
-			for (int i = 0 ;i < g.size();i++)
-				feas[i] = g.get(i);
-
-			formularAdapter = new FeatureArrayAdapterForDetailItem (this, feas);
-		    mainListView.setAdapter( formularAdapter );			
+			formularAdapter = new FeatureArrayAdapterForDetailItem (this, features);
+		    mainListView.setAdapter( formularAdapter );		
+	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO
 			 new RuntimeException ("Something went horribly wrong :-0");
