@@ -16,6 +16,7 @@ import com.stuffbox.model.Icon;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,23 +25,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
 public class DetailItemActivity extends ActionBarActivity {
 	
 	private ListView mainListView ;
-	private FeatureArrayAdapterForDetailItem formularAdapter;
+	private Formular formular;
+	private FeatureArrayAdapterForDetailItem featureAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_item);
 		
-		Formular serializedCategory = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
-		if (serializedCategory != null) {
-			
-			
+		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
+		if (formular != null) {
 			
 			Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
 			//Controller.fillIconTableWithSomeIcons(this);
@@ -50,10 +51,9 @@ public class DetailItemActivity extends ActionBarActivity {
 			spinner.setAdapter(adapter);
 
 			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
-	        ArrayList<Feature> features = serializedCategory.getFeatures();
 	        
-			formularAdapter = new FeatureArrayAdapterForDetailItem (this, features);
-		    mainListView.setAdapter( formularAdapter );		
+			featureAdapter = new FeatureArrayAdapterForDetailItem (this, formular.getFeatures());
+		    mainListView.setAdapter( featureAdapter );		
 	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO
@@ -68,19 +68,55 @@ public class DetailItemActivity extends ActionBarActivity {
 		if (icon !=null)
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		
-		getMenuInflater().inflate(R.menu.detail_item, menu);
+		getMenuInflater().inflate(R.menu.change_menu, menu);
 		return true;
 	}
 
+	/**
+	 * 
+	 * Ein neues Formular wird angelegt.
+	 *
+	 * @param view
+	 */
+	public void onSave(View view){
+		//speicher item auf der Datenbank
+		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
+        
+		Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
+		ArrayList<Category> selectedCategories = new ArrayList<Category>();
+		selectedCategories.add((Category) spinner.getSelectedItem());
+				
+		//TODO erhalte gesetzte Werte des Formlars
+		
+		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+		
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);
+	}
+	/**
+	 * Vorgang wird abgebrochen - Daten werden verworfen
+	 * @param view
+	 */
+	public void onCancel(View view){			
+		this.finish();
+	}
+	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+	public boolean onOptionsItemSelected(MenuItem item) {	
+		int itemId = item.getItemId();
+	    switch (itemId) {
+	        case R.id.menu_save:
+	        	onSave(null);
+	            return true;
+	        case R.id.menu_abort:
+	            onCancel(null);
+	            return true;
+	        case R.id.action_settings:
+	        	//TODO do something
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 }

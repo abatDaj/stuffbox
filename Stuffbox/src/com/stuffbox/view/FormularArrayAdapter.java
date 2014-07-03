@@ -34,6 +34,7 @@ public class FormularArrayAdapter extends ArrayAdapter<Formular> {
 		if(values.size() > 0){
 			//wenn mind. ein Formular exisitert, setze default das erste als ausgewaehltes
 			this.selectedVariation = 1;
+			currentFormular = values.get(selectedVariation);
 		}
 	}
 

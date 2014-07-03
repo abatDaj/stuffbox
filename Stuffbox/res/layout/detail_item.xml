@@ -55,7 +55,7 @@
             android:layout_height="100dp"
             android:drawSelectorOnTop="true"
             android:padding="10dp"
-            android:scrollbars="none" >
+            android:scrollbars="none" > 
         </ListView>
     </LinearLayout>
 
