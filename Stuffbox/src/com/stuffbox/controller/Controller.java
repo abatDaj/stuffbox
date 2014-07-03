@@ -44,7 +44,7 @@ public class Controller {
 	public void init (){
 		if (init)
 			return;
-		getTypes();
+
 		//initialise database
         initializeDatabase(context);
 		//initialize data
