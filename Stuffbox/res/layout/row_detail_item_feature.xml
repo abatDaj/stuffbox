@@ -11,13 +11,16 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         android:textSize="16sp" />
-
-    <EditText
-        android:id="@+id/editFeature"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="">
-    </EditText>
-
+	<LinearLayout android:id="@+id/editFeatureLayout"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="6dip" 
+	    android:orientation="vertical">
+	    <EditText
+	        android:id="@+id/editItemText"
+	        style="@style/imageButtonEditText" />
+	    <ImageButton
+            android:id="@+id/editItemImage"
+            style="@style/imageButtonItem" />
+	</LinearLayout>
 </LinearLayout>
