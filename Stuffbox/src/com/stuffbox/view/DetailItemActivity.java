@@ -34,7 +34,6 @@ public class DetailItemActivity extends ActionBarActivity {
 	private ListView mainListView ;
 
 	private FeatureArrayAdapterForDetailItem featureAdapter;
-	private CategoryChooseArrayAdapter categoryChooseAdapter;
 	private Formular formular;
 
 	@Override
@@ -79,7 +78,7 @@ public class DetailItemActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * 
+	 * 0
 	 * Ein neues Formular wird angelegt.
 	 *
 	 * @param view
@@ -96,9 +95,9 @@ public class DetailItemActivity extends ActionBarActivity {
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
-        startActivity(intent);
+//        Intent intent = new Intent();        
+//        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+//        startActivity(intent);
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
