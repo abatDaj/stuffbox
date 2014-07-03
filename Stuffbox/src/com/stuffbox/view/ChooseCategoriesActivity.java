@@ -41,7 +41,6 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ChooseCategoriesActivity extends ActionBarActivity {
 
 	private CategoryChooseArrayAdapter categoryAdapter;
-	//private ArrayList<Category> selectedCatgegories = new ArrayList<Category>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

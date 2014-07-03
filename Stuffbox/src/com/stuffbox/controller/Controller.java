@@ -23,7 +23,6 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
-	public final static String EXTRA_CATEGORIES_TO_SELECT_FOR_NEW_ITEM="stuffbox.com.EXTRA_CATEGORIES_TO_SELECT_FOR_NEW_ITEM";
 	
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
