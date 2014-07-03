@@ -44,10 +44,37 @@
             android:singleLine="true"
             android:text="@string/category" />
 
-        <Spinner
-            android:id="@+id/spinner_categories_in_item"
+
+        <LinearLayout
+            android:id="@+id/linearlayout"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/list_selector_background"
+            android:clickable="true"
+            android:onClick="openCategoryChooser"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <ImageButton
+                android:id="@+id/detail_item_category_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:contentDescription="@string/title_activity_new_category"
+                android:fitsSystemWindows="true"
+                android:padding="2dp"
+                android:scaleType="fitCenter"/>
+
+  
+            <TextView
+                android:id="@+id/detail_item_category_text"
+                style="@style/aLinearRowCreatingSomethingText"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:textSize="20sp">
+            </TextView>
+        </LinearLayout>
 
         <ListView
             android:id="@+id/featureListViewInDetailItem"
@@ -55,7 +82,7 @@
             android:layout_height="100dp"
             android:drawSelectorOnTop="true"
             android:padding="10dp"
-            android:scrollbars="none" > 
+            android:scrollbars="none" >
         </ListView>
     </LinearLayout>
 

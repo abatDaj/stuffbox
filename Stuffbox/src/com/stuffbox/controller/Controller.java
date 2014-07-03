@@ -23,13 +23,14 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
-	
-	
+	public final static String EXTRA_CATEGORIES_TO_SELECT_FOR_NEW_ITEM="stuffbox.com.EXTRA_CATEGORIES_TO_SELECT_FOR_NEW_ITEM";
 	
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
+
 	private ArrayList<FeatureType> types = null;
 	private ArrayList<Icon> icons;
+	private ArrayList<Category> selectedCategoriesInItem = null; 
 	private Category currentCategory;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
@@ -407,6 +408,15 @@ public class Controller {
 	public Category getPreCategory(Category category) {
 		return databaseHandler.getPreCategory(category);
 	}	
+	
+	public ArrayList<Category> getSelectedCategoriesInItem() {
+		return selectedCategoriesInItem;
+	}
+
+	public void setSelectedCategoriesInItem(
+			ArrayList<Category> selectedCategoriesInItem) {
+		this.selectedCategoriesInItem = selectedCategoriesInItem;
+	}
     
     // LÖSCHE MICH DEMNÄCHST, aber nicht während der Entwicklung.
     public void sayIt(String message) {

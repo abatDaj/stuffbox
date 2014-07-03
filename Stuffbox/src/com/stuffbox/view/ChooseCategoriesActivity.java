@@ -41,6 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ChooseCategoriesActivity extends ActionBarActivity {
 
 	private CategoryChooseArrayAdapter categoryAdapter;
+	//private ArrayList<Category> selectedCatgegories = new ArrayList<Category>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.change_menu, menu);
+		getMenuInflater().inflate(R.menu.change_menu_choose_categories, menu);
 		return true;
 	}
 
@@ -88,12 +89,10 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	 */
 	public void onSave(View view){
 		ArrayList<Category> selectedCategories= categoryAdapter.getSelectedCategories();
-		
-		//TODO do something    
-//		//zurueck zur anfragenden activity
-//        Intent intentMessage=new Intent();
-//        setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
-//		finish();
+		Controller.getInstance().sayIt(String.valueOf(selectedCategories.size()));
+		Controller.getInstance().setSelectedCategoriesInItem(selectedCategories);
+		// finish() beendet die Kategorie und man wird automatisch in die letzte (mit dem gleichen Zustand) versetzt.
+		finish(); 
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen

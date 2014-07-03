@@ -1,12 +1,8 @@
 package com.stuffbox.view;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import com.stuffbox.R;
-import com.stuffbox.R.id;
-import com.stuffbox.R.layout;
-import com.stuffbox.R.menu;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
@@ -14,27 +10,20 @@ import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.os.Build;
 
 public class DetailItemActivity extends ActionBarActivity {
 	
 	private ListView mainListView ;
 
 	private FeatureArrayAdapterForDetailItem featureAdapter;
-	private CategoryChooseArrayAdapter categoryChooseAdapter;
 	private Formular formular;
 
 	@Override
@@ -45,21 +34,23 @@ public class DetailItemActivity extends ActionBarActivity {
 		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
 		if (formular != null) {
 			
-			//Controller.fillIconTableWithSomeIcons(this);
-			ArrayList<Category> allcats = Controller.getInstance().getCategories(null);
-			Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
-			CategoryChooseArrayAdapter categoryChooseAdapter = new CategoryChooseArrayAdapter(this, allcats);
-			spinner.setAdapter(categoryChooseAdapter);
+			// TODO beim speicher oder abbrechen des Item-Erstellungsvorgangs sollte im Controller
+			// selectedCategoriesInItem auf null gesetzt werden.
+			Controller.getInstance().setSelectedCategoriesInItem(null);
+									
+			ImageButton imageButton = (ImageButton) findViewById(R.id.detail_item_category_icon);
+			imageButton.setImageResource(Controller.getInstance().getCurrentCategory().getIcon().getDrawableId());
+			TextView textView = (TextView) findViewById(R.id.detail_item_category_text);
+			textView.setText(Controller.getInstance().getCurrentCategory().getName());
 
-			
 			// Alle Eigenschaften des Formulars anzeigen
 			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 
 	        ArrayList<Feature> features = formular.getFeatures();
 	        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features);
 		    mainListView.setAdapter( featureAdapter );
+		    
 		    // Größe der Liste anhand der Anzahl der Eigenschaften berechnen.
-
 	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO
@@ -88,17 +79,18 @@ public class DetailItemActivity extends ActionBarActivity {
 		//speicher item auf der Datenbank
 		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
         
-		Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
-		ArrayList<Category> selectedCategories = new ArrayList<Category>();
-		selectedCategories.add((Category) spinner.getSelectedItem());
+		//Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
+		//ArrayList<Category> selectedCategories = new ArrayList<Category>();
+		//selectedCategories.add((Category) spinner.getSelectedItem());
 				
 		//TODO erhalte gesetzte Werte des Formlars
 		
-		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+		/*Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
-        startActivity(intent);
+        startActivity(intent);*/
+		Controller.getInstance().sayIt("onSave()");
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
@@ -106,6 +98,12 @@ public class DetailItemActivity extends ActionBarActivity {
 	 */
 	public void onCancel(View view){			
 		this.finish();
+	}
+	
+	public void openCategoryChooser (View view) {
+        Intent intent = new Intent();        
+        intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
+        startActivity(intent);
 	}
 	
 	@Override

@@ -11,10 +11,11 @@
     android:orientation="horizontal" >
     
     <CheckBox
-        android:id="@+id/cat_row_checkbox"
+        android:id="@+id/cat_row_checkbox7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       />
+               android:clickable="true"
+        android:saveEnabled="true"/>
               
     <ImageView
         android:id="@+id/cat_row_icon"
@@ -23,19 +24,19 @@
         android:layout_marginRight="6dip"
         android:contentDescription="@null"/>
     
+    
 	</LinearLayout>
 	 
     <TextView
         android:id="@+id/cat_row_text1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="@null"
         android:textSize="16sp"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:gravity="center_vertical" />
 
-    
 </LinearLayout> 
  
