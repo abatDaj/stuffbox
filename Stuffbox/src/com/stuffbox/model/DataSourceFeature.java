@@ -112,7 +112,13 @@ public class DataSourceFeature {
      * @return
      */
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
-		return value.toString();
+		String valueAsString;
+		switch (type) {
+		default:
+			valueAsString = value.toString();
+			break;
+		}
+		return valueAsString;
 	}
 	/**
 	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt

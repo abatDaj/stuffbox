@@ -2,15 +2,7 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
-import com.stuffbox.R;
-import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Feature;
-import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
-import com.stuffbox.view.helper.EditTextDatePicker;
-
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Feature;
+import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
+import com.stuffbox.view.helper.EditTextDatePicker;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private final Context context;
@@ -40,6 +37,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		this.context = context;
 		this.features = features;
 		this.activityWithATimePickerEditText = activityWithATimePickerEditText;
+		
 	}
 	/**
 	 * Setzt ob die Elemente eingabebereit sind
@@ -88,29 +86,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			buildImageEdit(editImage, feature);
 			break;
 		case Dezimalzahl:
-			LinearLayout rowViewDezimalzahl= new LinearLayout(context);
-			rowViewDezimalzahl.setOrientation(LinearLayout.VERTICAL);
-			((ViewGroup)rowView).removeView(mainText);
-			rowViewDezimalzahl.addView(mainText);
-			EditText editDezimalzahl= new EditText(context);
-			// InputType = Zahlen + Dezimalzahlen + Minuswerte mÃ¶glich
-			editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
-			editDezimalzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
-			rowViewDezimalzahl.addView(editDezimalzahl);
-			return rowViewDezimalzahl;
+			rowView = buildDecimalEdit(rowView, mainText, feature);
+			break;
 		case Ganzzahl:
-			LinearLayout rowViewGanzzahl= new LinearLayout(context);
-			rowViewGanzzahl.setOrientation(LinearLayout.VERTICAL);
-			((ViewGroup)rowView).removeView(mainText);
-			rowViewGanzzahl.addView(mainText);
-			EditText editGanzahl= new EditText(context);
-			// InputType = Zahlen + Minuswerte mÃ¶glich
-			editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
-			editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
-			rowViewGanzzahl.addView(editGanzahl);
-			return rowViewGanzzahl;
+			rowView = buildIntegerEdit(rowView, mainText, feature);
+			break;
 		//Eigenschaft hat Typ Datum
 		case Datum:
 			rowView = buildDateEdit(rowView, mainText, feature);
@@ -229,6 +209,46 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		});
 		
 		return rowViewBoolean;
+	}
+	/**
+	 * Erstellt den Eingabebereich für Eigenschaften mit der Art Bewertung
+	 * @param rowView
+	 * @param mainText
+	 * @param feature
+	 * @return
+	 */
+	private LinearLayout buildDecimalEdit(View rowView, TextView mainText, final Feature feature){
+		LinearLayout rowViewDecimalzahl= new LinearLayout(context);
+		rowViewDecimalzahl.setOrientation(LinearLayout.VERTICAL);
+		((ViewGroup)rowView).removeView(mainText);
+		rowViewDecimalzahl.addView(mainText);
+		EditText editDezimalzahl= new EditText(context);
+		// InputType = Zahlen + Dezimalzahlen + Minuswerte moeglich
+		editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
+		editDezimalzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+		rowViewDecimalzahl.addView(editDezimalzahl);
+		return rowViewDecimalzahl;
+	}
+	/**
+	 * Erstellt den Eingabebereich für Eigenschaften mit der Art Bewertung
+	 * @param rowView
+	 * @param mainText
+	 * @param feature
+	 * @return
+	 */
+	private LinearLayout buildIntegerEdit(View rowView, TextView mainText, final Feature feature){	
+		LinearLayout rowViewInteger= new LinearLayout(context);
+		rowViewInteger.setOrientation(LinearLayout.VERTICAL);
+		((ViewGroup)rowView).removeView(mainText);
+		rowViewInteger.addView(mainText);
+		EditText editGanzahl= new EditText(context);
+		// InputType = Zahlen + Minuswerte mÃ¶glich
+		editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
+		editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+		rowViewInteger.addView(editGanzahl);
+		return rowViewInteger;
 	}
 	/**
 	 * Erstellt den Eingabebereich für Eigenschaften mit der Art Bewertung

@@ -2,6 +2,16 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
@@ -11,18 +21,6 @@ import com.stuffbox.model.Icon;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
-
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBarActivity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
 	
@@ -88,6 +86,13 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		//speicher item auf der Datenbank
 		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
 		ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
+		
+		for(int i = 0; i < mainListView.getChildCount(); i++)
+		{
+			View lView = (View) mainListView.getChildAt(i);
+			lView.clearFocus();
+		} 
+		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		
 		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());

@@ -68,23 +68,23 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
 			}
 		}
 		else 
-			for (Category c : Controller.getInstance().getSelectedCategoriesInItem())
-				if (c.getId() == values.get(position).getId())
-					checkbox.setChecked(true);
+		{
+			for (Category c : Controller.getInstance().getSelectedCategoriesInItem()){
+				if (c.getId() == values.get(position).getId()){
+					checkbox.setChecked(true);	
+				}
+			}
+		}
 		
-		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-						
+		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener(){		
     		public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
-	    		if (isChecked)
-	    			selectedvalues.add(values.get(position));
-	    		else
-	    			for (int i = 0; i < selectedvalues.size();  i++ ) {
-                		if (selectedvalues.get(i).getId() == values.get(position).getId()) {
-                			selectedvalues.remove(i);
-                			break;
-                		}
-                	}
+                if(!isChecked){
+                	selectedvalues.remove(values.get(position));
+                }else{
+                	selectedvalues.add(values.get(position));
+                }
 			}});
+		
 		return rowView;
 	}
 	
