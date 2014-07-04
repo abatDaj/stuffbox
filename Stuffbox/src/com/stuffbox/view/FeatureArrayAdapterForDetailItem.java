@@ -11,6 +11,7 @@ import com.stuffbox.view.helper.EditTextDatePicker;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable.Orientation;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,14 +72,16 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		switch (feature.getType()) {
 		//Eigenschaft hat Typ Text
 		case Text:
-			editImage.setVisibility(LinearLayout.GONE);
-			editText.setOnFocusChangeListener(new OnFocusChangeListener() {
-				public void onFocusChange(View v, boolean hasFocus) {
-					feature.setValue(editText.getText().toString());
-				}
-			});
-			break;
-		//Eigenschaft hat Typ Foto
+			LinearLayout rowViewText= new LinearLayout(context);
+			rowViewText.setOrientation(LinearLayout.VERTICAL);
+			((ViewGroup)rowView).removeView(mainText);
+			rowViewText.addView(mainText);
+			EditText editNormalText= new EditText(context);
+			// InputType = Zahlen + Dezimalzahlen + Minuswerte möglich
+			editNormalText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
+			rowViewText.addView(editNormalText);
+			return rowViewText;
 		case Foto:
 			editImage.setImageDrawable(context.getResources().getDrawable( R.drawable.item_photo ));
 			editText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -88,6 +91,30 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			});
 			editText.setVisibility(LinearLayout.GONE);
 			break;
+		case Dezimalzahl:
+			LinearLayout rowViewDezimalzahl= new LinearLayout(context);
+			rowViewDezimalzahl.setOrientation(LinearLayout.VERTICAL);
+			((ViewGroup)rowView).removeView(mainText);
+			rowViewDezimalzahl.addView(mainText);
+			EditText editDezimalzahl= new EditText(context);
+			// InputType = Zahlen + Dezimalzahlen + Minuswerte möglich
+			editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
+			editDezimalzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+			rowViewDezimalzahl.addView(editDezimalzahl);
+			return rowViewDezimalzahl;
+		case Ganzzahl:
+			LinearLayout rowViewGanzzahl= new LinearLayout(context);
+			rowViewGanzzahl.setOrientation(LinearLayout.VERTICAL);
+			((ViewGroup)rowView).removeView(mainText);
+			rowViewGanzzahl.addView(mainText);
+			EditText editGanzahl= new EditText(context);
+			// InputType = Zahlen + Minuswerte möglich
+			editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
+			editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+			rowViewGanzzahl.addView(editGanzahl);
+			return rowViewGanzzahl;
 		case Datum:
 			EditTextDatePicker editTimePicker = new EditTextDatePicker(context, activityWithATimePickerEditText);
 			LinearLayout rowViewDate = new LinearLayout(context);
@@ -126,12 +153,32 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			 */
 			for (int i = 0 ; i < 9; i++) {
 				ImageView iV = new ImageView(context);
+				iV.setOnTouchListener(new View.OnTouchListener() {
+					
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
+						int indexInLayout = rowViewStarsAgain.indexOfChild(v);
+						for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
+							ImageView star = ((ImageView)rowViewStarsAgain.getChildAt(i));
+							if (i <= indexInLayout) 
+							{
+								star.setImageResource(R.drawable.ranking_star_3);
+								// TODO setColorFilter vermutlich besser
+								//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
+							}
+							else 
+							{
+								star.setImageResource(R.drawable.ranking_star_4);
+							}
+						}						return false;
+					}
+				});
 				iV.setOnClickListener(new View.OnClickListener(){
 					@Override
 					public void onClick(View v) {
 						LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
 						int indexInLayout = rowViewStarsAgain.indexOfChild(v);
-						Controller.getInstance().sayIt("SayIt: " + indexInLayout);
 						for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
 							ImageView star = ((ImageView)rowViewStarsAgain.getChildAt(i));
 							if (i <= indexInLayout) 

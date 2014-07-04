@@ -1,6 +1,8 @@
 package com.stuffbox.view.helper;
 
 
+import com.stuffbox.controller.Controller;
+
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +19,7 @@ public class EditTextDatePicker extends EditText {
 		this.activityWithATimePickerEditText = activityWithATimePickerEditText;
 		this.setHint("TT.MM.JJJJ");
 		this.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		setEms(7);
+		setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		
 		setOnClickListener(new View.OnClickListener() {
 
