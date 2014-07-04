@@ -1,34 +1,36 @@
 package com.stuffbox.view;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
-import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
-import com.stuffbox.model.Icon;
+import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
+import com.stuffbox.view.helper.EditTextDatePicker;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private final Context context;
 	private final ArrayList<Feature> features;
+	ActivityWithATimePickerEditText activityWithATimePickerEditText;
 
-	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features) {
+	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
 		super(context, R.layout.row_detail_item_feature, features);
 		this.context = context;
 		this.features = features;
+		this.activityWithATimePickerEditText = activityWithATimePickerEditText;
 	}
 
 	@Override
@@ -80,7 +82,29 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			});
 			editText.setVisibility(LinearLayout.GONE);
 			break;
-		//TODO restliche Typen
+		case Datum:
+			EditTextDatePicker editTimePicker = new EditTextDatePicker(context, activityWithATimePickerEditText);
+			LinearLayout ll = new LinearLayout(context);
+			ll.setOrientation(LinearLayout.VERTICAL);
+			// mainText darf kein parent haben
+		    ((ViewGroup)rowView).removeView(mainText);
+		    ll.addView(mainText);
+			ll.addView(editTimePicker);
+			
+			/*EditText editTimePicker = new EditText(context);
+			
+			
+			editTimePicker.setOnClickListener(l);
+			
+			
+			
+			LinearLayout ll = new LinearLayout(context);
+			ll.setOrientation(LinearLayout.VERTICAL);
+			// mainText darf kein parent haben
+		    ((ViewGroup)rowView).removeView(mainText);
+		    ll.addView(mainText);
+			ll.addView(editTimePicker);*/
+			return ll;
 		default:
 			//editText.setText(features.get(position).getValue().toString());
 			//feature.setValue(editText.getText().toString());

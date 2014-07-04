@@ -89,8 +89,7 @@ public class ListFormularActivity extends ActionBarActivity {
 			Intent i = new Intent(this, DetailItemActivity.class);
 			i.putExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM, selectedFormular);
 			startActivity(i);
-			Toast.makeText(getApplicationContext(), selectedFormular.getName(), 7).show();
-		}else{
+		}else{ // TODO
 			Toast.makeText(getApplicationContext(), "You should select at least one formular you moron.", 7).show();
 		}
 	}

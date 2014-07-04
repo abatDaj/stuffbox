@@ -8,7 +8,11 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
+import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
+import com.stuffbox.view.helper.DatePickerFragment;
+import com.stuffbox.view.helper.EditTextDatePicker;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,15 +23,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class DetailItemActivity extends ActionBarActivity {
+public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
 	
 	private ListView mainListView ;
 
 	private FeatureArrayAdapterForDetailItem featureAdapter;
 	private Formular formular;
+	public String DATE = null;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_item);
 		
@@ -47,7 +53,7 @@ public class DetailItemActivity extends ActionBarActivity {
 			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 
 	        ArrayList<Feature> features = formular.getFeatures();
-	        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features);
+	        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
 		    mainListView.setAdapter( featureAdapter );
 		    
 		    // Größe der Liste anhand der Anzahl der Eigenschaften berechnen.
@@ -77,7 +83,7 @@ public class DetailItemActivity extends ActionBarActivity {
 	 */
 	public void onSave(View view){
 		//speicher item auf der Datenbank
-		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
+		//String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
         
 		//Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
 		//ArrayList<Category> selectedCategories = new ArrayList<Category>();
@@ -124,5 +130,12 @@ public class DetailItemActivity extends ActionBarActivity {
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+
+	@Override
+	public void showTimePickerDialog(EditTextDatePicker editTextDatePicker) {
+		DatePickerFragment newFragment = new DatePickerFragment();
+		newFragment.setEditTextPicker(editTextDatePicker);
+	    newFragment.show(getSupportFragmentManager(), "datePicker");
 	}
 }

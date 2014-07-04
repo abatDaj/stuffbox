@@ -56,7 +56,8 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.DetailItemActivity"
-            android:label="@string/title_activity_detail_item" >
+            android:label="@string/title_activity_detail_item"
+            android:windowSoftInputMode="stateHidden|adjustResize" > <!--damit das Keyboard nicht gleich aufpoppt  --> 
         </activity>
         <activity
             android:name="com.stuffbox.view.ChooseCategoriesActivity"

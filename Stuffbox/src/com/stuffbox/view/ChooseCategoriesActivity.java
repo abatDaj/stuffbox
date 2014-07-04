@@ -88,7 +88,6 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	 */
 	public void onSave(View view){
 		ArrayList<Category> selectedCategories= categoryAdapter.getSelectedCategories();
-		Controller.getInstance().sayIt(String.valueOf(selectedCategories.size()));
 		Controller.getInstance().setSelectedCategoriesInItem(selectedCategories);
 		// finish() beendet die Kategorie und man wird automatisch in die letzte (mit dem gleichen Zustand) versetzt.
 		finish(); 

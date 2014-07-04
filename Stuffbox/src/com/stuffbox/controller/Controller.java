@@ -250,6 +250,7 @@ public class Controller {
     public ArrayList<Formular> insertDebugFormularEntries(ArrayList<Feature> features){   	
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
+    	
     	//erstellen Formular Buecheraufbau
     	ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
     	features.get(0).setSortnumber(1);
@@ -291,6 +292,13 @@ public class Controller {
     	features.get(3).setSortnumber(3);
     	featuresFormular5.add(features.get(3));
     	createdFormulars.add(insertFormlar("Elektrogerätaufbau", featuresFormular5));
+    	
+    	//erstellen Formular Testaufbau
+    	ArrayList<Feature> featuresFormular6 = new ArrayList<Feature>();
+    	features.get(4).setSortnumber(1);
+    	featuresFormular6.add(features.get(4));
+    	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular6));
+    	
     	
     	return createdFormulars;
     }
