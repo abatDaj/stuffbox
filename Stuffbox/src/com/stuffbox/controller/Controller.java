@@ -238,9 +238,10 @@ public class Controller {
     	createdFeatures.add(insertFeature("Seriennummer", types.get(1)));
     	createdFeatures.add(insertFeature("Bewertung", types.get(2)));
     	createdFeatures.add(insertFeature("gekauft am", types.get(3)));
-    	
     	return createdFeatures;
     }
+    
+    
     /**
      * Fuegt Debugeintraege in die Tabelle Formular und Verknuepfungstabelle
      * in die Datenbank ein
@@ -293,11 +294,45 @@ public class Controller {
     	featuresFormular5.add(features.get(3));
     	createdFormulars.add(insertFormlar("Elektrogerätaufbau", featuresFormular5));
     	
+    	
+    	
+    	
+      	ArrayList<Feature> someFeatures = new ArrayList<Feature>();
+        //Debugeintraege schreiben
+      	someFeatures.add(insertFeature("Text", types.get(0)));
+      	someFeatures.add(insertFeature("Dezimalzahl", types.get(1)));
+      	someFeatures.add(insertFeature("Ganzzahl", types.get(2)));
+      	someFeatures.add(insertFeature("Datum", types.get(3)));
+      	someFeatures.add(insertFeature("Ranking", types.get(4)));
+      	someFeatures.add(insertFeature("Foto", types.get(5)));
+      	someFeatures.add(insertFeature("Wahrheitswert", types.get(6)));
+
+      	
+       	ArrayList<Feature> featuresFormular7 = new ArrayList<Feature>();
+       	someFeatures.get(0).setSortnumber(1);
+    	featuresFormular7.add(someFeatures.get(0));
+       	someFeatures.get(1).setSortnumber(2);
+    	featuresFormular7.add(someFeatures.get(1));
+       	someFeatures.get(2).setSortnumber(3);
+    	featuresFormular7.add(someFeatures.get(2));
+       	someFeatures.get(3).setSortnumber(4);
+    	featuresFormular7.add(someFeatures.get(3));
+       	someFeatures.get(4).setSortnumber(5);
+    	featuresFormular7.add(someFeatures.get(4));
+       	someFeatures.get(5).setSortnumber(6);
+    	featuresFormular7.add(someFeatures.get(5));
+       	someFeatures.get(6).setSortnumber(7);
+    	featuresFormular7.add(someFeatures.get(6));
+    	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular7));
+      	
+      	
     	//erstellen Formular Testaufbau
-    	ArrayList<Feature> featuresFormular6 = new ArrayList<Feature>();
+    	/*ArrayList<Feature> featuresFormular6 = new ArrayList<Feature>();
     	features.get(4).setSortnumber(1);
     	featuresFormular6.add(features.get(4));
-    	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular6));
+    	features.get(3).setSortnumber(2);
+    	featuresFormular6.add(features.get(3));
+    	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular6));*/
     	
     	
     	return createdFormulars;

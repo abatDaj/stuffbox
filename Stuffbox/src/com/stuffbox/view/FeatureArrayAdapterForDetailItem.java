@@ -14,11 +14,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
@@ -84,27 +88,47 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			break;
 		case Datum:
 			EditTextDatePicker editTimePicker = new EditTextDatePicker(context, activityWithATimePickerEditText);
-			LinearLayout ll = new LinearLayout(context);
-			ll.setOrientation(LinearLayout.VERTICAL);
+			LinearLayout rowViewDate = new LinearLayout(context);
+			rowViewDate.setOrientation(LinearLayout.VERTICAL);
 			// mainText darf kein parent haben
 		    ((ViewGroup)rowView).removeView(mainText);
-		    ll.addView(mainText);
-			ll.addView(editTimePicker);
-			
-			/*EditText editTimePicker = new EditText(context);
-			
-			
-			editTimePicker.setOnClickListener(l);
-			
-			
-			
-			LinearLayout ll = new LinearLayout(context);
-			ll.setOrientation(LinearLayout.VERTICAL);
-			// mainText darf kein parent haben
-		    ((ViewGroup)rowView).removeView(mainText);
-		    ll.addView(mainText);
-			ll.addView(editTimePicker);*/
-			return ll;
+		    rowViewDate.addView(mainText);
+		    rowViewDate.addView(editTimePicker);
+			return rowViewDate;
+		case Wahrheitswert:
+			LinearLayout rowViewBoolean = new LinearLayout(context);
+			rowViewBoolean.setOrientation(LinearLayout.VERTICAL);
+			((ViewGroup)rowView).removeView(mainText);
+			rowViewBoolean.addView(mainText);
+			RadioButton rB1 = new RadioButton(context);
+			rB1.setText(context.getResources().getString(R.string.delete_dialog_yes));
+			RadioButton rB2 = new RadioButton(context);
+			rB2.setText(context.getResources().getString(R.string.delete_dialog_no));
+			RadioGroup rG = new RadioGroup (context);
+			rG.addView(rB1);
+			rG.addView(rB2);
+			rG.check(rB1.getId());
+			rowViewBoolean.addView(rG);
+			return rowViewBoolean;
+		case Ranking:
+			LinearLayout rowViewRanking= new LinearLayout(context);
+			rowViewRanking.setOrientation(LinearLayout.VERTICAL);
+			((ViewGroup)rowView).removeView(mainText);
+			rowViewRanking.addView(mainText);
+			LinearLayout rowViewStars= new LinearLayout(context);
+			rowViewStars.setOrientation(LinearLayout.HORIZONTAL);
+	
+			//rowViewRanking.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			for (int i = 0 ; i < 9; i++) {
+				ImageView iV = new ImageView(context);
+				iV.setImageResource(R.drawable.ranking_star_3);
+				iV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				rowViewStars.addView(iV);
+			}
+			rowViewRanking.addView(rowViewStars);
+			rowViewRanking.setClickable(false);
+			rowViewRanking.setOnClickListener(null);
+			return rowViewRanking;
 		default:
 			//editText.setText(features.get(position).getValue().toString());
 			//feature.setValue(editText.getText().toString());
