@@ -35,8 +35,10 @@ public class Controller {
 	private ArrayList<Icon> icons;
 	private ArrayList<Category> selectedCategoriesInItem = null; 
 	private Category currentCategory;
+	private Item currentItem;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
+	private Item newInsertedItem;
 	private Context context = null;
 	private Boolean init = false;
 	
@@ -172,9 +174,21 @@ public class Controller {
      * @return
      */
     public Item insertItem(String name, Formular formular, ArrayList<Category> categories){
-    	return databaseHandler.insertItem(name, formular, categories);
+    	newInsertedItem = databaseHandler.insertItem(name, formular, categories);
+    	return newInsertedItem;
     }
 	
+	/**
+	 * Gibt die zuletzt angelegtes Item zurueck und
+	 * entfernt es aus dem Controller
+	 * @return
+	 */
+	public Item popLastInsertedItem(){
+		Item formular = newInsertedItem;
+		newInsertedItem = null;
+		return formular;
+	}
+    
     /**
      * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
@@ -213,6 +227,10 @@ public class Controller {
      */
     public Category updateCategory(Category category){
     	return databaseHandler.updateCategory(category);
+    }
+    
+    public boolean deleteCategory(Category category) { 
+    	return databaseHandler.deleteCategory(category);
     }
     
     /**
@@ -433,11 +451,6 @@ public class Controller {
     public Category getCurrentCategory() { 
     	return currentCategory;
     }
-    
-    public boolean deleteCategory(Category category) { 
-    	return databaseHandler.deleteCategory(category);
-    }
-    
     /**
      * Ueberschreibt die aktuelle Kategorie
      * 
@@ -447,6 +460,22 @@ public class Controller {
     	currentCategory = newCurrentCategory;
     } 
     
+    /**
+     * Gibt die aktuelle Item zurueck
+     * 
+     * @return Die aktuelle Item
+     */
+    public Item getCurrentItem() { 
+    	return currentItem;
+    }
+    /**
+     * Ueberschreibt die aktuelle Item
+     * 
+	 * @param newCurrentItem
+     */
+    public void setCurrentItem(Item newCurrentItem) { 
+    	currentItem = newCurrentItem;
+    }    
 	/**
 	 * Gibt Oberkategorie zurueck
 	 * 
