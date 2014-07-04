@@ -3,11 +3,13 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.EditTextDatePicker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -117,10 +119,34 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			rowViewRanking.addView(mainText);
 			LinearLayout rowViewStars= new LinearLayout(context);
 			rowViewStars.setOrientation(LinearLayout.HORIZONTAL);
-	
-			//rowViewRanking.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			/*
+			 * 9 Sterne werden in den horizontalen Layout hinzugefügt und jedem
+			 * wird ein onCklickListener gegeben, der je nach angeklickter Position
+			 * die Sterne farbig oder eingegraut anzeigt.
+			 */
 			for (int i = 0 ; i < 9; i++) {
 				ImageView iV = new ImageView(context);
+				iV.setOnClickListener(new View.OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
+						int indexInLayout = rowViewStarsAgain.indexOfChild(v);
+						Controller.getInstance().sayIt("SayIt: " + indexInLayout);
+						for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
+							ImageView star = ((ImageView)rowViewStarsAgain.getChildAt(i));
+							if (i <= indexInLayout) 
+							{
+								star.setImageResource(R.drawable.ranking_star_3);
+								// TODO setColorFilter vermutlich besser
+								//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
+							}
+							else 
+							{
+								star.setImageResource(R.drawable.ranking_star_4);
+							}
+						}
+						//((ImageView)v).setImageResource(R.drawable.ranking_star_4);
+					}});
 				iV.setImageResource(R.drawable.ranking_star_3);
 				iV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				rowViewStars.addView(iV);

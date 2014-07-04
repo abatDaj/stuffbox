@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -23,7 +21,7 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
-	
+	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
 
@@ -465,6 +463,6 @@ public class Controller {
     
     // LÖSCHE MICH DEMNÄCHST, aber nicht während der Entwicklung.
     public void sayIt(String message) {
-    	Toast.makeText(context, message, 7).show();
+    	Toast.makeText(context, message, Integer.valueOf(7)).show();
     }
 }
