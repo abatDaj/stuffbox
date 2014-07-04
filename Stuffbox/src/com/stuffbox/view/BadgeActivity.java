@@ -1,17 +1,41 @@
 package com.stuffbox.view;
 
+import java.util.ArrayList;
+
 import com.stuffbox.R;
+import com.stuffbox.model.Badge;
+import com.stuffbox.model.BadgeFeed;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class BadgeActivity extends ActionBarActivity {
 
+	private ListView mainListView ;
+	private BadgeArrayAdapter arrAdapter;
+	private ArrayList<Badge> arrList;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.badge);
+		
+		mainListView = (ListView) findViewById(R.id.badgeListView);
+		/**TODO
+		 * Nur Test um Umgang zu erlernen
+		 */
+		arrList = new ArrayList<Badge>();
+		arrList.add(new Badge("Buecher"));
+		arrList.add(new Badge("Kleidung"));
+		
+		//arrAdapter = new ArrayAdapter<String>(this, arrList);
+		arrAdapter = new BadgeArrayAdapter(this, arrList);
+		mainListView.setAdapter(arrAdapter);
+		
 
 	}
 

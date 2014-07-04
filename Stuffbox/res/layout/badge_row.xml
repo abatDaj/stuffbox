@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dip" >
+<TextView
+        android:id="@+id/badge_row_text1"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="BadgeCatName"
+        android:textSize="16sp" />
+
+<ImageView
+        android:id="@+id/badge_row_icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_toRightOf="@id/badge_row_text1"
+        android:contentDescription="Badge1"/>
+
+<ImageView
+        android:id="@+id/badge_row_icon2"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_toRightOf="@id/badge_row_icon1"
+        android:contentDescription="Badge2"/>
+
+<ImageView
+        android:id="@+id/badge_row_icon3"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_toRightOf="@id/badge_row_icon2"
+        android:contentDescription="Badge3"/>
+
+<ImageView
+        android:id="@+id/badge_row_icon4"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_toRightOf="@id/badge_row_icon3"
+        android:contentDescription="Badge4"/>
+
+<ImageView
+        android:id="@+id/badge_row_icon5"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_toRightOf="@id/badge_row_icon4"
+        android:contentDescription="Badge5"/>
+
+
+
+</RelativeLayout> 

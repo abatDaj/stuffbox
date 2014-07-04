@@ -2,7 +2,9 @@ package com.stuffbox.model;
 
 public class BadgeFeed {
 
-	public BadgeFeed(){
-		
+	private String categoryName;
+	
+	public BadgeFeed(String categoryName){
+		this.categoryName = categoryName;
 	}
 }
