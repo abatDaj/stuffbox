@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
@@ -30,7 +31,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	private FeatureArrayAdapterForDetailItem featureAdapter;
 	private Formular formular;
 	public String DATE = null;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -54,9 +55,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 
 	        ArrayList<Feature> features = formular.getFeatures();
 	        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
+	        //TODO setzen abhaengig von ausgangsaktivitaet
+	        featureAdapter.setEditable(true);
 		    mainListView.setAdapter( featureAdapter );
 		    
-		    // Größe der Liste anhand der Anzahl der Eigenschaften berechnen.
+		    // Groesse der Liste anhand der Anzahl der Eigenschaften berechnen.
 	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO
@@ -83,21 +86,16 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	 */
 	public void onSave(View view){
 		//speicher item auf der Datenbank
-		//String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
-        
-		//Spinner spinner = (Spinner) findViewById(R.id.spinner_categories_in_item);
-		//ArrayList<Category> selectedCategories = new ArrayList<Category>();
-		//selectedCategories.add((Category) spinner.getSelectedItem());
-				
-		//TODO erhalte gesetzte Werte des Formlars
+		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
+		ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
+		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		
-		/*Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
 		
-
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
-        startActivity(intent);*/
-		Controller.getInstance().sayIt("onSave()");
+//        Intent intent = new Intent();        
+//        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+//        startActivity(intent);
+//		Controller.getInstance().sayIt("onSave()");
 
 	}
 	/**
