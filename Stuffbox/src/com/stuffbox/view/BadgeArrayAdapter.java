@@ -48,9 +48,9 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 		 * Select badges
 		 */
 		if(values.get(position).isBadge1()){
-			imageView1.setImageResource(R.drawable.badge_icon_music1);
+			imageView1.setImageResource(R.drawable.category_icon_music_badge1);
 		}else{
-			imageView1.setImageResource(R.drawable.badge_icon_music0);
+			imageView1.setImageResource(R.drawable.category_icon_music_badge0);
 		}
 		//Icon icon1 = values.get(position).getIcon();
 		
