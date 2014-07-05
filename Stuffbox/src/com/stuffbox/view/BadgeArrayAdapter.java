@@ -36,10 +36,24 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.badge_row, parent, false);
-		//ImageView imageView = (ImageView) rowView.findViewById(R.id.cat_row_icon);
 		TextView badgeCatText = (TextView) rowView.findViewById(R.id.badge_row_text1);
+		ImageView imageView1 = (ImageView) rowView.findViewById(R.id.badge_row_icon1);
+		ImageView imageView2 = (ImageView) rowView.findViewById(R.id.badge_row_icon2);
+		//ImageView imageView3 = (ImageView) rowView.findViewById(R.id.badge_row_icon3);
+		//ImageView imageView4 = (ImageView) rowView.findViewById(R.id.badge_row_icon4);
+		//ImageView imageView5 = (ImageView) rowView.findViewById(R.id.badge_row_icon5);
+		
 
-		//Icon icon = values.get(position).getIcon();
+		/*
+		 * Select badges
+		 */
+		if(values.get(position).isBadge1()){
+			imageView1.setImageResource(R.drawable.badge_icon_music1);
+		}else{
+			imageView1.setImageResource(R.drawable.badge_icon_music0);
+		}
+		//Icon icon1 = values.get(position).getIcon();
+		
 
 		//String iconName = icon == null || !icon.getName().startsWith("category_icon_") ? "category_icon_default" : icon.getName();
 
