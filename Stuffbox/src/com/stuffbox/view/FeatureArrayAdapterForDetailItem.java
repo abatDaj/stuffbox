@@ -125,29 +125,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
 		rowViewText.addView(editNormalText);
 		
-		/*editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+		editNormalText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
-				feature.setValue(editText.getText().toString());
+				feature.setValue(editNormalText.getText().toString());
 			}
-		});*/
-		
-		editNormalText.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				feature.setValue(editNormalText.getText());
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub	
-			}});
+		});
 		
 		return rowViewText;
 	}
