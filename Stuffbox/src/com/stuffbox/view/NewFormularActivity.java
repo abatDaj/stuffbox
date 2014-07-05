@@ -36,15 +36,20 @@ public class NewFormularActivity  extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_formular);
 		
+		//initial inserted formular
+		Controller.getInstance().popLastInsertedFormular();
+		
 		//initialisiere Listen fuer selektierte und nicht selektierte Eigenschaften
 		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
 		ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
 		ArrayList<Feature> notSelectedFeatures = new ArrayList<Feature>();
+		
 		//Eintrag neue Eigenschaft einfügen
 		Feature newFeatureEntry = new Feature(idNewFeatureEntry, 
 				getResources().getText(R.string.title_activity_feature).toString(), 
 				FeatureType.Text);
 		notSelectedFeatures.add(newFeatureEntry);
+		
 		//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
 		for (Feature feature : features) {
 			if(feature.getId() == Formular.idOfNameFeature ){
@@ -53,6 +58,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 				notSelectedFeatures.add(feature);
 			}
 		}
+		
 		//Listen erstellen
 		initializeListFeaturesNotSelected(notSelectedFeatures);
 		initializeListFeaturesSelected(selectedFeatures);         

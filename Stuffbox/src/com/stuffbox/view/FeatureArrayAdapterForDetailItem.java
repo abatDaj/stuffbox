@@ -1,11 +1,13 @@
 package com.stuffbox.view;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.text.Editable;
+import android.graphics.drawable.Drawable;
 import android.text.InputType;
-import android.text.TextWatcher;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,6 +32,7 @@ import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.EditTextDatePicker;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
+	
 	private final Context context;
 	private final ArrayList<Feature> features;
 	private ActivityWithATimePickerEditText activityWithATimePickerEditText;
@@ -125,11 +129,20 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
 		rowViewText.addView(editNormalText);
 		
+		//setze Wert wenn moeglich
+		if(feature.getValue() != null){
+			feature.setValue("item_photo");
+			editNormalText.setText(feature.getValue().toString());
+		}
+		
+		//setze Listener um Werte zu speichern
 		editNormalText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(editNormalText.getText().toString());
 			}
 		});
+		
+		editNormalText.setEnabled(editable);
 		
 		return rowViewText;
 	}
@@ -139,15 +152,26 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @param feature
 	 */
 	private void buildImageEdit(final ImageButton editImage, final Feature feature){
-		editImage.setImageDrawable(context.getResources().getDrawable( R.drawable.item_photo ));
-		//TODO
-		feature.setValue("Image");
-		//save value
+		
+		//setze Wert wenn moeglich sonst Defaultwert
+		String pictureName;
+		if(feature.getValue() == null){
+			pictureName = "item_photo";
+			feature.setValue(pictureName);
+		}else{
+			pictureName = feature.getValue().toString();
+		}
+		Controller.getInstance().setImageOnImageView(context, editImage, pictureName);
+		editImage.setTag(pictureName);
+		
+		//setze Listener um Werte zu speichern
 		editImage.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
-				feature.setValue("Image");
+				feature.setValue(((ImageButton) v).getTag());
 			}
 		});
+		
+		editImage.setEnabled(editable);
 	}
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Datum
@@ -165,12 +189,26 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	    rowViewDate.addView(mainText);
 	    rowViewDate.addView(editTimePicker);
 		
-		//save value
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(false);
+			
+			Time now = new Time();
+			now.setToNow();
+			editTimePicker.setText(now.toString());
+		}else{
+			editTimePicker.setText(feature.getValue().toString());
+		}
+	    
+	 	//setze Listener um Werte zu speichern
 	    editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(editTimePicker.getText().toString());
 			}
 		});
+	    
+	    editTimePicker.setEnabled(editable);
 	    
 		return rowViewDate;
 	}
@@ -182,40 +220,33 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @return
 	 */
 	private LinearLayout buildBooleanEdit(View rowView, TextView mainText, final Feature feature){
-		//TODO warum keine Checkbox?
+
 		LinearLayout rowViewBoolean = new LinearLayout(context);
 		rowViewBoolean.setOrientation(LinearLayout.VERTICAL);
 		((ViewGroup)rowView).removeView(mainText);
 		rowViewBoolean.addView(mainText);
-		final RadioButton radioButtonYes = new RadioButton(context);
-		radioButtonYes.setText(context.getResources().getString(R.string.delete_dialog_yes));
-		RadioButton radioButtonNo = new RadioButton(context);
-		radioButtonNo.setText(context.getResources().getString(R.string.delete_dialog_no));
-		RadioGroup radioGroup = new RadioGroup (context);
-		radioGroup.addView(radioButtonYes);
-		radioGroup.addView(radioButtonNo);
-		radioGroup.check(radioButtonYes.getId());
-		rowViewBoolean.addView(radioGroup);
+
+		final CheckBox checkBox = new CheckBox(context);
+		rowViewBoolean.addView(checkBox);
 		
-		//TODO: Ich (Willi) weiß jetzt nicht ob die Default-Values für ein neues 
-		// Item null sind, aber ich gehe jetzt der Einfachheithalber davon aus.
-		if (feature.getValue() == null) 
-		{		
-			//Den Wert sollte unbedingt vorher speichern, damit bei 
-			// Nichteingabe null gespeichert ist.
-			feature.setValue(String.valueOf(true));
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(false);
+			checkBox.setSelected(false);
+		}else{
+			checkBox.setSelected((Boolean) feature.getValue());
 		}
-		//save value
-		radioGroup.setOnClickListener(new OnClickListener() {
+		
+		//setze Listener um Werte zu speichern
+		checkBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(radioButtonYes.isSelected()){
-					feature.setValue(true);	
-				}else{
-					feature.setValue(false);	
-				}
+				feature.setValue(checkBox.isSelected());
 			}
 		});
+		
+		checkBox.setEnabled(editable);
 		
 		return rowViewBoolean;
 	}
@@ -231,6 +262,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		rowViewDecimalzahl.setOrientation(LinearLayout.VERTICAL);
 		((ViewGroup)rowView).removeView(mainText);
 		rowViewDecimalzahl.addView(mainText);
+		
 		final EditText editDezimalzahl= new EditText(context);
 		// InputType = Zahlen + Dezimalzahlen + Minuswerte moeglich
 		editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -238,12 +270,15 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewDecimalzahl.addView(editDezimalzahl);
 		
-		//save value
+		//setze Listener um Werte zu speichern
 		editDezimalzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(editDezimalzahl.getText().toString());
 			}
 		});
+		
+		editDezimalzahl.setEnabled(editable);
+		
 		return rowViewDecimalzahl;
 	}
 	/**
@@ -258,6 +293,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		rowViewInteger.setOrientation(LinearLayout.VERTICAL);
 		((ViewGroup)rowView).removeView(mainText);
 		rowViewInteger.addView(mainText);
+		
 		final EditText editGanzahl= new EditText(context);
 		// InputType = Zahlen + Minuswerte möglich
 		editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -265,11 +301,14 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewInteger.addView(editGanzahl);
 		
+		//setze Listener um Werte zu speichern
 		editGanzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(editGanzahl.getText().toString());
 			}
 		});
+		
+		editGanzahl.setEnabled(editable);
 		
 		return rowViewInteger;
 	}
@@ -298,10 +337,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		 * die Sterne farbig oder eingegraut anzeigt.
 		 */
 		
-		// TODO äußere Vorschleife dazu bringen Initial-Value darzustellen
+		// TODO Aeussere Vorschleife dazu bringen Initial-Value darzustellen
 		for (int i = 0 ; i < 9; i++) {
-			ImageView iV = new ImageView(context);
-			iV.setOnTouchListener(new View.OnTouchListener() {
+			ImageView imageview = new ImageView(context);
+			imageview.setOnTouchListener(new View.OnTouchListener() {
 				
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
@@ -325,7 +364,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 					}	return false;
 				}
 			});
-			iV.setOnClickListener(new View.OnClickListener(){
+			imageview.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View v) {
 					LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
@@ -348,13 +387,17 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 					//save value
 					feature.setValue(indexInLayout + 1);
 				}});
-			iV.setImageResource(R.drawable.ranking_star_3);
-			iV.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			rowViewStars.addView(iV);
+			imageview.setImageResource(R.drawable.ranking_star_3);
+			imageview.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			
+			imageview.setEnabled(editable);
+			
+			rowViewStars.addView(imageview);
 		}
 		rowViewRanking.addView(rowViewStars);
 		rowViewRanking.setClickable(false);
 		rowViewRanking.setOnClickListener(null);
+		
 		return rowViewRanking;		
 	}
 }

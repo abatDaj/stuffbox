@@ -451,6 +451,8 @@ public class Controller {
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
     
+    
+    
     /**
      * Gibt die aktuelle Kategorie zurueck
      * 

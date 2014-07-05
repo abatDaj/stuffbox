@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +18,7 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
+import com.stuffbox.model.Item;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
@@ -25,11 +26,11 @@ import com.stuffbox.view.helper.Utility;
 
 public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
 	
-	private ListView mainListView ;
+	private ListView mainListView;
 
 	private FeatureArrayAdapterForDetailItem featureAdapter;
 	private Formular formular;
-	public String DATE = null;
+	private boolean changeMode = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -38,31 +39,66 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		setContentView(R.layout.detail_item);
 		
 		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
-		if (formular != null) {
-			
-			// TODO beim speicher oder abbrechen des Item-Erstellungsvorgangs sollte im Controller
-			// selectedCategoriesInItem auf null gesetzt werden.
-			Controller.getInstance().setSelectedCategoriesInItem(null);
-									
-			ImageButton imageButton = (ImageButton) findViewById(R.id.detail_item_category_icon);
-			imageButton.setImageResource(Controller.getInstance().getCurrentCategory().getIcon().getDrawableId());
-			TextView textView = (TextView) findViewById(R.id.detail_item_category_text);
-			textView.setText(Controller.getInstance().getCurrentCategory().getName());
-
-			// Alle Eigenschaften des Formulars anzeigen
-			mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
-
-	        ArrayList<Feature> features = formular.getFeatures();
-	        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
-	        //TODO setzen abhaengig von ausgangsaktivitaet
-	        featureAdapter.setEditable(true);
-		    mainListView.setAdapter( featureAdapter );
-		    
-		    // Groesse der Liste anhand der Anzahl der Eigenschaften berechnen.
-	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
+		
+		if (Controller.getInstance().getCurrentItem() != null){
+			changeMode = false;
+		}else if (formular != null) {
+			changeMode = true;
+		}else{ 
+			//TODO
+			new RuntimeException ("Something went horribly wrong :-0");
 		}
-		else // TODO
-			 new RuntimeException ("Something went horribly wrong :-0");
+		
+		Item currentItem = Controller.getInstance().getCurrentItem();
+		Controller.getInstance().setCurrentItem(null);
+		
+		//Setze Namensansicht
+		if(!changeMode){
+			EditText name = (EditText) findViewById(R.id.editNameFeature);
+			name.setText(currentItem.getName());
+			name.setEnabled(changeMode);	
+		}
+		
+		//setze Werte für Kategorieanzeige
+		TextView textView = (TextView) findViewById(R.id.detail_item_category_text);
+		if(changeMode){
+			Controller.getInstance().setSelectedCategoriesInItem(null);
+			//initial ist aktuelle Kategorie gesetzt
+			textView.setText(Controller.getInstance().getCurrentCategory().getName());
+		}else{
+			Controller.getInstance().setSelectedCategoriesInItem(currentItem.getCategories());
+			
+			//erstelle Text für zugeordnete Kategorien
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int index = 0; index < currentItem.getCategories().size(); index++) {
+				Category category = currentItem.getCategories().get(index);
+				stringBuilder.append(category);
+				if(index != currentItem.getCategories().size()-1){
+					stringBuilder.append(", ");
+				}
+			}		
+
+			textView.setText(stringBuilder.toString());			
+		}
+
+
+		// Alle Eigenschaften des Formulars anzeigen
+		mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
+
+		ArrayList<Feature> features = null;
+		if(changeMode){
+			features = formular.getFeatures();
+		}else{
+			features = currentItem.getFormular().getFeatures();
+		}
+        featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
+        
+
+        featureAdapter.setEditable(changeMode);
+	    mainListView.setAdapter( featureAdapter );
+	    
+	    // Groesse der Liste anhand der Anzahl der Eigenschaften berechnen.
+        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 	}
 
 	@Override
@@ -97,8 +133,13 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		} 
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
-		
 		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
+
+		Controller.getInstance().setSelectedCategoriesInItem(null);
+
+		Intent intent = getIntent();
+		finish();
+		startActivity(intent);
 		
 //        Intent intent = new Intent();        
 //        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
@@ -110,7 +151,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	 * Vorgang wird abgebrochen - Daten werden verworfen
 	 * @param view
 	 */
-	public void onCancel(View view){			
+	public void onCancel(View view){	
+		Controller.getInstance().setSelectedCategoriesInItem(null);
+
 		this.finish();
 	}
 	

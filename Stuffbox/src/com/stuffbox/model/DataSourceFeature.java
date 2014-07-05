@@ -114,6 +114,8 @@ public class DataSourceFeature {
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
 		String valueAsString;
 		switch (type) {
+		case Wahrheitswert:
+			valueAsString = String.valueOf(value);
 		default:
 			valueAsString = value.toString();
 			break;

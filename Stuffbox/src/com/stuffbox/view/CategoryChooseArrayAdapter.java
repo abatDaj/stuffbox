@@ -28,10 +28,13 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
 		this.context = context;
 		this.values = values;		
 		
-		
-		ArrayList<Category> tmp = Controller.getInstance().getSelectedCategoriesInItem();
-		if (tmp != null && Controller.getInstance().getSelectedCategoriesInItem().size() > 0)
+		if (Controller.getInstance().getSelectedCategoriesInItem() != null 
+				&& !Controller.getInstance().getSelectedCategoriesInItem().isEmpty()){
 			selectedvalues = Controller.getInstance().getSelectedCategoriesInItem();
+		}else{
+			// Kategorie, von der man das Item erstellte, sollte gesetzt sein.
+			selectedvalues.add(Controller.getInstance().getCurrentCategory());
+		}
 	}
 
 	@Override
@@ -55,24 +58,13 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
 		//zeige Icon der Kategorie an
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.cat_row_icon);
 		
-		Icon icon = values.get(position).getIcon();
-		
 		imageView.setImageResource(values.get(position).getIcon().getDrawableId());
 		CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.cat_row_checkbox7);
 		
 		// Kategorie, von der man das Item erstellte, sollte gesetzt sein.
-		if (Controller.getInstance().getSelectedCategoriesInItem() == null) {
-			if (values.get(position).getId() == Controller.getInstance().getCurrentCategory().getId()){ 
-				checkbox.setChecked(true); 
-				selectedvalues.add(Controller.getInstance().getCurrentCategory());
-			}
-		}
-		else 
-		{
-			for (Category c : Controller.getInstance().getSelectedCategoriesInItem()){
-				if (c.getId() == values.get(position).getId()){
-					checkbox.setChecked(true);	
-				}
+		for (Category category : selectedvalues){
+			if (category.getId() == values.get(position).getId()){
+				checkbox.setChecked(true);	
 			}
 		}
 		
