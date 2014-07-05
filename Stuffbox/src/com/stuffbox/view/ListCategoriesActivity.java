@@ -6,33 +6,18 @@ import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
-import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.support.v4.app.DialogFragment; //api 8 ! 
-import android.support.v4.app.FragmentManager;
-import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -84,7 +69,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        }
         });
 
-        ArrayList<Item> allItems = Controller.getInstance().getItems(null);
+        ArrayList<Item> allItems = Controller.getInstance().getItemsOfACategory(Controller.getInstance().getCurrentCategory().getId());
         itemAdapter = new ItemArrayAdapter (this, allItems);
         itemListView.setAdapter( itemAdapter );	
 	}
@@ -123,7 +108,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	    }		
 	}
 	
-	@Override
+	//TODO // prüfen, ob Rücksprung immer sinnvoll
+	/*@Override
 	public void onBackPressed () {
 		Category currentCategory = Controller.getInstance().getCurrentCategory();
 		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
@@ -134,13 +120,13 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        startActivity(intent);	
 			this.finish();
 		}
-	}
+	}*/
 	
 	/**
 	 * Löscht die Kategorie
 	 */
 	public void onDelete () {
-		Toast.makeText(getApplicationContext(), "LÖSCHEN !!!", 7).show();
+		Toast.makeText(getApplicationContext(), "LÖSCHEN !!!", Integer.valueOf(7)).show();
 	}
 	
 	/**
@@ -154,7 +140,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	}
 	
 	/**
-	 * Ändert die Kategorie
+	 * Erstellt eine neue Kategorie (zunächst Formular-Auswahl für das neue Item)
 	 */
 	public void onNewItem () {
         Intent intent = new Intent();        

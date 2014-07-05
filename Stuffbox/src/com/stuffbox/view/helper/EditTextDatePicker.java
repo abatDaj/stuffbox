@@ -12,7 +12,7 @@ import android.widget.EditText;;
 
 public class EditTextDatePicker extends EditText {
 
-	private ActivityWithATimePickerEditText activityWithATimePickerEditText;
+	private ActivityWithATimePickerEditText activityWithATimePickerEditText;	
 	
 	public EditTextDatePicker(Context context, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
 		super(context);

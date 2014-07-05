@@ -241,6 +241,16 @@ public class Controller {
     }
     
     /**
+     * Gibt eine Liste aller Items zurueck, die einer Kategorie enthalten sind.
+     * @param database
+     * @param categoryID 
+     * @return Die Items in der spezifizierten Kategorie
+     */
+    public ArrayList<Item> getItemsOfACategory(long categoryID) {
+    	return databaseHandler.getItemsOfACategory(categoryID);
+    }    
+    
+    /**
      * Speichert eine neues Icon in der Tabelle Icon
      * @param name
      * @param description
