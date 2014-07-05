@@ -191,14 +191,16 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
-			//initial value
+//			//initial value
 			Time now = new Time();
 			now.setToNow();
-			feature.setValue(now.toString());
+			feature.setValue(now.format("%d.%m.%Y"));
+			
 		}
 		
-		editTimePicker.setText(feature.getValue().toString());
-	    
+//		editTimePicker.setText(feature.getValue().toString());
+		editTimePicker.setHint(feature.getValue().toString());
+		
 	 	//setze Listener um Werte zu speichern
 	    editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
