@@ -3,8 +3,10 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
 import com.stuffbox.model.BadgeFeed;
+import com.stuffbox.model.Category;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -31,6 +33,32 @@ public class BadgeActivity extends ActionBarActivity {
 		arrList = new ArrayList<Badge>();
 		arrList.add(new Badge("Tolle Musik, wie Metal","category_icon_music",true,true,true,true,true));
 		arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung","category_icon_clothes",true, true, false,false,false));
+		
+		/**
+		 * Rootkategorien fuer Badgesystem laden
+		 */
+		ArrayList<Category> subCat= Controller.getInstance().getSubCategories(0);
+		ArrayList<Category> rootCat = new ArrayList<Category>();
+		for(Category cat: subCat){
+			if(cat.getPreCategory() == -1){
+				//Pruefen ob bereits vorhanden
+				boolean doubledCat = false;
+				for(Category checkCat: rootCat){
+					if(checkCat.equals(cat)){
+						doubledCat = true;
+					}
+				}
+				if(!doubledCat){
+					rootCat.add(cat);
+				}
+			}
+			
+			/*while(cat.getPreCategory() != cat.getId()){
+				
+			}*/
+			
+		}
+		
 		
 		//arrAdapter = new ArrayAdapter<String>(this, arrList);
 		arrAdapter = new BadgeArrayAdapter(this, arrList);
