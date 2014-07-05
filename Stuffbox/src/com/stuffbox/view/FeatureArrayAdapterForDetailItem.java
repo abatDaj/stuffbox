@@ -166,29 +166,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	    rowViewDate.addView(editTimePicker);
 		
 		//save value
-	    /*editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
+	    editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(editTimePicker.getText().toString());
 			}
-		});*/
-	    
-	    editTimePicker.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				feature.setValue(editTimePicker.getText());
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub	
-			}});
+		});
 	    
 		return rowViewDate;
 	}
@@ -256,26 +238,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewDecimalzahl.addView(editDezimalzahl);
 		
-		editDezimalzahl.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				feature.setValue(editDezimalzahl.getText());
+		//save value
+		editDezimalzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				feature.setValue(editDezimalzahl.getText().toString());
 			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub	
-			}});
+		});
 		return rowViewDecimalzahl;
-		
-		
 	}
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
@@ -296,24 +265,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewInteger.addView(editGanzahl);
 		
-		
-		editGanzahl.addTextChangedListener(new TextWatcher(){
-
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
-				feature.setValue(editGanzahl.getText());
+		editGanzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				feature.setValue(editGanzahl.getText().toString());
 			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-				// TODO Auto-generated method stub	
-			}});
+		});
 		
 		return rowViewInteger;
 	}
