@@ -29,8 +29,8 @@ public class BadgeActivity extends ActionBarActivity {
 		 * Nur Test um Umgang zu erlernen
 		 */
 		arrList = new ArrayList<Badge>();
-		arrList.add(new Badge("Buecher","badge_icon_music",true,true,true,true,true));
-		arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung","badge_icon_music",true, true, false,false,false));
+		arrList.add(new Badge("Tolle Musik, wie Metal","category_icon_music",true,true,true,true,true));
+		arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung","category_icon_clothes",true, true, false,false,false));
 		
 		//arrAdapter = new ArrayAdapter<String>(this, arrList);
 		arrAdapter = new BadgeArrayAdapter(this, arrList);

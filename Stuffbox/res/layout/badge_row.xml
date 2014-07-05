@@ -20,7 +20,7 @@
         android:layout_weight=".12"
         android:layout_marginRight="3dip"
         android:contentDescription="Badge1"
-        android:src="@drawable/category_icon_music_badge0"/>
+        android:src="@drawable/badge_category_icon_music_0"/>
 
 <ImageView
         android:id="@+id/badge_row_icon2"
@@ -29,7 +29,7 @@
         android:layout_weight=".12"
         android:layout_marginRight="3dip"
         android:contentDescription="Badge2"
-        android:src="@drawable/category_icon_music_badge0"/>
+        android:src="@drawable/badge_category_icon_music_0"/>
 
 <ImageView
         android:id="@+id/badge_row_icon3"
@@ -37,7 +37,7 @@
         android:layout_height="fill_parent"
         android:layout_weight=".12"
         android:contentDescription="Badge3"
-        android:src="@drawable/category_icon_music_badge0"/>
+        android:src="@drawable/badge_category_icon_music_0"/>
 
 <ImageView
         android:id="@+id/badge_row_icon4"
@@ -45,7 +45,7 @@
         android:layout_height="fill_parent"
         android:layout_weight=".12"
         android:contentDescription="Badge4"
-        android:src="@drawable/category_icon_music_badge0"/>
+        android:src="@drawable/badge_category_icon_music_0"/>
 
 <ImageView
         android:id="@+id/badge_row_icon5"
@@ -53,7 +53,7 @@
         android:layout_height="fill_parent"
         android:layout_weight=".12"
         android:contentDescription="Badge5"
-        android:src="@drawable/category_icon_music_badge0"/>
+        android:src="@drawable/badge_category_icon_music_0"/>
 
 
 
