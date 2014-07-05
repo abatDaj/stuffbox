@@ -39,9 +39,9 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 		TextView badgeCatText = (TextView) rowView.findViewById(R.id.badge_row_text1);
 		ImageView imageView1 = (ImageView) rowView.findViewById(R.id.badge_row_icon1);
 		ImageView imageView2 = (ImageView) rowView.findViewById(R.id.badge_row_icon2);
-		//ImageView imageView3 = (ImageView) rowView.findViewById(R.id.badge_row_icon3);
-		//ImageView imageView4 = (ImageView) rowView.findViewById(R.id.badge_row_icon4);
-		//ImageView imageView5 = (ImageView) rowView.findViewById(R.id.badge_row_icon5);
+		ImageView imageView3 = (ImageView) rowView.findViewById(R.id.badge_row_icon3);
+		ImageView imageView4 = (ImageView) rowView.findViewById(R.id.badge_row_icon4);
+		ImageView imageView5 = (ImageView) rowView.findViewById(R.id.badge_row_icon5);
 		
 
 		/*
@@ -51,6 +51,30 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			imageView1.setImageResource(R.drawable.category_icon_music_badge1);
 		}else{
 			imageView1.setImageResource(R.drawable.category_icon_music_badge0);
+		}
+		
+		if(values.get(position).isBadge2()){
+			imageView2.setImageResource(R.drawable.category_icon_music_badge2);
+		}else{
+			imageView2.setImageResource(R.drawable.category_icon_music_badge0);
+		}
+		
+		if(values.get(position).isBadge3()){
+			imageView3.setImageResource(R.drawable.category_icon_music_badge3);
+		}else{
+			imageView3.setImageResource(R.drawable.category_icon_music_badge0);
+		}
+		
+		if(values.get(position).isBadge4()){
+			imageView4.setImageResource(R.drawable.category_icon_music_badge4);
+		}else{
+			imageView4.setImageResource(R.drawable.category_icon_music_badge0);
+		}
+		
+		if(values.get(position).isBadge5()){
+			imageView5.setImageResource(R.drawable.category_icon_music_badge5);
+		}else{
+			imageView5.setImageResource(R.drawable.category_icon_music_badge0);
 		}
 		//Icon icon1 = values.get(position).getIcon();
 		
