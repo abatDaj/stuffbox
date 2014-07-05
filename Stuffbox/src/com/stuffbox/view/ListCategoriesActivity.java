@@ -8,6 +8,7 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
+import com.stuffbox.model.Item;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -45,6 +46,13 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_list);
+		
+		ArrayList<Item> items = Controller.getInstance().getItems(null);
+		if (items == null)
+			Controller.getInstance().sayIt("Damn It !");
+		else if (items.size() > 1)
+			Controller.getInstance().sayIt("Anzahl: " + items.size() + ". Name: " + items.get(1).getName());
+		
 		
         mainListView = (ListView) findViewById( R.id.categoryListView );
         mainListView.setOnItemClickListener(new OnItemClickListener()

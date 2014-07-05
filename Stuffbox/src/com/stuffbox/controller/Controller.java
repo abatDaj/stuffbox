@@ -23,9 +23,7 @@ public class Controller {
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
 	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
-
-	
-	
+	public final static int DEFAULT_RANKING_VALUE = 5;
 	
 	
 	private static Controller instance = null;

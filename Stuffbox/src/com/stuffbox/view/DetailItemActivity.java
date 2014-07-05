@@ -90,7 +90,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		for(int i = 0; i < mainListView.getChildCount(); i++)
 		{
 			View lView = (View) mainListView.getChildAt(i);
-			lView.clearFocus();
+			// TODO Callback-Methoden werden aber nur aktiviert, 
+			// wenn das gleiche mit den Kindern und Enkeln von lView passiert ?!?
+			lView.clearFocus(); 
 		} 
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
