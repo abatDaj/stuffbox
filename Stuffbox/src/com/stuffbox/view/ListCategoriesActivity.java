@@ -8,6 +8,7 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
+import com.stuffbox.view.helper.Utility;
 
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -70,8 +71,14 @@ public class ListCategoriesActivity extends ActionBarActivity {
         });
 
         ArrayList<Item> allItems = Controller.getInstance().getItemsOfACategory(Controller.getInstance().getCurrentCategory().getId());
+        Controller.getInstance().sayIt("Items: " + allItems.size());
         itemAdapter = new ItemArrayAdapter (this, allItems);
         itemListView.setAdapter( itemAdapter );	
+        
+	    // Groesse der Liste anhand der Anzahl der Eigenschaften neu setzen.
+        Utility.setListViewHeightBasedOnChildren(itemListView, 0);
+        Utility.setListViewHeightBasedOnChildren(categoryListView,0);
+
 	}
 
 	@Override
@@ -109,7 +116,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	}
 	
 	//TODO // prüfen, ob Rücksprung immer sinnvoll
-	/*@Override
+	@Override
 	public void onBackPressed () {
 		Category currentCategory = Controller.getInstance().getCurrentCategory();
 		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
@@ -120,7 +127,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        startActivity(intent);	
 			this.finish();
 		}
-	}*/
+	}
 	
 	/**
 	 * Löscht die Kategorie

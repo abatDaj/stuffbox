@@ -1,7 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    android:layout_height="50dp">
 
     <ImageView
         android:id="@+id/cat_row_icon"
@@ -24,4 +23,4 @@
         android:text="Description"
         android:textSize="16sp" />
 
-</RelativeLayout> 
+</LinearLayout> 

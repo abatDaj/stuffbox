@@ -337,7 +337,6 @@ public class Controller {
       	someFeatures.add(insertFeature("Foto", types.get(5)));
       	someFeatures.add(insertFeature("Wahrheitswert", types.get(6)));
 
-      	
        	ArrayList<Feature> featuresFormular7 = new ArrayList<Feature>();
        	someFeatures.get(0).setSortnumber(1);
     	featuresFormular7.add(someFeatures.get(0));
@@ -355,16 +354,7 @@ public class Controller {
     	featuresFormular7.add(someFeatures.get(6));
     	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular7));
       	
-      	
-    	//erstellen Formular Testaufbau
-    	/*ArrayList<Feature> featuresFormular6 = new ArrayList<Feature>();
-    	features.get(4).setSortnumber(1);
-    	featuresFormular6.add(features.get(4));
-    	features.get(3).setSortnumber(2);
-    	featuresFormular6.add(features.get(3));
-    	createdFormulars.add(insertFormlar("Testaufbau", featuresFormular6));*/
-    	
-    	
+    	    	
     	return createdFormulars;
     }
         
@@ -393,6 +383,66 @@ public class Controller {
     	itemcategories.add(categories.get(1));
     	itemcategories.add(categories.get(3));
     	items.add(insertItem("Song1", formular, itemcategories));
+    	
+    	sayIt("Formulars: " + formulars.size());
+    	sayIt("categories: " + categories.size());
+
+    	
+      	ArrayList<Feature> someFeatures = new ArrayList<Feature>();
+        //Debugeintraege schreiben
+      	someFeatures.add(insertFeature("Text", types.get(0)));
+      	someFeatures.add(insertFeature("Dezimalzahl", types.get(1)));
+      	someFeatures.add(insertFeature("Ganzzahl", types.get(2)));
+      	someFeatures.add(insertFeature("Datum", types.get(3)));
+      	someFeatures.add(insertFeature("Ranking", types.get(4)));
+      	someFeatures.add(insertFeature("Foto", types.get(5)));
+      	someFeatures.add(insertFeature("Wahrheitswert", types.get(6)));
+    	
+      	
+    	
+    	Formular formularForMyItem = formulars.get(5);
+    	formularForMyItem.getFeatures().get(0).setValue("Text.Value");
+    	formularForMyItem.getFeatures().get(1).setValue("7.7");
+    	formularForMyItem.getFeatures().get(2).setValue("7");
+    	formularForMyItem.getFeatures().get(3).setValue("12.12.1977");
+    	formularForMyItem.getFeatures().get(4).setValue("5");
+    	formularForMyItem.getFeatures().get(5).setValue("icon_angry_minion");
+    	formularForMyItem.getFeatures().get(6).setValue("true");
+
+    	ArrayList<Category> categoriesForMyItem = new ArrayList<Category>();
+    	categoriesForMyItem.add(categories.get(0));  	
+    	insertItem("Item_mit_allen_Features", formularForMyItem, categoriesForMyItem);
+    	
+    	Formular formularForMyItem2 = formulars.get(5);
+    	formularForMyItem2.getFeatures().get(0).setValue("Ich bin ein Text");
+    	formularForMyItem2.getFeatures().get(0).setSortnumber(1);
+    	formularForMyItem2.getFeatures().get(1).setValue("7.7");
+    	formularForMyItem2.getFeatures().get(1).setSortnumber(2);
+    	formularForMyItem2.getFeatures().get(2).setValue("7");
+    	formularForMyItem2.getFeatures().get(2).setSortnumber(3);
+    	formularForMyItem2.getFeatures().get(3).setValue("12.12.1977");
+    	formularForMyItem2.getFeatures().get(3).setSortnumber(4);
+    	formularForMyItem2.getFeatures().get(4).setValue("5");
+    	formularForMyItem2.getFeatures().get(4).setSortnumber(5);
+    	formularForMyItem2.getFeatures().get(5).setValue("category_icon_pets");
+    	formularForMyItem2.getFeatures().get(5).setSortnumber(6);
+    	formularForMyItem2.getFeatures().get(6).setValue("true");
+    	formularForMyItem2.getFeatures().get(6).setSortnumber(7);
+
+    	ArrayList<Category> categoriesForMyItem2 = new ArrayList<Category>();
+    	categoriesForMyItem2.add(categories.get(0));  	
+    	insertItem("Katze_mit_allen_Features", formularForMyItem2, categoriesForMyItem2);
+    	
+    	
+     	Formular formularForMyItem4 = formulars.get(1);
+    	formularForMyItem4.getFeatures().get(0).setValue("Ich bin ein Text");
+    	formularForMyItem4.getFeatures().get(0).setSortnumber(1);
+    	formularForMyItem4.getFeatures().get(1).setValue("Hahahaahaha");
+    	formularForMyItem4.getFeatures().get(1).setSortnumber(2);
+
+    	ArrayList<Category> categoriesForMyItem4 = new ArrayList<Category>();
+    	categoriesForMyItem4.add(categories.get(0));
+    	insertItem("Item_ohne_Bild", formularForMyItem4, categoriesForMyItem4);
     }
     
     /**
@@ -420,6 +470,9 @@ public class Controller {
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
+    	
+
+    	
     	fillIconTableWithIcons(context);
     	//TODO Icons von fill verwenden
     	getIcons();
@@ -433,11 +486,12 @@ public class Controller {
     	ArrayList<Category> categories = getCategories(null); 
     	insertDebugItemEntries(formulars, categories);
     	
-    	getItems(null);
+    	getItems(null);    	
+    	
     }
     
     /**
-     * Setzt das Bild mit dem uebergebenen Namen auf den �bergebenen Imageview
+     * Setzt das Bild mit dem uebergebenen Namen auf den uebergebenen Imageview
      * 	//Beispielcode um Image auf ImageView zu setzen
      * 	//    ImageView img = (ImageView) findViewById(R.id.testimage);
      * 	//    Icon icon = Controller.getIcons().get(0);

@@ -5,8 +5,11 @@
 
 package com.stuffbox.view.helper;
 
+import com.stuffbox.controller.Controller;
+
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 

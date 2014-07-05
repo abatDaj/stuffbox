@@ -1,49 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:id="@+id/linearlayout"
-        style="@style/aLinearRowCreatingSomething"
-        android:onClick="openNewCategoryScreen" >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical" >
 
-        <ImageButton
-            android:id="@+id/to_new_category_imagebutton"
-            style="@style/aLinearRowCreatingSomethingImageButton"
-            android:contentDescription="@string/title_activity_new_category"
-            android:src="@drawable/imagebutton_to_new_category" />
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            style="@style/aLinearRowCreatingSomething"
+            android:onClick="openNewCategoryScreen" >
 
-        <TextView
-            android:id="@+id/textViewNewCategoryButton"
-            style="@style/aLinearRowCreatingSomethingText"
-            android:text="@string/title_activity_new_category" >
-        </TextView>
+            <ImageButton
+                android:id="@+id/to_new_category_imagebutton"
+                style="@style/aLinearRowCreatingSomethingImageButton"
+                android:contentDescription="@string/title_activity_new_category"
+                android:src="@drawable/imagebutton_to_new_category" />
+
+            <TextView
+                android:id="@+id/textViewNewCategoryButton"
+                style="@style/aLinearRowCreatingSomethingText"
+                android:text="@string/title_activity_new_category" >
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/div"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <ListView
+            android:id="@+id/categoryListView"
+            android:layout_width="fill_parent"
+            android:scrollbars="none"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+        <ListView
+            android:id="@+id/itemListView"
+            android:layout_width="fill_parent"
+            android:scrollbars="none"
+            android:layout_height="wrap_content" >
+        </ListView>
     </LinearLayout>
 
-    <View
-        android:id="@+id/div"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/linearlayout"
-        android:background="@android:color/darker_gray" />
-
-    <ListView
-        android:id="@+id/categoryListView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/div" >
-    </ListView>
-    
-    <ListView
-        android:id="@+id/itemListView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/categoryListView" >
-    </ListView>
-
-</RelativeLayout>
+</ScrollView>

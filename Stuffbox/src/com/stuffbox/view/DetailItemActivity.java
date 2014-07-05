@@ -58,7 +58,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        featureAdapter.setEditable(true);
 		    mainListView.setAdapter( featureAdapter );
 		    
-		    // Groesse der Liste anhand der Anzahl der Eigenschaften berechnen.
+		    // Groesse der Liste anhand der Anzahl der Eigenschaften neu setzen..
 	        Utility.setListViewHeightBasedOnChildren(mainListView, 100);
 		}
 		else // TODO

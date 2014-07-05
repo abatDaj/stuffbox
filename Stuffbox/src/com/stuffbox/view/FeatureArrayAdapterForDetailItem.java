@@ -344,7 +344,6 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 						}
 					}
 					//((ImageView)v).setImageResource(R.drawable.ranking_star_4);
-					
 					//save value
 					feature.setValue(indexInLayout + 1);
 				}});
