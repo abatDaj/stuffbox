@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceItem {
     /**
-     * Erstellt die Tabelle Item auf der Datenbank und die Verknüpfungstabelle Item-Eigenschaft
+     * Erstellt die Tabelle Item auf der Datenbank und die Verknï¿½pfungstabelle Item-Eigenschaft
      * @param database
      */
     public void createItemTable(SQLiteDatabase db){
@@ -21,7 +21,7 @@ public class DataSourceItem {
                 + DatabaseHandler.TABLE_FORMULAR + " INTEGER" + ")";
         db.execSQL(CREATE_ITEM_TABLE);
         
-        //Erstellt die Item-Eigenschaft-Wert Verknüpfungstabelle
+        //Erstellt die Item-Eigenschaft-Wert Verknï¿½pfungstabelle
         String CREATE_FORMULAR_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE_ITEM + "("+ 
         		//create column formular
         		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
@@ -38,7 +38,7 @@ public class DataSourceItem {
         			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
         db.execSQL(CREATE_FORMULAR_ITEM_TABLE);
         
-        //Erstellt die Item-Kategorie-Wert Verknüpfungstabelle
+        //Erstellt die Item-Kategorie-Wert Verknï¿½pfungstabelle
         String CREATE_CATEGORY_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_CATEGORY_ITEM + "("+ 
         		//create column kategorie
         		DatabaseHandler.TABLE_CATEGORY + " INTEGER," + 
@@ -55,7 +55,7 @@ public class DataSourceItem {
     }
 	
     /**
-     * Fügt ein Item der Datenbank hinzu.
+     * Fï¿½gt ein Item der Datenbank hinzu.
      * TODO Kategoriezuordnung speichern
      * @param name
      */
@@ -80,7 +80,7 @@ public class DataSourceItem {
     }
     
     /**
-     * Fügt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
+     * Fï¿½gt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
 
      * @param database
      * @param feature
@@ -95,7 +95,7 @@ public class DataSourceItem {
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
     /**
-     * Fügt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
+     * Fï¿½gt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
 
      * @param database
      * @param feature
@@ -131,7 +131,7 @@ public class DataSourceItem {
 				String itemName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FORMULAR)));
 				
-				//selektiere Formular für item
+				//selektiere Formular fï¿½r item
 				ArrayList<Long> selectFormularId = new ArrayList<Long>();
 				selectFormularId.add(formularId);
 				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);
@@ -211,5 +211,36 @@ public class DataSourceItem {
 				//TODO kategorie
 			} while (cursor.moveToNext());
 		}
+    }
+    
+    /**
+     * Gibt eine Liste aller Items zurueck, die einer Kategorie enthalten sind.
+     * @param database
+     * @param categoryID 
+     * @return Die Items in der spezifizierten Kategorie
+     */
+    public ArrayList<Item> getItemsOfACategory( SQLiteDatabase database, long categoryID) {
+    	    	
+    	ContentValues whereValues = new ContentValues();
+    	whereValues.put(DatabaseHandler.TABLE_CATEGORY, categoryID);
+    	
+    	String whereStatement = DatabaseHandler.createWhereStatementFromContentValues(whereValues);
+    	
+    	//select types from database
+    	Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY_ITEM, null, whereStatement, null, null, null, null);
+		
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		//add all types to list
+		if (cursor.moveToFirst()) {
+			do {
+				long itemId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.TABLE_ITEM));
+				ArrayList<Long> anIdinAList = new ArrayList<Long>();
+				anIdinAList.add(itemId);
+				Item anFoundItem = this.getItems(database, anIdinAList).get(0);
+				items.add(anFoundItem);
+			} while (cursor.moveToNext());
+		}
+		return items;
     }
 }

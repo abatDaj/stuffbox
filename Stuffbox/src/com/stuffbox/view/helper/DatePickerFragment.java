@@ -7,9 +7,6 @@ package com.stuffbox.view.helper;
 
 import java.util.Calendar;
 
-import com.stuffbox.controller.Controller;
-import com.stuffbox.view.DetailItemActivity;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;

@@ -3,7 +3,7 @@
  *http://stackoverflow.com/questions/17526418/scroll-linearlayout-with-listview-in-android 
  */
 
-package com.stuffbox.view;
+package com.stuffbox.view.helper;
 
 import android.view.View;
 import android.view.ViewGroup;

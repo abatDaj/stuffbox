@@ -21,6 +21,7 @@ import com.stuffbox.model.Icon;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
+import com.stuffbox.view.helper.Utility;
 
 public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
 	

@@ -189,6 +189,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public ArrayList<Item> getItems(ArrayList<Long> selectIds){
     	return dataSourceItem.getItems(database, selectIds);
     }
+    
+    /**
+     * Gibt eine Liste aller Items zurueck, die einer Kategorie enthalten sind.
+     * @param database
+     * @param categoryID 
+     * @return Die Items in der spezifizierten Kategorie
+     */
+    public ArrayList<Item> getItemsOfACategory(long categoryID) {
+    	return dataSourceItem.getItemsOfACategory(database, categoryID);
+    }    
+    
     /**
      * Speichert ein Item in der Tabelle Item und dessen zugeorndete
      * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
