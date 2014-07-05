@@ -40,6 +40,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ChooseCategoriesActivity extends ActionBarActivity {
 
+	public static final int REQUEST_CHOOSE_CATEGORIES = 0;
+	
 	private CategoryChooseArrayAdapter categoryAdapter;
 	
 	@Override
@@ -89,7 +91,10 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	public void onSave(View view){
 		ArrayList<Category> selectedCategories= categoryAdapter.getSelectedCategories();
 		Controller.getInstance().setSelectedCategoriesInItem(selectedCategories);
-		// finish() beendet die Kategorie und man wird automatisch in die letzte (mit dem gleichen Zustand) versetzt.
+		
+		//zurueck zur anfragenden activity
+		Intent intentMessage=new Intent();
+		setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
 		finish(); 
 	}
 	/**

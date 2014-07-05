@@ -455,7 +455,7 @@ public class Controller {
 		
 		// holt alle Icons mit dem Prefix "category_icon_"
 		for (int i = 0; i < drawableFields.length; i++)
-			if (drawableFields[i].getName().contains( context.getResources().getText(R.string.prefix_icon_category)))  
+			if (drawableFields[i].getName().startsWith( (String) context.getResources().getText(R.string.prefix_icon_category)))  
 				databaseHandler.insertIcon(drawableFields[i].getName(),"egal");
     }
     
@@ -504,6 +504,8 @@ public class Controller {
 	    int resourceId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
 	    view.setImageDrawable(context.getResources().getDrawable( resourceId ));
     }
+    
+    
     
     /**
      * Gibt die aktuelle Kategorie zurueck

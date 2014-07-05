@@ -23,21 +23,14 @@ public class NewFeatureActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_feature);	    
 	    Controller.getInstance();
+	    
+	    Controller.getInstance().popLastInsertedFeature();
+	    
 		ArrayList<FeatureType> types = Controller.getInstance().getTypes();
 		
 		Spinner spinner = (Spinner) findViewById(R.id.spinner_arten);
-		// Create an ArrayAdapter using the string array and a default spinner layout
-		
-		/*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-		        R.array.planets_array, android.R.layout.simple_spinner_item);
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		spinner.setAdapter(adapter);
-		*/
 		
 		ArrayAdapter<FeatureType> adapter = new ArrayAdapter<FeatureType>(this, android.R.layout.simple_spinner_item, types);
-		
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);

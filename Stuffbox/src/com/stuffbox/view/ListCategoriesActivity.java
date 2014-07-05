@@ -66,7 +66,10 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	        {		        
 				Item clickedItem = (Item) parent.getItemAtPosition(position);
-				Controller.getInstance().sayIt("Item-Name: " + clickedItem.getName());
+				Controller.getInstance().setCurrentItem(clickedItem);
+		        Intent intent = new Intent();        
+		        intent.setClassName(getPackageName(), DetailItemActivity.class.getName());
+		        startActivity(intent);
 	        }
         });
 
