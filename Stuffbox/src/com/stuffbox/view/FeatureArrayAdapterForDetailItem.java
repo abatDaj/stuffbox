@@ -192,14 +192,12 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
 			//initial value
-			feature.setValue(false);
-			
 			Time now = new Time();
 			now.setToNow();
-			editTimePicker.setText(now.toString());
-		}else{
-			editTimePicker.setText(feature.getValue().toString());
+			feature.setValue(now.toString());
 		}
+		
+		editTimePicker.setText(feature.getValue().toString());
 	    
 	 	//setze Listener um Werte zu speichern
 	    editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -233,10 +231,8 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		if (feature.getValue() == null) {		
 			//initial value
 			feature.setValue(false);
-			checkBox.setSelected(false);
-		}else{
-			checkBox.setSelected((Boolean) feature.getValue());
 		}
+		checkBox.setSelected((Boolean) feature.getValue());
 		
 		//setze Listener um Werte zu speichern
 		checkBox.setOnClickListener(new OnClickListener() {
@@ -270,6 +266,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewDecimalzahl.addView(editDezimalzahl);
 		
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(0);
+		}
+		editDezimalzahl.setText(feature.getValue().toString());
+		
 		//setze Listener um Werte zu speichern
 		editDezimalzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -301,6 +304,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewInteger.addView(editGanzahl);
 		
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(0);
+		}
+		editGanzahl.setText(feature.getValue().toString());
+		
 		//setze Listener um Werte zu speichern
 		editGanzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -328,8 +338,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		LinearLayout rowViewStars= new LinearLayout(context);
 		rowViewStars.setOrientation(LinearLayout.HORIZONTAL);
 		
-		if (feature.getValue() == null)
+		if (feature.getValue() == null){
 			feature.setValue(Controller.DEFAULT_RANKING_VALUE);
+		}
 		
 		/*
 		 * 9 Sterne werden in den horizontalen Layout hinzugefügt und jedem
@@ -346,22 +357,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				public boolean onTouch(View v, MotionEvent event) {
 					LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
 					int indexInLayout = rowViewStarsAgain.indexOfChild(v);
-					for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
-						ImageView star = ((ImageView)rowViewStarsAgain.getChildAt(i));
-						if (i <= indexInLayout) 
-						{
-							star.setImageResource(R.drawable.ranking_star_3);
-							// TODO setColorFilter vermutlich besser
-							//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
-						}
-						else 
-						{
-							star.setImageResource(R.drawable.ranking_star_4);
-						}
-						
-						//save value
-						feature.setValue(indexInLayout + 1);
-					}	return false;
+					setStarsForRanking(indexInLayout, rowViewStarsAgain);
+					//save value
+					feature.setValue(indexInLayout + 1);	
+					return false;
 				}
 			});
 			imageview.setOnClickListener(new View.OnClickListener(){
@@ -369,24 +368,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				public void onClick(View v) {
 					LinearLayout rowViewStarsAgain = (LinearLayout)v.getParent();
 					int indexInLayout = rowViewStarsAgain.indexOfChild(v);
-					for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
-						ImageView star = ((ImageView)rowViewStarsAgain.getChildAt(i));
-						if (i <= indexInLayout) 
-						{
-							star.setImageResource(R.drawable.ranking_star_3);
-							// TODO setColorFilter vermutlich besser
-							//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
-						}
-						else 
-						{
-							star.setImageResource(R.drawable.ranking_star_4);
-						}
-					}
-					//((ImageView)v).setImageResource(R.drawable.ranking_star_4);
-					
+					setStarsForRanking(indexInLayout, rowViewStarsAgain);
 					//save value
 					feature.setValue(indexInLayout + 1);
-				}});
+				}
+			});
 			imageview.setImageResource(R.drawable.ranking_star_3);
 			imageview.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			
@@ -398,6 +384,29 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		rowViewRanking.setClickable(false);
 		rowViewRanking.setOnClickListener(null);
 		
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(Controller.DEFAULT_RANKING_VALUE);
+		}
+		setStarsForRanking((Integer) feature.getValue(), rowViewStars);
+		
 		return rowViewRanking;		
+	}
+	
+	private void setStarsForRanking(int indexInLayout, LinearLayout rowViewStars){
+		for (int i = 0; i < Controller.NUMBER_STARS_OF_RANKING; i++) {
+			ImageView star = ((ImageView)rowViewStars.getChildAt(i));
+			if (i <= indexInLayout) 
+			{
+				star.setImageResource(R.drawable.ranking_star_3);
+				// TODO setColorFilter vermutlich besser
+				//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
+			}
+			else 
+			{
+				star.setImageResource(R.drawable.ranking_star_4);
+			}
+		}
 	}
 }
