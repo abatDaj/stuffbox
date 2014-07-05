@@ -80,8 +80,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		switch (feature.getType()) {
 		//Eigenschaft hat Typ Text
 		case Text:	
-			//feature.setValue("");
-			rowView = buildTextEdit(rowView, mainText, editText, feature);
+			rowView = buildTextEdit(rowView, mainText, feature);
 			break;
 		//Eigenschaft hat Typ Foto
 		case Foto:
@@ -105,7 +104,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			rowView = buildRankingEdit(rowView, mainText, feature);
 			break;
 		default:
-			rowView = buildTextEdit(rowView, mainText, editText, feature);
+			rowView = buildTextEdit(rowView, mainText, feature);
 			break;
 		}
 		return rowView;
@@ -116,7 +115,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @param editText
 	 * @param feature
 	 */
-	private LinearLayout buildTextEdit(View rowView, TextView mainText, final TextView editText, final Feature feature){
+	private LinearLayout buildTextEdit(View rowView, TextView mainText, final Feature feature){
 		LinearLayout rowViewText= new LinearLayout(context);
 		rowViewText.setOrientation(LinearLayout.VERTICAL);
 		((ViewGroup)rowView).removeView(mainText);
