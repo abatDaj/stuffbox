@@ -1,10 +1,29 @@
 package com.stuffbox.view;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +37,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.stuffbox.R;
@@ -32,6 +53,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private final ArrayList<Feature> features;
 	private ActivityWithATimePickerEditText activityWithATimePickerEditText;
 	private boolean editable = false;
+	
+	private static final String TAG = FeatureArrayAdapterForDetailItem.class.getSimpleName();
+	private static final int REQUEST_CAMERA = 42;
+	private static final int SELECT_FILE = 1;
 	
 	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
 		super(context, R.layout.row_detail_item_feature, features);
@@ -166,8 +191,92 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			}
 		});
 		
+		//setze Listener um Werte zu speichern
+//		editImage.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            	final CharSequence[] items = { "Foto machen", "Galerie",
+//                "Abbrechen" };
+//		        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		        builder.setTitle("Bild hinzufügen");
+//		        builder.setItems(items, new DialogInterface.OnClickListener() {
+//		            @Override
+//		            public void onClick(DialogInterface dialog, int item) {
+//		                if (items[item].equals("Foto machen")) {
+//		                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//		                    File f = new File(android.os.Environment
+//		                            .getExternalStorageDirectory(), "temp.jpg");
+//		                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+//		                    startActivityForResult(intent, REQUEST_CAMERA);
+//		                } else if (items[item].equals("Galerie")) {
+//		                    Intent intent = new Intent(
+//		                            Intent.ACTION_PICK,
+//		                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//		                    intent.setType("image/*");
+//		                    startActivityForResult(
+//		                            Intent.createChooser(intent, "Select File"),
+//		                            SELECT_FILE);
+//		                } else if (items[item].equals("Abbrechen")) {
+//		                    dialog.dismiss();
+//		                }
+//		            }
+//		            
+//		            @Override
+//					private void onActivityResult(int requestCode, int resultCode, Intent data) {
+//					        super.onActivityResult(requestCode, resultCode, data);
+//					        if (resultCode == RESULT_OK) {
+//					            if (requestCode == REQUEST_CAMERA) {
+//					            	File path = Environment.getExternalStoragePublicDirectory(
+//					                        Environment.DIRECTORY_PICTURES);
+//					                File file = new File(path, "Test.jpg");
+//
+//					                try {
+//					                    Bitmap bm;
+//					                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+//					 
+//					                    bm = BitmapFactory.decodeFile(file.getAbsolutePath(),
+//					                            btmapOptions);
+//					 
+//					                    //bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+//					                    editImage.setImageBitmap(bm);
+//					                    try {                        
+//					                        OutputStream stream = new FileOutputStream(file);
+//					                        bm.compress(CompressFormat.JPEG, 100, stream);
+//					                        stream.flush();
+//					                        stream.close();
+//					                    } catch (FileNotFoundException e) {
+//					                    	Log.e(TAG, "Fehler beim Fotografieren file not found: ", e);
+//					                    } catch (IOException e) {
+//					                    	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);
+//					                    } catch (Exception e) {
+//					                    	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+//					                    }
+//					                } catch (Exception e) {
+//					                	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+//					                }
+//					            } else if (requestCode == SELECT_FILE) {
+//					            	try {
+//					            		final Uri imageUri = data.getData();
+//					            		final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+//					    				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//					    				editImage.setImageBitmap(selectedImage);
+//					            	} catch (Exception e) {
+//					            		Log.e(TAG, "Fehler bei der Galerie allgemeiner fehler: ", e);
+//									}
+//					            }
+//					        }
+//						
+//					}
+//		        });
+//		        builder.show();
+//            }
+//        });
+		
 		editImage.setEnabled(editable);
 	}
+	
+    
+	
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Datum
 	 * @param rowView
