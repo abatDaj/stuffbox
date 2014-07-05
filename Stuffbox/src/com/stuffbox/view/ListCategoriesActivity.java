@@ -39,23 +39,20 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ListCategoriesActivity extends ActionBarActivity {
 
-	private ListView mainListView ;
+	private ListView categoryListView ;
 	private CategoryArrayAdapter categoryAdapter ;
-	
+	private ListView itemListView ;
+	private ItemArrayAdapter itemAdapter ;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_list);
+
+		// Anzeigen der Unterkategorien:
 		
-		ArrayList<Item> items = Controller.getInstance().getItems(null);
-		if (items == null)
-			Controller.getInstance().sayIt("Damn It !");
-		else if (items.size() > 1)
-			Controller.getInstance().sayIt("Anzahl: " + items.size() + ". Name: " + items.get(1).getName());
-		
-		
-        mainListView = (ListView) findViewById( R.id.categoryListView );
-        mainListView.setOnItemClickListener(new OnItemClickListener()
+		categoryListView = (ListView) findViewById( R.id.categoryListView );
+		categoryListView.setOnItemClickListener(new OnItemClickListener()
         {
 	        @Override
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -72,7 +69,24 @@ public class ListCategoriesActivity extends ActionBarActivity {
         ArrayList<Category> mainCategories = Controller.getInstance().getSubCategories(currentCategory.getId());
         
         categoryAdapter = new CategoryArrayAdapter (this, mainCategories);
-	    mainListView.setAdapter( categoryAdapter );	
+        categoryListView.setAdapter( categoryAdapter );	
+        
+        // Anzeigen der Items:
+        
+        itemListView = (ListView) findViewById( R.id.itemListView );
+        itemListView.setOnItemClickListener(new OnItemClickListener()
+        {
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+	        {		        
+				Item clickedItem = (Item) parent.getItemAtPosition(position);
+				Controller.getInstance().sayIt("Item-Name: " + clickedItem.getName());
+	        }
+        });
+
+        ArrayList<Item> allItems = Controller.getInstance().getItems(null);
+        itemAdapter = new ItemArrayAdapter (this, allItems);
+        itemListView.setAdapter( itemAdapter );	
 	}
 
 	@Override
