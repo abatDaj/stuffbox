@@ -1,11 +1,8 @@
 package com.stuffbox.view;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.text.format.Time;
 import android.view.LayoutInflater;
@@ -21,8 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.stuffbox.R;
@@ -198,8 +193,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			
 		}
 		
-//		editTimePicker.setText(feature.getValue().toString());
-		editTimePicker.setHint(feature.getValue().toString());
+		editTimePicker.setText(feature.getValue().toString());
 		
 	 	//setze Listener um Werte zu speichern
 	    editTimePicker.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -234,13 +228,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			//initial value
 			feature.setValue(false);
 		}
-		checkBox.setSelected((Boolean) feature.getValue());
+		checkBox.setChecked((Boolean) feature.getValue());
 		
 		//setze Listener um Werte zu speichern
 		checkBox.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				feature.setValue(checkBox.isSelected());
+				feature.setValue(checkBox.isChecked());
 			}
 		});
 		
@@ -391,7 +385,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			//initial value
 			feature.setValue(Controller.DEFAULT_RANKING_VALUE);
 		}
-		setStarsForRanking((Integer) feature.getValue(), rowViewStars);
+		setStarsForRanking((Integer) feature.getValue() - 1, rowViewStars);
 		
 		return rowViewRanking;		
 	}

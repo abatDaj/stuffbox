@@ -114,8 +114,12 @@ public class DataSourceFeature {
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
 		String valueAsString;
 		switch (type) {
-		case Wahrheitswert:
-			valueAsString = String.valueOf(value);
+//		case Wahrheitswert:
+//			valueAsString = value.toString();
+//			break;
+//		case Ranking:
+//			valueAsString = value.toString();
+//			break;
 		default:
 			valueAsString = value.toString();
 			break;
@@ -125,11 +129,23 @@ public class DataSourceFeature {
 	/**
 	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt
 	 * TODO Type einbeziehen
-	 * @param value
+	 * @param valueAsString
 	 * @param type
 	 * @return
 	 */
-	public Object getValueFromDatabaseString(String value, FeatureType type){
-		return value;
+	public static Object getValueFromDatabaseString(String valueAsString, FeatureType type){
+		Object valueAsObject;
+		switch (type) {
+		case Wahrheitswert:
+			valueAsObject = Boolean.parseBoolean(valueAsString);
+			break;
+		case Ranking:
+			valueAsObject = Integer.parseInt(valueAsString);
+			break;
+		default:
+			valueAsObject = valueAsString.toString();
+			break;
+		}
+		return valueAsObject;
 	}
 }

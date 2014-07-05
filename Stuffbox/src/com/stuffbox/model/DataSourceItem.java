@@ -199,7 +199,8 @@ public class DataSourceItem {
 				boolean featureWasFound = false;
 				for (Feature feature : features) {
 					if(feature.getId() == featureid){
-						feature.setValue(value);
+						Object valueAsObject = DataSourceFeature.getValueFromDatabaseString(value, feature.getType());
+						feature.setValue(valueAsObject);
 						featureWasFound = true;
 					}
 				}

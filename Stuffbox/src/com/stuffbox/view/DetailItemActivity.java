@@ -60,27 +60,15 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}
 		
 		//setze Werte für Kategorieanzeige
-		TextView textView = (TextView) findViewById(R.id.detail_item_category_text);
 		if(changeMode){
-			Controller.getInstance().setSelectedCategoriesInItem(null);
 			//initial ist aktuelle Kategorie gesetzt
-			textView.setText(Controller.getInstance().getCurrentCategory().getName());
+			ArrayList<Category> initCategories = new ArrayList<Category>();
+			initCategories.add(Controller.getInstance().getCurrentCategory());
+			Controller.getInstance().setSelectedCategoriesInItem(initCategories);	
 		}else{
-			Controller.getInstance().setSelectedCategoriesInItem(currentItem.getCategories());
-			
-			//erstelle Text für zugeordnete Kategorien
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int index = 0; index < currentItem.getCategories().size(); index++) {
-				Category category = currentItem.getCategories().get(index);
-				stringBuilder.append(category);
-				if(index != currentItem.getCategories().size()-1){
-					stringBuilder.append(", ");
-				}
-			}		
-
-			textView.setText(stringBuilder.toString());			
+			Controller.getInstance().setSelectedCategoriesInItem(currentItem.getCategories());		
 		}
-
+		showCategoryText();
 
 		// Alle Eigenschaften des Formulars anzeigen
 		mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
@@ -103,7 +91,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		Category currentCategory = Controller.getInstance().getCurrentCategory();
 		Icon icon = currentCategory.getIcon();
 		if (icon !=null)
@@ -114,7 +101,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	}
 
 	/**
-	 * 0
 	 * Ein neues Formular wird angelegt.
 	 *
 	 * @param view
@@ -140,12 +126,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		Intent intent = getIntent();
 		finish();
 		startActivity(intent);
-		
-//        Intent intent = new Intent();        
-//        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
-//        startActivity(intent);
-//		Controller.getInstance().sayIt("onSave()");
-
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
@@ -160,8 +140,16 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	public void openCategoryChooser (View view) {
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
-        startActivity(intent);
+        startActivityForResult(intent, ChooseCategoriesActivity.REQUEST_CHOOSE_CATEGORIES);
 	}
+	
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ChooseCategoriesActivity.REQUEST_CHOOSE_CATEGORIES) {
+        	//aktualisiere Kategorieanzeige
+        	showCategoryText();
+        }
+    }
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {	
@@ -186,5 +174,22 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		DatePickerFragment newFragment = new DatePickerFragment();
 		newFragment.setEditTextPicker(editTextDatePicker);
 	    newFragment.show(getSupportFragmentManager(), "datePicker");
+	}
+	
+	private void showCategoryText(){
+		TextView textView = (TextView) findViewById(R.id.detail_item_category_text);
+		
+		ArrayList<Category> categories = Controller.getInstance().getSelectedCategoriesInItem();
+		//erstelle Text für zugeordnete Kategorien
+		StringBuilder stringBuilder = new StringBuilder();
+		for (int index = 0; index < categories.size(); index++) {
+			Category category = categories.get(index);
+			stringBuilder.append(category);
+			if(index != categories.size()-1){
+				stringBuilder.append(", ");
+			}
+		}		
+
+		textView.setText(stringBuilder.toString());	
 	}
 }
