@@ -229,7 +229,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
                     bm = BitmapFactory.decodeFile(file.getAbsolutePath(),
                             btmapOptions);
  
-                    //bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+                    bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
                     photoImageView.setImageBitmap(bm);
                     try {                        
                         OutputStream stream = new FileOutputStream(file);
