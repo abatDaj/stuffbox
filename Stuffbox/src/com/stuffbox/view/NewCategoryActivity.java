@@ -122,13 +122,14 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		if (categoryToEdit != null) {
 			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_category));
 			getMenuInflater().inflate(R.menu.edit_category, menu);
-		}
-		else
+		}else{
 			getMenuInflater().inflate(R.menu.new_category, menu);
+		}
 
 		Icon icon = Controller.getInstance().getCurrentCategory().getIcon();
-		if (icon !=null) 
+		if (icon !=null){
 			getSupportActionBar().setIcon(icon.getDrawableId());
+		}
 		
 		return true;
 	}
