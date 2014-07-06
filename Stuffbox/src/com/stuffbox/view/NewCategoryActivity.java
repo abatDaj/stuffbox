@@ -9,7 +9,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,6 +28,7 @@ import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 public class NewCategoryActivity extends ActionBarActivity implements DialogDecisionListener {
 	
 	Category categoryToEdit = null;
+	private static Icon selectedIcon = Controller.getInstance().getCurrentCategory().getIcon();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,32 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 				editTextName.setText(categoryToEdit.getName());
 			}
 		}
+		
+		// Icon-Auswahl
+		
+		LinearLayout ll = new LinearLayout(this);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		TextView tV = new TextView(this);
+		tV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+		tV.setText("Wähle ein Icon aus");
+		
+		int  did = selectedIcon.getDrawableId();
+		ImageView iV = new ImageView(this);
+		iV.setImageResource(did);
+		iV.setLayoutParams(new LinearLayout.LayoutParams(100,100));
+		iV.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent();        
+			    intent.setClassName(getPackageName(), ChooseIconActivity.class.getName());
+			    startActivity(intent);
+			}});
+		
+		ll.addView(tV);
+		ll.addView(iV);
+		
+		LinearLayout view = (LinearLayout)findViewById(R.id.new_category_screen);
+		view.addView(ll);
 	}
 
 	@Override
@@ -187,5 +219,13 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		        default:
 		            return super.onOptionsItemSelected(item);
 		    }		
+	}
+
+	public static Icon getSelectedIcon() {
+		return selectedIcon;
+	}
+
+	public static void setSelectedIcon(Icon selectedIconFrom) {
+		selectedIcon = selectedIconFrom;
 	}
 }

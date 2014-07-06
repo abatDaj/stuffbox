@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * 
@@ -47,6 +48,7 @@ public class IconArrayAdapter extends ArrayAdapter<Icon> {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.new_category_spinner_row, parent, false);
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.new_category_spinner_icon);
+		imageView.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
 
 		try {
 			Field f = R.drawable.class.getField(values[position].getName());

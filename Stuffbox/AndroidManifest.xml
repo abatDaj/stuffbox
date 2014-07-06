@@ -8,10 +8,11 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
-	<uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera" />    
-    
+
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -23,11 +24,11 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.NewCategoryActivity"
-            android:label="@string/title_activity_new_category"             
+            android:label="@string/title_activity_new_category"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.NewFeatureActivity"
@@ -35,19 +36,19 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.ListFormularActivity"
-            android:label="@string/title_activity_choose_formular"            
+            android:label="@string/title_activity_choose_formular"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.NewFormularActivity"
-            android:label="@string/title_activity_new_formular"             
+            android:label="@string/title_activity_new_formular"
             android:parentActivityName="com.stuffbox.view.ListFormularActivity" >
             <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.stuffbox.view.ListFormularActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.ListFormularActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.ListViewDraggingAnimation"
@@ -59,28 +60,34 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.ListCategoriesActivity"
-            android:label="@string/title_activity_list_categories" 
+            android:label="@string/title_activity_list_categories"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.ListCategoriesActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.stuffbox.view.DetailItemActivity"
-            android:label="@string/title_activity_detail_item" 
-            android:windowSoftInputMode="stateHidden|adjustResize" 
-            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            android:label="@string/title_activity_detail_item"
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.ChooseCategoriesActivity"
             android:label="@string/title_activity_choose_category" >
+        </activity>
+        <activity
+            android:name="com.stuffbox.view.ChooseIconActivity"
+            android:label="@string/title_activity_choose_items" >
         </activity>
     </application>
 

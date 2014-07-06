@@ -12,7 +12,7 @@
     <string name="actionbartitle_edit_category">Kategorie ändern</string>
     <string name="title_activity_detail_item">neuer Eintrag</string>
     <string name="title_activity_choose_formular">Formular auswählen</string>
-        <string name="title_activity_choose_category">Kategorie auswählen</string>
+    <string name="title_activity_choose_category">Kategorie auswählen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="delete">löschen</string>
@@ -28,7 +28,6 @@
     <string name="minus">-</string>
     <string name="init_sortnumber">-1</string>
     <string name="empty_string"></string>
-    
     <string name="msg_alert_de_missingvalue_1">Das Feld\u0020</string>
     <string name="msg_alert_de_missingvalue_2">\u0020darf nicht leer sein.</string>
     <string name="msg_alert_de_exists">Dieser Eintrag existiert bereits.</string>
@@ -37,20 +36,17 @@
     <string name="dialog_notice_item_name_missing">Bitte einen Namen für das Item vergeben.</string>
     <string name="delete_dialog_category">Sollen wirklich die Kategorie samt allen Unterkategorien und Dateien gelöschen werden?</string>
     <string name="txt_badge_headline">Errungene Abzeichen</string>
-    
     <string name="btn_alert_de_ok">OK</string>
     <string name="btn_alert_de_yes">Ja</string>
     <string name="btn_alert_de_no">Nein</string>
     <string name="error">Fehler</string>
-
     <string name="delete_dialog_yes">Ja</string>
     <string name="delete_dialog_no">Nein</string>
-    
     <string name="new_item_select_formular_step1">Schritt 1:</string>
     <string name="to_new_formular">Formular anlegen</string>
     <string name="labelFeatureImage">Bild</string>
     <string name="category">Kategorie</string>
-    
+
     <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>
     <string name="button_new_kategorie">Neue Kategorie Screen</string>
@@ -63,4 +59,6 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_badge">BadgeActivity</string>
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
+    <string name="title_activity_choose_items">ChooseItemsActivity</string>
+
 </resources>

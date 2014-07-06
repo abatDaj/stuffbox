@@ -66,7 +66,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;
-			//TODO pr�fen ob item geaendert werden soll
+			//TODO pr�fen ob item geaendert werden soll
 			changeMode = false;
 		}else if (formular != null) {
 			itemExits = false;
@@ -214,28 +214,29 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			itemName = chars.toString();
 		
 		
-		ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
-		
-		for(int i = 0; i < mainListView.getChildCount(); i++)
-		{
-			View lView = (View) mainListView.getChildAt(i);
-			lView.clearFocus(); 
-		} 
-		
-		for(Feature feature : formular.getFeatures()){
-			if(feature.getId() == Formular.idOfNameFeature ){
-				feature.setValue(itemName);
+			ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
+			
+			for(int i = 0; i < mainListView.getChildCount(); i++)
+			{
+				View lView = (View) mainListView.getChildAt(i);
+				lView.clearFocus(); 
+			} 
+			
+			for(Feature feature : formular.getFeatures()){
+				if(feature.getId() == Formular.idOfNameFeature ){
+					feature.setValue(itemName);
+				}
 			}
+			
+			Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+			//TODO Diese Anweisung führt dazu, das die Rücksprünge nicht mehr so gut funktionieren.
+			Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
+			Controller.getInstance().setSelectedCategoriesInItem(null);
+	
+			Intent intent = getIntent();
+			finish();
+			startActivity(intent);
 		}
-		
-		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
-		//TODO Diese Anweisung führt dazu, das die Rücksprünge nicht mehr so gut funktionieren.
-		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
-		Controller.getInstance().setSelectedCategoriesInItem(null);
-
-		Intent intent = getIntent();
-		finish();
-		startActivity(intent);}
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen

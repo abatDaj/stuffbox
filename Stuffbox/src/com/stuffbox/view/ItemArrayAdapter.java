@@ -50,10 +50,8 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		LinearLayout rowView = new LinearLayout(context);
 		rowView.setOrientation(LinearLayout.HORIZONTAL);
 		rowView.setPadding(10, 10, 0, 10);
-
-	
-		ArrayList<Feature> features  = items.get(position).getFormular().getFeatures();
 		
+		ArrayList<Feature> features  = items.get(position).getFormular().getFeatures();
 		// Falls Bild gespeichert und vorhanden darstellen, andernfalls Icon von Kategorie
 		// aber eingegraut in der Icon-Liste darstellen.
 		
