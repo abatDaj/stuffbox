@@ -1,6 +1,7 @@
 package com.stuffbox.view;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;
-			//TODO pr�fen ob item geaendert werden soll
+			//TODO pruefen ob item geaendert werden soll
 			changeMode = false;
 		}else if (formular != null) {
 			itemExits = false;
@@ -245,6 +246,39 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		
 	}
 	
+	/*
+	 * Quuelle:
+	 * http://stackoverflow.com/questions/6693069/problem-with-big-images-java-lang-outofmemoryerror-bitmap-size-exceeds-vm-bud
+	 */
+	private Bitmap decodeFile(File f){
+        try {
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+
+            //The new size we want to scale to
+            final int REQUIRED_SIZE=70;
+
+            //Find the correct scale value. It should be the power of 2.
+            int width_tmp=o.outWidth, height_tmp=o.outHeight;
+            int scale=1;
+            while(true){
+                if(width_tmp/2<REQUIRED_SIZE || height_tmp/2<REQUIRED_SIZE)
+                    break;
+                width_tmp/=2;
+                height_tmp/=2;
+                scale*=2;
+            }
+
+            //Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize=scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {}
+        return null;
+    }
+	
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ChooseCategoriesActivity.REQUEST_CHOOSE_CATEGORIES) {
@@ -257,13 +291,14 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
                 File file = new File(path, "temp.jpg");
 
                 try {
-                    Bitmap bm;
+                	Bitmap bm = decodeFile(file);
+                    /*Bitmap bm;
                     BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
  
                     bm = BitmapFactory.decodeFile(file.getAbsolutePath(),
                             btmapOptions);
  
-                    bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+                    bm = Bitmap.createScaledBitmap(bm, 100, 100, true);*/
                     photoImageView.setImageBitmap(bm);
                     try {                        
                         OutputStream stream = new FileOutputStream(file);

@@ -43,7 +43,9 @@ public class ChooseIconActivity extends ActionBarActivity {
     		iV.setOnClickListener(new OnClickListener(){
     			@Override
     			public void onClick(View v) {
-    				NewCategoryActivity.setSelectedIcon(icon);
+    				NewCategoryActivity.setSelectedIcon(icon);    				
+    				Intent returnIntent = new Intent();
+    				setResult(Controller.REQUEST_CODE_CHOOSE_ICON,returnIntent);
     				finish();
     			}});
     		ll.addView(iV);

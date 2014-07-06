@@ -22,16 +22,16 @@
         <requestFocus />
     </EditText>
 
-    <TextView
-        android:id="@+id/textView1"
-        style="@style/identifier"
-        android:layout_marginTop="22dp"
-        android:text="@string/icon" />
+<!--     <TextView -->
+<!--         android:id="@+id/textView1" -->
+<!--         style="@style/identifier" -->
+<!--         android:layout_marginTop="22dp" -->
+<!--         android:text="@string/icon" /> -->
     
-        <Spinner
-        android:id="@+id/spinner_new_category_icon"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+<!--         <Spinner -->
+<!--         android:id="@+id/spinner_new_category_icon" -->
+<!--         android:layout_width="fill_parent" -->
+<!--         android:layout_height="wrap_content"/> -->
 
 
 </LinearLayout>
