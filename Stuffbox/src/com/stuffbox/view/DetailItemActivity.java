@@ -209,9 +209,8 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == Controller.REQUEST_CAMERA) {
-            	File path = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES);
-                File file = new File(path, "Test.jpg");
+            	File path = Environment.getExternalStorageDirectory();
+                File file = new File(path, "temp.jpg");
 
                 try {
                     Bitmap bm;
