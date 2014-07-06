@@ -90,6 +90,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         dataSourceItem = new DataSourceItem();
         
         database = getWritableDatabase();
+        if (!database.isReadOnly()) {
+            // Enable foreign key constraints
+        	database.execSQL("PRAGMA foreign_keys=ON;");
+        }
     } 
     
     /**
@@ -97,25 +101,25 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
+    	dataSourceIcon.createIconTable(db);
     	dataSourceType.createTypeTable(db);
     	dataSourceFeature.createFeatureTable(db, getTypes());
     	dataSourceFormular.createFormularTable(db);;
-    	dataSourceIcon.createIconTable(db);
-    	dataSourceItem.createItemTable(db);
     	dataSourceCategory.createCategorieTable(db);
+    	dataSourceItem.createItemTable(db);
     }   
     
     public void initializeDatabase(){
         // Drop older table if existed
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
     	
         // Create tables again
         onCreate(database);
@@ -158,6 +162,13 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      */
     public Feature insertFeature(String name, FeatureType featureType){
     	return dataSourceFeature.insertFeature(database, name, featureType);
+    }
+    /**
+     * Loescht Eigenschaften von der Datenbank
+     * @param features
+     */
+    public boolean deleteFeatures(ArrayList<Feature> features){
+    	return dataSourceFeature.deleteFeatures(database, features);
     }
     
     /**
@@ -237,21 +248,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param name
      */
-    public Category insertOrUpdateCategory(String name, Icon icon, long precategory){
-    	return dataSourceCategory.insertOrUpdateCategory(database, INITIAL_ID, name, icon, precategory);
-    }
-    
-    /**
-     * Speichert die Aenderungen einer Kategorie in der Tabelle Kategorie.
-     * @param category
-     * @return
-     */
-    public Category updateCategory(Category category){
-    	return dataSourceCategory.insertOrUpdateCategory(database, 
-    			category.getId(), 
-    			category.getName(), 
-    			category.getIcon(), 
-    			category.getPreCategoryId());
+    public Category insertOrUpdateCategory(Category category){
+    	return dataSourceCategory.insertOrUpdateCategory(database, category);
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -331,10 +329,22 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return Die Anzahl der geloeschten Zeilen
      */
     public static long deletefromDB(SQLiteDatabase database, String table, ContentValues whereValues){
-    	long delRows = 0;
     	String whereClause = createWhereStatementFromContentValues(whereValues); 	
+    	return deletefromDB(database, table, whereClause);
+    }
+    
+    /**
+     * Loescht einen Tupel
+     * @param table
+     * @param whereValues
+     * @param logString
+     * 
+     * @return Die Anzahl der geloeschten Zeilen
+     */
+    public static long deletefromDB(SQLiteDatabase database, String table, String whereStatement){
+    	long delRows = 0;	
     	try{
-    		delRows = database.delete(table, whereClause, null);
+    		delRows = database.delete(table, whereStatement, null);
     	}catch(SQLiteException e){
     		Log.e(TAG, "delete " + table + " " + table, e);
     	}finally{

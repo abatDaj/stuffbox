@@ -1,6 +1,7 @@
 package com.stuffbox.model;
 
 import java.util.ArrayList;
+
 import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
@@ -15,28 +16,28 @@ public class DataSourceFormular {
     public void createFormularTable(SQLiteDatabase db){
     	//Erstellt die Formular Tabelle
         String CREATE_FORMULAR_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR + "("+ 
-        		//create column id
+        		//Erstellt Spalte id
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
-        		//create column name
+        		//Erstellt Spalte Name
         		DatabaseHandler.KEY_NAME + " TEXT" + ")";
         db.execSQL(CREATE_FORMULAR_TABLE);
         
         //Erstellt die Formular-Eigenschaft Verkn�pfungstabelle
         String CREATE_FORMULAR_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR_FEATURE + "("+ 
-        		//create column formular
+        		//Erstellt Spalte Formular
         		DatabaseHandler.TABLE_FORMULAR + " INTEGER," + 
-        		//create column item
+        		//Erstellt Spalte Item
         		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
-        		//create column sortnumber
+        		//Erstellt Spalte Sortiernummer
         		DatabaseHandler.KEY_SORTNUMBER + " INTEGER," + 
-        		//create primary key
+        		//Erstellt Primearschluessel
         		"PRIMARY KEY(" + DatabaseHandler.TABLE_FORMULAR + "," + DatabaseHandler.TABLE_FEATURE + ")," +
-        		//add foreign key to table formular
+        		//Erstellt Fremdschluessel zu Formulartabelle
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_FORMULAR + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_FORMULAR + "(" + DatabaseHandler.KEY_ID + ")" +
-        		//add foreign key to table item
+        			+ DatabaseHandler.TABLE_FORMULAR + "(" + DatabaseHandler.KEY_ID + ")"  + " ON DELETE CASCADE " +
+        		//Erstellt Fremdschluessel zu Eigenschaftentabelle
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +")";
+        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" + " ON DELETE CASCADE " +")";
         db.execSQL(CREATE_FORMULAR_FEATURE_TABLE);
     }
 	

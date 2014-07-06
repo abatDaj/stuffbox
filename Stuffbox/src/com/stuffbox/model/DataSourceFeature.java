@@ -24,13 +24,13 @@ public class DataSourceFeature {
     public void createFeatureTable(SQLiteDatabase db, ArrayList<FeatureType> types){
     	//Tabelle eigenschaft anlegen
         String CREATE_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
-        		//create column id
+        		//Spalte Id erstellen
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
-        		//create column name
+        		//Spalte Name erstellen
         		DatabaseHandler.KEY_NAME + " TEXT," + 
-        		//create column art
+        		//Spalte Typ erstellen
         		DatabaseHandler.KEY_TYPE + " INTEGER," + 
-        		//add foreign key to table art
+        		//Fremdschluessel zu Type Tabelle
                 "FOREIGN KEY(" + DatabaseHandler.KEY_TYPE + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_TYPE + "(" + DatabaseHandler.KEY_ID + ")" + ")";
         db.execSQL(CREATE_FEATURE_TABLE);
@@ -58,9 +58,27 @@ public class DataSourceFeature {
     	return new Feature(id, name, featureType);
     } 
     
+	/**
+	 * Loescht eine Eigenschaft
+	 * 
+	 * @param feature
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteFeatures(SQLiteDatabase database, ArrayList<Feature> features) {
+		ContentValues whereValues = new ContentValues();
+		
+		ArrayList<Long> selectFormularIds = new ArrayList<Long>();
+		for (Feature feature : features) {
+			selectFormularIds.add(feature.getId());	
+		}
+		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFormularIds,null);
 	
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FEATURE, whereStatement);		
+		return delRows == 1 ? true : false;
+	}
+    
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
@@ -112,19 +130,7 @@ public class DataSourceFeature {
      * @return
      */
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
-		String valueAsString;
-		switch (type) {
-//		case Wahrheitswert:
-//			valueAsString = value.toString();
-//			break;
-//		case Ranking:
-//			valueAsString = value.toString();
-//			break;
-		default:
-			valueAsString = value.toString();
-			break;
-		}
-		return valueAsString;
+		return value.toString();
 	}
 	/**
 	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt

@@ -155,14 +155,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	}
 	
 	/**
-	 * Loescht die Kategorie
-	 */
-	public void onDelete () {
-		Toast.makeText(getApplicationContext(), "LÖSCHEN !!!", Integer.valueOf(7)).show();
-	}
-	
-	/**
-	 * Ändert die Kategorie
+	 * aendert die Kategorie
 	 */
 	public void onEdit () {
 		//ClassName details = new ClassName();

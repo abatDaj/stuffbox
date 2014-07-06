@@ -34,14 +34,13 @@ public class Controller {
 	// Für die Bild-Galerie Funktion
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
-	
+
 	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
 	
 	// Java-CSS
-	
 	public static final int CSS_TEXT_SIZE_LABELS = 16;
 	
-	
+
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
 
@@ -138,8 +137,15 @@ public class Controller {
     	newInsertedFeature = databaseHandler.insertFeature(name, featureType);
     	return newInsertedFeature;
     }
+    /**
+     * Loescht Eigenschaften von der Datenbank
+     * @param features
+     */
+    public boolean deleteFeatures(ArrayList<Feature> features){
+    	return databaseHandler.deleteFeatures(features);
+    }
 	/**
-	 * Gibt die zuletzt angelegte Eigenschaft zur�ck und
+	 * Gibt die zuletzt angelegte Eigenschaft zurueck und
 	 * entfernt sie aus dem Controller
 	 * @return
 	 */
@@ -232,7 +238,7 @@ public class Controller {
      * @return
      */
     public Category insertCategory(String name, Icon icon, long precategory){
-    	return databaseHandler.insertOrUpdateCategory(name, icon, precategory);
+    	return databaseHandler.insertOrUpdateCategory(new Category(DatabaseHandler.INITIAL_ID, name, icon, precategory));
     }
     
     /**
@@ -241,7 +247,7 @@ public class Controller {
      * @return
      */
     public Category updateCategory(Category category){
-    	return databaseHandler.updateCategory(category);
+    	return databaseHandler.insertOrUpdateCategory(category);
     }
     
     public boolean deleteCategory(Category category) { 
@@ -598,7 +604,7 @@ public class Controller {
 	public ArrayList<Category> getSelectedCategoriesInItem() {
 		return selectedCategoriesInItem;
 	}
-
+	
 	public void setSelectedCategoriesInItem(
 			ArrayList<Category> selectedCategoriesInItem) {
 		this.selectedCategoriesInItem = selectedCategoriesInItem;

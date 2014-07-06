@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
     
     public void openAbzeichenScreen(View view) {    	
         Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), BadgeActivity.class.getName());
+        intent.setClassName(getPackageName(), ChooseFeaturesActivity.class.getName());
         startActivity(intent);
     }	   
 

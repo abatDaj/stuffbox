@@ -7,11 +7,13 @@ import com.stuffbox.R;
 import com.stuffbox.model.Formular;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -49,11 +51,6 @@ public class FormularArrayAdapter extends ArrayAdapter<Formular> {
 		// TODO Auto-generated method stub
 		return getCustomView(position, convertView, parent);
 	}
-	
-	//TODO was soll diese Methode machen? und wenn sie was macht, ist b eventuell nicht der beste Name ;)
-	private void b(int p){
-		selectedVariation = p;
-	};
 
 	public View getCustomView(final int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
