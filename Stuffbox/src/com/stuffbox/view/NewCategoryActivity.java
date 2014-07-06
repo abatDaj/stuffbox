@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -133,7 +135,14 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		}
 		
-		return true;
+		getMenuInflater().inflate(R.menu.choose_items, menu);
+	    MenuItem searchItem = menu.findItem(R.id.action_search);
+	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+	    // Configure the search info and add any event listeners
+	    //
+
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	/**
 	 * Eine neue Kategorie wird angelegt.

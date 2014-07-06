@@ -18,6 +18,8 @@
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="delete">löschen</string>
+    <string name="action_search">Suche</string>
+    <string name="search_hint">Einträge suchen</string>
     <string name="name">Name</string>
     <string name="name_formular">Formularname</string>
     <string name="name_category">Kategoriename</string>
