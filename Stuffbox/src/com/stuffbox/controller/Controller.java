@@ -235,6 +235,27 @@ public class Controller {
     	return databaseHandler.deleteCategory(category);
     }
     
+	/**
+	 * Loescht alle Items einer Kategorie
+	 * 
+	 * @param categoryID
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItemsOfCategory(long categoryID) {
+		return databaseHandler.deleteItemsOfCategory(categoryID);
+	}
+	
+	/**
+	 * Loescht eine Kategorie und alle Unterkategorien und die jeweiligen Items.
+	 * 
+	 * @param database
+	 * param category
+	 * @return Ob alles erfolgreich geloescht wurde 
+	 */
+	public boolean deleteCategoryRecursively(Category categoryToDeleteRecursively) {
+		return databaseHandler.deleteCategoryRecursively(categoryToDeleteRecursively);
+	}
+    
     /**
      * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
      * @param selectIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
@@ -481,7 +502,7 @@ public class Controller {
     	//TODO Icons von fill verwenden
     	getIcons();
     	
-    	//TODO warum wird die root categorie nicht aus der DB gelesen
+    	//TODO warum wird die root categorie nicht aus der DB gelesen => Weil sie noch nicht in der DB ist
 		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(3), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
@@ -551,8 +572,8 @@ public class Controller {
 	 * @param category
 	 * @return Die Oberkategorien
 	 */
-	public Category getPreCategory(Category category) {
-		return databaseHandler.getPreCategory(category);
+	public Category getPreCategoryId(Category category) {
+		return databaseHandler.getPreCategoryId(category);
 	}	
 	
 	public ArrayList<Category> getSelectedCategoriesInItem() {

@@ -75,7 +75,7 @@ public class DataSourceFormular {
     public ArrayList<Formular> getFormulars( SQLiteDatabase database, 
     										 		ArrayList<Long> selectFormularIds) {  
     	//erstelle where statement
-    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectFormularIds,null);
+    	String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFormularIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR, null, whereStatement, null, null, null, null);

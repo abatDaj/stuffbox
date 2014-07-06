@@ -57,7 +57,7 @@ public class DataSourceCategory {
 	    	whereValues.put(DatabaseHandler.KEY_ID, id);
 	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, name);
 	        if (rowid > 0){
-	        	//TODO vorherige kategorie zurückgeben
+	        	//TODO vorherige kategorie zurueckgeben
 	        	return new Category(id, name, icon, precategoryId);
 	        }
 	    } else {
@@ -81,6 +81,52 @@ public class DataSourceCategory {
 		whereValues.put(DatabaseHandler.KEY_ID, category.getId());
 		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_CATEGORY, whereValues);
 		return delRows == 1 ? true : false;
+	}
+	
+	/**
+	 * TODO: Funktioniert noch nicht.
+	 * Loescht eine Kategorie und alle Unterkategorien und die jeweiligen Items.
+	 * 
+	 *
+	 * @param database
+	 * param category
+	 * @return Ob alles erfolgreich geloescht wurde 
+	 */
+	public boolean deleteCategoryRecursively(SQLiteDatabase database, Category categoryToDeleteRecursively) {
+				
+		ArrayList<Category> allCategories = Controller.getInstance().getCategories(null);
+		ArrayList<Category> allCategoriesToDelete = new ArrayList<Category>();
+		
+		for (Category category : allCategories) 
+		{
+			for( long idOfPreCategory = category.getPreCategoryId();;)
+			{
+				if (idOfPreCategory == categoryToDeleteRecursively.getId())
+				{
+					allCategoriesToDelete.add(category);
+					break;
+				} 
+				else if (idOfPreCategory == DatabaseHandler.INDEX_OF_ROOT_CATEGORY) 
+					break;
+				//Category nextSubCategory = getCategory (database, idOfPreCategory)
+				ArrayList<Long> l = new ArrayList<Long> ();
+				l.add(idOfPreCategory);
+				Category nextSubCategory = getCategories(database, l, Controller.getInstance().getIcons()).get(0);
+				
+				if (nextSubCategory == null) //TODO Darf eigentlich nie passieren
+					break; 
+				idOfPreCategory = nextSubCategory.getId();
+			}						
+		}
+		boolean allItemsAndSubCategoriesWereDeleted = true;
+		for (Category categoryToDelete : allCategoriesToDelete) 
+		{
+			if ( !Controller.getInstance().deleteItemsOfCategory(categoryToDelete.getId()) )
+				allItemsAndSubCategoriesWereDeleted = false;
+			if ( !Controller.getInstance().deleteCategory(categoryToDelete) )
+				allItemsAndSubCategoriesWereDeleted = false;
+		}
+		return allItemsAndSubCategoriesWereDeleted;
 	}
 
 	/**
@@ -106,15 +152,43 @@ public class DataSourceCategory {
 	}
 	
 	/**
+	 * Holt die Daten anhand der KategorieId von der Datenbank, isntanziert diese 
+	 * Kategorie und returniert sie.
+	 * 
+	 * @param database
+	 * @param categoryId
+	 * @return Die gefundene Kategorie
+	 */
+	public Category getCategory(SQLiteDatabase database, long categoryId) {
+		String whereStatement = DatabaseHandler.KEY_ID + "=" + categoryId;
+		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatement, null, null, null, null);
+		
+		if (cursor.moveToFirst())
+		{
+			long id = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+			String name = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
+			long preCatId = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY)));
+			long iconId = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ICON)));
+			Icon icon = null;
+			for (Icon oneIcon : Controller.getInstance().getIcons())
+				if (oneIcon.getId() == iconId)
+					icon = oneIcon;
+			Category foundCategory = new Category (id, name, icon, preCatId);
+			return foundCategory;	
+		}
+		return null;	
+	}
+	
+	/**
 	 * Gibt Oberkategorie zurueck
 	 * 
 	 * @param database
 	 * @param category
-	 * @return Die Oberkategorien
+	 * @return Die Oberkategorie
 	 */
-	public Category getPreCategory(SQLiteDatabase database, Category category) {
+	public Category getPreCategoryId(SQLiteDatabase database, Category category) {
 		ArrayList<Long> preId = new ArrayList<Long>();
-		preId.add(Long.valueOf(category.getPreCategory()));
+		preId.add(Long.valueOf(category.getPreCategoryId()));
 		return getCategories(database, preId, Controller.getInstance().getIcons()).get(0);
 	}
 
@@ -135,7 +209,7 @@ public class DataSourceCategory {
 	 */
 	public ArrayList<Category> getCategories(SQLiteDatabase database, ArrayList<Long> selectCategorieIds, ArrayList<Icon> icons) {
 		// erstelle where statement
-		String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectCategorieIds, null);
+		String whereStatment = DatabaseHandler.createWhereStatementFromIDList(selectCategorieIds, null);
 		// select types from database
 		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatment, null, null, null, null);
 		ArrayList<Category> categories = new ArrayList<Category>();

@@ -95,7 +95,7 @@ public class DataSourceItem {
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
     /**
-     * F�gt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
+     * Fuegt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
 
      * @param database
      * @param feature
@@ -117,7 +117,7 @@ public class DataSourceItem {
     public ArrayList<Item> getItems( SQLiteDatabase database, 
 			 			  ArrayList<Long> selectIds){
     	//erstelle where statement
-    	String whereStatement = DatabaseHandler.getWhereStatementFromIDList(selectIds,null);
+    	String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_ITEM, null, whereStatement, null, null, null, null);
@@ -180,7 +180,7 @@ public class DataSourceItem {
     		selectFeatureIds.add(feature.getId());
     	}
 		whereStatement.append("(");
-		whereStatement.append(DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,DatabaseHandler.TABLE_FEATURE));
+		whereStatement.append(DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,DatabaseHandler.TABLE_FEATURE));
 		whereStatement.append(")");
     	
     	
@@ -244,4 +244,34 @@ public class DataSourceItem {
 		}
 		return items;
     }
+    
+	/**
+	 * Loescht ein Item
+	 * 
+	 * @param database
+	 * @param itemToDelete
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItem(SQLiteDatabase database, Item itemToDelete) {
+		ContentValues whereValues = new ContentValues();
+		whereValues.put(DatabaseHandler.KEY_ID, itemToDelete.getId());
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_ITEM, whereValues);
+		return delRows == 1 ? true : false;
+	}
+	
+	/**
+	 * Loescht alle Items einer Kategorie
+	 * 
+	 * @param database
+	 * @param categoryID
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItemsOfCategory(SQLiteDatabase database, long categoryID) {
+		boolean allItemsDeleted = true;
+		ArrayList<Item> itemsToDelete = getItemsOfACategory(database, categoryID);
+		for (Item itemToDelete : itemsToDelete)
+			if (!deleteItem(database, itemToDelete))
+				allItemsDeleted = false;
+		return allItemsDeleted;
+	}	
 }

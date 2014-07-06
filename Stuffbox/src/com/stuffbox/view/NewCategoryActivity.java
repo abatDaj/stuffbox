@@ -150,8 +150,9 @@ public class NewCategoryActivity extends ActionBarActivity implements DeleteDial
 	
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-		Controller.getInstance().deleteCategory(categoryToEdit);
-		//TODO Vll. einen Toast anziegen, der da lautet "Kategorie soundso mit soundso vielen Einträgen gelöscht"
+    	
+    	Controller.getInstance().deleteCategory(categoryToEdit);
+    	//Controller.getInstance().deleteCategoryRecursively(categoryToEdit); //TODO funktioniert noch nicht.
 		ListCategoriesActivity.navigateBack(this);  
     }
 

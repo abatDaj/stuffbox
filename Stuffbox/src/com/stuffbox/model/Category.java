@@ -8,14 +8,14 @@ public class Category implements Serializable {
 	private String name;
 	private Icon icon;
 	private ArrayList<Item> items;
-	private long precategory;
+	private long preCategoryId;
 	
 	public Category(long id, String name, Icon icon, long precategory) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.icon = icon;
-		this.precategory = precategory;
+		this.preCategoryId = precategory;
 	}
 	
 	public String getName() {
@@ -47,11 +47,11 @@ public class Category implements Serializable {
 	public boolean addItem(Item entry){
 		return items.add(entry);
 	}
-	public long getPreCategory(){
-		return precategory;
+	public long getPreCategoryId(){
+		return preCategoryId;
 	}
 	public void setPreCategory(long precategory){
-		this.precategory = precategory;
+		this.preCategoryId = precategory;
 	}
 	@Override
 	public String toString(){

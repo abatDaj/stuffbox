@@ -251,7 +251,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     			category.getId(), 
     			category.getName(), 
     			category.getIcon(), 
-    			category.getPreCategory());
+    			category.getPreCategoryId());
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -269,8 +269,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	 * @param category
 	 * @return Die Oberkategorien
 	 */
-	public Category getPreCategory(Category category) {
-		return dataSourceCategory.getPreCategory(database, category);
+	public Category getPreCategoryId(Category category) {
+		return dataSourceCategory.getPreCategoryId(database, category);
 	}	
 	    
     /**
@@ -346,6 +346,27 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 	public boolean deleteCategory(Category category) {
 		return dataSourceCategory.deleteCategory(database, category);
 	}
+	
+	/**
+	 * Loescht alle Items einer Kategorie
+	 * 
+	 * @param categoryID
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItemsOfCategory(long categoryID) {
+		return dataSourceItem.deleteItemsOfCategory(database, categoryID);
+	}
+	
+	/**
+	 * Loescht eine Kategorie und alle Unterkategorien und die jeweiligen Items.
+	 * 
+	 * @param database
+	 * param category
+	 * @return Ob alles erfolgreich geloescht wurde 
+	 */
+	public boolean deleteCategoryRecursively(Category categoryToDeleteRecursively) {
+		return dataSourceCategory.deleteCategoryRecursively(database, categoryToDeleteRecursively);
+	}
     
     /**
      * Erstellt einen where-Statement aus ContentValues
@@ -366,7 +387,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param idName name of id table (if null then default is id)
      * @return
      */
-	public static String getWhereStatementFromIDList(ArrayList<Long> selectIds, String idName) {
+	public static String createWhereStatementFromIDList(ArrayList<Long> selectIds, String idName) {
 		if(selectIds == null || selectIds.isEmpty()){
 			return null;
 		}

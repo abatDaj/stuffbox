@@ -70,7 +70,7 @@ public class DataSourceFeature {
     										ArrayList<Long> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
     	//erstelle where statement
-    	String whereStatment = DatabaseHandler.getWhereStatementFromIDList(selectFeatureIds,null);
+    	String whereStatment = DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatment, null, null, null, null);

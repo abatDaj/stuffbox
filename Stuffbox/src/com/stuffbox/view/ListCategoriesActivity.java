@@ -165,7 +165,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
     }	
     
     public static void navigateBack(Activity a){
-    	Category preCategory = Controller.getInstance().getPreCategory(Controller.getInstance().getCurrentCategory());
+    	Category preCategory = Controller.getInstance().getPreCategoryId(Controller.getInstance().getCurrentCategory());
 		Controller.getInstance().setCurrentCategory(preCategory);		
         Intent intent = new Intent();   
         intent.setClassName(a.getPackageName(), ListCategoriesActivity.class.getName());

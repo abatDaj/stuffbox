@@ -40,7 +40,7 @@ public class BadgeActivity extends ActionBarActivity {
 		ArrayList<Category> subCat= Controller.getInstance().getSubCategories(0);
 		ArrayList<Category> rootCat = new ArrayList<Category>();
 		for(Category cat: subCat){
-			if(cat.getPreCategory() == -1){
+			if(cat.getPreCategoryId() == -1){
 				//Pruefen ob bereits vorhanden
 				boolean doubledCat = false;
 				for(Category checkCat: rootCat){
