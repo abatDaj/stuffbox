@@ -25,6 +25,10 @@ public class Controller {
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int DEFAULT_RANKING_VALUE = 5;
 	
+	// Für die Bild-Galerie Funktion
+	public static final int REQUEST_CAMERA = 42;
+	public static final int SELECT_FILE = 1;
+	
 	
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;

@@ -46,6 +46,7 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.EditTextDatePicker;
+import com.stuffbox.view.helper.ImageViewPhoto;
 
 public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	
@@ -55,8 +56,6 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private boolean editable = false;
 	
 	private static final String TAG = FeatureArrayAdapterForDetailItem.class.getSimpleName();
-	private static final int REQUEST_CAMERA = 42;
-	private static final int SELECT_FILE = 1;
 	
 	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
 		super(context, R.layout.row_detail_item_feature, features);
@@ -98,8 +97,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		final Feature feature = features.get(position);
 		
 		final TextView editText = (TextView) rowView.findViewById(R.id.editItemText);
-		ImageButton editImage = (ImageButton) rowView.findViewById(R.id.editItemImage);
-		
+		//ImageButton editImage = (ImageButton) rowView.findViewById(R.id.editItemImage);
 		
 		switch (feature.getType()) {
 		//Eigenschaft hat Typ Text
@@ -109,7 +107,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		//Eigenschaft hat Typ Foto
 		case Foto:
 			editText.setVisibility(LinearLayout.GONE);
-			buildImageEdit(editImage, feature);
+			rowView = buildImageEdit(rowView, mainText, feature);
 			break;
 		case Dezimalzahl:
 			rowView = buildDecimalEdit(rowView, mainText, feature);
@@ -171,7 +169,15 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @param editImage
 	 * @param feature
 	 */
-	private void buildImageEdit(final ImageButton editImage, final Feature feature){
+	private View buildImageEdit(View rowView, TextView mainText, final Feature feature){
+		
+		LinearLayout rowViewText= new LinearLayout(context);
+		rowViewText.setOrientation(LinearLayout.VERTICAL);
+		((ViewGroup)rowView).removeView(mainText);
+		rowViewText.addView(mainText);
+		
+		ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context, activityWithATimePickerEditText);
+		this.activityWithATimePickerEditText.setPhotoImageView(imageViewPhoto);
 		
 		//setze Wert wenn moeglich sonst Defaultwert
 		String pictureName;
@@ -181,11 +187,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		}else{
 			pictureName = feature.getValue().toString();
 		}
-		Controller.getInstance().setImageOnImageView(context, editImage, pictureName);
-		editImage.setTag(pictureName);
+		Controller.getInstance().setImageOnImageView(context, imageViewPhoto, pictureName);
+		imageViewPhoto.setTag(pictureName);
 		
 		//setze Listener um Werte zu speichern
-		editImage.setOnFocusChangeListener(new OnFocusChangeListener() {
+		imageViewPhoto.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				feature.setValue(((ImageButton) v).getTag());
 			}
@@ -198,7 +204,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 //            	final CharSequence[] items = { "Foto machen", "Galerie",
 //                "Abbrechen" };
 //		        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		        builder.setTitle("Bild hinzufügen");
+//		        builder.setTitle("Bild hinzufuegen");
 //		        builder.setItems(items, new DialogInterface.OnClickListener() {
 //		            @Override
 //		            public void onClick(DialogInterface dialog, int item) {
@@ -272,7 +278,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 //            }
 //        });
 		
-		editImage.setEnabled(editable);
+		imageViewPhoto.setEnabled(editable);
+		rowViewText.addView(imageViewPhoto);
+		return rowViewText;
 	}
 	
     

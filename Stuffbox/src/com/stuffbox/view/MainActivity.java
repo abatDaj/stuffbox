@@ -117,7 +117,7 @@ public void chooseCategories(View view) {
                 "Abbrechen" };
  
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Bild hinzufügen");
+        builder.setTitle("Bild hinzufuegen");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
