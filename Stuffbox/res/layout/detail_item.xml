@@ -20,6 +20,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textColor="@drawable/selector_item_fields"
             android:hint="">
         </EditText>
 
@@ -27,7 +28,6 @@
             style="@style/identifier"
             android:singleLine="true"
             android:text="@string/category" />
-
 
         <LinearLayout
             android:id="@+id/linearlayout_categoryChooserForItem"

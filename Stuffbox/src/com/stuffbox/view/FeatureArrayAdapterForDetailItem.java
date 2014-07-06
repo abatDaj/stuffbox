@@ -131,14 +131,15 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
 		rowViewText.addView(editNormalText);
-		
-		feature.setValue("");
 
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+		editNormalText.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));		
+		
 		//setze Wert wenn moeglich
-		/*if(feature.getValue() != null){
-			feature.setValue("item_photo");
-			editNormalText.setText(feature.getValue().toString());
-		}*/
+		if(feature.getValue() == null){
+			feature.setValue("");
+		}
+		editNormalText.setText(feature.getValue().toString());
 		
 		//setze Listener um Werte zu speichern
 		editNormalText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -203,6 +204,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	    rowViewDate.addView(mainText);
 	    rowViewDate.addView(editTimePicker);
 		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    editTimePicker.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
+	    
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
 //			//initial value
@@ -241,6 +245,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 
 		final CheckBox checkBox = new CheckBox(context);
 		rowViewBoolean.addView(checkBox);
+		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    checkBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.selector_item_checkbox));
 		
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
@@ -281,6 +288,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewDecimalzahl.addView(editDezimalzahl);
 		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    editDezimalzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
+		
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
 			//initial value
@@ -318,6 +328,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
 		rowViewInteger.addView(editGanzahl);
+		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    editGanzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
 		
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
