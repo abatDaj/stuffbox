@@ -52,9 +52,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
         });
         
         Category currentCategory = Controller.getInstance().getCurrentCategory();
-        ArrayList<Category> mainCategories = Controller.getInstance().getSubCategories(currentCategory.getId());
+        ArrayList<Category> subCategories = Controller.getInstance().getSubCategories(currentCategory.getId());
         
-        categoryAdapter = new CategoryArrayAdapter (this, mainCategories);
+        categoryAdapter = new CategoryArrayAdapter (this, subCategories);
         categoryListView.setAdapter( categoryAdapter );	
         
         // Anzeigen der Items:
@@ -78,10 +78,16 @@ public class ListCategoriesActivity extends ActionBarActivity {
         itemAdapter = new ItemArrayAdapter (this, allItems);
         itemListView.setAdapter( itemAdapter );	
         
-	    // Groesse der Liste anhand der Anzahl der Eigenschaften neu setzen.
+	    // Groesse der Listen anhand der Anzahl der Eigenschaften neu setzen.
         Utility.setListViewHeightBasedOnChildren(itemListView, 0);
         Utility.setListViewHeightBasedOnChildren(categoryListView,0);
-
+        
+        // Den Divider zwischen der Kategorie- und der Item-Liste verschwinden lassen, 
+	    if (subCategories.size() == 0 || allItems.size() == 0)
+	    {  
+	    	View dividerBetweenCategoriesAndItems= (View) findViewById(R.id.dividerBetweenCategoriesAndItems);
+	    	dividerBetweenCategoriesAndItems.setVisibility(View.INVISIBLE);
+	    }
 	}
 
 	@Override

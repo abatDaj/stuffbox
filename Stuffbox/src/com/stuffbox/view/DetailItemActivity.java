@@ -115,7 +115,12 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		if (icon !=null)
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		
-		getMenuInflater().inflate(R.menu.change_menu, menu);
+		int actionbarmenu;
+		if (!changeMode)
+			actionbarmenu = R.menu.change_menu_edit_item;
+		else
+			actionbarmenu = R.menu.change_menu;
+		getMenuInflater().inflate(actionbarmenu, menu);
 		return true;
 	}
 	
@@ -153,7 +158,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
     }
 	
 	/**
-	 * Ein neues Formular wird angelegt.
+	 * Item wird gespeichert
 	 *
 	 * @param view
 	 */
@@ -165,14 +170,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		for(int i = 0; i < mainListView.getChildCount(); i++)
 		{
 			View lView = (View) mainListView.getChildAt(i);
-			// TODO Callback-Methoden werden aber nur aktiviert, 
-			// wenn das gleiche mit den Kindern und Enkeln von lView passiert ?!?
 			lView.clearFocus(); 
 		} 
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
-
 		Controller.getInstance().setSelectedCategoriesInItem(null);
 
 		Intent intent = getIntent();
@@ -263,6 +265,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        case R.id.action_settings:
 	        	//TODO do something
 	        	return true;
+	        case R.id.menu_edit:
+	            Controller.getInstance().sayIt("Und jetzt editiere");
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -307,15 +307,15 @@ public class Controller {
     	ArrayList<Formular> createdFormulars = new ArrayList<Formular>();
         //Debugeintraege schreiben
     	
-    	//erstellen Formular Buecheraufbau
-    	ArrayList<Feature> featuresFormular1 = new ArrayList<Feature>();
-    	features.get(0).setSortnumber(1);
-    	featuresFormular1.add(features.get(0));
-    	features.get(2).setSortnumber(3);
-    	featuresFormular1.add(features.get(2));
-    	features.get(3).setSortnumber(2);
-    	featuresFormular1.add(features.get(3));
-    	createdFormulars.add(insertFormlar("Buecheraufbau", featuresFormular1));
+    	//erstelle Formular Buecheraufbau
+    	ArrayList<Feature> bookFeatures = new ArrayList<Feature>();
+    	bookFeatures.add(insertFeature("Foto", types.get(5)));
+    	bookFeatures.get(0).setSortnumber(1);
+    	bookFeatures.add(insertFeature("Autor", types.get(0)));
+    	bookFeatures.get(1).setSortnumber(2);
+    	bookFeatures.add(insertFeature("Ranking", types.get(4)));
+    	bookFeatures.get(2).setSortnumber(3);
+    	createdFormulars.add(insertFormlar("Buecheraufbau", bookFeatures));
     	
     	//erstellen Formular Musikaufbau
     	ArrayList<Feature> featuresFormular2 = new ArrayList<Feature>();

@@ -39,6 +39,12 @@
             android:scrollbars="none"
             android:layout_height="wrap_content" >
         </ListView>
+        
+        <View
+            android:id="@+id/dividerBetweenCategoriesAndItems"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
 
         <ListView
             android:id="@+id/itemListView"
