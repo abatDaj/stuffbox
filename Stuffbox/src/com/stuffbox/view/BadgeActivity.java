@@ -8,7 +8,7 @@ import com.stuffbox.model.Badge;
 import com.stuffbox.model.BadgeFeed;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Item;
-import com.stuffbox.model.Level;
+import com.stuffbox.model.UserLevel;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class BadgeActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
+	private TextView lvlTextView;
 	private BadgeArrayAdapter arrAdapter;
 	private ArrayList<Badge> arrList;
 	
@@ -29,56 +31,27 @@ public class BadgeActivity extends ActionBarActivity {
 		setContentView(R.layout.badge);
 		
 		mainListView = (ListView) findViewById(R.id.badgeListView);
+		//Hier drinne nur zum Levelanzeige test
+		lvlTextView = (TextView) findViewById(R.id.badgeLvlTextview);
+		
 		/**TODO
 		 * Nur Test um Umgang zu erlernen
 		 */
 		arrList = new ArrayList<Badge>();
-		//Beispiel
-		//arrList.add(new Badge("Tolle Musik, wie Metal",6,"category_icon_musi",true,true,true,true,true));
-		//arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung",3,"category_icon_clothes",true, true, false,false,false));
 		
 		/**
 		 * Rootkategorien fuer Badgesystem laden
 		 */
 		
-		Level level = new Level();
+		UserLevel level = new UserLevel();
+		
+		//Level anzeigen
+		lvlTextView.setText("lvl " + level.getLvlCount());
+		
 		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
 		ArrayList<Category> subCat= new ArrayList<Category>();
 		ArrayList<Category> rootCat = new ArrayList<Category>();
 		ArrayList<Category> interestCat = new ArrayList<Category>();
-		//Dieser Teil wenn man nur Subkategorien haben moechte
-		/*for(Category cat: allCat){
-			if(cat.getPreCategoryId() == -1){
-				//Pruefen ob bereits vorhanden
-				boolean doubledCat = false;
-				for(Category checkCat: rootCat){
-					if(checkCat.equals(cat)){
-						doubledCat = true;
-					}
-				}
-				if(!doubledCat){
-					rootCat.add(cat);
-				}
-			}
-			
-		}
-		
-		for(Category cat: rootCat){
-			ArrayList<Category> subCatCopy= Controller.getInstance().getSubCategories(cat.getId());
-			//Subkategories adden
-			for(Category catc: subCatCopy){
-				boolean doubledCat = false;
-				for(Category checkCat: subCat){
-					if(checkCat.equals(catc)){
-						doubledCat = true;
-					}
-				}
-				if(!doubledCat){
-					subCat.add(catc);
-				}
-			}
-			
-		}*/
 		
 		//Dieser Part fuer alle Kategorien
 		for(Category cat : allCat){
@@ -89,26 +62,13 @@ public class BadgeActivity extends ActionBarActivity {
 		System.out.println("RootKategorien: " + rootCat.size());
 		System.out.println("SubKategorien: " + subCat.size());
 		System.out.println("InteressierendeKategorien: " + interestCat.size());
-		
+		System.out.println("Badges: " + level.getBadgeCount());
+		System.out.println("Level: " + level.getLvlCount());
 		//Anzahl der Items pro Kategorie
 		for(Category cat: interestCat){
 			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
-			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + Level.getBadgemark5());
-			if(items.size() >= Level.getBadgemark5()){
-				System.out.println(items.size() + "_lvl_" + Level.getBadgemark5());
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,true,true));
-			}else if(items.size() >= Level.getBadgemark4()){
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,true,false));
-			}else if(items.size() >= Level.getBadgemark3()){
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,false,false));
-			}else if(items.size() >= Level.getBadgemark2()){
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,false,false,false));
-			}else if(items.size() >= Level.getBadgemark1()){
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,false,false,false,false));
-			}else{
-				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),false,false,false,false,false));
-			}
-			
+			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
+			arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));
 		}
 		
 		

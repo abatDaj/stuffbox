@@ -47,6 +47,8 @@
     <string name="labelFeatureImage">Bild</string>
     <string name="category">Kategorie</string>
     <string name="text_piece_amount">Anzahl Einträge:\u0020</string>
+    <string name="text_head_lvl">lvl</string>
+    
     
 
     <!-- TODO loeschen -->

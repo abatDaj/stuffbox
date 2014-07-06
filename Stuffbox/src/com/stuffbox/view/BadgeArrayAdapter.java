@@ -146,25 +146,6 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 				}
 			}
 		
-		/**
-		if(values.get(position).isBadge3()){
-			Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_3");
-		}else{
-			Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}
-		
-		if(values.get(position).isBadge4()){
-			Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_4");
-		}else{
-			Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}
-		
-		if(values.get(position).isBadge5()){
-			Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_5");
-		}else{
-			Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}*/
-
 		return rowView;
 	}
 

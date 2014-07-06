@@ -5,6 +5,11 @@
     android:orientation="vertical" >
     
     <TextView
+        android:id="@+id/badgeLvlTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txt_badge_headline"
