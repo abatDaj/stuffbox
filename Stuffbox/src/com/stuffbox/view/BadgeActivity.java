@@ -7,6 +7,8 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
 import com.stuffbox.model.BadgeFeed;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.Item;
+import com.stuffbox.model.Level;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -31,15 +33,21 @@ public class BadgeActivity extends ActionBarActivity {
 		 * Nur Test um Umgang zu erlernen
 		 */
 		arrList = new ArrayList<Badge>();
-		arrList.add(new Badge("Tolle Musik, wie Metal","category_icon_music",true,true,true,true,true));
-		arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung","category_icon_clothes",true, true, false,false,false));
+		//Beispiel
+		//arrList.add(new Badge("Tolle Musik, wie Metal",6,"category_icon_musi",true,true,true,true,true));
+		//arrList.add(new Badge("KleidungKleidungKleidungKleidungKleidungKleidungKleidungKleidung",3,"category_icon_clothes",true, true, false,false,false));
 		
 		/**
 		 * Rootkategorien fuer Badgesystem laden
 		 */
-		ArrayList<Category> subCat= Controller.getInstance().getSubCategories(0);
+		
+		Level level = new Level();
+		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
+		ArrayList<Category> subCat= new ArrayList<Category>();
 		ArrayList<Category> rootCat = new ArrayList<Category>();
-		for(Category cat: subCat){
+		ArrayList<Category> interestCat = new ArrayList<Category>();
+		//Dieser Teil wenn man nur Subkategorien haben moechte
+		/*for(Category cat: allCat){
 			if(cat.getPreCategoryId() == -1){
 				//Pruefen ob bereits vorhanden
 				boolean doubledCat = false;
@@ -53,9 +61,53 @@ public class BadgeActivity extends ActionBarActivity {
 				}
 			}
 			
-			/*while(cat.getPreCategory() != cat.getId()){
-				
-			}*/
+		}
+		
+		for(Category cat: rootCat){
+			ArrayList<Category> subCatCopy= Controller.getInstance().getSubCategories(cat.getId());
+			//Subkategories adden
+			for(Category catc: subCatCopy){
+				boolean doubledCat = false;
+				for(Category checkCat: subCat){
+					if(checkCat.equals(catc)){
+						doubledCat = true;
+					}
+				}
+				if(!doubledCat){
+					subCat.add(catc);
+				}
+			}
+			
+		}*/
+		
+		//Dieser Part fuer alle Kategorien
+		for(Category cat : allCat){
+			interestCat.add(cat);
+		}
+		//Tracking und debugging infos
+		System.out.println("AlleKategorien: " + allCat.size());
+		System.out.println("RootKategorien: " + rootCat.size());
+		System.out.println("SubKategorien: " + subCat.size());
+		System.out.println("InteressierendeKategorien: " + interestCat.size());
+		
+		//Anzahl der Items pro Kategorie
+		for(Category cat: interestCat){
+			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
+			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + Level.getBadgemark5());
+			if(items.size() >= Level.getBadgemark5()){
+				System.out.println(items.size() + "_lvl_" + Level.getBadgemark5());
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,true,true));
+			}else if(items.size() >= Level.getBadgemark4()){
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,true,false));
+			}else if(items.size() >= Level.getBadgemark3()){
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,true,false,false));
+			}else if(items.size() >= Level.getBadgemark2()){
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,true,false,false,false));
+			}else if(items.size() >= Level.getBadgemark1()){
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),true,false,false,false,false));
+			}else{
+				arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),false,false,false,false,false));
+			}
 			
 		}
 		

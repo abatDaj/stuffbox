@@ -46,6 +46,8 @@
     <string name="to_new_formular">Formular anlegen</string>
     <string name="labelFeatureImage">Bild</string>
     <string name="category">Kategorie</string>
+    <string name="text_piece_amount">Anzahl Einträge:\u0020</string>
+    
 
     <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>

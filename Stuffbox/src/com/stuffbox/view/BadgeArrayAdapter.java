@@ -47,22 +47,106 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 		ImageView imageView5 = (ImageView) rowView.findViewById(R.id.badge_row_icon5);
 
 		//Set Text
-		badgeCatText.setText(values.get(position).getCatName());
+		badgeCatText.setText(values.get(position).getCatName() + " (" + values.get(position).getItemcount() + ") ");
 		/*
 		 * Select badges
 		 */
-		if(values.get(position).isBadge1()){
-			Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_1");
-		}else{
-			Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}
+		try{
+			if(values.get(position).isBadge1()){
+				Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_1");
+			}else{
+				Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+			}
+			}catch(Exception e){
+				//Laden des Bildes scheiterte, versuche Default Bild
+				try{
+					if(values.get(position).isBadge1()){
+						Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_category_icon_default_1");
+					}else{
+						Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_category_icon_default_0");
+					}
+				}catch(Exception eS){
+					//Laden selbst des Defaults scheiterte
+				}
+			}
 		
-		if(values.get(position).isBadge2()){
-			Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_2");
-		}else{
-			Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}
+		try{
+			if(values.get(position).isBadge2()){
+				Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_2");
+			}else{
+				Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+			}
+			}catch(Exception e){
+				//Laden des Bildes scheiterte, versuche Default Bild
+				try{
+					if(values.get(position).isBadge2()){
+						Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_category_icon_default_2");
+					}else{
+						Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_category_icon_default_0");
+					}
+				}catch(Exception eS){
+					//Laden selbst des Defaults scheiterte
+				}
+			}
 		
+		try{
+			if(values.get(position).isBadge3()){
+				Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_3");
+			}else{
+				Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+			}
+			}catch(Exception e){
+				//Laden des Bildes scheiterte, versuche Default Bild
+				try{
+					if(values.get(position).isBadge3()){
+						Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_category_icon_default_3");
+					}else{
+						Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_category_icon_default_0");
+					}
+				}catch(Exception eS){
+					//Laden selbst des Defaults scheiterte
+				}
+			}
+		
+		try{
+			if(values.get(position).isBadge4()){
+				Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_4");
+			}else{
+				Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+			}
+			}catch(Exception e){
+				//Laden des Bildes scheiterte, versuche Default Bild
+				try{
+					if(values.get(position).isBadge4()){
+						Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_category_icon_default_4");
+					}else{
+						Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_category_icon_default_0");
+					}
+				}catch(Exception eS){
+					//Laden selbst des Defaults scheiterte
+				}
+			}
+		
+		try{
+			if(values.get(position).isBadge5()){
+				Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_5");
+			}else{
+				Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+			}
+			}catch(Exception e){
+				//Laden des Bildes scheiterte, versuche Default Bild
+				try{
+					if(values.get(position).isBadge5()){
+						Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_category_icon_default_5");
+					}else{
+						Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_category_icon_default_0");
+					}
+				}catch(Exception eS){
+					//Laden selbst des Defaults scheiterte
+				}
+			}
+		
+		/**
 		if(values.get(position).isBadge3()){
 			Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_3");
 		}else{
@@ -79,7 +163,7 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_5");
 		}else{
 			Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_0");
-		}
+		}*/
 
 		return rowView;
 	}
