@@ -10,9 +10,9 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/linearlayout"
+            android:id="@+id/linearlayout_new_category_in_listview"
             style="@style/aLinearRowCreatingSomething"
-            android:onClick="openNewCategoryScreen" >
+            android:onClick="onNewCategory" >
 
             <ImageButton
                 android:id="@+id/to_new_category_imagebutton"
@@ -37,6 +37,7 @@
             android:id="@+id/categoryListView"
             android:layout_width="fill_parent"
             android:scrollbars="none"
+            android:background="@color/row_category_list"
             android:layout_height="wrap_content" >
         </ListView>
         

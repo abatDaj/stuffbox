@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.stuffbox.view;
+package com.stuffbox.view.helper;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -40,6 +40,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import com.stuffbox.view.FeatureArrayAdapter;
+import com.stuffbox.view.StableArrayAdapter;
 
 /**
  * The dynamic listview is an extension of listview that supports cell dragging

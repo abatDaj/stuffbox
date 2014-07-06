@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.controller.Messenger;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
@@ -89,7 +90,17 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void onSave(View view){
+		
 		ArrayList<Category> selectedCategories= categoryAdapter.getSelectedCategories();
+		
+		//Meldung, wenn keine Kategorie ausgewaehlt wurde
+		if(selectedCategories.isEmpty()){
+			new Messenger(this).showAlertMessage(
+					getResources().getString(R.string.error), 
+					getResources().getString(R.string.msg_alert_de_choose_category));
+			return;
+		}
+		
 		Controller.getInstance().setSelectedCategoriesInItem(selectedCategories);
 		
 		//zurueck zur anfragenden activity

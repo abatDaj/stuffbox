@@ -70,12 +70,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
     
-    public void openFormularScreen(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), FormularActivity.class.getName());
-        startActivity(intent);
-    }
-    
     public void openFormularNewScreen(View view){    	
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), NewFormularActivity.class.getName());

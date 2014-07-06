@@ -12,8 +12,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,6 +49,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	private FeatureArrayAdapterForDetailItem featureAdapter;
 	private Formular formular;
 	private boolean changeMode = false;
+	private boolean itemExits = false;
 	private ImageView photoImageView;
 	
 	private static final String TAG = DetailItemActivity.class.getSimpleName();
@@ -63,8 +63,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
 		
 		if (Controller.getInstance().getCurrentItem() != null){
+			itemExits = true;
+			//TODO prüfen ob item geaendert werden soll
 			changeMode = false;
 		}else if (formular != null) {
+			itemExits = false;
 			changeMode = true;
 		}else{ 
 			//TODO
@@ -75,14 +78,14 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		Controller.getInstance().setCurrentItem(null);
 		
 		//Setze Namensansicht
-		if(!changeMode){
+		if(itemExits){
 			EditText name = (EditText) findViewById(R.id.editNameFeature);
 			name.setText(currentItem.getName());
 			name.setEnabled(changeMode);	
 		}
 		
 		//setze Werte fuer Kategorieanzeige
-		if(changeMode){
+		if(!itemExits){
 			//initial ist aktuelle Kategorie gesetzt
 			ArrayList<Category> initCategories = new ArrayList<Category>();
 			initCategories.add(Controller.getInstance().getCurrentCategory());
@@ -96,7 +99,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 
 		ArrayList<Feature> features = null;
-		if(changeMode){
+		if(!itemExits){
 			features = formular.getFeatures();
 		}else{
 			features = currentItem.getFormular().getFeatures();
@@ -226,7 +229,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	 */
 	public void onCancel(View view){	
 		Controller.getInstance().setSelectedCategoriesInItem(null);
-
 		this.finish();
 	}
 	
@@ -303,6 +305,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        case R.id.action_settings:
 	        	//TODO do something
 	        	return true;
+	        case android.R.id.home:
+	        	onBack();
+	            return true;
 	        case R.id.menu_edit:
 	            Controller.getInstance().sayIt("Und jetzt editiere");
 	            return true;
@@ -333,5 +338,20 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}		
 
 		textView.setText(stringBuilder.toString());	
+	}
+	
+	private void onBack(){
+		if(itemExits){
+	        Intent intent = new Intent();                
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+	        startActivity(intent);				
+		}else{
+	        Intent intent = new Intent();                
+	        intent.setClassName(getPackageName(), ListFormularActivity.class.getName());
+	        startActivity(intent);		
+		}
+		
+		Controller.getInstance().setSelectedCategoriesInItem(null);
+		this.finish();
 	}
 }

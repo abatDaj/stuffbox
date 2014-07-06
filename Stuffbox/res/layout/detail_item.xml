@@ -17,28 +17,11 @@
 
         <EditText
             android:id="@+id/editNameFeature"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="">
         </EditText>
-
-<!--         <TextView -->
-<!--             style="@style/identifier" -->
-<!--             android:singleLine="true" -->
-<!--             android:text="@string/labelFeatureImage" /> -->
-
-<!--         <ImageButton -->
-<!--             android:id="@+id/imageButtonItem" -->
-<!--             style="@style/aLinearRowCreatingSomethingImageButton" -->
-<!--             android:layout_width="115dp" -->
-<!--             android:layout_height="115dp" -->
-<!--             android:background="@null" -->
-<!--             android:contentDescription="@string/title_activity_new_category" -->
-<!--             android:fitsSystemWindows="true" -->
-<!--             android:padding="2dp" -->
-<!--             android:scaleType="fitCenter" -->
-<!--             android:src="@drawable/item_photo" /> -->
 
         <TextView
             style="@style/identifier"

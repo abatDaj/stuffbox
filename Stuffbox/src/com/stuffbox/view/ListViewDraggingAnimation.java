@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
+import com.stuffbox.view.helper.DynamicListView;
 import com.stuffbox.R;
 
 /**
