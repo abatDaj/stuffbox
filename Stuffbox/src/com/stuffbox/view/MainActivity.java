@@ -107,115 +107,87 @@ public void chooseCategories(View view) {
         startActivity(intent);
     }
     
-//    public void openFotoScreen(View view) {    	
-//    	Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); 
-//    	startActivityForResult(cameraIntent, REQUEST_CAMERA);
-//    }	
-    
-    public void openFotoScreen(View view) {
-        final CharSequence[] items = { "Foto machen", "Galerie",
-                "Abbrechen" };
- 
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Bild hinzufuegen");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Foto machen")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment
-                            .getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                } else if (items[item].equals("Galerie")) {
-                    Intent intent = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(
-                            Intent.createChooser(intent, "Select File"),
-                            SELECT_FILE);
-                } else if (items[item].equals("Abbrechen")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
+//    public void openFotoScreen(View view) {
+//        final CharSequence[] items = { "Foto machen", "Galerie",
+//                "Abbrechen" };
+// 
+//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//        builder.setTitle("Bild hinzufuegen");
+//        builder.setItems(items, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int item) {
+//                if (items[item].equals("Foto machen")) {
+//                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    File f = new File(android.os.Environment
+//                            .getExternalStorageDirectory(), "temp.jpg");
+//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+//                    startActivityForResult(intent, REQUEST_CAMERA);
+//                } else if (items[item].equals("Galerie")) {
+//                    Intent intent = new Intent(
+//                            Intent.ACTION_PICK,
+//                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    intent.setType("image/*");
+//                    startActivityForResult(
+//                            Intent.createChooser(intent, "Select File"),
+//                            SELECT_FILE);
+//                } else if (items[item].equals("Abbrechen")) {
+//                    dialog.dismiss();
+//                }
+//            }
+//        });
+//        builder.show();
+//    }
+
     
 //    @Override
-//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//    	try {
-//        if (requestCode == 42) {
-//            Bitmap thumb = (Bitmap) data.getExtras().get("data"); 
-//            btn = (ImageButton)findViewById(R.id.imageButtonFoto);
-//            btn.setImageBitmap(thumb);
-//            OutputStream stream = new FileOutputStream("/sdcard/test.jpg");
-//            thumb.compress(CompressFormat.JPEG, 100, stream);
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == REQUEST_CAMERA) {
+//            	File path = Environment.getExternalStorageDirectory();
+//                File file = new File(path, "temp.jpg");
+//
+//                try {
+//                    Bitmap bm;
+//                    btn = (ImageButton)findViewById(R.id.imageButtonFoto);
+//                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+// 
+//                    bm = BitmapFactory.decodeFile(file.getAbsolutePath(),
+//                            btmapOptions);
+// 
+//                    //bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+//                    btn.setImageBitmap(bm);
+//                    try {                        
+//                        OutputStream stream = new FileOutputStream(file);
+//                        bm.compress(CompressFormat.JPEG, 100, stream);
+//                        stream.flush();
+//                        stream.close();
+//                    } catch (FileNotFoundException e) {
+//                    	Log.e(TAG, "Fehler beim Fotografieren file not found: ", e);
+//                    } catch (IOException e) {
+//                    	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);
+//                    } catch (Exception e) {
+//                    	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+//                    }
+//                } catch (Exception e) {
+//                	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+//                }
+//            } else if (requestCode == SELECT_FILE) {
+//            	try {
+//            		final Uri imageUri = data.getData();
+//            		btn = (ImageButton)findViewById(R.id.imageButtonFoto);
+////            		String tempPath = getPath(selectedImageUri, MainActivity.this);
+////            		Bitmap bm;
+////            		BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+////            		bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
+//            		final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+//    				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//    				btn.setImageBitmap(selectedImage);
+//            	} catch (Exception e) {
+//            		Log.e(TAG, "Fehler bei der Galerie allgemeiner fehler: ", e);
+//				}
+//            }
 //        }
-//    	}catch (Exception e) {
-//    		Log.e(TAG, "Fehler beim Fotografieren: ", e);
-//    	}
-//    }
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA) {
-            	File path = Environment.getExternalStorageDirectory();
-                File file = new File(path, "temp.jpg");
-
-                try {
-                    Bitmap bm;
-                    btn = (ImageButton)findViewById(R.id.imageButtonFoto);
-                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
- 
-                    bm = BitmapFactory.decodeFile(file.getAbsolutePath(),
-                            btmapOptions);
- 
-                    //bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
-                    btn.setImageBitmap(bm);
-                    try {                        
-                        OutputStream stream = new FileOutputStream(file);
-                        bm.compress(CompressFormat.JPEG, 100, stream);
-                        stream.flush();
-                        stream.close();
-                    } catch (FileNotFoundException e) {
-                    	Log.e(TAG, "Fehler beim Fotografieren file not found: ", e);
-                    } catch (IOException e) {
-                    	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);
-                    } catch (Exception e) {
-                    	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
-                    }
-                } catch (Exception e) {
-                	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
-                }
-            } else if (requestCode == SELECT_FILE) {
-            	try {
-            		final Uri imageUri = data.getData();
-            		btn = (ImageButton)findViewById(R.id.imageButtonFoto);
-//            		String tempPath = getPath(selectedImageUri, MainActivity.this);
-//            		Bitmap bm;
-//            		BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-//            		bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-            		final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-    				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-    				btn.setImageBitmap(selectedImage);
-            	} catch (Exception e) {
-            		Log.e(TAG, "Fehler bei der Galerie allgemeiner fehler: ", e);
-				}
-            }
-        }
-    }
-    
-//    public String getPath(Uri uri, Activity activity) {
-//        String[] projection = { MediaColumns.DATA };
-//        Cursor cursor = activity
-//                .managedQuery(uri, projection, null, null, null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(column_index);
 //    }
     
 

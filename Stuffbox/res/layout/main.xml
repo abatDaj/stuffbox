@@ -44,14 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="chooseCategories"
-            android:text="@string/title_activity_choose_category" />        
-        
-        <ImageButton
-            android:id="@+id/imageButtonFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="openFotoScreen"
-            android:src="@drawable/image_button_foto" />
+            android:text="@string/title_activity_choose_category" />
         
 
     </LinearLayout>
