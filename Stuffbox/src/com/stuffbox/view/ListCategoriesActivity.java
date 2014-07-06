@@ -146,26 +146,12 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	            // Respond to the action bar's Up/Home button
 	        case android.R.id.home:
 	        	if(!Controller.getInstance().getCurrentCategory().getName().equals(DataSourceCategory.ROOT_CATEGORY)){
-	        		navigateBack(this);
+	        		onBackPressed();
 	        	}
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		
-	}
-	
-
-	@Override
-	public void onBackPressed () {
-		Category currentCategory = Controller.getInstance().getCurrentCategory();
-		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
-			ListCategoriesActivity.navigateBack(this);
-		else {
-			Intent intent = new Intent();   
-	        intent.setClassName(getPackageName(), MainActivity.class.getName());
-	        startActivity(intent);	
-			this.finish();
-		}
 	}
 	
 	/**
@@ -200,12 +186,15 @@ public class ListCategoriesActivity extends ActionBarActivity {
         startActivity(intent);
     }	
     
-    public static void navigateBack(Activity activity){
-    	Category preCategory = Controller.getInstance().getPreCategoryId(Controller.getInstance().getCurrentCategory());
-		Controller.getInstance().setCurrentCategory(preCategory);		
-        Intent intent = new Intent();   
-        intent.setClassName(activity.getPackageName(), ListCategoriesActivity.class.getName());
-        activity.startActivity(intent);				
-		activity.finish();
+    @Override
+    public void onBackPressed(){
+    	if(!Controller.getInstance().getCurrentCategory().getName().equals(DataSourceCategory.ROOT_CATEGORY)){
+	    	Category preCategory = Controller.getInstance().getPreCategoryId(Controller.getInstance().getCurrentCategory());
+			Controller.getInstance().setCurrentCategory(preCategory);		
+	        Intent intent = new Intent();   
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+	        startActivity(intent);				
+    	}
+    	finish();
     }
 }

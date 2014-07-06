@@ -157,7 +157,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
     public void onDialogPositiveClick(DialogFragment dialog) {
     	Controller.getInstance().deleteCategory(categoryToEdit);
     	//Controller.getInstance().deleteCategoryRecursively(categoryToEdit); //TODO funktioniert noch nicht.
-		ListCategoriesActivity.navigateBack(this);  
+    	onBackPressed(); 
     }
 
     @Override
@@ -188,4 +188,12 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		            return super.onOptionsItemSelected(item);
 		    }		
 	}
+	
+    @Override
+    public void onBackPressed(){	
+        Intent intent = new Intent();   
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);				
+		finish();
+    }
 }

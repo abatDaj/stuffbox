@@ -178,20 +178,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
         builder.show();
     }
 	
-	//TODO // prüfen, ob Rücksprung immer sinnvoll
-	@Override
-	public void onBackPressed () {
-		Category currentCategory = Controller.getInstance().getCurrentCategory();
-		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
-			ListCategoriesActivity.navigateBack(this);
-		else {
-			Intent intent = new Intent();   
-	        intent.setClassName(getPackageName(), MainActivity.class.getName());
-	        startActivity(intent);	
-			this.finish();
-		}
-	}
-	
 	/**
 	 * Item wird gespeichert
 	 *
@@ -320,7 +306,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        	//TODO do something
 	        	return true;
 	        case android.R.id.home:
-	        	onBack();
+	        	onBackPressed();
 	            return true;
 	        case R.id.menu_edit:
 	            Controller.getInstance().sayIt("Und jetzt editiere");
@@ -354,7 +340,8 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		textView.setText(stringBuilder.toString());	
 	}
 	
-	private void onBack(){
+	@Override
+	public void onBackPressed(){
 		if(itemExits){
 	        Intent intent = new Intent();                
 	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
