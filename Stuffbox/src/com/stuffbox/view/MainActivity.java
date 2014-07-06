@@ -68,25 +68,13 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    
-    public void openFormularNewScreen(View view){    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), NewFormularActivity.class.getName());
-        startActivity(intent);
     }		
     
     public void openAbzeichenScreen(View view) {    	
         Intent intent = new Intent();        
         intent.setClassName(getPackageName(), BadgeActivity.class.getName());
         startActivity(intent);
-    }	
-    
-    public void openArtenScreen(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), NewFeatureActivity.class.getName());
-        startActivity(intent);
-    }	    
+    }	   
 
     
     public void openListCategories(View view) {    	
@@ -94,12 +82,6 @@ public class MainActivity extends ActionBarActivity {
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);
     }	 
-
-public void chooseCategories(View view) {    	
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
-        startActivity(intent);
-    }
     
 //    public void openFotoScreen(View view) {
 //        final CharSequence[] items = { "Foto machen", "Galerie",

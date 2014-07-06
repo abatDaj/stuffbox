@@ -2,42 +2,18 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.controller.Messenger;
 import com.stuffbox.model.Category;
-import com.stuffbox.model.DataSourceCategory;
-import com.stuffbox.model.DatabaseHandler;
-import com.stuffbox.model.Feature;
-import com.stuffbox.model.Icon;
-
-import android.support.v7.app.ActionBarActivity;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.support.v4.app.DialogFragment; //api 8 ! 
-import android.support.v4.app.FragmentManager;
-import android.content.ContextWrapper;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-
 
 public class ChooseCategoriesActivity extends ActionBarActivity {
 

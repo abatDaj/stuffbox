@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.ListCategoriesActivity" >
     
+    <item android:id="@+id/menu_edit_category"
+          android:icon="@drawable/ic_action_edit" 
+          android:title="@string/actionbartitle_edit_category"
+          app:showAsAction="always"/> 
+              
     <item android:id="@+id/menu_new_categorie"
           android:icon="@drawable/ic_action_new_folder" 
           android:title="@string/title_activity_new_category"
@@ -11,12 +16,7 @@
     <item android:id="@+id/menu_new_item"
           android:icon="@drawable/ic_action_new_file" 
           android:title="@string/title_activity_new_item"
-          app:showAsAction="always"/>     
-    
-    <item android:id="@+id/menu_edit_category"
-          android:icon="@drawable/ic_action_edit" 
-          android:title="@string/actionbartitle_edit_category"
-          app:showAsAction="always"/>  
+          app:showAsAction="always"/>      
           
     <item
         android:id="@+id/action_settings"

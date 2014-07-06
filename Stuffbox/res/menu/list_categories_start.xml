@@ -2,10 +2,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.ListCategoriesActivity" >
-
+    
+    <item android:id="@+id/menu_badge"
+          android:icon="@drawable/ic_action_medaile" 
+          android:title="@string/title_activity_badge"
+          app:showAsAction="always"/> 
+              
+    <item android:id="@+id/menu_new_categorie"
+          android:icon="@drawable/ic_action_new_folder" 
+          android:title="@string/title_activity_new_category"
+          app:showAsAction="always"/> 
     
     <item android:id="@+id/menu_new_item"
-          android:icon="@drawable/ic_action_new" 
+          android:icon="@drawable/ic_action_new_file" 
           android:title="@string/title_activity_new_item"
           app:showAsAction="always"/>     
           

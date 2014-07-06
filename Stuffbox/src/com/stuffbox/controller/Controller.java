@@ -62,8 +62,9 @@ public class Controller {
 	}
 	
 	public void init (){
-		if (init)
+		if (init){
 			return;
+		}
 		//getTypes();
 		//initialise database
         initializeDatabase(context);

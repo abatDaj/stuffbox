@@ -36,6 +36,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_list);
 
+		Controller.getInstance(this).init();
+		
 		// Anzeigen der Unterkategorien:
 		categoryListView = (ListView) findViewById( R.id.categoryListView );
 		categoryListView.setOnItemClickListener(new OnItemClickListener()
@@ -132,6 +134,11 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        	return true;
 	        case R.id.menu_edit_category:
 	        	onEdit();
+	            return true;
+	        case R.id.menu_badge:
+	            Intent intent = new Intent();        
+	            intent.setClassName(getPackageName(), BadgeActivity.class.getName());
+	            startActivity(intent);
 	            return true;
 	        case R.id.action_settings:
 	        	//TODO do something
