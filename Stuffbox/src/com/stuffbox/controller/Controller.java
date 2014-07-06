@@ -27,12 +27,6 @@ public class Controller {
 	public final static String DIALOG_ARGUMENT_YES_NO_QUESTION ="stuffbox.com.dialog_question";
 	public final static String DIALOG_ARGUMENT_NOTICE_TEXT ="stuffbox.com.dialog.notice.text";
 
-
-	
-	
-	
-	
-	
 	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int DEFAULT_RANKING_VALUE = 5;
@@ -42,6 +36,10 @@ public class Controller {
 	public static final int SELECT_FILE = 1;
 	
 	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
+	
+	// Java-CSS
+	
+	public static final int CSS_TEXT_SIZE_LABELS = 16;
 	
 	
 	private static Controller instance = null;
@@ -403,9 +401,7 @@ public class Controller {
      */
     public void insertDebugCategoryEntries(){
         //Debugeintraege schreiben
-    	
-    	ArrayList<Icon> debugIcons = new ArrayList<Icon> ();
-    	
+    	    	
     	for (Icon icon : getIcons())
     	{
     		if (icon.getName().equals("category_icon_books"))
@@ -526,7 +522,7 @@ public class Controller {
     	getIcons();
     	
     	//TODO warum wird die root categorie nicht aus der DB gelesen => Weil sie noch nicht in der DB ist
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(3), -1);    
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
 

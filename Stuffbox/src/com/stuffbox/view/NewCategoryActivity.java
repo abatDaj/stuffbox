@@ -15,7 +15,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.stuffbox.R;
@@ -58,14 +57,17 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		
 		LinearLayout ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
+		ll.setPadding(10, 30, 0, 0);
 		TextView tV = new TextView(this);
 		tV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 		tV.setText("Wähle ein Icon aus");
+		tV.setTextSize(Controller.CSS_TEXT_SIZE_LABELS);
 		
 		int  did = selectedIcon2.getDrawableId();
 		iV = new ImageView(this);
 		iV.setImageResource(did);
-		iV.setLayoutParams(new LinearLayout.LayoutParams(100,100));
+		iV.setLayoutParams(new LinearLayout.LayoutParams(150,150));
+		iV.setPadding(0, 20, 0, 0);
 		
 		iV.setOnClickListener(new OnClickListener(){
 			@Override
@@ -122,7 +124,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		if (categoryToEdit != null) {
 			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_category));
 			getMenuInflater().inflate(R.menu.edit_category, menu);
-		}else{
+		} else {
 			getMenuInflater().inflate(R.menu.new_category, menu);
 		}
 

@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,9 +89,10 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		
 		// NAch dem Bild folgt der Name
 		TextView iconNameInRow = new TextView(context);
-		iconNameInRow.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		iconNameInRow.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT));
+		iconNameInRow.setGravity(Gravity.CENTER_VERTICAL);
 		iconNameInRow.setText(items.get(position).getName());
-		iconNameInRow.setPadding(10, 0, 0, 0);
+		iconNameInRow.setPadding(20, 0, 0, 0);
 	
 		rowView.addView(iconNameInRow);
 
