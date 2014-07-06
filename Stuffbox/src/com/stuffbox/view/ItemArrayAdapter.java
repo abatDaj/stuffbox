@@ -75,13 +75,13 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		else
 		{
 			int drawId = Controller.getInstance().getCurrentCategory().getIcon().getDrawableId();
-			//imageOfIconInRow.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
 			Resources r = context.getResources();
 			Drawable[] layers = new Drawable[2];
 			layers[0] = r.getDrawable(drawId);
 			layers[1] = r.getDrawable(R.drawable.item_picture);	
 			LayerDrawable layerDrawable = new LayerDrawable(layers);
 			imageOfIconInRow.setImageDrawable(layerDrawable);	
+			imageOfIconInRow.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
 		}
 		rowView.addView(imageOfIconInRow);
 		
