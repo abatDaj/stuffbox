@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ import android.widget.TextView;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
+import com.stuffbox.model.Formular;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.EditTextDatePicker;
 import com.stuffbox.view.helper.ImageViewPhoto;
@@ -85,9 +87,14 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	}
 	
 	public View getCustomView(final int position, View convertView, ViewGroup parent) {
+		
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.row_detail_item_feature, parent, false);
+		
+		if(features.get(position).getId() == Formular.idOfNameFeature ){
+			return inflater.inflate(R.layout.null_item, null);
+		}
 		
 		//setze Name
 		TextView mainText = (TextView) rowView.findViewById(R.id.featureName);

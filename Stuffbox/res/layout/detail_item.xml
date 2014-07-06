@@ -10,9 +10,10 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/itemidentifier"
             style="@style/identifier"
             android:singleLine="true"
-            android:text="@string/labelFeatureName" />
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/editNameFeature"
@@ -79,7 +80,7 @@
         <ListView
             android:id="@+id/featureListViewInDetailItem"
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:drawSelectorOnTop="true"
             android:padding="10dp"
             android:scrollbars="none" >

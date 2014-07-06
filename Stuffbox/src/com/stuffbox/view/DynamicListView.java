@@ -95,8 +95,6 @@ public class DynamicListView extends ListView {
 
     private boolean mIsWaitingForScrollFinish = false;
     private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
-
-    private boolean isDragDropEnabled = true;
     
     public DynamicListView(Context context) {
         super(context);
@@ -111,10 +109,6 @@ public class DynamicListView extends ListView {
     public DynamicListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
-    }
-
-    public void setDragDropEnabled(boolean enabled){
-    	isDragDropEnabled = enabled;
     }
     
     public void init(Context context) {

@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -55,7 +56,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.detail_item);
+		setContentView(R.layout.detail_item);		
 		
 		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
 		
@@ -98,8 +99,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}else{
 			features = currentItem.getFormular().getFeatures();
 		}
+	
+		//Eigenschaften anzeigen
         featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
-        
 
         featureAdapter.setEditable(changeMode);
 	    mainListView.setAdapter( featureAdapter );
@@ -172,6 +174,12 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			View lView = (View) mainListView.getChildAt(i);
 			lView.clearFocus(); 
 		} 
+		
+		for(Feature feature : formular.getFeatures()){
+			if(feature.getId() == Formular.idOfNameFeature ){
+				feature.setValue(itemName);
+			}
+		}
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
