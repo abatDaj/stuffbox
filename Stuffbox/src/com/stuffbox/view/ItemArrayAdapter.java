@@ -10,6 +10,10 @@ import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Item;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +77,13 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		else
 		{
 			int drawId = Controller.getInstance().getCurrentCategory().getIcon().getDrawableId();
-			imageOfIconInRow.setImageResource(drawId);
+			//imageOfIconInRow.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
+			Resources r = context.getResources();
+			Drawable[] layers = new Drawable[2];
+			layers[0] = r.getDrawable(drawId);
+			layers[1] = r.getDrawable(R.drawable.item_picture);	
+			LayerDrawable layerDrawable = new LayerDrawable(layers);
+			imageOfIconInRow.setImageDrawable(layerDrawable);	
 		}
 		rowView.addView(imageOfIconInRow);
 		

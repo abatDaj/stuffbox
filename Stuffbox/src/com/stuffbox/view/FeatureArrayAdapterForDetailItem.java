@@ -168,7 +168,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		//setze Wert wenn moeglich sonst Defaultwert
 		String pictureName;
 		if(feature.getValue() == null){
-			pictureName = "item_photo";
+			pictureName = Controller.getInstance().getCurrentCategory().getIcon().getName();
 			feature.setValue(pictureName);
 		}else{
 			pictureName = feature.getValue().toString();
