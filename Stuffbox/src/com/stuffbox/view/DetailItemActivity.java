@@ -43,7 +43,7 @@ import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
 import com.stuffbox.view.helper.Utility;
 
-public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText, DialogYesNoQuestionFragment.DeleteDialogListener, DialogNoticeFragment.ConfirmDialogListener {
+public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
 	
 	private ListView mainListView;
 
@@ -186,14 +186,12 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		CharSequence chars = ((TextView)findViewById(R.id.editNameFeature)).getText();
 		if (chars.length() < 1) 
 		{
+			DialogNotice dn = new DialogNotice();
 			String noticeText = getResources().getText(R.string.dialog_notice_item_name_missing).toString();
 			String noticeOk = getResources().getText(R.string.btn_alert_de_ok).toString();
-			DialogNoticeFragment p = DialogNoticeFragment.getADeleteDialog(noticeOk,noticeText );
-	        p.show(getSupportFragmentManager(), "DeleteDialogFragment");
+			dn.initDialogAttributes(noticeText, noticeOk);
+	        dn.show(getSupportFragmentManager(), TAG);
 		}
-			
-			
-			
 		else {
 		
 			itemName = chars.toString();
@@ -335,34 +333,5 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}		
 
 		textView.setText(stringBuilder.toString());	
-	}
-/*
-	@Override
-	public void onDialogPositiveClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
-	@Override
-	public void onDialogPositiveClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDialogNegativeClick(DialogFragment dialog) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDialogConirm(DialogFragment dialog) {
-		// Dialog wird geschlossen. Passiert automatisch beim Klick.
 	}
 }

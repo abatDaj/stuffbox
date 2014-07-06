@@ -18,8 +18,9 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Icon;
+import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 
-public class NewCategoryActivity extends ActionBarActivity implements DialogYesNoQuestionFragment.DeleteDialogListener  {
+public class NewCategoryActivity extends ActionBarActivity implements DialogDecisionListener {
 	
 	Category categoryToEdit = null;
 	
@@ -144,13 +145,16 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogYesN
 	 * Loescht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
 	 */	
 	public void onDelete(){
-		DialogFragment dialog = new DialogYesNoQuestionFragment();
-        dialog.show(getSupportFragmentManager(), "DeleteDialogFragment");
+		DialogDecision dd = new DialogDecision();
+		String question = getResources().getText(R.string.delete_dialog_category).toString();
+		String yes = getResources().getText(R.string.btn_alert_de_ok).toString();
+		String no = getResources().getText(R.string.btn_alert_de_no).toString();
+		dd.initDialogAttributes(question, yes, no);
+        dd.show(getSupportFragmentManager(), "DeleteDialogFragment");
 	}
 	
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-    	
     	Controller.getInstance().deleteCategory(categoryToEdit);
     	//Controller.getInstance().deleteCategoryRecursively(categoryToEdit); //TODO funktioniert noch nicht.
 		ListCategoriesActivity.navigateBack(this);  

@@ -1,7 +1,5 @@
 package com.stuffbox.view;
 
-import com.stuffbox.view.DialogYesNoQuestionFragment.DeleteDialogListener;
-
 import android.app.AlertDialog;
 import android.app.Activity;
 import android.app.Dialog;
