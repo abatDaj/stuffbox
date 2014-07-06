@@ -1,4 +1,4 @@
-package com.stuffbox.model;
+package com.stuffbox.controller;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,9 +9,12 @@ import android.content.Context;
  *Klasse die Hinweise und Nachrichten fuer den Benutzer darstellt.
  */
 public class Messenger {
-		AlertDialog alertMessage;
+	
+	private AlertDialog alertMessage;
+	
 	public Messenger(Context context){
-		AlertDialog.Builder alertmessage = new AlertDialog.Builder(context);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		alertMessage = builder.create();
 	}
 	
 	private void setAlertMessage(String title, String message){
@@ -19,8 +22,8 @@ public class Messenger {
 		alertMessage.setMessage(message); 
 	}
 	
-	private void showAlertMessage(String title, String message){
+	public void showAlertMessage(String title, String message){
 		this.setAlertMessage(title, message);
-		alertMessage.isShowing();
+		alertMessage.show();
 	}
 }

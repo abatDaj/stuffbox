@@ -23,30 +23,22 @@
     <string name="feature">Art</string>
     <string name="edit_name">Namen eingeben</string>
     <string name="icon">Icon</string>
-    <string name="button_arten">Arten-Screen</string>
-    <string name="button_new_kategorie">Neue Kategorie Screen</string>
-    <string name="button_kategorie">Kategorie Screen</string>
-    <string name="button_formular">Formular Screen</string>
-    <string name="button_detail">Detail Screen</string>
-    <string name="button_abzeichen">Abzeichen Screen</string>
-    <string name="title_activity_formular">FormularActivity</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_badge">BadgeActivity</string>
     <string name="prefix_icon_category">category_icon_</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="init_sortnumber">-1</string>
     <string name="empty_string"></string>
-    <string name="button_list_categories">List Categories</string>
     
     <string name="msg_alert_de_missingvalue_1">Das Feld\u0020</string>
     <string name="msg_alert_de_missingvalue_2">\u0020darf nicht leer sein.</string>
     <string name="msg_alert_de_exists">Dieser Eintrag existiert bereits.</string>
     <string name="msg_alert_de_delete_category">Kategorie wirklich löschen?</string>
+    <string name="msg_alert_de_choose_category">Bitte mindestens eine Kategorie auswählen.</string>
     
     <string name="btn_alert_de_ok">OK</string>
     <string name="btn_alert_de_yes">Ja</string>
     <string name="btn_alert_de_no">Nein</string>
+    <string name="error">Fehler</string>
     
     <string name="txt_badge_headline">Deine Abzeichen</string>
     
@@ -60,5 +52,16 @@
     <string name="to_new_formular">Formular anlegen</string>
     <string name="labelFeatureImage">Bild</string>
     <string name="category">Kategorie</string>
-
+    
+    <!-- TODO loeschen -->
+    <string name="button_list_categories">List Categories</string>
+    <string name="button_new_kategorie">Neue Kategorie Screen</string>
+    <string name="button_kategorie">Kategorie Screen</string>
+    <string name="button_arten">Arten-Screen</string>
+    <string name="button_formular">Formular Screen</string>
+    <string name="button_detail">Detail Screen</string>
+    <string name="button_abzeichen">Abzeichen Screen</string>
+    <string name="title_activity_formular">FormularActivity</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="title_activity_badge">BadgeActivity</string>
 </resources>

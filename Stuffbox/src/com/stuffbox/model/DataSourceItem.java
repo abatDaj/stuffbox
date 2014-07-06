@@ -131,7 +131,7 @@ public class DataSourceItem {
 				String itemName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FORMULAR)));
 				
-				//selektiere Formular f�r item
+				//selektiere Formular fuer item
 				ArrayList<Long> selectFormularId = new ArrayList<Long>();
 				selectFormularId.add(formularId);
 				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);

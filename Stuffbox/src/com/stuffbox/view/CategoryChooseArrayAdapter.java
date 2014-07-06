@@ -70,11 +70,18 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
 		
 		checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener(){		
     		public void onCheckedChanged(CompoundButton arg0, boolean isChecked) {
-                if(!isChecked){
-                	selectedvalues.remove(values.get(position));
+    			if(!isChecked){
+    				//entferne Kategorie aus ausgewaehlten
+	    			for(int index = 0; index < selectedvalues.size(); index++){
+	    				if (selectedvalues.get(index).getId() == values.get(position).getId()){
+		                    selectedvalues.remove(index);
+	    				}
+	    			}
                 }else{
+                	//fuege Kategorie zu ausgewaehlten hinzu
                 	selectedvalues.add(values.get(position));
                 }
+
 			}});
 		
 		return rowView;

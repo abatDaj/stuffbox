@@ -20,6 +20,7 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Formular;
+import com.stuffbox.view.helper.DynamicListView;
 
 public class NewFormularActivity  extends ActionBarActivity {
 	

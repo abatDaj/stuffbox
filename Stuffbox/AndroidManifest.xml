@@ -22,25 +22,36 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.stuffbox.view.NewCategoryActivity"
-            android:label="@string/title_activity_new_category" >
+            android:label="@string/title_activity_new_category"             
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.NewFeatureActivity"
             android:label="@string/title_activity_feature" >
         </activity>
         <activity
-            android:name="com.stuffbox.view.FormularActivity"
-            android:label="@string/title_activity_formular" >
+            android:name="com.stuffbox.view.ListFormularActivity"
+            android:label="@string/title_activity_choose_formular"            
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.NewFormularActivity"
-            android:label="@string/title_activity_new_formular" >
+            android:label="@string/title_activity_new_formular"             
+            android:parentActivityName="com.stuffbox.view.ListFormularActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListFormularActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.ListViewDraggingAnimation"
@@ -52,16 +63,21 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.ListCategoriesActivity"
-            android:label="@string/title_activity_list_categories" >
-        </activity>
-        <activity
-            android:name="com.stuffbox.view.ListFormularActivity"
-            android:label="@string/title_activity_choose_formular" >
+            android:label="@string/title_activity_list_categories" 
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+            
         </activity>
         <activity
             android:name="com.stuffbox.view.DetailItemActivity"
-            android:label="@string/title_activity_detail_item"
-            android:windowSoftInputMode="stateHidden|adjustResize" > <!--damit das Keyboard nicht gleich aufpoppt  --> 
+            android:label="@string/title_activity_detail_item" 
+            android:windowSoftInputMode="stateHidden|adjustResize" 
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
         <activity
             android:name="com.stuffbox.view.ChooseCategoriesActivity"
