@@ -28,46 +28,33 @@ import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 public class NewCategoryActivity extends ActionBarActivity implements DialogDecisionListener {
 	
 	Category categoryToEdit = null;
-	private static Icon selectedIcon = Controller.getInstance().getCurrentCategory().getIcon();
-	
+	private static Icon selectedIcon2 = Controller.getInstance().getCurrentCategory().getIcon();
+	ImageView iV = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_category);
 
-		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
+		//Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
 		//Controller.fillIconTableWithSomeIcons(this);
 		ArrayList<Icon> allicons = Controller.getInstance().getIcons();
 		LinkedList<Icon> list = new LinkedList<Icon>();
 
-		for (Icon i : allicons)
+		/*for (Icon i : allicons)
 			if (i.getName().contains(getResources().getText(R.string.prefix_icon_category))) 
-				list.add(i);
+				list.add(i);*/
 		
 		Icon[] icons = new Icon[list.size()];
 		
 		for (int i = 0 ;i < list.size();i++)
 			icons[i] = list.get(i);
 		
-		IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
-		spinner.setAdapter(adapter);
+		//IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
+		//spinner.setAdapter(adapter);
 		
-		Category serializedCategory = (Category) getIntent().getSerializableExtra(Controller.EXTRA_EDIT_CATEGORY);
-		if (serializedCategory != null) {
-			if (!serializedCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) {
-				categoryToEdit = serializedCategory;
-				// setzt den aktuellen Icon
-				for (int i = 0; i < icons.length; i++)
-					if (icons[i].getId() == serializedCategory.getIcon().getId()) {
-						spinner.setSelection(i);
-						break;
-					}
-				EditText editTextName = (EditText) findViewById(R.id.edit_category_name);
-				editTextName.setText(categoryToEdit.getName());
-			}
-		}
 		
-		// Icon-Auswahl
+	// Icon-Auswahl
 		
 		LinearLayout ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
@@ -75,16 +62,17 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		tV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 		tV.setText("Wähle ein Icon aus");
 		
-		int  did = selectedIcon.getDrawableId();
-		ImageView iV = new ImageView(this);
+		int  did = selectedIcon2.getDrawableId();
+		iV = new ImageView(this);
 		iV.setImageResource(did);
 		iV.setLayoutParams(new LinearLayout.LayoutParams(100,100));
+		
 		iV.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();        
 			    intent.setClassName(getPackageName(), ChooseIconActivity.class.getName());
-			    startActivity(intent);
+			    startActivityForResult(intent, Controller.REQUEST_CODE_CHOOSE_ICON) ;
 			}});
 		
 		ll.addView(tV);
@@ -92,6 +80,41 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		
 		LinearLayout view = (LinearLayout)findViewById(R.id.new_category_screen);
 		view.addView(ll);
+		
+		// Icon Auswahl fertig
+		
+		
+		Category serializedCategory = (Category) getIntent().getSerializableExtra(Controller.EXTRA_EDIT_CATEGORY);
+		if (serializedCategory != null) 
+		{
+			if (!serializedCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
+			{
+				categoryToEdit = serializedCategory;
+				// setzt den aktuellen Icon
+				for (int i = 0; i < icons.length; i++)
+				{
+					if (icons[i].getId() == serializedCategory.getIcon().getId()) 	
+					{
+						//spinner.setSelection(i);
+						selectedIcon2 = icons[i];
+						Controller.getInstance().setImageOnImageView(this, iV, selectedIcon2.getName());
+						break;
+					}
+				}
+				EditText editTextName = (EditText) findViewById(R.id.edit_category_name);
+				editTextName.setText(categoryToEdit.getName());
+			}
+		}
+		else
+			Controller.getInstance().setImageOnImageView(this, iV, Controller.getInstance().getCurrentCategory().getIcon().getName());
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    // Check which request we're responding to
+	    if (requestCode == Controller.REQUEST_CODE_CHOOSE_ICON) 
+	        Controller.getInstance().setImageOnImageView(this, iV, selectedIcon2.getName());
+  
 	}
 
 	@Override
@@ -134,22 +157,21 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 	 * @return
 	 */
 	private Category saveCategory(boolean isUpdate){
-		Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
-		Icon selectedIcon = (Icon) spinner.getSelectedItem();
+		//Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
+		//Icon selectedIcon = (Icon) spinner.getSelectedItem();
 		String categoryName = ((TextView)findViewById(R.id.edit_category_name)).getText().toString();
 		Category category = null;
 		if(!isUpdate){
-			//neue Kategorie einfeugen
+			//neue Kategorie einfuegen
 			category = Controller.getInstance().insertCategory(
 					categoryName, 
-					selectedIcon, 
-					Controller.getInstance().getCurrentCategory().getId());
+					selectedIcon2, 
+					Controller.getInstance().getCurrentCategory().getId()); // Die aktuelle Kategorie wird die Oberkategorie
 		}else{
 			//ausgewaehlte Kategorie aktualisieren
 			Category updatecategory = Controller.getInstance().getCurrentCategory();
 			updatecategory.setName(categoryName);
-			updatecategory.setIcon(selectedIcon);
-			
+			updatecategory.setIcon(selectedIcon2);
 			category = Controller.getInstance().updateCategory(updatecategory);
 		}
 		return category;
@@ -222,11 +244,11 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 	}
 
 	public static Icon getSelectedIcon() {
-		return selectedIcon;
+		return selectedIcon2;
 	}
 
 	public static void setSelectedIcon(Icon selectedIconFrom) {
-		selectedIcon = selectedIconFrom;
+		selectedIcon2 = selectedIconFrom;
 	}
 	
     @Override

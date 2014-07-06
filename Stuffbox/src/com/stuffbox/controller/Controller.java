@@ -41,6 +41,8 @@ public class Controller {
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
 	
+	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
+	
 	
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
