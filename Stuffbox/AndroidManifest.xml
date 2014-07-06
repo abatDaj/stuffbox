@@ -73,6 +73,7 @@
         <activity
             android:name="com.stuffbox.view.ListCategoriesActivity"
             android:label="@string/title_activity_list_categories"
+            android:noHistory="true"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
@@ -95,14 +96,23 @@
             android:name="com.stuffbox.view.ChooseIconActivity"
             android:label="@string/title_activity_choose_items" >
         </activity>
-         <activity
+        <activity
             android:name="com.stuffbox.view.ChooseFeaturesActivity"
             android:label="@string/title_activity_feature_delete"             
+            android:parentActivityName="com.stuffbox.view.ListFeatureActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListFeatureActivity" />
+        </activity>
+                <activity
+            android:name="com.stuffbox.view.ListFeatureActivity"
+            android:label="@string/title_activity_feature_change"             
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
+        
     </application>
 
 </manifest>

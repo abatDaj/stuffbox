@@ -44,8 +44,7 @@ public class FeatureChooseArrayAdapter extends ArrayAdapter<Feature> {
 				
 		//zeige Name der Eigenschaft
 		TextView mainText = (TextView) rowView.findViewById(R.id.cat_row_text1);
-		//mainText.setText(values.get(position).getName());
-		mainText.setText(values.get(position).toString());
+		mainText.setText(values.get(position).getName());
 		
 		//zeige Icon der Eigenschaft an
 		ImageView imageView = (ImageView) rowView.findViewById(R.id.cat_row_icon);

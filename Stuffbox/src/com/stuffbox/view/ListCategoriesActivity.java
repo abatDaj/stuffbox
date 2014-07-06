@@ -149,6 +149,11 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        		onBackPressed();
 	        	}
 	            return true;
+	        case R.id.action_change_features:
+	            Intent intentChooseFeatures = new Intent();        
+	            intentChooseFeatures.setClassName(getPackageName(), ListFeatureActivity.class.getName());
+	            startActivity(intentChooseFeatures);
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		

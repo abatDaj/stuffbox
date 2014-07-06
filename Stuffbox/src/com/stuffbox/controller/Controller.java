@@ -48,6 +48,8 @@ public class Controller {
 	private ArrayList<Icon> icons;
 	private ArrayList<Category> selectedCategoriesInItem = null; 
 	private Category currentCategory;
+	private Feature currentFeature;
+	private Formular currentFormular;
 	private Item currentItem;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
@@ -135,6 +137,16 @@ public class Controller {
      */
     public Feature insertFeature(String name, FeatureType featureType){
     	newInsertedFeature = databaseHandler.insertFeature(name, featureType);
+    	return newInsertedFeature;
+    }
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft und
+     * speichert die Eigenschaft als zuletzt angelegte im Controller
+     * @param database
+     * @param name
+     */
+    public Feature updateFeature(Feature feature){
+    	newInsertedFeature = databaseHandler.updateFeature(feature);
     	return newInsertedFeature;
     }
     /**
@@ -573,7 +585,38 @@ public class Controller {
     public void setCurrentCategory(Category newCurrentCategory) { 
     	currentCategory = newCurrentCategory;
     } 
-    
+    /**
+     * Gibt die aktuelle Eigenschaft zurueck
+     * 
+     * @return Die aktuelle Eigenschaft
+     */
+    public Feature getCurrentFeature() { 
+    	return currentFeature;
+    }
+    /**
+     * Ueberschreibt die aktuelle Eigenschaft
+     * 
+	 * @param newCurrentFeature
+     */
+    public void setCurrentFeature(Feature newCurrentFeature ) { 
+    	currentFeature = newCurrentFeature ;
+    }  
+    /**
+     * Gibt die aktuelle Formular zurueck
+     * 
+     * @return Die aktuelle Formular
+     */
+    public Formular getCurrentFormular() { 
+    	return currentFormular;
+    }
+    /**
+     * Ueberschreibt die aktuelle Formular
+     * 
+	 * @param newCurrentFormular
+     */
+    public void setCurrentFormular(Formular newCurrentFormular ) { 
+    	currentFormular = newCurrentFormular ;
+    }
     /**
      * Gibt die aktuelle Item zurueck
      * 

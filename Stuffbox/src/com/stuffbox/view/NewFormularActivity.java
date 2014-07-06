@@ -29,8 +29,8 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	private ListView listFeaturesSelected;
 	private ListView listFeaturesNotSelected;
-	private FeatureArrayAdapter selectedfeaturesAdapter;
-	private FeatureArrayAdapter selectedNotFeaturesAdapter;
+	private FeatureDropDownArrayAdapter selectedfeaturesAdapter;
+	private FeatureDropDownArrayAdapter selectedNotFeaturesAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        }
         });
 		
-		selectedNotFeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, false);
+		selectedNotFeaturesAdapter = new FeatureDropDownArrayAdapter(this, R.layout.row_selection_feature, features, false);
 		listFeaturesNotSelected.setAdapter( selectedNotFeaturesAdapter );	
 	}
 	
@@ -121,7 +121,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        }
         });
         
-        selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, true);
+        selectedfeaturesAdapter = new FeatureDropDownArrayAdapter(this, R.layout.row_selection_feature, features, true);
         if(listFeaturesSelected instanceof DynamicListView){
             ((DynamicListView) listFeaturesSelected).setItemList(features);
         }

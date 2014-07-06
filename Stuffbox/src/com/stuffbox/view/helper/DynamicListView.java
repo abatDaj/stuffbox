@@ -41,7 +41,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import com.stuffbox.view.FeatureArrayAdapter;
+import com.stuffbox.view.FeatureDropDownArrayAdapter;
 import com.stuffbox.view.StableArrayAdapter;
 
 /**
@@ -205,8 +205,8 @@ public class DynamicListView extends ListView {
      */
     private void updateNeighborViewsForID(long itemID) {
         int position = getPositionForID(itemID);
-        if(getAdapter() instanceof FeatureArrayAdapter){
-        	FeatureArrayAdapter adapter = ((FeatureArrayAdapter)getAdapter());
+        if(getAdapter() instanceof FeatureDropDownArrayAdapter){
+        	FeatureDropDownArrayAdapter adapter = ((FeatureDropDownArrayAdapter)getAdapter());
             mAboveItemId = adapter.getItemId(position - 1);
             mBelowItemId = adapter.getItemId(position + 1);
         }else{
@@ -219,8 +219,8 @@ public class DynamicListView extends ListView {
     /** Retrieves the view in the list corresponding to itemID */
     public View getViewForID (long itemID) {
         int firstVisiblePosition = getFirstVisiblePosition();
-        if(getAdapter() instanceof FeatureArrayAdapter){
-        	FeatureArrayAdapter adapter = ((FeatureArrayAdapter)getAdapter());
+        if(getAdapter() instanceof FeatureDropDownArrayAdapter){
+        	FeatureDropDownArrayAdapter adapter = ((FeatureDropDownArrayAdapter)getAdapter());
 	        for(int i = 0; i < getChildCount(); i++) {
 	            View v = getChildAt(i);
 	            int position = firstVisiblePosition + i;

@@ -160,8 +160,16 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param name
      * @param featureType
      */
-    public Feature insertFeature(String name, FeatureType featureType){
-    	return dataSourceFeature.insertFeature(database, name, featureType);
+    public Feature insertFeature(String name, FeatureType featuretype){
+    	return dataSourceFeature.insertOrUpdateFeature(database, new Feature(INITIAL_ID, name, featuretype));
+    }
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * @param name
+     * @param featureType
+     */
+    public Feature updateFeature(Feature feature){
+    	return dataSourceFeature.insertOrUpdateFeature(database, feature);
     }
     /**
      * Loescht Eigenschaften von der Datenbank

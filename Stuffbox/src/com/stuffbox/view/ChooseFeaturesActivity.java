@@ -29,6 +29,8 @@ public class ChooseFeaturesActivity extends ActionBarActivity {
 		
 		ListView mainListView = (ListView) findViewById( R.id.listView );
         ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
+        //name darf nicht geloescht werden
+        features.remove(0);
         
         featureAdapter = new FeatureChooseArrayAdapter (this, features);
 	    mainListView.setAdapter( featureAdapter );	

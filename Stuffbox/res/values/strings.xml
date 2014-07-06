@@ -6,7 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_category">Kategorie</string>
     <string name="title_activity_feature">Eigenschaft anlegen</string>
-    <string name="title_activity_feature_delete">Eigenschaften löschen</string>
+    <string name="title_activity_feature_delete">mehrere Eigenschaften löschen</string>
+    <string name="title_activity_feature_change">Eigenschaften ändern</string>
     <string name="title_activity_new_formular">Formular anlegen</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>

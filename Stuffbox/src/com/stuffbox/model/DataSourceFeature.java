@@ -39,7 +39,7 @@ public class DataSourceFeature {
         for (int i = 0; i < DEFAULT_FEATURES.length; i++) {
         	for (FeatureType type : types) {
 				if(DEFAULT_FEATURE_TYPES[i].equals(type.toString())){
-					insertFeature(db, DEFAULT_FEATURES[i], type);
+					insertOrUpdateFeature(db, new Feature(DatabaseHandler.INITIAL_ID, DEFAULT_FEATURES[i], type));
 				}
 			}
         }
@@ -50,12 +50,29 @@ public class DataSourceFeature {
      * @param database
      * @param name
      */
-    public Feature insertFeature(SQLiteDatabase database, String name, FeatureType featureType){
+    public Feature insertOrUpdateFeature(SQLiteDatabase database, Feature feature){
     	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, name);
-    	return new Feature(id, name, featureType);
+    	values.put(DatabaseHandler.KEY_NAME, feature.getName());
+    	values.put(DatabaseHandler.TABLE_TYPE, feature.getType().getId());
+		
+    	long rowid;
+	    if ( feature.getId() != DatabaseHandler.INITIAL_ID ) {
+	    	//update
+	    	ContentValues whereValues = new ContentValues();
+	    	whereValues.put(DatabaseHandler.KEY_ID, feature.getId());
+	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE, values, whereValues, feature.getName());
+	        if (rowid > 0){
+	        	return feature;
+	        }
+	    } else {	    	
+	    	//insert
+	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, feature.getName());
+			if (rowid > DatabaseHandler.INITIAL_ID) {
+				feature.setId(rowid);
+				return feature;
+			}
+	    }
+    	return null;
     } 
     
 	/**
