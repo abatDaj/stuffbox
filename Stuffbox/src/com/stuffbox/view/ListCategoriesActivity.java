@@ -74,7 +74,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
         });
 
         ArrayList<Item> allItems = Controller.getInstance().getItemsOfACategory(Controller.getInstance().getCurrentCategory().getId());
-        Controller.getInstance().sayIt("Items: " + allItems.size());
         itemAdapter = new ItemArrayAdapter (this, allItems);
         itemListView.setAdapter( itemAdapter );	
         
@@ -124,7 +123,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	    }		
 	}
 	
-	//TODO // prüfen, ob Rücksprung immer sinnvoll
 	@Override
 	public void onBackPressed () {
 		Category currentCategory = Controller.getInstance().getCurrentCategory();

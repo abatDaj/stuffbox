@@ -21,6 +21,18 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
+	
+	public final static String DIALOG_ARGUMENT_YES="stuffbox.com.dialog_yes";
+	public final static String DIALOG_ARGUMENT_NO="stuffbox.com.dialog_no";
+	public final static String DIALOG_ARGUMENT_YES_NO_QUESTION ="stuffbox.com.dialog_question";
+	public final static String DIALOG_ARGUMENT_NOTICE_TEXT ="stuffbox.com.dialog.notice.text";
+
+
+	
+	
+	
+	
+	
 	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int DEFAULT_RANKING_VALUE = 5;
@@ -408,9 +420,6 @@ public class Controller {
     	itemcategories.add(categories.get(1));
     	itemcategories.add(categories.get(3));
     	items.add(insertItem("Song1", formular, itemcategories));
-    	
-    	sayIt("Formulars: " + formulars.size());
-    	sayIt("categories: " + categories.size());
 
     	
       	ArrayList<Feature> someFeatures = new ArrayList<Feature>();

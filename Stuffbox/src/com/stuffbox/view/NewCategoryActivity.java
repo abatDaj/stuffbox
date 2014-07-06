@@ -19,7 +19,7 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Icon;
 
-public class NewCategoryActivity extends ActionBarActivity implements DeleteDialogFragment.DeleteDialogListener  {
+public class NewCategoryActivity extends ActionBarActivity implements DialogYesNoQuestionFragment.DeleteDialogListener  {
 	
 	Category categoryToEdit = null;
 	
@@ -144,7 +144,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DeleteDial
 	 * Loescht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
 	 */	
 	public void onDelete(){
-		DialogFragment dialog = new DeleteDialogFragment();
+		DialogFragment dialog = new DialogYesNoQuestionFragment();
         dialog.show(getSupportFragmentManager(), "DeleteDialogFragment");
 	}
 	

@@ -154,11 +154,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
 		rowViewText.addView(editNormalText);
 		
+		feature.setValue("");
+
 		//setze Wert wenn moeglich
-		if(feature.getValue() != null){
+		/*if(feature.getValue() != null){
 			feature.setValue("item_photo");
 			editNormalText.setText(feature.getValue().toString());
-		}
+		}*/
 		
 		//setze Listener um Werte zu speichern
 		editNormalText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -168,7 +170,6 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		});
 		
 		editNormalText.setEnabled(editable);
-		
 		return rowViewText;
 	}
 	/**
@@ -203,13 +204,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				feature.setValue(((ImageButton) v).getTag());
 			}
 		});
-		
 		imageViewPhoto.setEnabled(editable);
 		rowViewText.addView(imageViewPhoto);
 		return rowViewText;
 	}
-	
-    
 	
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Datum

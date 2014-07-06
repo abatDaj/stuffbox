@@ -1,6 +1,6 @@
 package com.stuffbox.view;
 
-import com.stuffbox.view.DeleteDialogFragment.DeleteDialogListener;
+import com.stuffbox.view.DialogYesNoQuestionFragment.DeleteDialogListener;
 
 import android.app.AlertDialog;
 import android.app.Activity;
@@ -27,7 +27,6 @@ public class DialogDecision extends DialogFragment {
 		this.message = "";
 		this.btn_text_pos = "";
 		this.btn_text_neg = "";
-
 	}
 
 	@Override

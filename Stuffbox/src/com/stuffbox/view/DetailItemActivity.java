@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
@@ -41,7 +43,7 @@ import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
 import com.stuffbox.view.helper.Utility;
 
-public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
+public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText, DialogYesNoQuestionFragment.DeleteDialogListener, DialogNoticeFragment.ConfirmDialogListener {
 	
 	private ListView mainListView;
 
@@ -159,6 +161,20 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
         builder.show();
     }
 	
+	//TODO // prüfen, ob Rücksprung immer sinnvoll
+	@Override
+	public void onBackPressed () {
+		Category currentCategory = Controller.getInstance().getCurrentCategory();
+		if (!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)) 
+			ListCategoriesActivity.navigateBack(this);
+		else {
+			Intent intent = new Intent();   
+	        intent.setClassName(getPackageName(), MainActivity.class.getName());
+	        startActivity(intent);	
+			this.finish();
+		}
+	}
+	
 	/**
 	 * Item wird gespeichert
 	 *
@@ -166,7 +182,23 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	 */
 	public void onSave(View view){
 		//speicher item auf der Datenbank
-		String itemName = ((TextView)findViewById(R.id.editNameFeature)).getText().toString();
+		String itemName = "";
+		CharSequence chars = ((TextView)findViewById(R.id.editNameFeature)).getText();
+		if (chars.length() < 1) 
+		{
+			String noticeText = getResources().getText(R.string.dialog_notice_item_name_missing).toString();
+			String noticeOk = getResources().getText(R.string.btn_alert_de_ok).toString();
+			DialogNoticeFragment p = DialogNoticeFragment.getADeleteDialog(noticeOk,noticeText );
+	        p.show(getSupportFragmentManager(), "DeleteDialogFragment");
+		}
+			
+			
+			
+		else {
+		
+			itemName = chars.toString();
+		
+		
 		ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
 		
 		for(int i = 0; i < mainListView.getChildCount(); i++)
@@ -182,12 +214,13 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}
 		
 		Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+		//TODO Diese Anweisung führt dazu, das die Rücksprünge nicht mehr so gut funktionieren.
 		Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
 		Controller.getInstance().setSelectedCategoriesInItem(null);
 
 		Intent intent = getIntent();
 		finish();
-		startActivity(intent);
+		startActivity(intent);}
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
@@ -302,5 +335,34 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}		
 
 		textView.setText(stringBuilder.toString());	
+	}
+/*
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}*/
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDialogConirm(DialogFragment dialog) {
+		// Dialog wird geschlossen. Passiert automatisch beim Klick.
 	}
 }
