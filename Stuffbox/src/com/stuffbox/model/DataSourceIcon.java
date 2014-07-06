@@ -91,6 +91,5 @@ public class DataSourceIcon {
 							 cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_DESCRIPTION)));
 		return icon;
 	}
- 
-    
+
 }

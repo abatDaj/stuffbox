@@ -401,11 +401,22 @@ public class Controller {
      */
     public void insertDebugCategoryEntries(){
         //Debugeintraege schreiben
-		insertCategory("Buecher", icons.get(1), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
-		insertCategory("Sportartikel", icons.get(6), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
-		insertCategory("Musik", icons.get(7), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
-		insertCategory("Suppen", icons.get(5), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
-		insertCategory("Sonstiges", icons.get(3), DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    	
+    	ArrayList<Icon> debugIcons = new ArrayList<Icon> ();
+    	
+    	for (Icon icon : getIcons())
+    	{
+    		if (icon.getName().equals("category_icon_books"))
+    			insertCategory("Buecher",icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    		if (icon.getName().equals("category_icon_games"))
+    			insertCategory("Sportartikel", icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    		if (icon.getName().equals("category_icon_music"))
+    			insertCategory("Musik", icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    		if (icon.getName().equals("category_icon_food"))
+    			insertCategory("Suppen",icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+        	if (icon.getName().equals("category_icon_default"))
+        		insertCategory("Sonstiges",icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    	}
     }
     /**
      * Fuegt Debugeintraege in die Tabelle Item und Verknuepfungstabellen 
