@@ -18,7 +18,6 @@ public class ImageViewPhoto extends ImageView {
 		setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Controller.getInstance().sayIt("ARRRhhhhh");
 				activityWithATimePickerEditText2.onClickOfImageViewPhoto();
 			}
 		});

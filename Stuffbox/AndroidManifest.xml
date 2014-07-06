@@ -75,7 +75,6 @@
             android:label="@string/title_activity_list_categories"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
@@ -95,6 +94,14 @@
         <activity
             android:name="com.stuffbox.view.ChooseIconActivity"
             android:label="@string/title_activity_choose_items" >
+        </activity>
+         <activity
+            android:name="com.stuffbox.view.ChooseFeaturesActivity"
+            android:label="@string/title_activity_feature_delete"             
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
     </application>
 

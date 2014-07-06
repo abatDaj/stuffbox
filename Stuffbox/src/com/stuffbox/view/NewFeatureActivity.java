@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.FeatureType;
+
 import android.support.v7.app.ActionBarActivity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class NewFeatureActivity extends ActionBarActivity {
+public class NewFeatureActivity extends ActionBarActivity{
 
 	public static final int REQUEST_NEW_FEATURE = 0;
 	

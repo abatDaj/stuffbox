@@ -27,7 +27,8 @@ public class DataSourceCategory {
 		        // create column precategory
 		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER," +
 		        // add foreign key to table category
-		        "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " + DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" + ")";
+		        "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
+		        	+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" + " ON DELETE CASCADE " + ")";
 		db.execSQL(CREATE_EIGENSCHAFT_TABLE);
 	}
 
@@ -41,30 +42,35 @@ public class DataSourceCategory {
 	 * @param precategory
 	 *            Die ID der Oberkategorie
 	 */
-	public Category insertOrUpdateCategory(SQLiteDatabase database, long id, String name, Icon icon, long precategoryId) {
+	public Category insertOrUpdateCategory(SQLiteDatabase database, Category category) {
 		ContentValues values = new ContentValues();
-		values.put(DatabaseHandler.KEY_NAME, name);
-		if (icon != null){
-			values.put(DatabaseHandler.KEY_ICON, icon.getId());
+		values.put(DatabaseHandler.KEY_NAME, category.getName());
+		if( !ROOT_CATEGORY.equals(category.getName())){
+			values.put(DatabaseHandler.KEY_PRECATEGORY, category.getPreCategoryId());
+		}else{
+			values.put(DatabaseHandler.KEY_PRECATEGORY, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
 		}
-		values.put(DatabaseHandler.KEY_PRECATEGORY, precategoryId);
+		
+		if (category.getIcon() != null){
+			values.put(DatabaseHandler.KEY_ICON, category.getIcon().getId());
+		}
 		
 		long rowid;
 		
-	    if ( id != DatabaseHandler.INITIAL_ID ) {
+	    if ( category.getId() != DatabaseHandler.INITIAL_ID ) {
 	    	//update
 	    	ContentValues whereValues = new ContentValues();
-	    	whereValues.put(DatabaseHandler.KEY_ID, id);
-	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, name);
+	    	whereValues.put(DatabaseHandler.KEY_ID, category.getId());
+	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, category.getName());
 	        if (rowid > 0){
-	        	//TODO vorherige kategorie zurueckgeben
-	        	return new Category(id, name, icon, precategoryId);
+	        	return category;
 	        }
-	    } else {
+	    } else {	    	
 	    	//insert
-	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, name);
-			if (rowid > DatabaseHandler.INITIAL_ID) {	
-				return new Category(rowid, name, icon, precategoryId);
+	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, category.getName());
+			if (rowid > DatabaseHandler.INITIAL_ID) {
+				category.setId(rowid);
+				return category;
 			}
 	    }
 		return null;
@@ -142,7 +148,11 @@ public class DataSourceCategory {
 		ArrayList<Long> subCategoryIds = new ArrayList<Long>();
 		if (cursor.moveToFirst()){
 			do{
-				subCategoryIds.add(Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID))));
+				Long subCategoryId = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+				//Root Kategorie kann keine Unterkategorie sein
+				if(subCategoryId != DatabaseHandler.INDEX_OF_ROOT_CATEGORY){
+					subCategoryIds.add(subCategoryId);
+				}
 			}
 			while (cursor.moveToNext());
 		}else{
@@ -160,23 +170,9 @@ public class DataSourceCategory {
 	 * @return Die gefundene Kategorie
 	 */
 	public Category getCategory(SQLiteDatabase database, long categoryId) {
-		String whereStatement = DatabaseHandler.KEY_ID + "=" + categoryId;
-		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatement, null, null, null, null);
-		
-		if (cursor.moveToFirst())
-		{
-			long id = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
-			String name = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
-			long preCatId = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY)));
-			long iconId = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ICON)));
-			Icon icon = null;
-			for (Icon oneIcon : Controller.getInstance().getIcons())
-				if (oneIcon.getId() == iconId)
-					icon = oneIcon;
-			Category foundCategory = new Category (id, name, icon, preCatId);
-			return foundCategory;	
-		}
-		return null;	
+		ArrayList<Long> selectCategorieIds = new ArrayList<Long>();
+		selectCategorieIds.add(categoryId);
+		return getCategories(database, selectCategorieIds, Controller.getInstance().getIcons()).get(0);	
 	}
 	
 	/**
@@ -229,9 +225,16 @@ public class DataSourceCategory {
 				} catch (NumberFormatException e) {
 					return null;
 				}
+				
+				long pre;
+				if(ROOT_CATEGORY.equals(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)))){
+					pre = DatabaseHandler.INITIAL_ID;
+				}else{
+					pre = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_PRECATEGORY)));
+				}
+				
 				Category category = new Category(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))), cursor.getString(cursor
-				        .getColumnIndex(DatabaseHandler.KEY_NAME)), icon, Integer.parseInt(cursor.getString(cursor
-				        .getColumnIndex(DatabaseHandler.KEY_PRECATEGORY))));
+				        .getColumnIndex(DatabaseHandler.KEY_NAME)), icon, pre);
 				// Adding type to list
 				categories.add(category);
 			} while (cursor.moveToNext());
