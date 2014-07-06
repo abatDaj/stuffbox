@@ -24,8 +24,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -94,6 +96,18 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			Controller.getInstance().setSelectedCategoriesInItem(currentItem.getCategories());		
 		}
 		showCategoryText();
+		
+		LinearLayout linearlayoutCategoryChooserForItem = (LinearLayout) findViewById(R.id.linearlayout_categoryChooserForItem);
+		if(changeMode){
+			linearlayoutCategoryChooserForItem.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openCategoryChooser(v);
+				}
+			});
+		}else{
+			linearlayoutCategoryChooserForItem.setClickable(false);
+		}
 
 		// Alle Eigenschaften des Formulars anzeigen
 		mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
@@ -233,9 +247,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	}
 	
 	public void openCategoryChooser (View view) {
-        Intent intent = new Intent();        
-        intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
-        startActivityForResult(intent, ChooseCategoriesActivity.REQUEST_CHOOSE_CATEGORIES);
+	        Intent intent = new Intent();        
+	        intent.setClassName(getPackageName(), ChooseCategoriesActivity.class.getName());
+	        startActivityForResult(intent, ChooseCategoriesActivity.REQUEST_CHOOSE_CATEGORIES);
 	}
 
 	@Override

@@ -30,12 +30,11 @@
 
 
         <LinearLayout
-            android:id="@+id/linearlayout"
+            android:id="@+id/linearlayout_categoryChooserForItem"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/list_selector_background"
             android:clickable="true"
-            android:onClick="openCategoryChooser"
             android:orientation="horizontal"
             android:padding="10dp" >
 

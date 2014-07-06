@@ -13,24 +13,6 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="openFormularScreen"
-            android:text="@string/button_formular" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="openFormularNewScreen"
-            android:text="@string/title_activity_new_formular" />        
-        
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="openArtenScreen"
-            android:text="@string/button_arten" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:onClick="openAbzeichenScreen"
             android:text="@string/button_abzeichen" />
         
@@ -39,13 +21,6 @@
             android:layout_height="wrap_content"
             android:onClick="openListCategories"
             android:text="@string/button_list_categories" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="chooseCategories"
-            android:text="@string/title_activity_choose_category" />
-        
 
     </LinearLayout>
 
