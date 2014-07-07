@@ -27,6 +27,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ListCategoriesActivity extends ActionBarActivity {
 
+	private boolean debugEntriesWhereInserted = false;
+	
 	private ListView categoryListView ;
 	private CategoryArrayAdapter categoryAdapter ;
 	private ListView itemListView ;
