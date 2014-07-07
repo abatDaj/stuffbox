@@ -30,6 +30,7 @@ public class Controller {
 	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN = 12; 
+	public final static int BADGE_ICON_SIZE = 70; 
 
 	
 	

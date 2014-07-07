@@ -3,6 +3,7 @@ package com.stuffbox.view;
 import java.util.ArrayList;
 
 import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
 import com.stuffbox.view.helper.Utility;
 
@@ -36,11 +37,13 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge> {
 
 		LinearLayout rowView = new LinearLayout(context);
 		rowView.setOrientation(LinearLayout.HORIZONTAL);
-		rowView.setPadding(10, 10, 0, 10);
-		rowView.setLayoutParams(new ListView.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 100));
+		rowView.setPadding(0, 20, 0, 20);
+		rowView.setLayoutParams(new ListView.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		rowView.setOnClickListener(null);
+		rowView.setOnTouchListener(null);
 
 		TextView textView = new TextView(context);
-		textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.FILL_PARENT));
+		textView.setLayoutParams(new LayoutParams(150,LinearLayout.LayoutParams.FILL_PARENT));
 		textView.setGravity(Gravity.CENTER_VERTICAL);
 		textView.setText(values.get(position).getCategory().getName() + " ("+ values.get(position).getItemcount() + ") ");
 		textView.setPadding(20, 0, 0, 0);
@@ -53,7 +56,7 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge> {
 		for (int i = 0; i < greyPics.length; i++) {
 			greyPics[i] = new ImageView(context);
 			greyPics[i].setImageResource(drawableId);
-			greyPics[i].setLayoutParams(new LinearLayout.LayoutParams(60, 60));
+			greyPics[i].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
 		}
 
 		if (values.get(position).isBadge1()) {
