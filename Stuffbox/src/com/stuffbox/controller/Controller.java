@@ -331,6 +331,10 @@ public class Controller {
     	return databaseHandler.getItemsOfACategory(categoryID);
     }    
     
+    public ArrayList<Item> getItemsFromWordMatches(String query, String[] columns){
+    	return databaseHandler.getItemsFromWordMatches(query, columns);
+    }
+    
     /**
      * Speichert eine neues Icon in der Tabelle Icon
      * @param name

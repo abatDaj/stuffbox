@@ -11,13 +11,19 @@ import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
 import com.stuffbox.view.helper.Utility;
 
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -122,9 +128,31 @@ public class ListCategoriesActivity extends ActionBarActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		}
 		
-		return true;
+		getMenuInflater().inflate(R.menu.choose_items, menu);
+	    MenuItem searchItem = menu.findItem(R.id.action_search);
+	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnSearchClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				onSearchRequested();
+			}
+		});
+        //searchView.setOnCloseListener(this);
+	    // Configure the search info and add any event listeners
+	    //
+	    //row_item_list_in_a_category
+	    //searchView.onSearchRequested();
+//	    searchView.setOnQueryTextListener();
+	    
+//	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    
+		return super.onCreateOptionsMenu(menu);
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -166,9 +194,27 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        case R.id.action_add_debug_entries:
 	        	onInsertDebugEntries();
 	        	return true;
+	        case R.id.action_search:
+	            // search action
+	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		
+	}
+	
+	@Override
+	public boolean onSearchRequested(){
+    	Intent intentSearchItem = new Intent();        
+    	intentSearchItem.setClassName(getPackageName(), SearchableActivity.class.getName());
+    	//intentSearchItem.putExtra(SearchableActivity., true);
+        startActivity(intentSearchItem);
+        return true;
+        
+//        Bundle appData = new Bundle();
+//        appData.putBoolean(SearchableActivity., true);
+//        startSearch(null, false, appData, false);
+//        return true;
+
 	}
 	
 	/**

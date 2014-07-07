@@ -1,65 +1,81 @@
 package com.stuffbox.view;
 
+import java.util.ArrayList;
+
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.ListView;
 
 import com.stuffbox.R;
-import com.stuffbox.model.DatabaseHandler;
+import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Item;
+import com.stuffbox.view.helper.Utility;
 
-public class SearchableActivity extends ListActivity{
+public class SearchableActivity extends ActionBarActivity{
+	private ListView itemListView ;
+	private ItemArrayAdapter itemAdapter ;
 
-	DatabaseHandler dh = new DatabaseHandler(this);
+	
+	@Override
+   public void onCreate(Bundle savedInstanceState) { 
+      super.onCreate(savedInstanceState); 
+      setContentView(R.layout.list);
+      handleIntent(getIntent()); 
+      
+      // Anzeigen der Items:
+      itemListView = (ListView) findViewById( R.id.listView );
+      ArrayList<Item> allItems = new ArrayList<Item>();
+      itemAdapter = new ItemArrayAdapter (this, allItems);
+      itemListView.setAdapter( itemAdapter );	
+      
+	    // Groesse der Listen anhand der Anzahl der Eigenschaften neu setzen.
+      Utility.setListViewHeightBasedOnChildren(itemListView, 0);
+   } 
 
-//	@Override
-//	public void onCreate(Bundle savedInstanceState) {
-//	    super.onCreate(savedInstanceState);
-//	    setContentView(R.layout.list);
+   public void onNewIntent(Intent intent) { 
+      setIntent(intent); 
+      handleIntent(intent); 
+   } 
+
+   private void handleIntent(Intent intent) { 
+      if (Intent.ACTION_SEARCH.equals(intent.getAction())) { 
+         String query = intent.getStringExtra(SearchManager.QUERY); 
+         doSearch(query); 
+      } 
+   }    
+
+   private void doSearch(String query) { 
+   // Items holen
+	   ArrayList<Item> items = Controller.getInstance().getItemsFromWordMatches(query, null);
+	   itemAdapter = new ItemArrayAdapter (this, items);
+        itemListView.setAdapter( itemAdapter );	
+        
+	    // Groesse der Listen anhand der Anzahl der Eigenschaften neu setzen.
+        Utility.setListViewHeightBasedOnChildren(itemListView, 0);
+        
+//        // Anzeigen der Items:
+//        itemListView = (ListView) findViewById( R.id.itemListView );
+//        itemListView.setOnItemClickListener(new OnItemClickListener()
+//        {
+//	        @Override
+//	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+//	        {		        
+//				Item clickedItem = (Item) parent.getItemAtPosition(position);
+//				Controller.getInstance().setCurrentItem(clickedItem);
+//		        Intent intent = new Intent();        
+//		        intent.setClassName(getPackageName(), DetailItemActivity.class.getName());
+//		        startActivity(intent);
+//	        }
+//        });
 //
-//	    // Get the intent, verify the action and get the query
-//	    Intent intent = getIntent();
-//	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//	      String query = intent.getStringExtra(SearchManager.QUERY);
-//	      doSearch(query);
-//	    }
-//	}
-	
-//	private void doSearch(String query) {
-//		Cursor c = dh.getWordMatches(query, null);
-//	    //process Cursor and display results
-//	}
-	
-	   public void onCreate(Bundle savedInstanceState) { 
-		      super.onCreate(savedInstanceState); 
-		      handleIntent(getIntent()); 
-		   } 
-
-		   public void onNewIntent(Intent intent) { 
-		      setIntent(intent); 
-		      handleIntent(intent); 
-		   } 
-
-		   public void onListItemClick(ListView l, 
-		      View v, int position, long id) { 
-		      // call detail activity for clicked entry 
-		   } 
-
-		   private void handleIntent(Intent intent) { 
-		      if (Intent.ACTION_SEARCH.equals(intent.getAction())) { 
-		         String query = 
-		               intent.getStringExtra(SearchManager.QUERY); 
-		         doSearch(query); 
-		      } 
-		   }    
-
-		   private void doSearch(String query) { 
-		   // get a Cursor, prepare the ListAdapter
-		   Cursor c = dh.getWordMatches(query, null);
-		   // and set it
-		   
-		   } 
+//        ArrayList<Item> allItems = Controller.getInstance().getItemsOfACategory(Controller.getInstance().getCurrentCategory().getId());
+//        itemAdapter = new ItemArrayAdapter (this, allItems);
+//        itemListView.setAdapter( itemAdapter );	
+//        
+//	    // Groesse der Listen anhand der Anzahl der Eigenschaften neu setzen.
+//        Utility.setListViewHeightBasedOnChildren(itemListView, 0);
+   }
 }

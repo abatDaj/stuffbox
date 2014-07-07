@@ -126,13 +126,6 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		}
 		
-		getMenuInflater().inflate(R.menu.choose_items, menu);
-	    MenuItem searchItem = menu.findItem(R.id.action_search);
-	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-	    // Configure the search info and add any event listeners
-	    //
-
-		
 		return super.onCreateOptionsMenu(menu);
 	}
 	/**

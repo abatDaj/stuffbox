@@ -7,6 +7,7 @@ import com.stuffbox.controller.Controller;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 public class DataSourceItem {
     /**
@@ -146,36 +147,7 @@ public class DataSourceItem {
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_ITEM, null, whereStatement, null, null, null, null);
 		
-		//add all types to list
-		if (cursor.moveToFirst()) {
-			do {
-				long itemId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
-				String itemName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
-				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FORMULAR)));
-				
-				//selektiere Formular fuer item
-				ArrayList<Long> selectFormularId = new ArrayList<Long>();
-				selectFormularId.add(formularId);
-				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);
-				setValuesOfFeatures(database, itemId, formular.getFeatures());
-				
-				//erhalte ids verknuepfter kategorien aus der verknuepfungstabelle
-				ArrayList<Long> selectedFeatureIds = DatabaseHandler.getEntriesOfConjunctionTable(database, 
-						 itemId, 
-						 DatabaseHandler.TABLE_ITEM, 
-						 DatabaseHandler.TABLE_CATEGORY,
-						 DatabaseHandler.TABLE_CATEGORY_ITEM);
-				//erhalte daten der kategrien aller verknuepften kategorien aus der kategorietabelle
-				ArrayList<Category> categories =Controller.getInstance().getCategories(selectedFeatureIds);
-				
-				//Item erstellen
-				Item item = new Item(itemId, itemName, formular, categories);
-				
-				// Adding type to list
-				items.add(item);
-			} while (cursor.moveToNext());
-		}
-		return items;
+    	return getItemsFromCursor(database, cursor);
     }
     
     /**
@@ -260,6 +232,53 @@ public class DataSourceItem {
 			} while (cursor.moveToNext());
 		}
 		return this.getItems(database, anIdinAList);
+    }
+    
+    public ArrayList<Item> getItemsFromWordMatches(SQLiteDatabase database, String query, String[] columns) {
+        String selection = DatabaseHandler.KEY_NAME + " MATCH ?";
+        String[] selectionArgs = new String[] {query+"*"};
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(DatabaseHandler.TABLE_ITEM);
+
+        Cursor cursor = builder.query(database,
+                columns, selection, selectionArgs, null, null, null);
+
+        return getItemsFromCursor(database, cursor);
+    }
+
+    private ArrayList<Item> getItemsFromCursor(SQLiteDatabase database, Cursor cursor) {
+ArrayList<Item> items = new ArrayList<Item>();
+		
+		//add all types to list
+		if (cursor.moveToFirst()) {
+			do {
+				long itemId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+				String itemName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
+				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FORMULAR)));
+				
+				//selektiere Formular fuer item
+				ArrayList<Long> selectFormularId = new ArrayList<Long>();
+				selectFormularId.add(formularId);
+				Formular formular = Controller.getInstance().getFormulars(selectFormularId).get(0);
+				setValuesOfFeatures(database, itemId, formular.getFeatures());
+				
+				//erhalte ids verknuepfter kategorien aus der verknuepfungstabelle
+				ArrayList<Long> selectedFeatureIds = DatabaseHandler.getEntriesOfConjunctionTable(database, 
+						 itemId, 
+						 DatabaseHandler.TABLE_ITEM, 
+						 DatabaseHandler.TABLE_CATEGORY,
+						 DatabaseHandler.TABLE_CATEGORY_ITEM);
+				//erhalte daten der kategrien aller verknuepften kategorien aus der kategorietabelle
+				ArrayList<Category> categories =Controller.getInstance().getCategories(selectedFeatureIds);
+				
+				//Item erstellen
+				Item item = new Item(itemId, itemName, formular, categories);
+				
+				// Adding type to list
+				items.add(item);
+			} while (cursor.moveToNext());
+		}
+		return items;
     }
     
 	/**
