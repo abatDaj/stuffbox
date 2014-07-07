@@ -64,8 +64,13 @@ public class BadgeActivity extends ActionBarActivity {
 		System.out.println("InteressierendeKategorien: " + interestCat.size());
 		System.out.println("Badges: " + level.getBadgeCount());
 		System.out.println("Level: " + level.getLvlCount());
+		
+		
 		//Anzahl der Items pro Kategorie
 		for(Category cat: interestCat){
+			//Debugging Testing
+			System.out.println(cat.getName() + " "+ "KatLevel: " + level.getBadgeLevel(cat.getId()));
+			System.out.println(cat.getName() + " " + "KatLevelLeft: " + level.getBadgeLevelLeft(cat.getId()));
 			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
 			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
 			arrList.add(new Badge(cat.getName(),items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));

@@ -18,7 +18,8 @@ public class UserLevel {
 	private static final int badgeMark3 = badgeMark2 + 1; //Limit damit Badge 3 verliehen wird
 	private static final int badgeMark4 = badgeMark3 + 1; //Limit damit Badge 4 verliehen wird
 	private static final int badgeMark5 = badgeMark4 + 2; //Limit damit Badge 5 verliehen wird
-	private static final int LevelMark = 2; //Badges bis zum Levelaufstieg
+	private static final int levelMark = 2; //Badges bis zum Gesamt Levelaufstieg
+	private static final int catLevelMark = 2; //Badges bis zum Kategorieaufstieg
 	
 	private int lvlCount;
 	private int badgeCount;
@@ -37,7 +38,7 @@ public class UserLevel {
 		}
 		
 		//Level bestimmen
-		lvlCount = (int) badgeCount / LevelMark;
+		lvlCount = (int) badgeCount / levelMark;
 		
 		
 	}
@@ -63,7 +64,7 @@ public class UserLevel {
 	}
 
 	public static int getLevelmark() {
-		return LevelMark;
+		return levelMark;
 	}
 
 	public int getLvlCount() {
@@ -150,4 +151,13 @@ public class UserLevel {
 			return false;
 		}
 	}
+	
+	public int getBadgeLevel(long categoryID){
+		return ((int) getItemAmount(categoryID)/catLevelMark);
+	}
+	
+	public int getBadgeLevelLeft(long categoryID){
+		return ((int) (catLevelMark - getItemAmount(categoryID)%catLevelMark));
+	}
+
 }
