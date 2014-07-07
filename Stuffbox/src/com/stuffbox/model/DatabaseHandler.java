@@ -104,7 +104,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
     	dataSourceIcon.createIconTable(db);
     	dataSourceType.createTypeTable(db);
-    	dataSourceFeature.createFeatureTable(db, getTypes());
+    	ArrayList<FeatureType> types = dataSourceType.getTypes(db);
+    	dataSourceFeature.createFeatureTable(db, types);
     	dataSourceFormular.createFormularTable(db);;
     	dataSourceCategory.createCategorieTable(db);
     	dataSourceItem.createItemTable(db);
