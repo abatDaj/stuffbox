@@ -120,7 +120,7 @@ public class Utility {
 	}
 	
 	/**
-	 * Returniert einen grauen Klon.
+	 * Graut den ImageView ein.
 	 * 
 	 * @param context
 	 * @param drawID
@@ -128,18 +128,51 @@ public class Utility {
 	 * @return
 	 */
 	public static void makeImageViewGrey(ImageView imageView) {
-		/*ImageView imageOfIconInRow = new ImageView(context);
-		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-		Resources ressources = context.getResources();
-		Drawable[] layers = new Drawable[1];
-		layers[0] = ressources.getDrawable(drawID);
-		LayerDrawable layerDrawable = new LayerDrawable(layers);
-		imageOfIconInRow.setImageDrawable(layerDrawable);	
-		ColorFilter filter = new LightingColorFilter( Color.BLACK, Color.GRAY);
-		imageOfIconInRow.setColorFilter(filter);
-		return imageOfIconInRow;*/
 		ColorFilter filter = new LightingColorFilter( Color.BLACK, Color.GRAY);
 		imageView.setColorFilter(filter);
+	}
+	
+	/**
+	 * Vergibt 1-5 Sterne.
+	 * 
+	 * @param context
+	 * @param drawID
+	 * @param size
+	 * @return
+	 */
+	public static ImageView stuffBoxStarIconCloner (Context context, ImageView imageView, int drawID, int stars) {
+		ViewGroup.LayoutParams params = imageView.getLayoutParams();
+		ImageView imageOfIconInRow = new ImageView(context);
+		imageOfIconInRow.setLayoutParams(params);
+		Resources ressources = context.getResources();
+		Drawable[] layers = new Drawable[2];
+		layers[0] = ressources.getDrawable(drawID);
+		
+		if (stars < 1 || stars > 5)
+			throw new RuntimeException("Just 5 Stars are allowed !");
+			
+		 switch(stars) 
+		 {
+	        case 1:
+	        	layers[1] = layers[1] = ressources.getDrawable(R.drawable.badge_star_1);
+	            break;
+	        case 2:
+	        	layers[1] = layers[1] = ressources.getDrawable(R.drawable.badge_star_2);
+	            break;
+	        case 3:
+	        	layers[1] = layers[1] = ressources.getDrawable(R.drawable.badge_star_3);
+	            break;
+	        case 4:
+	        	layers[1] = layers[1] = ressources.getDrawable(R.drawable.badge_star_4);
+	        	break;
+	        case 5:
+	        	layers[1] = layers[1] = ressources.getDrawable(R.drawable.badge_star_5);
+	            break;
+	      } 
+
+		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		imageOfIconInRow.setImageDrawable(layerDrawable);	
+		return imageOfIconInRow;
 	}
 
 }
