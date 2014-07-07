@@ -46,25 +46,94 @@ public class DataSourceFormular {
      * @param database
      * @param name
      */
-    public Formular insertFormlar(SQLiteDatabase database, String name, ArrayList<Feature> features){
+    public Formular insertOrUpdateFormlar(SQLiteDatabase database, Formular formular){
     	//Formular in Datenbank einfuegen
     	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
-    	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values, name);
+    	values.put(DatabaseHandler.KEY_NAME, formular.getName());
+
+    	long rowid;
+	    if ( formular.getId() != DatabaseHandler.INITIAL_ID ) {
+	    	ArrayList<Long> selectFormularIds = new ArrayList<Long>();
+	    	selectFormularIds.add(formular.getId());
+	    	Formular oldFormular = getFormulars(database, selectFormularIds).get(0);
+	    	
+	    	//update
+	    	ContentValues whereValues = new ContentValues();
+	    	whereValues.put(DatabaseHandler.KEY_ID, formular.getId());
+	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FORMULAR, values, whereValues, formular.getName());
+	        
+	        //update features
+	        for(Feature feature : formular.getFeatures()){
+	        	Feature featureFound = null;
+	        	//suche in alten features nach den aktuellen
+	        	for(Feature oldFeature : oldFormular.getFeatures()){
+		        	if(feature.getId() == oldFeature.getId()){
+		        		featureFound = oldFeature;
+		        	}
+	        	}
+	        	if(featureFound != null){
+	        		//wenn gefunden loesche es aus der liste
+	        		oldFormular.removeFeature(featureFound);
+	        	}else{
+	        		//wenn nicht gefunden fuege es auf der Datenbank hinzu
+	        		insertFeatureOfFormular(database, formular, feature);
+	        	}
+	        }
+	        //loesche verbleibende Features aus der Liste
+	        ArrayList<Long> deleteFeatureIds = new ArrayList<Long>();
+	        for(Feature oldFeature : oldFormular.getFeatures()){
+	        	selectFormularIds.add(oldFeature.getId());	
+	        }
+			String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
+			DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
+	        
+	        if (rowid > 0){
+	        	return formular;
+	        }
+	    } else {	    	
+	    	//insert
+	    	long formularId = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR, values, formular.getName());
+	    	formular.setId(formularId);
+	    	
+	    	//Eigenschaften in Datenbank einfuegen
+	    	for (Feature feature : formular.getFeatures()) {
+	    		insertFeatureOfFormular(database, formular, feature);
+			}
+			if (formularId > DatabaseHandler.INITIAL_ID) {
+				return formular;
+			}
+	    }
     	
-    	//Eigenschaften in Datenbank einfuegen
-    	for (Feature feature : features) {
-        	ContentValues featurevalues = new ContentValues();
-        	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formularId);
-        	featurevalues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
-        	featurevalues.put(DatabaseHandler.KEY_SORTNUMBER, feature.getSortnumber());
-        	String logString = DatabaseHandler.TABLE_FORMULAR + " " + name  + "(" + formularId + ")" + " - " 
-        					   + DatabaseHandler.TABLE_FEATURE + " " + feature.getName()  + "(" + feature.getId() + ")";
-        	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, logString);
-		}
     	
-    	return new Formular(formularId, name, features);
+    	return null;
     } 
+    
+    private void insertFeatureOfFormular(SQLiteDatabase database, Formular formular, Feature feature){
+    	ContentValues featurevalues = new ContentValues();
+    	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formular.getId());
+    	featurevalues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+    	featurevalues.put(DatabaseHandler.KEY_SORTNUMBER, feature.getSortnumber());
+    	String logString = DatabaseHandler.TABLE_FORMULAR + " " + formular.getName()  + "(" + formular.getId() + ")" + " - " 
+    					   + DatabaseHandler.TABLE_FEATURE + " " + feature.getName()  + "(" + feature.getId() + ")";
+    	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, logString);
+    }
+    
+	/**
+	 * Loescht ein Formular
+	 * 
+	 * @param formulars
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteFormulars(SQLiteDatabase database, ArrayList<Formular> formulars) {
+		ArrayList<Long> selectFormularIds = new ArrayList<Long>();
+		for (Formular formular : formulars) {
+			selectFormularIds.add(formular.getId());	
+		}
+		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFormularIds,null);
+	
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR, whereStatement);		
+		return delRows == 1 ? true : false;
+	}
     
     /**
      * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist

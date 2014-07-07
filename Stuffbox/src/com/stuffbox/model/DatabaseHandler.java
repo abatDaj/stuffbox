@@ -165,7 +165,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	return dataSourceFeature.insertOrUpdateFeature(database, new Feature(INITIAL_ID, name, featuretype));
     }
     /**
-     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft.
+     * Speichert die Aenderungen an einer Eigenschaft in der Tabelle Eigenschaft.
      * @param name
      * @param featureType
      */
@@ -197,9 +197,26 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public Formular insertFormlar(String name, ArrayList<Feature> features){
-    	return dataSourceFormular.insertFormlar(database, name, features);
+    	return dataSourceFormular.insertOrUpdateFormlar(database, new Formular(INITIAL_ID, name, features));
     }
     
+    /**
+     * Speichert die Aenderungen an einem Formular in der Tabelle Formular und 
+     * dessen zugeorndete Eigenschaften in der Verknuepfungstabelle.
+     * @param formular
+     * @return
+     */
+    public Formular updateFormlar(Formular formular){
+    	return dataSourceFormular.insertOrUpdateFormlar(database, formular);
+    }
+    
+    /**
+     * Loescht Formulare von der Datenbank
+     * @param formulare
+     */
+    public boolean deleteFormulars(ArrayList<Formular> formulars){
+    	return dataSourceFormular.deleteFormulars(database, formulars);
+    }
     /**
      * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
      * @param database
@@ -287,6 +304,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param values
      */
     public static long insertIntoDB(SQLiteDatabase database, String table, ContentValues values, String logString){
+    	database.beginTransaction();
     	long rowID = -1;
     	
     	try{
@@ -297,6 +315,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "insert " + table + " rowId=" + rowID + " " + logString);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return rowID;
     }
     
@@ -314,6 +334,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     		ContentValues values, 
     		ContentValues whereValues, 
     		String logString){
+    	database.beginTransaction();
     	long rowID = -1;
     	
     	String whereClause = createWhereStatementFromContentValues(whereValues); 
@@ -325,6 +346,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "update " + table + " rowId=" + rowID + " " + logString);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return rowID;
     }    
 	
@@ -338,8 +361,12 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return Die Anzahl der geloeschten Zeilen
      */
     public static long deletefromDB(SQLiteDatabase database, String table, ContentValues whereValues){
+    	database.beginTransaction();
     	String whereClause = createWhereStatementFromContentValues(whereValues); 	
-    	return deletefromDB(database, table, whereClause);
+    	long deletedRows = deletefromDB(database, table, whereClause);
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
+    	return deletedRows;
     }
     
     /**
@@ -351,6 +378,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return Die Anzahl der geloeschten Zeilen
      */
     public static long deletefromDB(SQLiteDatabase database, String table, String whereStatement){
+    	database.beginTransaction();
     	long delRows = 0;	
     	try{
     		delRows = database.delete(table, whereStatement, null);
@@ -359,6 +387,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "delete " + table + " deleted Rows=" + delRows + " " + table);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return delRows;
     }
     

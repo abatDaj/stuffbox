@@ -82,13 +82,11 @@ public class DataSourceFeature {
 	 * @return Ob es erfolgreich geloescht wurde 
 	 */
 	public boolean deleteFeatures(SQLiteDatabase database, ArrayList<Feature> features) {
-		ContentValues whereValues = new ContentValues();
-		
-		ArrayList<Long> selectFormularIds = new ArrayList<Long>();
+		ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
 		for (Feature feature : features) {
-			selectFormularIds.add(feature.getId());	
+			selectFeatureIds.add(feature.getId());	
 		}
-		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFormularIds,null);
+		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,null);
 	
 		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FEATURE, whereStatement);		
 		return delRows == 1 ? true : false;

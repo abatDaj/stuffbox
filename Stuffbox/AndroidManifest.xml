@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.BadgeActivity"
-            android:label="@string/title_activity_badge"            
+            android:label="@string/txt_badge_headline"            
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"

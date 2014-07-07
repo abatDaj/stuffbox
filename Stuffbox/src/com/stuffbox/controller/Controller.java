@@ -187,6 +187,22 @@ public class Controller {
     	newInsertedFormular = databaseHandler.insertFormlar(name, features);
     	return newInsertedFormular;
     }
+    /**
+     * Speichert die Aenderungen an einem Formular in der Tabelle Formular und 
+     * dessen zugeorndete Eigenschaften in der Verknuepfungstabelle.
+     * @param formular
+     * @return
+     */
+    public Formular updateFormlar(Formular formular){
+    	return databaseHandler.updateFormlar(formular);
+    }
+    /**
+     * Loescht Formulare von der Datenbank
+     * @param formulare
+     */
+    public boolean deleteFormulars(ArrayList<Formular> formulars){
+    	return databaseHandler.deleteFormulars(formulars);
+    }
 	/**
 	 * Gibt die zuletzt angelegtes Formular zur�ck und
 	 * entfernt es aus dem Controller
@@ -339,12 +355,16 @@ public class Controller {
         //Debugeintraege schreiben
     	
     	//erstelle Formular Buecheraufbau
+    	Feature feature1 = insertFeature("Foto", types.get(5));
+    	Feature feature2 = insertFeature("Autor", types.get(0));
+    	Feature feature3 = insertFeature("Ranking", types.get(4));
+    	
     	ArrayList<Feature> bookFeatures = new ArrayList<Feature>();
-    	bookFeatures.add(insertFeature("Foto", types.get(5)));
+    	bookFeatures.add(feature1);
     	bookFeatures.get(0).setSortnumber(1);
-    	bookFeatures.add(insertFeature("Autor", types.get(0)));
+    	bookFeatures.add(feature2);
     	bookFeatures.get(1).setSortnumber(2);
-    	bookFeatures.add(insertFeature("Ranking", types.get(4)));
+    	bookFeatures.add(feature3);
     	bookFeatures.get(2).setSortnumber(3);
     	createdFormulars.add(insertFormlar("Buecheraufbau", bookFeatures));
     	
