@@ -40,7 +40,8 @@
     <string name="msg_alert_de_delete_category">Kategorie wirklich löschen?</string>
     <string name="msg_alert_de_choose_category">Bitte mindestens eine Kategorie auswählen.</string>
     <string name="dialog_notice_item_name_missing">Bitte einen Namen für das Item vergeben.</string>
-    <string name="delete_dialog_category">Sollen wirklich die Kategorie samt allen Unterkategorien und Dateien gelöschen werden?</string>
+    <string name="delete_dialog_category">Soll die Kategorie samt aller Unterkategorien und Dateien gelöschen werden?</string>
+    <string name="delete_dialog_feature">Soll die Eigenschaft gelöschen werden?</string>
     <string name="txt_badge_headline">Errungene Abzeichen</string>
     <string name="btn_alert_de_ok">OK</string>
     <string name="btn_alert_de_yes">Ja</string>

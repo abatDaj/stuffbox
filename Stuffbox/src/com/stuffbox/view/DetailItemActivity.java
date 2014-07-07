@@ -149,13 +149,14 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        dn.show(getSupportFragmentManager(), TAG);
 		}
 		else {
-			this.photoImageView.clearFocus();
-			photoImageView.onWindowFocusChanged(true);
-			photoImageView.setCallOnCklick(false);
-			if (this.lastFileNameOfPhoto != null) // String darf nicht null sein !
-				photoImageView.setTag(this.lastFileNameOfPhoto);
-			photoImageView.performClick();
-			
+			if(photoImageView != null){
+				photoImageView.clearFocus();
+				photoImageView.onWindowFocusChanged(true);
+				photoImageView.setCallOnCklick(false);
+				if (this.lastFileNameOfPhoto != null) // String darf nicht null sein !
+					photoImageView.setTag(this.lastFileNameOfPhoto);
+				photoImageView.performClick();
+			}
 			itemName = chars.toString();		
 			ArrayList<Category> selectedCategories = Controller.getInstance().getSelectedCategoriesInItem();
 			
@@ -172,7 +173,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			}
 			
 			Controller.getInstance().insertItem(itemName, formular, selectedCategories);
-			//TODO Diese Anweisung führt dazu, das die Rücksprünge nicht mehr so gut funktionieren.
+			//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
 			Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
 			Controller.getInstance().setSelectedCategoriesInItem(null);
 	

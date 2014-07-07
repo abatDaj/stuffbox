@@ -28,6 +28,8 @@ public class ListFormularActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		
+		Controller.getInstance().setCurrentFormular(null);
+		
 		//als standard wird ein formular ausgewaehlt um ein item zu erstellen
 		if(getIntent().getExtras() != null && getIntent().getExtras().get(PURPOSE_IS_CHOOSING_FOR_UPDATE) != null){
 			isChoosingForUpdate = (Boolean) getIntent().getExtras().get(PURPOSE_IS_CHOOSING_FOR_UPDATE);
@@ -55,7 +57,13 @@ public class ListFormularActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.feature_list, menu);
+		getMenuInflater().inflate(R.menu.list_formular, menu);
+		
+		if(isChoosingForUpdate){
+			 MenuItem saveItem = menu.findItem(R.id.menu_save_new_item);
+			 saveItem.setIcon(R.drawable.ic_action_edit);
+		}
+	
 		return true;
 	}
 	

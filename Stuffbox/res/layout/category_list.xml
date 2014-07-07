@@ -18,7 +18,7 @@
                 android:id="@+id/to_new_category_imagebutton"
                 style="@style/aLinearRowCreatingSomethingImageButton"
                 android:contentDescription="@string/title_activity_new_category"
-                android:src="@drawable/imagebutton_to_new_category" />
+                android:src="@drawable/new_folder" />
 
             <TextView
                 android:id="@+id/textViewNewCategoryButton"
