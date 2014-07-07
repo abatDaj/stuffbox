@@ -209,7 +209,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
     public void onInsertDebugEntries(){
     	Controller.getInstance().insertDebugEntries(this);
     	ArrayList<Long> ids = new ArrayList<Long>();
-    	Category rootCategory = Controller.getInstance().getRootCategory();
+    	Category rootCategory = Controller.getInstance().getCurrentCategory();
 		Controller.getInstance().setCurrentCategory(rootCategory);		
         Intent intentToRoot = new Intent();   
         intentToRoot.setClassName(getPackageName(), ListCategoriesActivity.class.getName());

@@ -125,6 +125,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
+    	DatabaseHandler.INDEX_OF_ROOT_CATEGORY = INITIAL_ID;
     	
         // Create tables again
         onCreate(database);
