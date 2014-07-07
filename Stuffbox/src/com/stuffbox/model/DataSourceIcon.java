@@ -21,9 +21,6 @@ public class DataSourceIcon {
         		DatabaseHandler.KEY_NAME + " TEXT," +
         		DatabaseHandler.KEY_DESCRIPTION + " TEXT " + ")";
         db.execSQL(CREATE_ICON_TABLE);
-        
-        //Eintr�ge anlegen f�r alle Icons
-        insertIcon(db, "icon_angry_minion", "W�tender Miniom");
     }
     
     /**

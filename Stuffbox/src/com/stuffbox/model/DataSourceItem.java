@@ -32,10 +32,10 @@ public class DataSourceItem {
         		"PRIMARY KEY(" + DatabaseHandler.TABLE_FEATURE + "," + DatabaseHandler.TABLE_ITEM + ")," +
         		//add foreign key to table formular
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_FEATURE + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")" +
+        			+ DatabaseHandler.TABLE_FEATURE + "(" + DatabaseHandler.KEY_ID + ")"  + " ON DELETE CASCADE " +
         		//add foreign key to table item
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
+        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")"  + " ON DELETE CASCADE " +")";
         db.execSQL(CREATE_FORMULAR_ITEM_TABLE);
         
         //Erstellt die Item-Kategorie-Wert Verknuepfungstabelle
@@ -47,10 +47,10 @@ public class DataSourceItem {
         		"PRIMARY KEY(" + DatabaseHandler.TABLE_CATEGORY + "," + DatabaseHandler.TABLE_ITEM + ")," +
         		//add foreign key to table kategorie
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_CATEGORY + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" +
+        			+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" + " ON DELETE CASCADE " +
         		//add foreign key to table item
                 "FOREIGN KEY(" + DatabaseHandler.TABLE_ITEM + ") REFERENCES " 
-        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
+        			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")"  + " ON DELETE CASCADE " +")";
         db.execSQL(CREATE_CATEGORY_ITEM_TABLE); 
     }
 	
@@ -94,6 +94,24 @@ public class DataSourceItem {
     	
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
+    
+	/**
+	 * Loescht die Zuorndung eines features zu einem Item
+	 * 
+	 * @param feature
+	 * @param item bei null wird das feature bei allen items gelöscht
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteCategory(SQLiteDatabase database, Feature feature, Item item) {
+		ContentValues whereValues = new ContentValues();
+		whereValues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+		if(item != null){
+			whereValues.put(DatabaseHandler.TABLE_ITEM, item.getId());
+		}
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, whereValues);
+		return delRows == 1 ? true : false;
+	}
+    
     /**
      * Fuegt eine Kategorie der ein Item zuegehoert in der Verknuepfungstabelle auf der Datenbank hinzu
 
@@ -116,13 +134,17 @@ public class DataSourceItem {
      */
     public ArrayList<Item> getItems( SQLiteDatabase database, 
 			 			  ArrayList<Long> selectIds){
+    	
+		ArrayList<Item> items = new ArrayList<Item>();
+		if(selectIds != null && selectIds.isEmpty()){
+			return items;
+		}
+    	
     	//erstelle where statement
     	String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_ITEM, null, whereStatement, null, null, null, null);
-		
-		ArrayList<Item> items = new ArrayList<Item>();
 		
 		//add all types to list
 		if (cursor.moveToFirst()) {
@@ -153,7 +175,6 @@ public class DataSourceItem {
 				items.add(item);
 			} while (cursor.moveToNext());
 		}
-		 
 		return items;
     }
     
@@ -188,7 +209,7 @@ public class DataSourceItem {
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE_ITEM, null, whereStatement.toString(), null, null, null, null);
     	
 		//Werte in Feature speichern
-		if (cursor.moveToFirst()) {
+		if (cursor != null && cursor.moveToFirst()) {
 			do {
 				int featureid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_FEATURE)));
 				String value = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_VALUE));
@@ -230,19 +251,15 @@ public class DataSourceItem {
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY_ITEM, null, whereStatement, null, null, null, null);
 		
-		ArrayList<Item> items = new ArrayList<Item>();
-		
 		//add all types to list
+		ArrayList<Long> anIdinAList = new ArrayList<Long>();
 		if (cursor.moveToFirst()) {
 			do {
 				long itemId = cursor.getInt(cursor.getColumnIndex(DatabaseHandler.TABLE_ITEM));
-				ArrayList<Long> anIdinAList = new ArrayList<Long>();
 				anIdinAList.add(itemId);
-				Item anFoundItem = this.getItems(database, anIdinAList).get(0);
-				items.add(anFoundItem);
 			} while (cursor.moveToNext());
 		}
-		return items;
+		return this.getItems(database, anIdinAList);
     }
     
 	/**

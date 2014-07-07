@@ -23,8 +23,18 @@ public class Formular implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	//Setzt die Id dieses Formulars, wenn sie vorher noch keine valide id besass
+	public void setId(long id){
+		if(this.id == DatabaseHandler.INITIAL_ID){
+			this.id = id;
+		}
+	}
+	
 	public long getId() {
 		return id;
+	}
+	public void setFeatures(ArrayList<Feature> features) {
+		this.features = features;
 	}
 	public ArrayList<Feature> getFeatures() {
 		return features;

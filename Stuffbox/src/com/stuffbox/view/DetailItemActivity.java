@@ -51,18 +51,15 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_item);		
 		
-		formular = (Formular) getIntent().getSerializableExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM);
+		formular = Controller.getInstance().getCurrentFormular();
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;
 			//TODO pruefen ob item geaendert werden soll
 			changeMode = false;
-		}else if (formular != null) {
+		}else {
 			itemExits = false;
 			changeMode = true;
-		}else{ 
-			//TODO
-			new RuntimeException ("Something went horribly wrong :-0");
 		}
 		
 		Item currentItem = Controller.getInstance().getCurrentItem();

@@ -27,6 +27,12 @@ public class Feature implements Comparable<Feature>, Serializable{
 	public void setType(FeatureType type) {
 		this.type = type;
 	}
+	//Setzt die Id dieser Eigenschaft, wenn sie vorher noch keine valide id besass
+	public void setId(long id){
+		if(this.id == DatabaseHandler.INITIAL_ID){
+			this.id = id;
+		}
+	}
 	public long getId() {
 		return id;
 	}
@@ -48,7 +54,6 @@ public class Feature implements Comparable<Feature>, Serializable{
 	}
 	@Override
 	public int compareTo(Feature another) {
-		sortnumber.compareTo(another.getSortnumber());
-		return 0; // TODO ?!?
+		return sortnumber.compareTo(another.getSortnumber());
 	}
 }

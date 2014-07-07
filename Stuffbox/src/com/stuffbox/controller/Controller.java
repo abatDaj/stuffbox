@@ -39,14 +39,13 @@ public class Controller {
 	// Für die Bild-Galerie Funktion
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
-	
+
 	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
 	
 	// Java-CSS
-	
 	public static final int CSS_TEXT_SIZE_LABELS = 16;
 	
-	
+
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
 
@@ -54,6 +53,8 @@ public class Controller {
 	private ArrayList<Icon> icons;
 	private ArrayList<Category> selectedCategoriesInItem = null; 
 	private Category currentCategory;
+	private Feature currentFeature;
+	private Formular currentFormular;
 	private Item currentItem;
 	private Feature newInsertedFeature;
 	private Formular newInsertedFormular;
@@ -70,18 +71,16 @@ public class Controller {
 		if (init){
 			return;
 		}
-		//getTypes();
 		//initialise database
         initializeDatabase(context);
-		//initialize data
-		getIcons();
 		init = true;
 	}
 	
 	//TODO
 	public static Controller getInstance (Context context) {
-		if (instance == null) 
+		if (instance == null){
 			instance = new Controller (context);
+		}
 		return instance;
 	}
 	
@@ -143,8 +142,25 @@ public class Controller {
     	newInsertedFeature = databaseHandler.insertFeature(name, featureType);
     	return newInsertedFeature;
     }
+    /**
+     * Speichert eine neue Eigenschaft in der Tabelle Eigenschaft und
+     * speichert die Eigenschaft als zuletzt angelegte im Controller
+     * @param database
+     * @param name
+     */
+    public Feature updateFeature(Feature feature){
+    	newInsertedFeature = databaseHandler.updateFeature(feature);
+    	return newInsertedFeature;
+    }
+    /**
+     * Loescht Eigenschaften von der Datenbank
+     * @param features
+     */
+    public boolean deleteFeatures(ArrayList<Feature> features){
+    	return databaseHandler.deleteFeatures(features);
+    }
 	/**
-	 * Gibt die zuletzt angelegte Eigenschaft zur�ck und
+	 * Gibt die zuletzt angelegte Eigenschaft zurueck und
 	 * entfernt sie aus dem Controller
 	 * @return
 	 */
@@ -173,6 +189,22 @@ public class Controller {
     public Formular insertFormlar(String name, ArrayList<Feature> features){
     	newInsertedFormular = databaseHandler.insertFormlar(name, features);
     	return newInsertedFormular;
+    }
+    /**
+     * Speichert die Aenderungen an einem Formular in der Tabelle Formular und 
+     * dessen zugeorndete Eigenschaften in der Verknuepfungstabelle.
+     * @param formular
+     * @return
+     */
+    public Formular updateFormlar(Formular formular){
+    	return databaseHandler.updateFormlar(formular);
+    }
+    /**
+     * Loescht Formulare von der Datenbank
+     * @param formulare
+     */
+    public boolean deleteFormulars(ArrayList<Formular> formulars){
+    	return databaseHandler.deleteFormulars(formulars);
     }
 	/**
 	 * Gibt die zuletzt angelegtes Formular zur�ck und
@@ -229,6 +261,12 @@ public class Controller {
     	return databaseHandler.getSubCategories(categoryId);
     }
     
+    public Category getRootCategory(){
+    	ArrayList<Long> ids = new ArrayList<Long>();
+    	ids.add((long) DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    	return databaseHandler.getCategories(ids, icons).get(0);
+    }
+    
     /**
      * Speichert eine neue Kategorie in der Tabelle Kategorie.
      * @param name
@@ -237,7 +275,7 @@ public class Controller {
      * @return
      */
     public Category insertCategory(String name, Icon icon, long precategory){
-    	return databaseHandler.insertOrUpdateCategory(name, icon, precategory);
+    	return databaseHandler.insertOrUpdateCategory(new Category(DatabaseHandler.INITIAL_ID, name, icon, precategory));
     }
     
     /**
@@ -246,7 +284,7 @@ public class Controller {
      * @return
      */
     public Category updateCategory(Category category){
-    	return databaseHandler.updateCategory(category);
+    	return databaseHandler.insertOrUpdateCategory(category);
     }
     
     public boolean deleteCategory(Category category) { 
@@ -326,12 +364,16 @@ public class Controller {
         //Debugeintraege schreiben
     	
     	//erstelle Formular Buecheraufbau
+    	Feature feature1 = insertFeature("Foto", types.get(5));
+    	Feature feature2 = insertFeature("Autor", types.get(0));
+    	Feature feature3 = insertFeature("Ranking", types.get(4));
+    	
     	ArrayList<Feature> bookFeatures = new ArrayList<Feature>();
-    	bookFeatures.add(insertFeature("Foto", types.get(5)));
+    	bookFeatures.add(feature1);
     	bookFeatures.get(0).setSortnumber(1);
-    	bookFeatures.add(insertFeature("Autor", types.get(0)));
+    	bookFeatures.add(feature2);
     	bookFeatures.get(1).setSortnumber(2);
-    	bookFeatures.add(insertFeature("Ranking", types.get(4)));
+    	bookFeatures.add(feature3);
     	bookFeatures.get(2).setSortnumber(3);
     	createdFormulars.add(insertFormlar("Buecheraufbau", bookFeatures));
     	
@@ -512,21 +554,45 @@ public class Controller {
      * Setzt die Datenbank neu auf
      */
     public void initializeDatabase(Context context){
-    	databaseHandler.initializeDatabase();
+    	//databaseHandler.initializeDatabase();
     	
+    	
+    	databaseHandler.setRootCategoryID();
+    	
+    	getTypes();
+//    	
+//    	insertDebugFeatureEntries();
+//    	ArrayList<Feature> features = getFeatures(null);
+//    	insertDebugFormularEntries(features);
+    	
+    	fillIconTableWithIcons(context);
+    	getIcons();
+
+    	//Root Kategorie einfuegen
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		this.setCurrentCategory(currentCategory);
+//    	insertDebugCategoryEntries();
+//
+//    	ArrayList<Formular> formulars = getFormulars(null); 
+//    	ArrayList<Category> categories = getCategories(null); 
+//    	insertDebugItemEntries(formulars, categories);
+//    	
+//    	getItems(null);    	
+    	
+    }
+    
+    public void insertDebugEntries(Context context){
+    	databaseHandler.initializeDatabase();
     	getTypes();
     	
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
     	
-
-    	
     	fillIconTableWithIcons(context);
-    	//TODO Icons von fill verwenden
     	getIcons();
     	
-    	//TODO warum wird die root categorie nicht aus der DB gelesen => Weil sie noch nicht in der DB ist
+    	//Root Kategorie einfuegen
 		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
@@ -535,8 +601,7 @@ public class Controller {
     	ArrayList<Category> categories = getCategories(null); 
     	insertDebugItemEntries(formulars, categories);
     	
-    	getItems(null);    	
-    	
+    	getItems(null); 
     }
     
     /**
@@ -572,7 +637,38 @@ public class Controller {
     public void setCurrentCategory(Category newCurrentCategory) { 
     	currentCategory = newCurrentCategory;
     } 
-    
+    /**
+     * Gibt die aktuelle Eigenschaft zurueck
+     * 
+     * @return Die aktuelle Eigenschaft
+     */
+    public Feature getCurrentFeature() { 
+    	return currentFeature;
+    }
+    /**
+     * Ueberschreibt die aktuelle Eigenschaft
+     * 
+	 * @param newCurrentFeature
+     */
+    public void setCurrentFeature(Feature newCurrentFeature ) { 
+    	currentFeature = newCurrentFeature ;
+    }  
+    /**
+     * Gibt die aktuelle Formular zurueck
+     * 
+     * @return Die aktuelle Formular
+     */
+    public Formular getCurrentFormular() { 
+    	return currentFormular;
+    }
+    /**
+     * Ueberschreibt die aktuelle Formular
+     * 
+	 * @param newCurrentFormular
+     */
+    public void setCurrentFormular(Formular newCurrentFormular ) { 
+    	currentFormular = newCurrentFormular ;
+    }
     /**
      * Gibt die aktuelle Item zurueck
      * 
@@ -603,7 +699,7 @@ public class Controller {
 	public ArrayList<Category> getSelectedCategoriesInItem() {
 		return selectedCategoriesInItem;
 	}
-
+	
 	public void setSelectedCategoriesInItem(
 			ArrayList<Category> selectedCategoriesInItem) {
 		this.selectedCategoriesInItem = selectedCategoriesInItem;

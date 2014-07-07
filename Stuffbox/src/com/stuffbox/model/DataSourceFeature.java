@@ -24,13 +24,13 @@ public class DataSourceFeature {
     public void createFeatureTable(SQLiteDatabase db, ArrayList<FeatureType> types){
     	//Tabelle eigenschaft anlegen
         String CREATE_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE + "("+ 
-        		//create column id
+        		//Spalte Id erstellen
         		DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + 
-        		//create column name
+        		//Spalte Name erstellen
         		DatabaseHandler.KEY_NAME + " TEXT," + 
-        		//create column art
+        		//Spalte Typ erstellen
         		DatabaseHandler.KEY_TYPE + " INTEGER," + 
-        		//add foreign key to table art
+        		//Fremdschluessel zu Type Tabelle
                 "FOREIGN KEY(" + DatabaseHandler.KEY_TYPE + ") REFERENCES " 
         			+ DatabaseHandler.TABLE_TYPE + "(" + DatabaseHandler.KEY_ID + ")" + ")";
         db.execSQL(CREATE_FEATURE_TABLE);
@@ -39,7 +39,7 @@ public class DataSourceFeature {
         for (int i = 0; i < DEFAULT_FEATURES.length; i++) {
         	for (FeatureType type : types) {
 				if(DEFAULT_FEATURE_TYPES[i].equals(type.toString())){
-					insertFeature(db, DEFAULT_FEATURES[i], type);
+					insertOrUpdateFeature(db, new Feature(DatabaseHandler.INITIAL_ID, DEFAULT_FEATURES[i], type));
 				}
 			}
         }
@@ -50,17 +50,50 @@ public class DataSourceFeature {
      * @param database
      * @param name
      */
-    public Feature insertFeature(SQLiteDatabase database, String name, FeatureType featureType){
+    public Feature insertOrUpdateFeature(SQLiteDatabase database, Feature feature){
     	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.TABLE_TYPE, featureType.getId());
-    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, name);
-    	return new Feature(id, name, featureType);
+    	values.put(DatabaseHandler.KEY_NAME, feature.getName());
+    	values.put(DatabaseHandler.TABLE_TYPE, feature.getType().getId());
+		
+    	long rowid;
+	    if ( feature.getId() != DatabaseHandler.INITIAL_ID ) {
+	    	//update
+	    	ContentValues whereValues = new ContentValues();
+	    	whereValues.put(DatabaseHandler.KEY_ID, feature.getId());
+	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE, values, whereValues, feature.getName());
+	        if (rowid > 0){
+	        	return feature;
+	        }
+	    } else {	    	
+	    	//insert
+	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE, values, feature.getName());
+			if (rowid > DatabaseHandler.INITIAL_ID) {
+				feature.setId(rowid);
+				return feature;
+			}
+	    }
+    	return null;
     } 
     
+	/**
+	 * Loescht eine Eigenschaft
+	 * 
+	 * @param feature
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteFeatures(SQLiteDatabase database, ArrayList<Feature> features) {
+		ArrayList<Long> selectFeatureIds = new ArrayList<Long>();
+		for (Feature feature : features) {
+			selectFeatureIds.add(feature.getId());	
+		}
+		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,null);
 	
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FEATURE, whereStatement);		
+		return delRows == 1 ? true : false;
+	}
+    
     /**
-     * Gibt eine Liste aller Features zurück, deren ids in der id Liste enthalten ist
+     * Gibt eine Liste aller Features zurueck, deren ids in der id Liste enthalten ist
      * @param database
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
      * @param types
@@ -69,15 +102,22 @@ public class DataSourceFeature {
     public ArrayList<Feature> getFeatures(	SQLiteDatabase database, 
     										ArrayList<Long> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
+		ArrayList<Feature> features = new ArrayList<Feature>();
+    	if(selectFeatureIds != null && selectFeatureIds.isEmpty()){
+			return features;
+		}
+    	
     	//erstelle where statement
     	String whereStatment = DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatment, null, null, null, null);
 		
-		ArrayList<Feature> features = new ArrayList<Feature>();
-		
 		//add all types to list
+		if(cursor == null){
+			return features;
+		}
+		
 		if (cursor.moveToFirst()) {
 			do {
 				int typeid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_TYPE)));
@@ -112,19 +152,7 @@ public class DataSourceFeature {
      * @return
      */
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
-		String valueAsString;
-		switch (type) {
-//		case Wahrheitswert:
-//			valueAsString = value.toString();
-//			break;
-//		case Ranking:
-//			valueAsString = value.toString();
-//			break;
-		default:
-			valueAsString = value.toString();
-			break;
-		}
-		return valueAsString;
+		return value.toString();
 	}
 	/**
 	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt

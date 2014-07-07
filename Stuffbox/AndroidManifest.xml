@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.BadgeActivity"
-            android:label="@string/title_activity_badge"            
+            android:label="@string/txt_badge_headline"            
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
@@ -73,9 +73,9 @@
         <activity
             android:name="com.stuffbox.view.ListCategoriesActivity"
             android:label="@string/title_activity_list_categories"
+            android:noHistory="true"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.stuffbox.view.ListCategoriesActivity" />
         </activity>
@@ -96,6 +96,36 @@
             android:name="com.stuffbox.view.ChooseIconActivity"
             android:label="@string/title_activity_choose_items" >
         </activity>
+        <activity
+            android:name="com.stuffbox.view.ChooseFeaturesActivity"
+            android:label="@string/title_activity_feature_delete"             
+            android:parentActivityName="com.stuffbox.view.ListFeatureActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListFeatureActivity" />
+        </activity>
+                <activity
+            android:name="com.stuffbox.view.ListFeatureActivity"
+            android:label="@string/title_activity_feature_change"             
+            android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
+            <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+         </activity>
+         <activity 
+            android:name="com.stuffbox.view.SearchableActivity" 
+            android:label="@string/action_search"
+            android:launchMode="singleTop">
+	        <intent-filter>
+	            <action android:name="android.intent.action.SEARCH" />
+	        </intent-filter>
+	        <intent-filter >
+	         	<action android:name="android.intent.action.VIEW" />
+	      	</intent-filter> 
+	        <meta-data android:name="android.app.searchable"
+	                   android:resource="@xml/searchable"/>
+	    </activity>
+        
     </application>
 
 </manifest>

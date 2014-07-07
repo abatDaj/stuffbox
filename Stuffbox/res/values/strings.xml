@@ -6,16 +6,22 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_category">Kategorie</string>
     <string name="title_activity_feature">Eigenschaft anlegen</string>
+    <string name="title_activity_feature_delete">mehrere Eigenschaften löschen</string>
+    <string name="title_activity_feature_change">Eigenschaften ändern</string>
     <string name="title_activity_new_formular">Formular anlegen</string>
+    <string name="title_activity_formulars_change">Formulare ändern</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>
     <string name="actionbartitle_edit_category">Kategorie ändern</string>
     <string name="title_activity_detail_item">neuer Eintrag</string>
     <string name="title_activity_choose_formular">Formular auswählen</string>
     <string name="title_activity_choose_category">Kategorie auswählen</string>
+    <string name="title_activity_add_debugentries">Debugeinträge anlegen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="delete">löschen</string>
+    <string name="action_search">Suche</string>
+    <string name="search_hint">Einträge suchen</string>
     <string name="name">Name</string>
     <string name="name_formular">Formularname</string>
     <string name="name_category">Kategoriename</string>
@@ -46,6 +52,10 @@
     <string name="to_new_formular">Formular anlegen</string>
     <string name="labelFeatureImage">Bild</string>
     <string name="category">Kategorie</string>
+    <string name="text_piece_amount">Anzahl Einträge:\u0020</string>
+    <string name="text_head_lvl">lvl</string>
+    
+    
 
     <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>
@@ -57,7 +67,6 @@
     <string name="button_abzeichen">Abzeichen Screen</string>
     <string name="title_activity_formular">FormularActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_badge">BadgeActivity</string>
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
     <string name="title_activity_choose_items">ChooseItemsActivity</string>
 

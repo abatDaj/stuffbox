@@ -6,7 +6,9 @@ import java.util.LinkedList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,28 +41,19 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		//Controller.fillIconTableWithSomeIcons(this);
 		ArrayList<Icon> allicons = Controller.getInstance().getIcons();
 		LinkedList<Icon> list = new LinkedList<Icon>();
-
-		/*for (Icon i : allicons)
-			if (i.getName().contains(getResources().getText(R.string.prefix_icon_category))) 
-				list.add(i);*/
 		
 		Icon[] icons = new Icon[list.size()];
 		
 		for (int i = 0 ;i < list.size();i++)
 			icons[i] = list.get(i);
 		
-		//IconArrayAdapter adapter = new IconArrayAdapter(this, icons);
-		//spinner.setAdapter(adapter);
-		
-		
-	// Icon-Auswahl
-		
+		// Icon-Auswahl
 		LinearLayout ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
 		ll.setPadding(10, 30, 0, 0);
 		TextView tV = new TextView(this);
 		tV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-		tV.setText("Wähle ein Icon aus");
+		tV.setText(getResources().getString(R.id.icon));
 		tV.setTextSize(Controller.CSS_TEXT_SIZE_LABELS);
 		
 		int  did = selectedIcon2.getDrawableId();
@@ -106,9 +99,9 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 				EditText editTextName = (EditText) findViewById(R.id.edit_category_name);
 				editTextName.setText(categoryToEdit.getName());
 			}
-		}
-		else
+		}else{
 			Controller.getInstance().setImageOnImageView(this, iV, Controller.getInstance().getCurrentCategory().getIcon().getName());
+		}
 	}
 	
 	@Override
@@ -123,7 +116,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (categoryToEdit != null) {
 			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_category));
-			getMenuInflater().inflate(R.menu.edit_category, menu);
+			getMenuInflater().inflate(R.menu.edit, menu);
 		} else {
 			getMenuInflater().inflate(R.menu.new_category, menu);
 		}
@@ -133,7 +126,14 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		}
 		
-		return true;
+		getMenuInflater().inflate(R.menu.choose_items, menu);
+	    MenuItem searchItem = menu.findItem(R.id.action_search);
+	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+	    // Configure the search info and add any event listeners
+	    //
+
+		
+		return super.onCreateOptionsMenu(menu);
 	}
 	/**
 	 * Eine neue Kategorie wird angelegt.
@@ -212,9 +212,14 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 	
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+    	Category preCategory = Controller.getInstance().getPreCategoryId(Controller.getInstance().getCurrentCategory());
+    	
     	Controller.getInstance().deleteCategory(categoryToEdit);
     	//Controller.getInstance().deleteCategoryRecursively(categoryToEdit); //TODO funktioniert noch nicht.
-    	onBackPressed(); 
+    	
+    	//Gehe zu vorheriger Kategory
+		Controller.getInstance().setCurrentCategory(preCategory);		
+		onBackPressed();
     }
 
     @Override
@@ -229,13 +234,13 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		        case R.id.menu_save_new_category:
 		        	onSaveCategory();
 		            return true;
-		        case R.id.menu_update_category:
+		        case R.id.menu_update:
 		        	onUpdate();
 		            return true;
-		        case R.id.menu_delete_category:
+		        case R.id.menu_delete:
 		            onDelete();
 		            return true;
-		        case R.id.menu_chancel_category:
+		        case R.id.menu_chancel:
 		            onChancel();
 		            return true;
 		        case R.id.action_settings:

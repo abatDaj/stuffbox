@@ -30,7 +30,7 @@ import java.util.List;
 import com.stuffbox.R;
 import com.stuffbox.model.Feature;
 
-public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
+public class FeatureDropDownArrayAdapter extends ArrayAdapter<Feature> {
 
     final int INVALID_ID = -1;
 
@@ -38,7 +38,7 @@ public class FeatureArrayAdapter extends ArrayAdapter<Feature> {
 	private boolean selectedList;
     HashMap<Feature, Integer> mIdMap = new HashMap<Feature, Integer>();
 
-    public FeatureArrayAdapter(Context context, int textViewResourceId, List<Feature> objects, boolean selectedList) {
+    public FeatureDropDownArrayAdapter(Context context, int textViewResourceId, List<Feature> objects, boolean selectedList) {
         super(context, textViewResourceId, objects);
 		this.context = context;
 		this.selectedList = selectedList;

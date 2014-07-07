@@ -12,15 +12,19 @@ import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
 
 	private static final String TAG = DatabaseHandler.class.getSimpleName();
+
+	public static final String PREFS_NAME = "STUFFBOX_DATABASE";
 	
 	// All Static variables
     // Database Version
@@ -64,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
     public static final String PREFIX_ICON_CATEGORY = "category_icon_";
-    public static final int INDEX_OF_ROOT_CATEGORY = 1;
+    public static long INDEX_OF_ROOT_CATEGORY = -1;
     public static final long INITIAL_ID = -1; 
     
     private final Context context; 
@@ -90,37 +94,47 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         dataSourceItem = new DataSourceItem();
         
         database = getWritableDatabase();
+        if (!database.isReadOnly()) {
+            // Enable foreign key constraints
+        	database.execSQL("PRAGMA foreign_keys=ON;");
+        }
     } 
-    
-    /**
+
+	/**
      * Tabellen erstellen
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-    	dataSourceType.createTypeTable(db);
-    	dataSourceFeature.createFeatureTable(db, getTypes());
-    	dataSourceFormular.createFormularTable(db);;
     	dataSourceIcon.createIconTable(db);
-    	dataSourceItem.createItemTable(db);
+    	dataSourceType.createTypeTable(db);
+    	ArrayList<FeatureType> types = dataSourceType.getTypes(db);
+    	dataSourceFeature.createFeatureTable(db, types);
+    	dataSourceFormular.createFormularTable(db);;
     	dataSourceCategory.createCategorieTable(db);
+    	dataSourceItem.createItemTable(db);
     }   
     
     public void initializeDatabase(){
         // Drop older table if existed
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
-    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY_ITEM);
     	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FORMULAR);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_FEATURE);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_ICON);
+    	database.execSQL("DROP TABLE IF EXISTS " + TABLE_TYPE);
+    	DatabaseHandler.INDEX_OF_ROOT_CATEGORY = INITIAL_ID;
     	
         // Create tables again
         onCreate(database);
     }   
         
+    public void setRootCategoryID(){
+    	dataSourceCategory.setRootCategoryID(database);
+    }
+    
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -156,8 +170,23 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param name
      * @param featureType
      */
-    public Feature insertFeature(String name, FeatureType featureType){
-    	return dataSourceFeature.insertFeature(database, name, featureType);
+    public Feature insertFeature(String name, FeatureType featuretype){
+    	return dataSourceFeature.insertOrUpdateFeature(database, new Feature(INITIAL_ID, name, featuretype));
+    }
+    /**
+     * Speichert die Aenderungen an einer Eigenschaft in der Tabelle Eigenschaft.
+     * @param name
+     * @param featureType
+     */
+    public Feature updateFeature(Feature feature){
+    	return dataSourceFeature.insertOrUpdateFeature(database, feature);
+    }
+    /**
+     * Loescht Eigenschaften von der Datenbank
+     * @param features
+     */
+    public boolean deleteFeatures(ArrayList<Feature> features){
+    	return dataSourceFeature.deleteFeatures(database, features);
     }
     
     /**
@@ -177,9 +206,26 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public Formular insertFormlar(String name, ArrayList<Feature> features){
-    	return dataSourceFormular.insertFormlar(database, name, features);
+    	return dataSourceFormular.insertOrUpdateFormlar(database, new Formular(INITIAL_ID, name, features));
     }
     
+    /**
+     * Speichert die Aenderungen an einem Formular in der Tabelle Formular und 
+     * dessen zugeorndete Eigenschaften in der Verknuepfungstabelle.
+     * @param formular
+     * @return
+     */
+    public Formular updateFormlar(Formular formular){
+    	return dataSourceFormular.insertOrUpdateFormlar(database, formular);
+    }
+    
+    /**
+     * Loescht Formulare von der Datenbank
+     * @param formulare
+     */
+    public boolean deleteFormulars(ArrayList<Formular> formulars){
+    	return dataSourceFormular.deleteFormulars(database, formulars);
+    }
     /**
      * Gibt eine Liste aller Items zurueck, , deren ids in der id Liste enthalten ist
      * @param database
@@ -237,21 +283,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param database
      * @param name
      */
-    public Category insertOrUpdateCategory(String name, Icon icon, long precategory){
-    	return dataSourceCategory.insertOrUpdateCategory(database, INITIAL_ID, name, icon, precategory);
-    }
-    
-    /**
-     * Speichert die Aenderungen einer Kategorie in der Tabelle Kategorie.
-     * @param category
-     * @return
-     */
-    public Category updateCategory(Category category){
-    	return dataSourceCategory.insertOrUpdateCategory(database, 
-    			category.getId(), 
-    			category.getName(), 
-    			category.getIcon(), 
-    			category.getPreCategoryId());
+    public Category insertOrUpdateCategory(Category category){
+    	return dataSourceCategory.insertOrUpdateCategory(database, category);
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -280,6 +313,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param values
      */
     public static long insertIntoDB(SQLiteDatabase database, String table, ContentValues values, String logString){
+    	database.beginTransaction();
     	long rowID = -1;
     	
     	try{
@@ -290,6 +324,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "insert " + table + " rowId=" + rowID + " " + logString);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return rowID;
     }
     
@@ -307,6 +343,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     		ContentValues values, 
     		ContentValues whereValues, 
     		String logString){
+    	database.beginTransaction();
     	long rowID = -1;
     	
     	String whereClause = createWhereStatementFromContentValues(whereValues); 
@@ -318,6 +355,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	}finally{
     		Log.d(TAG, "update " + table + " rowId=" + rowID + " " + logString);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return rowID;
     }    
 	
@@ -331,15 +370,34 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return Die Anzahl der geloeschten Zeilen
      */
     public static long deletefromDB(SQLiteDatabase database, String table, ContentValues whereValues){
-    	long delRows = 0;
+    	database.beginTransaction();
     	String whereClause = createWhereStatementFromContentValues(whereValues); 	
+    	long deletedRows = deletefromDB(database, table, whereClause);
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
+    	return deletedRows;
+    }
+    
+    /**
+     * Loescht einen Tupel
+     * @param table
+     * @param whereValues
+     * @param logString
+     * 
+     * @return Die Anzahl der geloeschten Zeilen
+     */
+    public static long deletefromDB(SQLiteDatabase database, String table, String whereStatement){
+    	database.beginTransaction();
+    	long delRows = 0;	
     	try{
-    		delRows = database.delete(table, whereClause, null);
+    		delRows = database.delete(table, whereStatement, null);
     	}catch(SQLiteException e){
     		Log.e(TAG, "delete " + table + " " + table, e);
     	}finally{
     		Log.d(TAG, "delete " + table + " deleted Rows=" + delRows + " " + table);
     	}
+    	database.setTransactionSuccessful();
+    	database.endTransaction();
     	return delRows;
     }
     
@@ -451,5 +509,28 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 		}
 		
 		return selectFeatureIds;
+    }
+    
+    public Cursor getWordMatches(String query, String[] columns) {
+        String selection = KEY_NAME + " MATCH ?";
+        String[] selectionArgs = new String[] {query+"*"};
+
+        return query(selection, selectionArgs, columns);
+    }
+
+    private Cursor query(String selection, String[] selectionArgs, String[] columns) {
+        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+        builder.setTables(TABLE_ITEM);
+
+        Cursor cursor = builder.query(this.getReadableDatabase(),
+                columns, selection, selectionArgs, null, null, null);
+
+        if (cursor == null) {
+            return null;
+        } else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+        return cursor;
     }
 }

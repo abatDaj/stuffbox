@@ -6,6 +6,7 @@ import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
+import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
 import com.stuffbox.view.helper.Utility;
@@ -149,26 +150,33 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        		onBackPressed();
 	        	}
 	            return true;
+	        case R.id.action_change_features:
+	            Intent intentChooseFeatures = new Intent();        
+	            intentChooseFeatures.setClassName(getPackageName(), ListFeatureActivity.class.getName());
+	            startActivity(intentChooseFeatures);
+	        	return true;
+	        case R.id.action_change_formulars:
+	            Intent intentChooseFormulars = new Intent();        
+	            intentChooseFormulars.setClassName(getPackageName(), ListFormularActivity.class.getName());
+	            intentChooseFormulars.putExtra(ListFormularActivity.PURPOSE_IS_CHOOSING_FOR_UPDATE, true);
+	            startActivity(intentChooseFormulars);
+	        	return true;
+	        case R.id.action_add_debug_entries:
+	        	onInsertDebugEntries();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		
 	}
 	
 	/**
-	 * Loescht die Kategorie
-	 */
-	public void onDelete () {
-		Toast.makeText(getApplicationContext(), "LÖSCHEN !!!", Integer.valueOf(7)).show();
-	}
-	
-	/**
-	 * Ändert die Kategorie
+	 * aendert die Kategorie
 	 */
 	public void onEdit () {
-		//ClassName details = new ClassName();
-		Intent i = new Intent(this, NewCategoryActivity.class);
-		i.putExtra(Controller.EXTRA_EDIT_CATEGORY, Controller.getInstance().getCurrentCategory());
-		startActivity(i);		
+        Intent intent = new Intent();        
+        intent.putExtra(Controller.EXTRA_EDIT_CATEGORY, Controller.getInstance().getCurrentCategory());
+        intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
+		startActivity(intent);		
 	}
 	
 	/**
@@ -180,8 +188,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
         startActivity(intent);
 	}	
 	
-    public void onNewCategory(View view) {    	
-        Intent intent = new Intent();        
+    public void onNewCategory(View view) { 
+        Intent intent = new Intent();   
         intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
         startActivity(intent);
     }	
@@ -196,5 +204,16 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        startActivity(intent);				
     	}
     	finish();
+    }
+    
+    public void onInsertDebugEntries(){
+    	Controller.getInstance().insertDebugEntries(this);
+    	ArrayList<Long> ids = new ArrayList<Long>();
+    	Category rootCategory = Controller.getInstance().getCurrentCategory();
+		Controller.getInstance().setCurrentCategory(rootCategory);		
+        Intent intentToRoot = new Intent();   
+        intentToRoot.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intentToRoot);	
+        finish();
     }
 }

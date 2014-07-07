@@ -30,5 +30,6 @@ public class ImageViewPhoto extends ImageView {
 //				activityWithATimePickerEditText2.onClickOfImageViewPhoto();
 //			}
 //		});
+
 	}
 }

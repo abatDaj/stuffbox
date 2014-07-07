@@ -37,8 +37,11 @@ public class Category implements Serializable {
 		return id;
 	}
 	
-	public void setId(long id) {
-		this.id = id;
+	//Setzt die Id dieser Kategorie, wenn sie vorher noch keine valide id besass
+	public void setId(long id){
+		if(this.id == DatabaseHandler.INITIAL_ID){
+			this.id = id;
+		}
 	}
 	
 	public ArrayList<Item> getItems(){

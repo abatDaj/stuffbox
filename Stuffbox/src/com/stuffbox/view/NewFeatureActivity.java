@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
+
 import android.support.v7.app.ActionBarActivity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,15 +17,16 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class NewFeatureActivity extends ActionBarActivity {
+public class NewFeatureActivity extends ActionBarActivity{
 
 	public static final int REQUEST_NEW_FEATURE = 0;
+
+	private boolean featureExits = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_feature);	    
-	    Controller.getInstance();
 	    
 	    Controller.getInstance().popLastInsertedFeature();
 	    
@@ -34,12 +38,26 @@ public class NewFeatureActivity extends ActionBarActivity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
+
+		//falls eine Eigenschaft geändert werden soll, uebernehm dessen Werte
+	    if(Controller.getInstance().getCurrentFeature() != null){
+	    	featureExits = true;
+	    	EditText nameEditText = (EditText) findViewById(R.id.edit_name);
+	    	nameEditText.setText(Controller.getInstance().getCurrentFeature().getName());
+	    	int position = adapter.getPosition(Controller.getInstance().getCurrentFeature().getType());
+	    	spinner.setSelection(position);	
+	    }
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.change_menu, menu);
+		if(featureExits){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_feature_change));
+			getMenuInflater().inflate(R.menu.edit, menu);
+		}else{
+			getMenuInflater().inflate(R.menu.change_menu, menu);
+		}
 		return true;
 	}
 
@@ -63,6 +81,7 @@ public class NewFeatureActivity extends ActionBarActivity {
 	}
 	
 	public void onCancel(){
+		Controller.getInstance().setCurrentFeature(null);
 		this.finish();
 	}
 	
@@ -76,7 +95,16 @@ public class NewFeatureActivity extends ActionBarActivity {
 		Spinner spinner_type = (Spinner) findViewById(R.id.spinner_arten);
 		FeatureType type = (FeatureType) spinner_type.getSelectedItem();
 		//einfuegen der Eigenschaft in die Datenbank
-		Controller.getInstance().insertFeature(name, type);
+		if(featureExits){
+			Feature feature = Controller.getInstance().getCurrentFeature();
+			feature.setName(name);
+			feature.setType(type);
+			Controller.getInstance().updateFeature(feature);
+		}else{
+			Controller.getInstance().insertFeature(name, type);	
+		}
+		
+		Controller.getInstance().setCurrentFeature(null);
 		
 		//Zurueck zur anfragenden activity
         Intent intentMessage=new Intent();

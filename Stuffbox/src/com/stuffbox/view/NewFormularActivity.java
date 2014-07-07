@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,8 +30,10 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	private ListView listFeaturesSelected;
 	private ListView listFeaturesNotSelected;
-	private FeatureArrayAdapter selectedfeaturesAdapter;
-	private FeatureArrayAdapter selectedNotFeaturesAdapter;
+	private FeatureDropDownArrayAdapter selectedfeaturesAdapter;
+	private FeatureDropDownArrayAdapter selectedNotFeaturesAdapter;
+	
+	boolean formularExits = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,13 @@ public class NewFormularActivity  extends ActionBarActivity {
 		
 		//initial inserted formular
 		Controller.getInstance().popLastInsertedFormular();
+
+		//falls ein Formular geändert werden soll, uebernehm dessen Werte
+	    if(Controller.getInstance().getCurrentFormular() != null){
+	    	formularExits = true;
+	    	EditText nameEditText = (EditText) findViewById(R.id.new_formular_name);
+	    	nameEditText.setText(Controller.getInstance().getCurrentFormular().getName());
+	    }
 		
 		//initialisiere Listen fuer selektierte und nicht selektierte Eigenschaften
 		ArrayList<Feature> features = Controller.getInstance().getFeatures(null);
@@ -51,12 +61,29 @@ public class NewFormularActivity  extends ActionBarActivity {
 				FeatureType.Text);
 		notSelectedFeatures.add(newFeatureEntry);
 		
-		//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
-		for (Feature feature : features) {
-			if(feature.getId() == Formular.idOfNameFeature ){
-				selectedFeatures.add(feature);
-			}else{
-				notSelectedFeatures.add(feature);
+		if(formularExits){
+			//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
+			for (Feature feature : features) {
+				boolean wasFound = false;
+				for(Feature featureOfFormular : Controller.getInstance().getCurrentFormular().getFeatures()){
+					if(feature.getId() == featureOfFormular.getId() ){
+						wasFound = true;
+					}
+				}
+				if(wasFound){
+					selectedFeatures.add(feature);
+				}else{
+					notSelectedFeatures.add(feature);
+				}
+			}
+		}else{
+			//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
+			for (Feature feature : features) {
+				if(feature.getId() == Formular.idOfNameFeature ){
+					selectedFeatures.add(feature);
+				}else{
+					notSelectedFeatures.add(feature);
+				}
 			}
 		}
 		
@@ -91,7 +118,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        }
         });
 		
-		selectedNotFeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, false);
+		selectedNotFeaturesAdapter = new FeatureDropDownArrayAdapter(this, R.layout.row_selection_feature, features, false);
 		listFeaturesNotSelected.setAdapter( selectedNotFeaturesAdapter );	
 	}
 	
@@ -121,7 +148,7 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        }
         });
         
-        selectedfeaturesAdapter = new FeatureArrayAdapter(this, R.layout.row_selection_feature, features, true);
+        selectedfeaturesAdapter = new FeatureDropDownArrayAdapter(this, R.layout.row_selection_feature, features, true);
         if(listFeaturesSelected instanceof DynamicListView){
             ((DynamicListView) listFeaturesSelected).setItemList(features);
         }
@@ -152,24 +179,45 @@ public class NewFormularActivity  extends ActionBarActivity {
 	 *
 	 * @param view
 	 */
-	public void onSave(View view){
+	public void onSave(){
 		//speicher Formular auf der Datenbank
 		String formularName = ((TextView)findViewById(R.id.new_formular_name)).getText().toString();
 		ArrayList<Feature> features = selectedfeaturesAdapter.getFeatures();
-		
-		Controller.getInstance().insertFormlar(formularName, features);
-        
-		//urueck zur anfragenden activity
-        Intent intentMessage=new Intent();
-        setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
-		finish();
+		if(formularExits){
+			Formular formular = Controller.getInstance().getCurrentFormular();
+			Controller.getInstance().setCurrentFormular(null);
+			formular.setName(formularName);
+			formular.setFeatures(features);
+			Controller.getInstance().updateFormlar(formular);
+			//Zurueck zur Kateogorieansicht
+	        Intent intent = new Intent();   
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+	        startActivity(intent);				
+			finish();
+		}else{
+			Controller.getInstance().insertFormlar(formularName, features);
+			//Zurueck zur anfragenden activity
+	        Intent intentMessage=new Intent();
+	        setResult(NewFormularActivity.REQUEST_NEW_FORMULAR,intentMessage);
+			finish();
+		}
 	}
 	/**
 	 * Vorgang wird abgebrochen - Daten werden verworfen
 	 * @param view
 	 */
-	public void onCancel(View view){			
-		this.finish();
+	public void onBackPressed(){	
+		Controller.getInstance().setCurrentFormular(null);
+        Intent intent = new Intent();
+		if(formularExits){      
+			intent.setClassName(getPackageName(), ListFormularActivity.class.getName());
+			intent.putExtra(ListFormularActivity.PURPOSE_IS_CHOOSING_FOR_UPDATE, true);
+		}else{
+			//Zurueck zur Kateogorieansicht   
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+		}
+        startActivity(intent);	
+		finish();
 	}
 	
 	@Override
@@ -177,10 +225,13 @@ public class NewFormularActivity  extends ActionBarActivity {
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:
-	        	onSave(null);
+	        	onSave();
+	            return true;
+	        case R.id.menu_update:
+	        	onSave();
 	            return true;
 	        case R.id.menu_abort:
-	            onCancel(null);
+	        	onBackPressed();
 	            return true;
 	        case R.id.action_settings:
 	        	//TODO do something
