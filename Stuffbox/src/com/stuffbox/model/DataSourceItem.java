@@ -83,7 +83,7 @@ public class DataSourceItem {
     }
     
     /**
-     * F�gt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
+     * Fuegt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
 
      * @param database
      * @param feature

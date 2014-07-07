@@ -73,9 +73,9 @@ public class DataSourceFormular {
 		        	}
 	        	}
 	        	if(featureFound != null){
+	        		updateFeatureOfFormular(database, formular, feature);
 	        		//wenn gefunden loesche es aus der liste
 	        		oldFormular.removeFeature(featureFound);
-	        		//TODO update
 	        	}else{
 	        		//wenn nicht gefunden fuege es auf der Datenbank hinzu
 	        		insertFeatureOfFormular(database, formular, feature);
@@ -84,9 +84,9 @@ public class DataSourceFormular {
 	        //loesche verbleibende Features aus der Liste
 	        ArrayList<Long> deleteFeatureIds = new ArrayList<Long>();
 	        for(Feature oldFeature : oldFormular.getFeatures()){
-	        	selectFormularIds.add(oldFeature.getId());	
+	        	deleteFeatureIds.add(oldFeature.getId());	
 	        }
-	        if(!selectFormularIds.isEmpty()){
+	        if(!deleteFeatureIds.isEmpty()){
 				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
 				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
 	        }
@@ -122,6 +122,20 @@ public class DataSourceFormular {
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, logString);
     }
     
+    private void updateFeatureOfFormular(SQLiteDatabase database, Formular formular, Feature feature){
+    	ContentValues featurevalues = new ContentValues();
+    	featurevalues.put(DatabaseHandler.TABLE_FORMULAR, formular.getId());
+    	featurevalues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+    	featurevalues.put(DatabaseHandler.KEY_SORTNUMBER, feature.getSortnumber());
+    	String logString = DatabaseHandler.TABLE_FORMULAR + " " + formular.getName()  + "(" + formular.getId() + ")" + " - " 
+    					   + DatabaseHandler.TABLE_FEATURE + " " + feature.getName()  + "(" + feature.getId() + ")";
+    	
+    	ContentValues whereValues = new ContentValues();
+    	whereValues.put(DatabaseHandler.TABLE_FORMULAR, formular.getId());
+    	whereValues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+
+    	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, whereValues, logString);
+    }    
 	/**
 	 * Loescht ein Formular
 	 * 
