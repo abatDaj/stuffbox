@@ -234,7 +234,19 @@ public class Controller {
     	newInsertedItem = databaseHandler.insertItem(name, formular, categories);
     	return newInsertedItem;
     }
-	
+
+    /**
+     * Speichert die Aenderungen an einem Item in der Tabelle Item und dessen zugeorndete
+     * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
+     * Speichert das Formular als zuletzt angelegte im Controller
+     * @param name
+     * @param formular
+     * @return
+     */
+    public Item updateItem(Item item){
+    	return databaseHandler.updateItem(item);
+    }
+    
 	/**
 	 * Gibt die zuletzt angelegtes Item zurueck und
 	 * entfernt es aus dem Controller

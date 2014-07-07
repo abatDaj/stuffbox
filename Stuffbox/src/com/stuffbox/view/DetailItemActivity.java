@@ -2,6 +2,8 @@ package com.stuffbox.view;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,6 +35,8 @@ import com.stuffbox.view.helper.ImageViewPhoto;
 import com.stuffbox.view.helper.Utility;
 
 public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
+
+	public static final String PURPOSE_IS_UPDATE = "UPDATE";
 	
 	private ListView mainListView;
 
@@ -42,6 +46,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	private boolean itemExits = false;
 	private ImageViewPhoto photoImageView;
 	private String lastFileNameOfPhoto;
+	private Item item;
 	
 	private static final String TAG = DetailItemActivity.class.getSimpleName();
 	
@@ -55,20 +60,25 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;
-			//TODO pruefen ob item geaendert werden soll
-			changeMode = false;
+			//als standard wird ein item nur angezeigt
+			if(getIntent().getExtras() != null && getIntent().getExtras().get(PURPOSE_IS_UPDATE) != null){
+				changeMode = (Boolean) getIntent().getExtras().get(PURPOSE_IS_UPDATE);
+			}else{
+				changeMode = false;
+			}
 		}else {
+			//ein neues Item wird immer in Aenderungsmodus gezeigt
 			itemExits = false;
 			changeMode = true;
 		}
 		
-		Item currentItem = Controller.getInstance().getCurrentItem();
+		item = Controller.getInstance().getCurrentItem();
 		Controller.getInstance().setCurrentItem(null);
 		
 		//Setze Namensansicht
 		if(itemExits){
 			EditText name = (EditText) findViewById(R.id.editNameFeature);
-			name.setText(currentItem.getName());
+			name.setText(item.getName());
 			name.setEnabled(changeMode);	
 		}
 		
@@ -79,7 +89,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			initCategories.add(Controller.getInstance().getCurrentCategory());
 			Controller.getInstance().setSelectedCategoriesInItem(initCategories);	
 		}else{
-			Controller.getInstance().setSelectedCategoriesInItem(currentItem.getCategories());		
+			Controller.getInstance().setSelectedCategoriesInItem(item.getCategories());		
 		}
 		showCategoryText();
 		
@@ -99,12 +109,14 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		mainListView = (ListView) findViewById( R.id.featureListViewInDetailItem);	        		
 
 		ArrayList<Feature> features = null;
-		if(!itemExits){
-			features = formular.getFeatures();
-		}else{
-			features = currentItem.getFormular().getFeatures();
+		if(itemExits){
+			formular = item.getFormular();
 		}
-	
+			
+		features = formular.getFeatures();
+		
+		Collections.sort(features);
+		
 		//Eigenschaften anzeigen
         featureAdapter = new FeatureArrayAdapterForDetailItem (this, features, this);
 
@@ -123,10 +135,13 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			getSupportActionBar().setIcon(icon.getDrawableId());
 		
 		int actionbarmenu;
-		if (!changeMode)
+		if (!changeMode){
 			actionbarmenu = R.menu.change_menu_edit_item;
-		else
+		}else if(!itemExits){
 			actionbarmenu = R.menu.change_menu;
+		}else{
+			actionbarmenu = R.menu.edit;
+		}
 		getMenuInflater().inflate(actionbarmenu, menu);
 		return true;
 	}
@@ -169,6 +184,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 				View lView = (View) mainListView.getChildAt(i);
 				lView.clearFocus(); 
 			} 
+
 			
 			for(Feature feature : formular.getFeatures()){
 				if(feature.getId() == Formular.idOfNameFeature ){
@@ -176,14 +192,28 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 				}
 			}
 			
-			Controller.getInstance().insertItem(itemName, formular, selectedCategories);
-			//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
-			Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
-			Controller.getInstance().setSelectedCategoriesInItem(null);
-	
-			Intent intent = getIntent();
-			finish();
-			startActivity(intent);
+			if(!itemExits){	
+				//neues Item anlegen
+				Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+				//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
+				Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
+				Controller.getInstance().setSelectedCategoriesInItem(null);
+				Intent intent = getIntent();
+				startActivity(intent);
+			}else{
+				//vorhandenes Item updaten
+				item.setName(itemName);
+				item.setFormular(formular);
+				item.setCategories(selectedCategories);
+				Controller.getInstance().updateItem(item);
+				Controller.getInstance().setCurrentItem(item);
+				Controller.getInstance().setSelectedCategoriesInItem(null);
+
+				Intent intent = new Intent(); 
+				intent.putExtra(DetailItemActivity.PURPOSE_IS_UPDATE, false);
+		        intent.setClassName(getPackageName(), DetailItemActivity.class.getName());
+		        startActivity(intent);	
+			}
 		}
 	}
 	/**
@@ -261,9 +291,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:
+	        case R.id.menu_update:
 	        	onSave(null);
 	            return true;
 	        case R.id.menu_abort:
+	        case R.id.menu_chancel:	
 	            onCancel(null);
 	            return true;
 	        case R.id.action_settings:
@@ -273,8 +305,16 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        	onBackPressed();
 	            return true;
 	        case R.id.menu_edit:
-	            Controller.getInstance().sayIt("Und jetzt editiere");
+		        Intent intent = new Intent(); 
+		        Controller.getInstance().setCurrentItem(this.item);
+		        intent.putExtra(DetailItemActivity.PURPOSE_IS_UPDATE, true);
+		        intent.setClassName(getPackageName(), DetailItemActivity.class.getName());
+		        startActivity(intent);	
+		        finish();
 	            return true;
+	        case R.id.menu_delete:
+	        	//TODO
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

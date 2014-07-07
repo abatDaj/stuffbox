@@ -1,6 +1,7 @@
 package com.stuffbox.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,14 +71,15 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 				for(Feature featureOfFormular : Controller.getInstance().getCurrentFormular().getFeatures()){
 					if(feature.getId() == featureOfFormular.getId() ){
 						wasFound = true;
+						feature.setSortnumber(featureOfFormular.getSortnumber());
+						selectedFeatures.add(feature);
 					}
 				}
-				if(wasFound){
-					selectedFeatures.add(feature);
-				}else{
+				if(!wasFound){
 					notSelectedFeatures.add(feature);
 				}
 			}
+			Collections.sort(selectedFeatures);
 		}else{
 			//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
 			for (Feature feature : features) {
@@ -258,7 +260,7 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 	 */	
 	public void onDelete(){
 		DialogDecision dd = new DialogDecision();
-		String question = getResources().getText(R.string.delete_dialog_feature).toString();
+		String question = getResources().getText(R.string.delete_dialog_formular).toString();
 		String yes = getResources().getText(R.string.btn_alert_de_ok).toString();
 		String no = getResources().getText(R.string.btn_alert_de_no).toString();
 		dd.initDialogAttributes(question, yes, no);

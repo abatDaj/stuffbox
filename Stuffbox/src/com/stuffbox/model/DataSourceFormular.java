@@ -88,6 +88,8 @@ public class DataSourceFormular {
 	        }
 	        if(!deleteFeatureIds.isEmpty()){
 				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
+				//TODO testen
+				whereStatement = "(" + whereStatement + ")" + DatabaseHandler.SQL_AND +  DatabaseHandler.TABLE_FORMULAR + " == " + formular.getId();
 				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
 	        }
 	        
@@ -184,14 +186,36 @@ public class DataSourceFormular {
 				long formularId = Long.parseLong(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
 				String formularName = cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME));
 				
-				//erhalte ids verknuepfter eigeschaften aus der verknuepfungstabelle
-				ArrayList<Long> selectedFeatureIds = DatabaseHandler.getEntriesOfConjunctionTable(database, 
-																			 formularId, 
-																			 DatabaseHandler.TABLE_FORMULAR, 
-																			 DatabaseHandler.TABLE_FEATURE, 
-																			 DatabaseHandler.TABLE_FORMULAR_FEATURE);
+				
+		    	//erstelle where statement
+		    	StringBuilder whereStatementfeature = new StringBuilder();
+		    	whereStatementfeature.append(" ");
+		    	whereStatementfeature.append(DatabaseHandler.TABLE_FORMULAR);
+		    	whereStatementfeature.append(" = ");
+		    	whereStatementfeature.append(formularId);
+		    	whereStatementfeature.append(" ");
+		    	 	
+		    	//select types from database
+		    	Cursor cursorfeature = database.query(DatabaseHandler.TABLE_FORMULAR_FEATURE, null, whereStatementfeature.toString(), null, null, null, null);
+		    	
 				//erhalte daten der eigenschaften aller verknuepften eigenschaften aus der eigenschaftentabelle
-				ArrayList<Feature> features = Controller.getInstance().getFeatures(selectedFeatureIds);
+				ArrayList<Feature> features = new ArrayList<Feature>();
+						
+				//Werte in Feature speichern
+				if (cursorfeature.moveToFirst()) {
+					do {
+						//erhalte ids verknuepfter eigeschaften aus der verknuepfungstabelle
+						ArrayList<Long> featuresid = new ArrayList<Long>();
+						Long featureid = Long.parseLong(cursorfeature.getString(cursorfeature.getColumnIndex(DatabaseHandler.TABLE_FEATURE)));
+						featuresid.add(featureid);
+						ArrayList<Feature> selectedfeatures = Controller.getInstance().getFeatures(featuresid);
+						if(selectedfeatures.get(0) != null){
+							selectedfeatures.get(0).setSortnumber(
+									Integer.parseInt(cursorfeature.getString(cursorfeature.getColumnIndex(DatabaseHandler.KEY_SORTNUMBER))));
+							features.add(selectedfeatures.get(0));
+						}
+					} while (cursorfeature.moveToNext());
+				}
 				
 				//Formular erstellen
 				Formular formular = 

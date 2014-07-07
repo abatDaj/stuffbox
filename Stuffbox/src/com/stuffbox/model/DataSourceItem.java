@@ -62,23 +62,69 @@ public class DataSourceItem {
      * TODO Kategoriezuordnung speichern
      * @param name
      */
-    public Item insertItem(SQLiteDatabase database, String name, Formular formular, ArrayList<Category> categories){
+    public Item updateItem(SQLiteDatabase database, Item item){
     	ContentValues values = new ContentValues();
-    	values.put(DatabaseHandler.KEY_NAME, name);
-    	values.put(DatabaseHandler.TABLE_FORMULAR, formular.getId());
+    	values.put(DatabaseHandler.KEY_NAME, item.getName());
+    	values.put(DatabaseHandler.TABLE_FORMULAR, item.getFormular().getId());
     	
-    	long id = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, name);
-    	
-    	Item item = new Item(id, name, formular, categories);
-    	
-    	for (Feature feature : formular.getFeatures()) {
-    		insertFeatureOfItem(database, feature, item);
-		}
-    	
-    	for(Category category : categories){
-    		insertCategoryOfItem(database, category, item);
+    	boolean isUpdate = item.getId() != DatabaseHandler.INITIAL_ID;
+    	Item oldItem = null;
+    	if(isUpdate){
+	    	ArrayList<Long> selectItemIds = new ArrayList<Long>();
+	    	selectItemIds.add(item.getId());
+	    	oldItem = getItems(database, selectItemIds).get(0);
     	}
     	
+    	
+    	long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, item.getName());
+        if (rowid <= 0){
+        	return null;
+        }
+        
+        item.setId(rowid);
+        
+    	for (Feature feature : item.getFormular().getFeatures()) {
+    		if(!isUpdate){
+    			insertFeatureOfItem(database, feature, item);
+    		}else{
+    			updateFeatureOfItem(database, feature, item);
+    		}
+		}
+    	
+    	if(!isUpdate){
+	    	for(Category category : item.getCategories()){
+		    	insertCategoryOfItem(database, category, item);
+	    	}
+    	}else{
+			//update features
+	        for(Category category : item.getCategories()){
+	        	Category categoryFound = null;
+	        	//suche in alten features nach den aktuellen
+	        	for(Category oldCateogry : oldItem.getCategories()){
+		        	if(category.getId() == oldCateogry.getId()){
+		        		categoryFound = oldCateogry;
+		        		break;
+		        	}
+	        	}
+	        	if(categoryFound != null){
+	        		//wenn gefunden loesche es aus der liste
+	        		oldItem.getCategories().remove(categoryFound);
+	        	}else{
+	        		//wenn nicht gefunden fuege es auf der Datenbank hinzu
+	        		insertCategoryOfItem(database, category, item);
+	        	}
+	        }
+	        //loesche verbleibende Features aus der Liste
+	        ArrayList<Long> deleteCategoryIds = new ArrayList<Long>();
+	        for(Category oldCategory : oldItem.getCategories()){
+	        	deleteCategoryIds.add(oldCategory.getId());	
+	        }
+	        if(!deleteCategoryIds.isEmpty()){
+				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteCategoryIds, DatabaseHandler.TABLE_CATEGORY);
+				whereStatement = "(" + whereStatement + ")" + DatabaseHandler.SQL_AND +  DatabaseHandler.TABLE_ITEM + " == " + item.getId();
+				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_CATEGORY_ITEM, whereStatement);		
+	        }
+		}
     	return item;
     }
     
@@ -97,6 +143,24 @@ public class DataSourceItem {
     	
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
+
+    /**
+     * Fuegt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
+
+     * @param database
+     * @param feature
+     * @param item
+     */
+    public void updateFeatureOfItem(SQLiteDatabase database, Feature feature, Item item){
+    	ContentValues values = new ContentValues();
+    	values.put(DatabaseHandler.KEY_VALUE, DataSourceFeature.getDatabaseStringOfValue(feature.getValue(), feature.getType()));
+    	
+    	ContentValues whereValues = new ContentValues();
+    	whereValues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
+    	whereValues.put(DatabaseHandler.TABLE_ITEM, item.getId());
+    	
+    	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, whereValues, item.getName());
+    }    
     
 	/**
 	 * Loescht die Zuorndung eines features zu einem Item
@@ -271,7 +335,7 @@ public class DataSourceItem {
 						 DatabaseHandler.TABLE_CATEGORY,
 						 DatabaseHandler.TABLE_CATEGORY_ITEM);
 				//erhalte daten der kategrien aller verknuepften kategorien aus der kategorietabelle
-				ArrayList<Category> categories =Controller.getInstance().getCategories(selectedFeatureIds);
+				ArrayList<Category> categories = Controller.getInstance().getCategories(selectedFeatureIds);
 				
 				//Item erstellen
 				Item item = new Item(itemId, itemName, formular, categories);

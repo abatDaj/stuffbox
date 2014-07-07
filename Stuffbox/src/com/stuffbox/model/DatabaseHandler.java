@@ -259,9 +259,19 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public Item insertItem(String name, Formular formular, ArrayList<Category> categories){
-    	return dataSourceItem.insertItem(database, name, formular, categories);
+    	return dataSourceItem.updateItem(database, new Item(INITIAL_ID, name, formular, categories));
     }
-    
+    /**
+     * Speichert die Aenderungen an einem Item in der Tabelle Item und dessen zugeorndete
+     * Eigenschaften, Formular und Kategorie in den Verknuepfungstabellen.
+     * Speichert das Formular als zuletzt angelegte im Controller
+     * @param name
+     * @param formular
+     * @return
+     */
+    public Item updateItem(Item item){
+    	return dataSourceItem.updateItem(database, item);
+    }
     /**
      * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
