@@ -568,10 +568,11 @@ public class Controller {
 //    	insertDebugFeatureEntries();
 //    	ArrayList<Feature> features = getFeatures(null);
 //    	insertDebugFormularEntries(features);
-    	
-    	fillIconTableWithIcons(context);
+    	if(DatabaseHandler.INDEX_OF_ROOT_CATEGORY == DatabaseHandler.INITIAL_ID){
+    		//Nur hinzufuegen, wenn neue initialisierte DB
+    		fillIconTableWithIcons(context);
+    	}
     	getIcons();
-
     	//Root Kategorie einfuegen
 		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
 		this.setCurrentCategory(currentCategory);

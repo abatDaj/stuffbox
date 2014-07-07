@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,9 +22,10 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Formular;
+import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 import com.stuffbox.view.helper.DynamicListView;
 
-public class NewFormularActivity  extends ActionBarActivity {
+public class NewFormularActivity  extends ActionBarActivity implements DialogDecisionListener {
 	
 	public static final int REQUEST_NEW_FORMULAR = 0;
 	private static final long idNewFeatureEntry = -1;
@@ -170,7 +172,12 @@ public class NewFormularActivity  extends ActionBarActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.change_menu, menu);
+		if(formularExits){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.title_activity_formulars_change));
+			getMenuInflater().inflate(R.menu.edit, menu);
+		}else{
+			getMenuInflater().inflate(R.menu.change_menu, menu);
+		}
 		return true;
 	}
 	/**
@@ -230,9 +237,13 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        case R.id.menu_update:
 	        	onSave();
 	            return true;
+	        case R.id.menu_chancel:	            
 	        case R.id.menu_abort:
 	        	onBackPressed();
 	            return true;
+	        case R.id.menu_delete:
+	            onDelete();
+	            return true;	
 	        case R.id.action_settings:
 	        	//TODO do something
 	        	return true;
@@ -240,4 +251,34 @@ public class NewFormularActivity  extends ActionBarActivity {
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	/**
+	 * 
+	 * Loescht die Eigenschaft.
+	 */	
+	public void onDelete(){
+		DialogDecision dd = new DialogDecision();
+		String question = getResources().getText(R.string.delete_dialog_feature).toString();
+		String yes = getResources().getText(R.string.btn_alert_de_ok).toString();
+		String no = getResources().getText(R.string.btn_alert_de_no).toString();
+		dd.initDialogAttributes(question, yes, no);
+        dd.show(getSupportFragmentManager(), "DeleteDialogFragment");
+	}
+	
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+		ArrayList<Formular> selectedFormulars = new ArrayList<Formular>();
+		selectedFormulars.add(Controller.getInstance().getCurrentFormular());
+		Controller.getInstance().deleteFormulars(selectedFormulars);
+		Controller.getInstance().setCurrentFormular(null);
+		//zurueck zur anfragenden activity
+        Intent intent = new Intent();                
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    	//nichts machen
+    }
 }

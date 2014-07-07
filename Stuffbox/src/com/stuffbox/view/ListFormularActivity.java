@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +13,11 @@ import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
+import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 
-public class ListFormularActivity extends ActionBarActivity {
+public class ListFormularActivity extends ActionBarActivity{
 	public static final long idNewFormularEntry = -1;
 	public static final String PURPOSE_IS_CHOOSING_FOR_UPDATE = "IS_CHOOSING_FOR_UPDATE";
 	
@@ -110,9 +113,7 @@ public class ListFormularActivity extends ActionBarActivity {
 			startActivity(i);
 		}
 		finish();
-
 	}
-	
 	/**
 	 * 
 	 * Zurueck zur aktuellen Kategorie

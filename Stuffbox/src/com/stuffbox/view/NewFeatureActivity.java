@@ -74,6 +74,7 @@ public class NewFeatureActivity extends ActionBarActivity implements DialogDecis
 	        	onSave();
 	            return true;
 	        case R.id.menu_abort:
+	        case R.id.menu_chancel:
 	            onCancel();
 	            return true;
 	        case R.id.menu_delete:
@@ -89,7 +90,15 @@ public class NewFeatureActivity extends ActionBarActivity implements DialogDecis
 	
 	public void onCancel(){
 		Controller.getInstance().setCurrentFeature(null);
-		this.finish();
+        Intent intent = new Intent();
+		if(featureExits){      
+			intent.setClassName(getPackageName(), ListFeatureActivity.class.getName());
+		}else{
+			//Zurueck zur Kateogorieansicht   
+	        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+		}
+        startActivity(intent);	
+		finish();
 	}
 	
 	public void onSave(){

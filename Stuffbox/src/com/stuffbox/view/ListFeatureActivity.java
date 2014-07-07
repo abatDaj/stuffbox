@@ -64,10 +64,12 @@ public class ListFeatureActivity extends ActionBarActivity {
 		        return true;
 		    case R.id.menu_chancel_item:
 		    	onChancel();
+		    	return true;
 		    case R.id.action_delete_features:
 	            Intent intentChooseFeatures = new Intent();        
 	            intentChooseFeatures.setClassName(getPackageName(), ChooseFeaturesActivity.class.getName());
 	            startActivity(intentChooseFeatures);
+	            return true;
 		    default:
 		    	return super.onOptionsItemSelected(item);
 	    }		
