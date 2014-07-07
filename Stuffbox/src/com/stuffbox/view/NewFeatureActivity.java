@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
+import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -17,7 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class NewFeatureActivity extends ActionBarActivity{
+public class NewFeatureActivity extends ActionBarActivity implements DialogDecisionListener {
 
 	public static final int REQUEST_NEW_FEATURE = 0;
 
@@ -58,6 +61,7 @@ public class NewFeatureActivity extends ActionBarActivity{
 		}else{
 			getMenuInflater().inflate(R.menu.change_menu, menu);
 		}
+		
 		return true;
 	}
 
@@ -72,6 +76,9 @@ public class NewFeatureActivity extends ActionBarActivity{
 	        case R.id.menu_abort:
 	            onCancel();
 	            return true;
+	        case R.id.menu_delete:
+	            onDelete();
+	            return true;	
 	        case R.id.action_settings:
 	        	//TODO do something
 	        	return true;
@@ -111,4 +118,34 @@ public class NewFeatureActivity extends ActionBarActivity{
         setResult(NewFeatureActivity.REQUEST_NEW_FEATURE,intentMessage);
 		finish();
 	}	
+	
+	/**
+	 * 
+	 * Loescht die Eigenschaft.
+	 */	
+	public void onDelete(){
+		DialogDecision dd = new DialogDecision();
+		String question = getResources().getText(R.string.delete_dialog_feature).toString();
+		String yes = getResources().getText(R.string.btn_alert_de_ok).toString();
+		String no = getResources().getText(R.string.btn_alert_de_no).toString();
+		dd.initDialogAttributes(question, yes, no);
+        dd.show(getSupportFragmentManager(), "DeleteDialogFragment");
+	}
+	
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+		ArrayList<Feature> selectedFeatures = new ArrayList<Feature>();
+		selectedFeatures.add(Controller.getInstance().getCurrentFeature());
+		Controller.getInstance().deleteFeatures(selectedFeatures);
+		Controller.getInstance().setCurrentFeature(null);
+		//zurueck zur anfragenden activity
+        Intent intent = new Intent();                
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    	//nichts machen
+    }
 }

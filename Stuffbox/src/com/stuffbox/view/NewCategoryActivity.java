@@ -204,7 +204,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 	
 	/**
 	 * 
-	 * Loescht die Kategorie. Fragt aber vorher sicherheitshalber nochmal noch.
+	 * Loescht die Kategorie.
 	 */	
 	public void onDelete(){
 		DialogDecision dd = new DialogDecision();
@@ -229,7 +229,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-    	// Nirwana
+    	//nichts machen
     }
 	
 	@Override

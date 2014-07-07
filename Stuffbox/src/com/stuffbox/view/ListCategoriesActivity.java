@@ -32,8 +32,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 public class ListCategoriesActivity extends ActionBarActivity {
-
-	private boolean debugEntriesWhereInserted = false;
 	
 	private ListView categoryListView ;
 	private CategoryArrayAdapter categoryAdapter ;
@@ -44,7 +42,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.category_list);
-
+		
 		Controller.getInstance(this).init();
 		
 		// Anzeigen der Unterkategorien:
@@ -117,15 +115,12 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		if (icon !=null)
 			getSupportActionBar().setIcon(icon.getDrawableId());
 
-		if (currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY))
+		if (currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)){
 			getMenuInflater().inflate(R.menu.list_categories_start, menu);
-		else
-			getMenuInflater().inflate(R.menu.list_categories, menu);
-		
-		if(!currentCategory.getName().equals(DataSourceCategory.ROOT_CATEGORY)){
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}else{
 			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		}else{
+			getMenuInflater().inflate(R.menu.list_categories, menu);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
 		getMenuInflater().inflate(R.menu.choose_items, menu);
@@ -258,7 +253,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
     	Controller.getInstance().insertDebugEntries(this);
     	ArrayList<Long> ids = new ArrayList<Long>();
     	Category rootCategory = Controller.getInstance().getCurrentCategory();
-		Controller.getInstance().setCurrentCategory(rootCategory);		
+		Controller.getInstance().setCurrentCategory(rootCategory);	
         Intent intentToRoot = new Intent();   
         intentToRoot.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intentToRoot);	
