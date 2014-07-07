@@ -7,9 +7,9 @@
     <string name="title_activity_category">Kategorie</string>
     <string name="title_activity_feature">Eigenschaft anlegen</string>
     <string name="title_activity_feature_delete">mehrere Eigenschaften löschen</string>
-    <string name="title_activity_feature_change">Eigenschaften ändern</string>
+    <string name="title_activity_feature_change">Eigenschaft ändern</string>
     <string name="title_activity_new_formular">Formular anlegen</string>
-    <string name="title_activity_formulars_change">Formulare ändern</string>
+    <string name="title_activity_formulars_change">Formular ändern</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>
     <string name="actionbartitle_edit_category">Kategorie ändern</string>

@@ -19,7 +19,9 @@ public class DataSourceItem {
         String CREATE_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_ITEM + "("
                 + DatabaseHandler.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
         		+ DatabaseHandler.KEY_NAME + " TEXT," 
-                + DatabaseHandler.TABLE_FORMULAR + " INTEGER" + ")";
+                + DatabaseHandler.TABLE_FORMULAR + " INTEGER, " + 
+                "FOREIGN KEY(" + DatabaseHandler.TABLE_FORMULAR + ") REFERENCES " 
+    			+ DatabaseHandler.TABLE_FORMULAR + "(" + DatabaseHandler.KEY_ID + ")"  + " ON DELETE CASCADE " + ")";
         db.execSQL(CREATE_ITEM_TABLE);
         
         //Erstellt die Item-Eigenschaft-Wert Verknuepfungstabelle
@@ -247,7 +249,7 @@ public class DataSourceItem {
     }
 
     private ArrayList<Item> getItemsFromCursor(SQLiteDatabase database, Cursor cursor) {
-ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<Item>();
 		
 		//add all types to list
 		if (cursor.moveToFirst()) {
