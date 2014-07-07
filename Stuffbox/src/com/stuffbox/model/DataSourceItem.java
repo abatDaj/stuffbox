@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceItem {
     /**
-     * Erstellt die Tabelle Item auf der Datenbank und die Verkn�pfungstabelle Item-Eigenschaft
+     * Erstellt die Tabelle Item auf der Datenbank und die Verknuepfungstabelle Item-Eigenschaft
      * @param database
      */
     public void createItemTable(SQLiteDatabase db){
@@ -21,7 +21,7 @@ public class DataSourceItem {
                 + DatabaseHandler.TABLE_FORMULAR + " INTEGER" + ")";
         db.execSQL(CREATE_ITEM_TABLE);
         
-        //Erstellt die Item-Eigenschaft-Wert Verkn�pfungstabelle
+        //Erstellt die Item-Eigenschaft-Wert Verknuepfungstabelle
         String CREATE_FORMULAR_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FEATURE_ITEM + "("+ 
         		//create column formular
         		DatabaseHandler.TABLE_FEATURE + " INTEGER," + 
@@ -38,7 +38,7 @@ public class DataSourceItem {
         			+ DatabaseHandler.TABLE_ITEM + "(" + DatabaseHandler.KEY_ID + ")" +")";
         db.execSQL(CREATE_FORMULAR_ITEM_TABLE);
         
-        //Erstellt die Item-Kategorie-Wert Verkn�pfungstabelle
+        //Erstellt die Item-Kategorie-Wert Verknuepfungstabelle
         String CREATE_CATEGORY_ITEM_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_CATEGORY_ITEM + "("+ 
         		//create column kategorie
         		DatabaseHandler.TABLE_CATEGORY + " INTEGER," + 

@@ -21,7 +21,7 @@ public class DataSourceFormular {
         		DatabaseHandler.KEY_NAME + " TEXT" + ")";
         db.execSQL(CREATE_FORMULAR_TABLE);
         
-        //Erstellt die Formular-Eigenschaft Verkn�pfungstabelle
+        //Erstellt die Formular-Eigenschaft Verknuepfungstabelle
         String CREATE_FORMULAR_FEATURE_TABLE = "CREATE TABLE " + DatabaseHandler.TABLE_FORMULAR_FEATURE + "("+ 
         		//create column formular
         		DatabaseHandler.TABLE_FORMULAR + " INTEGER," + 

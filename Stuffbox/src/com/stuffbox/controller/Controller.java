@@ -31,6 +31,11 @@ public class Controller {
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int DEFAULT_RANKING_VALUE = 5;
 	
+	// Default-Wert, die Items für Bilder bekommen, wenns keins
+	// geschossen wurde.
+	public final static String DEFAULT_ICON_VALUE_FOR_PICTURE = "stuffbox.item.without.picture";
+
+	
 	// Für die Bild-Galerie Funktion
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
@@ -455,7 +460,7 @@ public class Controller {
 
     	ArrayList<Category> categoriesForMyItem = new ArrayList<Category>();
     	categoriesForMyItem.add(categories.get(0));  	
-    	insertItem("Item_mit_allen_Features", formularForMyItem, categoriesForMyItem);
+    	//insertItem("Item_mit_allen_Features", formularForMyItem, categoriesForMyItem);
     	
     	Formular formularForMyItem2 = formulars.get(5);
     	formularForMyItem2.getFeatures().get(0).setValue("Ich bin ein Text");
@@ -475,7 +480,7 @@ public class Controller {
 
     	ArrayList<Category> categoriesForMyItem2 = new ArrayList<Category>();
     	categoriesForMyItem2.add(categories.get(0));  	
-    	insertItem("Katze_mit_allen_Features", formularForMyItem2, categoriesForMyItem2);
+    	//insertItem("Katze_mit_allen_Features", formularForMyItem2, categoriesForMyItem2);
     	
     	
      	Formular formularForMyItem4 = formulars.get(1);
@@ -606,6 +611,6 @@ public class Controller {
     
     // LÖSCHE MICH DEMNÄCHST, aber nicht während der Entwicklung.
     public void sayIt(String message) {
-    	Toast.makeText(context, message, Integer.valueOf(7)).show();
+    	Toast.makeText(context, message, Integer.valueOf(20)).show();
     }
 }

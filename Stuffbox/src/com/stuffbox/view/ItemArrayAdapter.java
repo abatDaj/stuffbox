@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Item;
+import com.stuffbox.view.helper.Utility;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,7 +15,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -68,10 +67,9 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		ImageView imageOfIconInRow = new ImageView(context);
 		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
 
-		
-		if (featuresImages.size() == 1) 
+		if (featuresImages.size() > 0 && featuresImages.get(0).getValue().toString().equals((Controller.DEFAULT_ICON_VALUE_FOR_PICTURE)) == false)
 		{
-			Controller.getInstance().setImageOnImageView(context, imageOfIconInRow, featuresImages.get(0).getValue().toString());
+			Utility.replaceImageViewWithPhoto (featuresImages.get(0).getValue().toString(), imageOfIconInRow);
 		}
 		else
 		{
@@ -85,6 +83,7 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 			imageOfIconInRow.setImageDrawable(layerDrawable);	
 			imageOfIconInRow.setColorFilter(Color.rgb(123, 123, 123), android.graphics.PorterDuff.Mode.MULTIPLY);
 		}
+	
 		rowView.addView(imageOfIconInRow);
 		
 		// NAch dem Bild folgt der Name

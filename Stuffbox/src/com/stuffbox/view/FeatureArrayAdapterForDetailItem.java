@@ -15,7 +15,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,7 +34,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	private ActivityWithATimePickerEditText activityWithATimePickerEditText;
 	private boolean editable = false;
 	
-	private static final String TAG = FeatureArrayAdapterForDetailItem.class.getSimpleName();
+	//private static final String TAG = FeatureArrayAdapterForDetailItem.class.getSimpleName();
 	
 	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
 		super(context, R.layout.row_detail_item_feature, features);
@@ -163,26 +162,42 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		((ViewGroup)rowView).removeView(mainText);
 		rowViewText.addView(mainText);
 		
-		ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context, activityWithATimePickerEditText);
+		final ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context, activityWithATimePickerEditText);
 		this.activityWithATimePickerEditText.setPhotoImageView(imageViewPhoto);
 		
-		//setze Wert wenn moeglich sonst Defaultwert
 		String pictureName;
-		if(feature.getValue() == null){
+		// Das oder ist notwendig weil über die Feature-Liste anscheinend zweimal iteriert wird (
+		// (warum auch immer).
+		if(feature.getValue() == null || feature.getValue().equals(Controller.DEFAULT_ICON_VALUE_FOR_PICTURE))
+		{	
+			feature.setValue(Controller.DEFAULT_ICON_VALUE_FOR_PICTURE);
 			pictureName = Controller.getInstance().getCurrentCategory().getIcon().getName();
-			feature.setValue(pictureName);
-		}else{
-			pictureName = feature.getValue().toString();
+			Controller.getInstance().setImageOnImageView(context, imageViewPhoto, pictureName);
+			imageViewPhoto.setTag(Controller.DEFAULT_ICON_VALUE_FOR_PICTURE); //TODO Anweisung vll. notwendig ?!?
+		 }
+		else if (feature.getValue().toString().equals(Controller.DEFAULT_ICON_VALUE_FOR_PICTURE) == false)
+		{
+			// Foto wird angezeigt, falls vorhanden.
+			activityWithATimePickerEditText.showFinallyRealCapturedPhoto( feature.getValue().toString());
 		}
-		Controller.getInstance().setImageOnImageView(context, imageViewPhoto, pictureName);
-		imageViewPhoto.setTag(pictureName);
 		
-		//setze Listener um Werte zu speichern
-		imageViewPhoto.setOnFocusChangeListener(new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				feature.setValue(((ImageButton) v).getTag());
+		// Entweder wird ein Foto geschossen (if-Block) oder
+		// der User hat auf "Iem-Speichern" geklickt (else-Block)
+		imageViewPhoto.setOnClickListener(new OnClickListener() {
+		@Override
+			public void onClick(View v) {
+				if (imageViewPhoto.isCallOnCklick()) // Foto schießen
+				{
+					String randomNumber = String.valueOf(Math.random()).substring(2, 6);
+					String fileNameOfPhoto = Controller.getInstance().getCurrentCategory().getName() + "_" + randomNumber;
+					activityWithATimePickerEditText.onClickOfImageViewPhoto(fileNameOfPhoto);
+				}
+				else // speichern 
+				{
+					feature.setValue(((String)imageViewPhoto.getTag())); // der TAG ist der Datei-Name
+				}
 			}
-		});
+		});		
 		imageViewPhoto.setEnabled(editable);
 		rowViewText.addView(imageViewPhoto);
 		return rowViewText;

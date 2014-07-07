@@ -1,19 +1,34 @@
-/*
- *Quelle:
- *http://stackoverflow.com/questions/17526418/scroll-linearlayout-with-listview-in-android 
- */
+
 
 package com.stuffbox.view.helper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import com.stuffbox.controller.Controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class Utility {
+	
+	/*
+	 *Quelle:
+	 *http://stackoverflow.com/questions/17526418/scroll-linearlayout-with-listview-in-android 
+	 */
 	public static void setListViewHeightBasedOnChildren(ListView listView, int offset) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -32,5 +47,66 @@ public class Utility {
 		params.height = totalHeight
 				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + offset;
 		listView.setLayoutParams(params);
+	}
+	
+	/*
+	 * Quelle:
+	 * http://stackoverflow.com/questions/6693069/problem-with-big-images-java-lang-outofmemoryerror-bitmap-size-exceeds-vm-bud
+	 */
+	public static  Bitmap decodeFile(File f){
+        try {
+            //Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f),null,o);
+
+            //The new size we want to scale to
+            final int REQUIRED_SIZE=70;
+
+            //Find the correct scale value. It should be the power of 2.
+            int width_tmp=o.outWidth, height_tmp=o.outHeight;
+            int scale=1;
+            while(true){
+                if(width_tmp/2<REQUIRED_SIZE || height_tmp/2<REQUIRED_SIZE)
+                    break;
+                width_tmp/=2;
+                height_tmp/=2;
+                scale*=2;
+            }
+
+            //Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize=scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {}
+        return null;
+    }	
+	
+	public static void replaceImageViewWithPhoto (String pathToFile, ImageView imageView) {
+		
+    	File path = Environment.getExternalStorageDirectory();
+    	File file = new File(path, pathToFile);
+    	String TAG = Utility.class.getSimpleName() + "#replaceImageViewWithPhoto()";
+        
+    	try {
+        	
+        	Bitmap bm = Utility.decodeFile(file);
+        	imageView.setImageBitmap(bm);
+            
+            try {                        
+                OutputStream stream = new FileOutputStream(file);
+                bm.compress(CompressFormat.JPEG, 100, stream);
+                stream.flush();
+                stream.close();
+            } catch (FileNotFoundException e) {
+            	Log.e(TAG, "Fehler beim Fotografieren file not found: ", e);
+            } catch (IOException e) {
+            	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);
+            } catch (Exception e) {
+            	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+            }
+        } catch (Exception e) {
+        	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
+        }
 	}
 }
