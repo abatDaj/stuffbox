@@ -76,12 +76,12 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 			}});
 		
 		ll.addView(tV);
-		ll.addView(iV);
 		
 		//ImageView kk = Utility.createGreyClone(getApplicationContext(), did, iV.getLayoutParams().width, iV.getLayoutParams().height);
 		
-		ImageView kk = Utility.stuffBoxStarIconCloner(this, iV, did, 5);
-		
+		ImageView kk = Utility.stuffBoxStarIconCloner(this, iV, did, 4);
+		ll.addView(iV);
+
 		ll.addView(kk);
 		
 		LinearLayout view = (LinearLayout)findViewById(R.id.new_category_screen);

@@ -37,7 +37,7 @@ public class DataSourceIcon {
     } 
     
     /**
-     * Gibt eine List aller Icons zur�ck
+     * Gibt eine List aller Icons zurueck
      * @return
      */
     public ArrayList<Icon> getIcons(SQLiteDatabase database) {  

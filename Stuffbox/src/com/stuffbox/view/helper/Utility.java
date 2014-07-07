@@ -143,7 +143,7 @@ public class Utility {
 	public static ImageView stuffBoxStarIconCloner (Context context, ImageView imageView, int drawID, int stars) {
 		ViewGroup.LayoutParams params = imageView.getLayoutParams();
 		ImageView imageOfIconInRow = new ImageView(context);
-		imageOfIconInRow.setLayoutParams(params);
+		//imageOfIconInRow.setLayoutParams(params);
 		Resources ressources = context.getResources();
 		Drawable[] layers = new Drawable[2];
 		layers[0] = ressources.getDrawable(drawID);
