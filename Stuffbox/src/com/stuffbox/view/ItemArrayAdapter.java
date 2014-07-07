@@ -69,7 +69,7 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
 
 		
-		if (featuresImages.size() == 1) 
+		if (featuresImages.size() == 1 && featuresImages.get(0).getValue() != null) 
 		{
 			Controller.getInstance().setImageOnImageView(context, imageOfIconInRow, featuresImages.get(0).getValue().toString());
 		}

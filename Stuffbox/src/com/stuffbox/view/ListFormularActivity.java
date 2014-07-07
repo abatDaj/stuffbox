@@ -17,24 +17,34 @@ import com.stuffbox.model.Formular;
 
 public class ListFormularActivity extends ActionBarActivity {
 	public static final long idNewFormularEntry = -1;
+	public static final String PURPOSE_IS_CHOOSING_FOR_UPDATE = "IS_CHOOSING_FOR_UPDATE";
+	
 	
 	private ListView mainListView ;
 	private FormularArrayAdapter formularAdapter;
+	private boolean isChoosingForUpdate = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		
+		//als standard wird ein formular ausgewaehlt um ein item zu erstellen
+		if(getIntent().getExtras() != null && getIntent().getExtras().get(PURPOSE_IS_CHOOSING_FOR_UPDATE) != null){
+			isChoosingForUpdate = (Boolean) getIntent().getExtras().get(PURPOSE_IS_CHOOSING_FOR_UPDATE);
+		}
+		
 		mainListView = (ListView) findViewById( R.id.listView );
         
         ArrayList<Formular> formulars = new ArrayList<Formular>();
         
-		//Eintrag neues Formular einfuegen
-		Formular newFormularEntry = new Formular(idNewFormularEntry, 
-				getResources().getText(R.string.title_activity_new_formular).toString(), 
-				null);
-        formulars.add(newFormularEntry);
+        if(!isChoosingForUpdate){
+			//Eintrag neues Formular einfuegen
+			Formular newFormularEntry = new Formular(idNewFormularEntry, 
+					getResources().getText(R.string.title_activity_new_formular).toString(), 
+					null);
+	        formulars.add(newFormularEntry);
+        }
         
         //vorhandene Formulare an Liste anfuegen
         formulars.addAll(Controller.getInstance().getFormulars(null));
@@ -65,7 +75,7 @@ public class ListFormularActivity extends ActionBarActivity {
 	    		onSave();
 		        return true;
 		    case R.id.menu_chancel_item:
-		    	onChancel();
+		    	onBackPressed();
 		        return true;
 		    case R.id.action_settings:
 		    	//TODO do something
@@ -77,32 +87,34 @@ public class ListFormularActivity extends ActionBarActivity {
 	
 	/**
 	 * 
-	 * Die Detail-Item-Aktivität wird gestartet und das ausgewählte Formular
+	 * Die Detail-Item-Aktivität wird gestartet und das ausgewaehlte Formular
 	 * wird an diese verschickt.
 	 *
 	 */
 
 	public void onSave(){
 		Formular selectedFormular = formularAdapter.getCurrentFormular();
-		//TODO Ausgabe ordentlich (Toasts sind eher schlecht, Text kann so bleiben ;)
-		if (selectedFormular != null){
-			Intent i = new Intent(this, DetailItemActivity.class);
-			i.putExtra(Controller.EXTRA_FORMULAR_FOR_NEW_ITEM, selectedFormular);
+		Controller.getInstance().setCurrentFormular(selectedFormular);
+		if(isChoosingForUpdate){
+			Intent i = new Intent(this, NewFormularActivity.class);
 			startActivity(i);
-		}else{ // TODO
-			Toast.makeText(getApplicationContext(), "You should select at least one formular you moron.", 7).show();
+		}else{
+			Intent i = new Intent(this, DetailItemActivity.class);
+			startActivity(i);
 		}
+		finish();
+
 	}
 	
 	/**
 	 * 
 	 * Zurueck zur aktuellen Kategorie
 	 */	
-	public void onChancel(){
+	public void onBackPressed(){
         Intent intent = new Intent();   
         intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
         startActivity(intent);				
-		this.finish();
+		finish();
 	}
 	
     @Override

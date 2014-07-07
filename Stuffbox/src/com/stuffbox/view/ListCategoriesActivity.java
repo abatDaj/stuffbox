@@ -154,6 +154,12 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	            intentChooseFeatures.setClassName(getPackageName(), ListFeatureActivity.class.getName());
 	            startActivity(intentChooseFeatures);
 	        	return true;
+	        case R.id.action_change_formulars:
+	            Intent intentChooseFormulars = new Intent();        
+	            intentChooseFormulars.setClassName(getPackageName(), ListFormularActivity.class.getName());
+	            intentChooseFormulars.putExtra(ListFormularActivity.PURPOSE_IS_CHOOSING_FOR_UPDATE, true);
+	            startActivity(intentChooseFormulars);
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		
@@ -163,10 +169,10 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	 * aendert die Kategorie
 	 */
 	public void onEdit () {
-		//ClassName details = new ClassName();
-		Intent i = new Intent(this, NewCategoryActivity.class);
-		i.putExtra(Controller.EXTRA_EDIT_CATEGORY, Controller.getInstance().getCurrentCategory());
-		startActivity(i);		
+        Intent intent = new Intent();        
+        intent.putExtra(Controller.EXTRA_EDIT_CATEGORY, Controller.getInstance().getCurrentCategory());
+        intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
+		startActivity(intent);		
 	}
 	
 	/**
@@ -178,8 +184,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
         startActivity(intent);
 	}	
 	
-    public void onNewCategory(View view) {    	
-        Intent intent = new Intent();        
+    public void onNewCategory(View view) { 
+        Intent intent = new Intent();   
         intent.setClassName(getPackageName(), NewCategoryActivity.class.getName());
         startActivity(intent);
     }	

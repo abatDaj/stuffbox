@@ -33,6 +33,9 @@ public class Formular implements Serializable {
 	public long getId() {
 		return id;
 	}
+	public void setFeatures(ArrayList<Feature> features) {
+		this.features = features;
+	}
 	public ArrayList<Feature> getFeatures() {
 		return features;
 	}

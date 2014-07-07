@@ -52,7 +52,12 @@ public class NewFeatureActivity extends ActionBarActivity{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.change_menu, menu);
+		if(featureExits){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_category));
+			getMenuInflater().inflate(R.menu.edit, menu);
+		}else{
+			getMenuInflater().inflate(R.menu.change_menu, menu);
+		}
 		return true;
 	}
 
@@ -76,6 +81,7 @@ public class NewFeatureActivity extends ActionBarActivity{
 	}
 	
 	public void onCancel(){
+		Controller.getInstance().setCurrentFeature(null);
 		this.finish();
 	}
 	
@@ -97,6 +103,8 @@ public class NewFeatureActivity extends ActionBarActivity{
 		}else{
 			Controller.getInstance().insertFeature(name, type);	
 		}
+		
+		Controller.getInstance().setCurrentFeature(null);
 		
 		//Zurueck zur anfragenden activity
         Intent intentMessage=new Intent();

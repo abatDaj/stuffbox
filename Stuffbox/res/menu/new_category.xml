@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.NewCategoryActivity" >
     
-    <item android:id="@+id/menu_chancel_category"
+    <item android:id="@+id/menu_chancel"
           android:icon="@drawable/ic_action_cancel" 
           android:title="@string/abort"
           app:showAsAction="always"/> 

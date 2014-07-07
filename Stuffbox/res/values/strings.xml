@@ -9,6 +9,7 @@
     <string name="title_activity_feature_delete">mehrere Eigenschaften löschen</string>
     <string name="title_activity_feature_change">Eigenschaften ändern</string>
     <string name="title_activity_new_formular">Formular anlegen</string>
+    <string name="title_activity_formulars_change">Formulare ändern</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>
     <string name="actionbartitle_edit_category">Kategorie ändern</string>
@@ -65,7 +66,6 @@
     <string name="button_abzeichen">Abzeichen Screen</string>
     <string name="title_activity_formular">FormularActivity</string>
     <string name="title_activity_detail">DetailActivity</string>
-    <string name="title_activity_badge">BadgeActivity</string>
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
     <string name="title_activity_choose_items">ChooseItemsActivity</string>
 

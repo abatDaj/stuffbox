@@ -54,7 +54,6 @@ public class Feature implements Comparable<Feature>, Serializable{
 	}
 	@Override
 	public int compareTo(Feature another) {
-		sortnumber.compareTo(another.getSortnumber());
-		return 0; // TODO ?!?
+		return sortnumber.compareTo(another.getSortnumber());
 	}
 }

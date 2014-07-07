@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stuffbox.ListCategoriesActivity" >
 
-    <item android:id="@+id/menu_delete_category"
+    <item android:id="@+id/menu_delete"
           android:icon="@drawable/ic_action_discard"
           android:title="@string/delete"
           app:showAsAction="always"/>     
     
-    <item android:id="@+id/menu_chancel_category"
+    <item android:id="@+id/menu_chancel"
           android:icon="@drawable/ic_action_cancel"
           android:title="@string/abort"
           app:showAsAction="always"/> 
               
-    <item android:id="@+id/menu_update_category"
+    <item android:id="@+id/menu_update"
           android:icon="@drawable/ic_action_accept" 
           android:title="@string/save"
           app:showAsAction="always"/>  
