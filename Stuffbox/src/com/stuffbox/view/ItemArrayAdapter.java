@@ -69,7 +69,7 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 
 		if (featuresImage != null  && featuresImage.getValue().toString().equals((Controller.DEFAULT_ICON_VALUE_FOR_PICTURE)) == false)
 		{
-			Utility.replaceImageViewWithPhoto (featuresImage.getValue().toString(), imageOfIconInRow);
+			Utility.replaceImageViewWithPhoto (featuresImage.getValue().toString(), imageOfIconInRow, 70);
 		}
 		else
 		{

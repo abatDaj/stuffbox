@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.stuffbox.R;
@@ -221,7 +222,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 */
 	private void buildImageEdit(LinearLayout rowView, final Feature feature){
 		
-		final ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context, activityWithATimePickerEditText);
+		final ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context);
+		imageViewPhoto.setLayoutParams(new LinearLayout.LayoutParams(200, 400));
+		
+		
 		this.activityWithATimePickerEditText.setPhotoImageView(imageViewPhoto);
 		
 		String pictureName;

@@ -81,7 +81,6 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 				{
 					if (icons[i].getId() == serializedCategory.getIcon().getId()) 	
 					{
-						//spinner.setSelection(i);
 						selectedIcon2 = icons[i];
 						Controller.getInstance().setImageOnImageView(this, iV, selectedIcon2.getName());
 						break;

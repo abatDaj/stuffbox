@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +12,8 @@ import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
-import com.stuffbox.view.DialogDecision.DialogDecisionListener;
+import com.stuffbox.model.Icon;
 
 public class ListFormularActivity extends ActionBarActivity{
 	public static final long idNewFormularEntry = -1;
@@ -61,6 +59,10 @@ public class ListFormularActivity extends ActionBarActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.list_formular, menu);
+		
+		Icon icon = Controller.getInstance().getCurrentCategory().getIcon();
+		if (icon !=null)
+			getSupportActionBar().setIcon(icon.getDrawableId());
 		
 		if(isChoosingForUpdate){
 			 MenuItem saveItem = menu.findItem(R.id.menu_save_new_item);

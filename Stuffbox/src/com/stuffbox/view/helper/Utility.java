@@ -5,11 +5,9 @@ package com.stuffbox.view.helper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import com.stuffbox.R;
+import com.stuffbox.controller.Controller;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -18,7 +16,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Environment;
@@ -60,7 +57,7 @@ public class Utility {
 	 * Quelle:
 	 * http://stackoverflow.com/questions/6693069/problem-with-big-images-java-lang-outofmemoryerror-bitmap-size-exceeds-vm-bud
 	 */
-	public static  Bitmap decodeFile(File f){
+	public static  Bitmap decodeFile(File f, int sizeToScale){
         try {
             //Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -68,7 +65,7 @@ public class Utility {
             BitmapFactory.decodeStream(new FileInputStream(f),null,o);
 
             //The new size we want to scale to
-            final int REQUIRED_SIZE=70;
+            final int REQUIRED_SIZE = sizeToScale;
 
             //Find the correct scale value. It should be the power of 2.
             int width_tmp=o.outWidth, height_tmp=o.outHeight;
@@ -89,7 +86,7 @@ public class Utility {
         return null;
     }	
 	
-	public static void replaceImageViewWithPhoto (String pathToFile, ImageView imageView) {
+	public static void replaceImageViewWithPhoto (String pathToFile, ImageView imageView, int sizeToScale) {
 		
     	File path = Environment.getExternalStorageDirectory();
     	File file = new File(path, pathToFile);
@@ -97,18 +94,18 @@ public class Utility {
         
     	try {
         	
-        	Bitmap bm = Utility.decodeFile(file);
+        	Bitmap bm = Utility.decodeFile(file, sizeToScale);
         	imageView.setImageBitmap(bm);
             
             try {                        
-                OutputStream stream = new FileOutputStream(file);
-                bm.compress(CompressFormat.JPEG, 100, stream);
-                stream.flush();
-                stream.close();
-            } catch (FileNotFoundException e) {
+                //OutputStream stream = new FileOutputStream(file);
+                //bm.compress(CompressFormat.JPEG, 100, stream);
+                //stream.flush();
+                //stream.close();
+            /*} catch (FileNotFoundException e) {
             	Log.e(TAG, "Fehler beim Fotografieren file not found: ", e);
             } catch (IOException e) {
-            	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);
+            	Log.e(TAG, "Fehler beim Fotografieren io Ausgabe: ", e);*/
             } catch (Exception e) {
             	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
             }
@@ -141,7 +138,7 @@ public class Utility {
 	public static ImageView stuffBoxStarIconCloner (Context context, int drawID, int stars) {
 		//ViewGroup.LayoutParams params = imageView.getLayoutParams();
 		ImageView imageOfIconInRow = new ImageView(context);
-		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
+		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
 		//imageOfIconInRow.setLayoutParams(params);
 		Resources ressources = context.getResources();
 		Drawable[] layers = new Drawable[2];
