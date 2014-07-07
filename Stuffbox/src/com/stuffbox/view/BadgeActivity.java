@@ -2,28 +2,25 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
-import com.stuffbox.model.BadgeFeed;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Item;
 import com.stuffbox.model.UserLevel;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
 public class BadgeActivity extends ActionBarActivity {
 
 	private ListView mainListView ;
-	private TextView lvlTextView;
 	private BadgeArrayAdapter arrAdapter;
 	private ArrayList<Badge> arrList;
+	private UserLevel level;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +28,6 @@ public class BadgeActivity extends ActionBarActivity {
 		setContentView(R.layout.badge);
 		
 		mainListView = (ListView) findViewById(R.id.badgeListView);
-		//Hier drinne nur zum Levelanzeige test
-		lvlTextView = (TextView) findViewById(R.id.badgeLvlTextview);
 		
 		/**TODO
 		 * Nur Test um Umgang zu erlernen
@@ -43,10 +38,7 @@ public class BadgeActivity extends ActionBarActivity {
 		 * Rootkategorien fuer Badgesystem laden
 		 */
 		
-		UserLevel level = new UserLevel();
-		
-		//Level anzeigen
-		lvlTextView.setText("lvl " + level.getLvlCount());
+		level = new UserLevel();
 		
 		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
 		ArrayList<Category> subCat= new ArrayList<Category>();
@@ -80,8 +72,6 @@ public class BadgeActivity extends ActionBarActivity {
 		//arrAdapter = new ArrayAdapter<String>(this, arrList);
 		arrAdapter = new BadgeArrayAdapter(this, arrList);
 		mainListView.setAdapter(arrAdapter);
-		
-
 	}
 
 	@Override
@@ -90,6 +80,10 @@ public class BadgeActivity extends ActionBarActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.badge, menu);
 		getSupportActionBar().setIcon(R.drawable.icon_badge);
+		
+		MenuItem levelText = menu.getItem(0);
+		levelText.setTitle(levelText.getTitle() +  " " + level.getLvlCount());
+		
 		return true;
 	}
 
