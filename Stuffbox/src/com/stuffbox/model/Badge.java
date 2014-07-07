@@ -1,7 +1,7 @@
 package com.stuffbox.model;
 
 public class Badge {
-	private String catName; //Kategoriename
+	private Category category; //Kategoriename
 	private String badgeIconSet; //Name des Kategorie Iconsets mit den Badges
 	private int itemcount; //Anzahl Eintraege/Items
 	
@@ -11,8 +11,8 @@ public class Badge {
 	private boolean badge4;
 	private boolean badge5;
 	
-	public Badge(String catName, int itemcount, String badgeIconSet, boolean badge1, boolean badge2, boolean badge3, boolean badge4, boolean badge5){
-		this.catName = catName;
+	public Badge(Category category, int itemcount, String badgeIconSet, boolean badge1, boolean badge2, boolean badge3, boolean badge4, boolean badge5){
+		this.category = category;
 		this.itemcount = itemcount;
 		this.badgeIconSet = badgeIconSet;
 		this.badge1 = badge1;
@@ -22,12 +22,12 @@ public class Badge {
 		this.badge5 = badge5;
 	}
 
-	public String getCatName() {
-		return catName;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCatName(String catName) {
-		this.catName = catName;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public String getBadgeIconSet() {
