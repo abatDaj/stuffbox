@@ -125,15 +125,23 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		
 		getMenuInflater().inflate(R.menu.choose_items, menu);
 	    MenuItem searchItem = menu.findItem(R.id.action_search);
-	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnSearchClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				onSearchRequested();
-			}
-		});
+//	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//	        String query = intent.getStringExtra(SearchManager.QUERY);
+//	        doMySearch(query);
+//	      }
+//
+//	    searchView.getQuery();
+	    
+//        searchView.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//		        onSearchRequested();
+//				
+//			}
+//		});
         //searchView.setOnCloseListener(this);
 	    // Configure the search info and add any event listeners
 	    //
@@ -191,6 +199,7 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        	return true;
 	        case R.id.action_search:
 	            // search action
+	        	onSearchRequested();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -202,7 +211,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
     	Intent intentSearchItem = new Intent();        
     	intentSearchItem.setClassName(getPackageName(), SearchableActivity.class.getName());
     	//intentSearchItem.putExtra(SearchableActivity., true);
-        startActivity(intentSearchItem);
+    	if (Intent.ACTION_SEARCH.equals(intentSearchItem.getAction())) {
+	        startActivity(intentSearchItem);
+	      }
         return true;
         
 //        Bundle appData = new Bundle();
