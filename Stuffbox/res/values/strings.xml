@@ -55,8 +55,7 @@
     <string name="category">Kategorie</string>
     <string name="text_piece_amount">Anzahl Einträge:\u0020</string>
     <string name="text_head_lvl">Level </string>
-    
-    
+    <string name="detail_icon_edit_name_hint">Name wird benötigt</string>
 
     <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>

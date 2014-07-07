@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.text.InputType;
 import android.text.format.Time;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Feature;
-import com.stuffbox.model.Formular;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.EditTextDatePicker;
 import com.stuffbox.view.helper.ImageViewPhoto;
@@ -37,12 +35,12 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	//private static final String TAG = FeatureArrayAdapterForDetailItem.class.getSimpleName();
 	
 	public FeatureArrayAdapterForDetailItem(Context context, ArrayList<Feature> features, ActivityWithATimePickerEditText activityWithATimePickerEditText) {
-		super(context, R.layout.row_detail_item_feature, features);
+		super(context, R.layout.row_empty, features);
 		this.context = context;
 		this.features = features;
 		this.activityWithATimePickerEditText = activityWithATimePickerEditText;
-		
 	}
+	
 	/**
 	 * Setzt ob die Elemente eingabebereit sind
 	 * @param editable
@@ -65,52 +63,49 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	
 	public View getCustomView(final int position, View convertView, ViewGroup parent) {
 		
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.row_detail_item_feature, parent, false);
-		
-		if(features.get(position).getId() == Formular.idOfNameFeature ){
-			return inflater.inflate(R.layout.null_item, null);
-		}
-		
-		//setze Name
-		TextView mainText = (TextView) rowView.findViewById(R.id.featureName);
-		mainText.setText(features.get(position).getName());
-		
 		//erstelle Inputfeld entsprechend der Art
 		final Feature feature = features.get(position);
 		
-		final TextView editText = (TextView) rowView.findViewById(R.id.editItemText);
-		//ImageButton editImage = (ImageButton) rowView.findViewById(R.id.editItemImage);
+		LinearLayout rowView= new LinearLayout(context);
+		rowView.setOrientation(LinearLayout.VERTICAL);
+		rowView.setPadding(15, 15, 0, 15);
 		
+		// Der Eigenschaftsname (über dem Eingabefeld)
+		TextView featureNameTextView = new TextView (context);
+		featureNameTextView.setText(features.get(position).getName());
+		rowView.addView(featureNameTextView);
+
+		/*
+		 *  Je nachdem um welche Eigenschaft es sich handelt (FeatureType) wird
+		 *  ein individuelles Input-Feld, Picker, Check-Liste, etc. erstellt.
+		 */ 
 		switch (feature.getType()) {
 		//Eigenschaft hat Typ Text
 		case Text:	
-			rowView = buildTextEdit(rowView, mainText, feature);
+			buildTextEdit(rowView, feature);
+			break;
+		case Ganzzahl:
+			buildIntegerEdit(rowView, feature);
+			break;
+		case Dezimalzahl:
+			buildDecimalEdit(rowView, feature);
 			break;
 		//Eigenschaft hat Typ Foto
 		case Foto:
-			editText.setVisibility(LinearLayout.GONE);
-			rowView = buildImageEdit(rowView, mainText, feature);
-			break;
-		case Dezimalzahl:
-			rowView = buildDecimalEdit(rowView, mainText, feature);
-			break;
-		case Ganzzahl:
-			rowView = buildIntegerEdit(rowView, mainText, feature);
+			buildImageEdit(rowView, feature);
 			break;
 		//Eigenschaft hat Typ Datum
 		case Datum:
-			rowView = buildDateEdit(rowView, mainText, feature);
+			buildDateEdit(rowView, feature);
 			break;
 		case Wahrheitswert:
-			rowView = buildBooleanEdit(rowView, mainText, feature);
+			buildBooleanEdit(rowView, feature);
 			break;
 		case Ranking:
-			rowView = buildRankingEdit(rowView, mainText, feature);
+			buildRankingEdit(rowView, feature);
 			break;
 		default:
-			rowView = buildTextEdit(rowView, mainText, feature);
+			buildTextEdit(rowView, feature);
 			break;
 		}
 		return rowView;
@@ -121,15 +116,10 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @param editText
 	 * @param feature
 	 */
-	private LinearLayout buildTextEdit(View rowView, TextView mainText, final Feature feature){
-		LinearLayout rowViewText= new LinearLayout(context);
-		rowViewText.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewText.addView(mainText);
+	private void buildTextEdit(LinearLayout rowView, final Feature feature){
 		final EditText editNormalText= new EditText(context);
 		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		editNormalText.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN * 2);
-		rowViewText.addView(editNormalText);
+		editNormalText.setEms(Controller.NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN);
 
 		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
 		editNormalText.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));		
@@ -148,19 +138,88 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		});
 		
 		editNormalText.setEnabled(editable);
-		return rowViewText;
+		rowView.addView(editNormalText);
 	}
+	
+	/**
+	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
+	 * @param rowView
+	 * @param mainText
+	 * @param feature
+	 * @return
+	 */
+	private void buildIntegerEdit(LinearLayout rowView, final Feature feature){	
+		
+		final EditText editGanzahl= new EditText(context);
+		// InputType = Zahlen + Minuswerte möglich
+		editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
+		editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    editGanzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
+		
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(0);
+		}
+		editGanzahl.setText(feature.getValue().toString());
+		
+		//setze Listener um Werte zu speichern
+		editGanzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				feature.setValue(editGanzahl.getText().toString());
+			}
+		});
+		
+		editGanzahl.setEnabled(editable);
+		rowView.addView(editGanzahl);
+	}	
+	
+	/**
+	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
+	 * @param rowView
+	 * @param mainText
+	 * @param feature
+	 * @return
+	 */
+	private void buildDecimalEdit(LinearLayout rowView, final Feature feature){
+		
+		final EditText editDezimalzahl= new EditText(context);
+		// InputType = Zahlen + Dezimalzahlen + Minuswerte moeglich
+		editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
+		editDezimalzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
+		
+		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
+	    editDezimalzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
+		
+		//setze Wert wenn moeglich sonst Defaultwert
+		if (feature.getValue() == null) {		
+			//initial value
+			feature.setValue(0);
+		}
+		editDezimalzahl.setText(feature.getValue().toString());
+		
+		//setze Listener um Werte zu speichern
+		editDezimalzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				feature.setValue(editDezimalzahl.getText().toString());
+			}
+		});
+		
+		editDezimalzahl.setEnabled(editable);
+		
+		rowView.addView(editDezimalzahl);
+	}
+	
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bild
 	 * @param editImage
 	 * @param feature
 	 */
-	private View buildImageEdit(View rowView, TextView mainText, final Feature feature){
-		
-		LinearLayout rowViewText= new LinearLayout(context);
-		rowViewText.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewText.addView(mainText);
+	private void buildImageEdit(LinearLayout rowView, final Feature feature){
 		
 		final ImageViewPhoto imageViewPhoto = new ImageViewPhoto(context, activityWithATimePickerEditText);
 		this.activityWithATimePickerEditText.setPhotoImageView(imageViewPhoto);
@@ -199,8 +258,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			}
 		});		
 		imageViewPhoto.setEnabled(editable);
-		rowViewText.addView(imageViewPhoto);
-		return rowViewText;
+		rowView.addView(imageViewPhoto);
 	}
 	
 	/**
@@ -210,21 +268,15 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 * @param feature
 	 * @return
 	 */
-	private LinearLayout buildDateEdit(View rowView, TextView mainText, final Feature feature){	
+	private void buildDateEdit(LinearLayout rowView, final Feature feature){	
 		final EditTextDatePicker editTimePicker = new EditTextDatePicker(context, activityWithATimePickerEditText);
-		LinearLayout rowViewDate = new LinearLayout(context);
-		rowViewDate.setOrientation(LinearLayout.VERTICAL);
-		// mainText darf kein parent haben
-	    ((ViewGroup)rowView).removeView(mainText);
-	    rowViewDate.addView(mainText);
-	    rowViewDate.addView(editTimePicker);
 		
 		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
 	    editTimePicker.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
 	    
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
-//			//initial value
+			//initial value
 			Time now = new Time();
 			now.setToNow();
 			feature.setValue(now.format("%d.%m.%Y"));
@@ -239,27 +291,21 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				feature.setValue(editTimePicker.getText().toString());
 			}
 		});
-	    
 	    editTimePicker.setEnabled(editable);
-	    
-		return rowViewDate;
+	    rowView.addView(editTimePicker);
 	}
+	
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Wahrheitswert
+	 * 
 	 * @param rowView
 	 * @param mainText
 	 * @param feature
 	 * @return
 	 */
-	private LinearLayout buildBooleanEdit(View rowView, TextView mainText, final Feature feature){
-
-		LinearLayout rowViewBoolean = new LinearLayout(context);
-		rowViewBoolean.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewBoolean.addView(mainText);
+	private void buildBooleanEdit(LinearLayout rowView, final Feature feature){
 
 		final CheckBox checkBox = new CheckBox(context);
-		rowViewBoolean.addView(checkBox);
 		
 		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
 	    checkBox.setButtonDrawable(context.getResources().getDrawable(R.drawable.selector_item_checkbox));
@@ -280,106 +326,20 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		});
 		
 		checkBox.setEnabled(editable);
-		
-		return rowViewBoolean;
+		rowView.addView(checkBox);
 	}
+	
 	/**
 	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
 	 * @param rowView
-	 * @param mainText
 	 * @param feature
-	 * @return
 	 */
-	private LinearLayout buildDecimalEdit(View rowView, TextView mainText, final Feature feature){
-		LinearLayout rowViewDecimalzahl= new LinearLayout(context);
-		rowViewDecimalzahl.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewDecimalzahl.addView(mainText);
-		
-		final EditText editDezimalzahl= new EditText(context);
-		// InputType = Zahlen + Dezimalzahlen + Minuswerte moeglich
-		editDezimalzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_DECIMAL + InputType.TYPE_NUMBER_FLAG_SIGNED);
-		editDezimalzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		editDezimalzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
-		rowViewDecimalzahl.addView(editDezimalzahl);
-		
-		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
-	    editDezimalzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
-		
-		//setze Wert wenn moeglich sonst Defaultwert
-		if (feature.getValue() == null) {		
-			//initial value
-			feature.setValue(0);
-		}
-		editDezimalzahl.setText(feature.getValue().toString());
-		
-		//setze Listener um Werte zu speichern
-		editDezimalzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				feature.setValue(editDezimalzahl.getText().toString());
-			}
-		});
-		
-		editDezimalzahl.setEnabled(editable);
-		
-		return rowViewDecimalzahl;
-	}
-	/**
-	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
-	 * @param rowView
-	 * @param mainText
-	 * @param feature
-	 * @return
-	 */
-	private LinearLayout buildIntegerEdit(View rowView, TextView mainText, final Feature feature){	
-		LinearLayout rowViewInteger= new LinearLayout(context);
-		rowViewInteger.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewInteger.addView(mainText);
-		
-		final EditText editGanzahl= new EditText(context);
-		// InputType = Zahlen + Minuswerte möglich
-		editGanzahl.setInputType(InputType.TYPE_CLASS_NUMBER + InputType.TYPE_NUMBER_FLAG_SIGNED);
-		editGanzahl.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		editGanzahl.setEms(Controller.NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN);
-		rowViewInteger.addView(editGanzahl);
-		
-		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
-	    editGanzahl.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));
-		
-		//setze Wert wenn moeglich sonst Defaultwert
-		if (feature.getValue() == null) {		
-			//initial value
-			feature.setValue(0);
-		}
-		editGanzahl.setText(feature.getValue().toString());
-		
-		//setze Listener um Werte zu speichern
-		editGanzahl.setOnFocusChangeListener(new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				feature.setValue(editGanzahl.getText().toString());
-			}
-		});
-		
-		editGanzahl.setEnabled(editable);
-		
-		return rowViewInteger;
-	}
-	/**
-	 * Erstellt den Eingabebereich fuer Eigenschaften mit der Art Bewertung
-	 * @param rowView
-	 * @param mainText
-	 * @param feature
-	 * @return
-	 */
-	private LinearLayout buildRankingEdit(View rowView, TextView mainText, final Feature feature){
+	private void buildRankingEdit(LinearLayout rowView, final Feature feature){
 
-		LinearLayout rowViewRanking= new LinearLayout(context);
-		rowViewRanking.setOrientation(LinearLayout.VERTICAL);
-		((ViewGroup)rowView).removeView(mainText);
-		rowViewRanking.addView(mainText);
 		LinearLayout rowViewStars= new LinearLayout(context);
 		rowViewStars.setOrientation(LinearLayout.HORIZONTAL);
+		rowView.setPadding(15, 30, 0, 30);
+
 		
 		if (feature.getValue() == null){
 			feature.setValue(Controller.DEFAULT_RANKING_VALUE);
@@ -423,9 +383,6 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			
 			rowViewStars.addView(imageview);
 		}
-		rowViewRanking.addView(rowViewStars);
-		rowViewRanking.setClickable(false);
-		rowViewRanking.setOnClickListener(null);
 		
 		//setze Wert wenn moeglich sonst Defaultwert
 		if (feature.getValue() == null) {		
@@ -434,7 +391,9 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		}
 		setStarsForRanking((Integer) feature.getValue() - 1, rowViewStars);
 		
-		return rowViewRanking;		
+		rowView.addView(rowViewStars);
+		rowView.setClickable(false);
+		rowView.setOnClickListener(null);	
 	}
 	
 	private void setStarsForRanking(int indexInLayout, LinearLayout rowViewStars){
@@ -443,8 +402,6 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 			if (i <= indexInLayout) 
 			{
 				star.setImageResource(R.drawable.ranking_star_3);
-				// TODO setColorFilter vermutlich besser
-				//star.setColorFilter(Color.rgb(Color.BLACK, Color.BLACK, Color.BLACK), android.graphics.PorterDuff.Mode.MULTIPLY);
 			}
 			else 
 			{

@@ -17,11 +17,12 @@
 
         <EditText
             android:id="@+id/editNameFeature"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="12"
             android:textColor="@drawable/selector_item_fields"
-            android:hint="">
+            android:hint="@string/detail_icon_edit_name_hint"
+            android:paddingLeft="15dp">
         </EditText>
 
         <TextView
