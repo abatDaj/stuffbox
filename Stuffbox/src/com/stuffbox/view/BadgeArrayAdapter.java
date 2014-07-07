@@ -8,6 +8,7 @@ import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Icon;
+import com.stuffbox.view.helper.Utility;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -55,7 +56,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			if(values.get(position).isBadge1()){
 				Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_1");
 			}else{
-				Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+				Utility.makeImageViewGrey(imageView1);
+				//Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_" + values.get(position).getBadgeIconSet()+"_0");
 			}
 			}catch(Exception e){
 				//Laden des Bildes scheiterte, versuche Default Bild
@@ -63,7 +65,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 					if(values.get(position).isBadge1()){
 						Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_category_icon_default_1");
 					}else{
-						Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_category_icon_default_0");
+						Utility.makeImageViewGrey(imageView1);
+						//Controller.getInstance().setImageOnImageView(this.context, imageView1, "badge_category_icon_default_0");
 					}
 				}catch(Exception eS){
 					//Laden selbst des Defaults scheiterte
@@ -74,7 +77,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			if(values.get(position).isBadge2()){
 				Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_2");
 			}else{
-				Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+				Utility.makeImageViewGrey(imageView2);
+				//Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_" + values.get(position).getBadgeIconSet()+"_0");
 			}
 			}catch(Exception e){
 				//Laden des Bildes scheiterte, versuche Default Bild
@@ -82,7 +86,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 					if(values.get(position).isBadge2()){
 						Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_category_icon_default_2");
 					}else{
-						Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_category_icon_default_0");
+						Utility.makeImageViewGrey(imageView2);
+						//Controller.getInstance().setImageOnImageView(this.context, imageView2, "badge_category_icon_default_0");
 					}
 				}catch(Exception eS){
 					//Laden selbst des Defaults scheiterte
@@ -93,7 +98,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			if(values.get(position).isBadge3()){
 				Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_3");
 			}else{
-				Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+				Utility.makeImageViewGrey(imageView3);
+				//Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_" + values.get(position).getBadgeIconSet()+"_0");
 			}
 			}catch(Exception e){
 				//Laden des Bildes scheiterte, versuche Default Bild
@@ -101,7 +107,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 					if(values.get(position).isBadge3()){
 						Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_category_icon_default_3");
 					}else{
-						Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_category_icon_default_0");
+						Utility.makeImageViewGrey(imageView3);
+						//Controller.getInstance().setImageOnImageView(this.context, imageView3, "badge_category_icon_default_0");
 					}
 				}catch(Exception eS){
 					//Laden selbst des Defaults scheiterte
@@ -112,7 +119,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			if(values.get(position).isBadge4()){
 				Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_4");
 			}else{
-				Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+				Utility.makeImageViewGrey(imageView4);
+				//Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_" + values.get(position).getBadgeIconSet()+"_0");
 			}
 			}catch(Exception e){
 				//Laden des Bildes scheiterte, versuche Default Bild
@@ -120,7 +128,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 					if(values.get(position).isBadge4()){
 						Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_category_icon_default_4");
 					}else{
-						Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_category_icon_default_0");
+						Utility.makeImageViewGrey(imageView4);
+						//Controller.getInstance().setImageOnImageView(this.context, imageView4, "badge_category_icon_default_0");
 					}
 				}catch(Exception eS){
 					//Laden selbst des Defaults scheiterte
@@ -131,7 +140,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 			if(values.get(position).isBadge5()){
 				Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_5");
 			}else{
-				Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_0");
+				Utility.makeImageViewGrey(imageView5);
+				//Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_" + values.get(position).getBadgeIconSet()+"_0");
 			}
 			}catch(Exception e){
 				//Laden des Bildes scheiterte, versuche Default Bild
@@ -139,7 +149,8 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge>{
 					if(values.get(position).isBadge5()){
 						Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_category_icon_default_5");
 					}else{
-						Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_category_icon_default_0");
+						Utility.makeImageViewGrey(imageView5);
+						//Controller.getInstance().setImageOnImageView(this.context, imageView5, "badge_category_icon_default_0");
 					}
 				}catch(Exception eS){
 					//Laden selbst des Defaults scheiterte

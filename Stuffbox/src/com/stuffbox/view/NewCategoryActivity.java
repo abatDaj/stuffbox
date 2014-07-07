@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
@@ -25,6 +29,7 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Icon;
 import com.stuffbox.view.DialogDecision.DialogDecisionListener;
+import com.stuffbox.view.helper.Utility;
 
 public class NewCategoryActivity extends ActionBarActivity implements DialogDecisionListener {
 	
@@ -72,6 +77,13 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		
 		ll.addView(tV);
 		ll.addView(iV);
+		
+		//ImageView kk = Utility.createGreyClone(getApplicationContext(), did, iV.getLayoutParams().width, iV.getLayoutParams().height);
+		
+		
+
+		
+		//ll.addView(kk);
 		
 		LinearLayout view = (LinearLayout)findViewById(R.id.new_category_screen);
 		view.addView(ll);

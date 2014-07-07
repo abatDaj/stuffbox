@@ -9,17 +9,26 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -109,4 +118,28 @@ public class Utility {
         	Log.e(TAG, "Fehler beim Fotografieren allgemeiner fehler: ", e);
         }
 	}
+	
+	/**
+	 * Returniert einen grauen Klon.
+	 * 
+	 * @param context
+	 * @param drawID
+	 * @param size
+	 * @return
+	 */
+	public static void makeImageViewGrey(ImageView imageView) {
+		/*ImageView imageOfIconInRow = new ImageView(context);
+		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+		Resources ressources = context.getResources();
+		Drawable[] layers = new Drawable[1];
+		layers[0] = ressources.getDrawable(drawID);
+		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		imageOfIconInRow.setImageDrawable(layerDrawable);	
+		ColorFilter filter = new LightingColorFilter( Color.BLACK, Color.GRAY);
+		imageOfIconInRow.setColorFilter(filter);
+		return imageOfIconInRow;*/
+		ColorFilter filter = new LightingColorFilter( Color.BLACK, Color.GRAY);
+		imageView.setColorFilter(filter);
+	}
+
 }
