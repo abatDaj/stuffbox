@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DataSourceCategory {
 	public static String	ROOT_CATEGORY	= "Stuffbox";
 
+	
 	/**
 	 * Erstellt die Tabelle Kategorie auf der Datenbank
 	 * 
@@ -25,13 +27,35 @@ public class DataSourceCategory {
 		        // create column icon
 		        DatabaseHandler.KEY_ICON + " INTEGER," +
 		        // create column precategory
-		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER," +
-		        // add foreign key to table category
-		        "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
-		        	+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" + " ON DELETE CASCADE " + ")";
+		        DatabaseHandler.KEY_PRECATEGORY + " INTEGER" +
+//		        // add foreign key to table category
+//		        ", " + "FOREIGN KEY(" + DatabaseHandler.KEY_PRECATEGORY + ") REFERENCES " 
+//		        	+ DatabaseHandler.TABLE_CATEGORY + "(" + DatabaseHandler.KEY_ID + ")" + 
+				")";
 		db.execSQL(CREATE_EIGENSCHAFT_TABLE);
 	}
-
+	/**
+	 * List die id der Rootkategorie wenn diese bereits in der Datenbank gespeichert wurde.
+	 * Gespeichert wird sie in der globalen Variable des DatabaseHandlers
+	 * @param database
+	 */
+	public void setRootCategoryID(SQLiteDatabase database){
+		Cursor cursor = database.query(
+				DatabaseHandler.TABLE_CATEGORY, null, 
+				DatabaseHandler.KEY_PRECATEGORY + " = " + DatabaseHandler.INITIAL_ID, 
+				null, null, null, null);
+		if(cursor == null){
+			return;
+		}
+		
+		if (cursor.moveToFirst()){
+			do{
+				DatabaseHandler.INDEX_OF_ROOT_CATEGORY = Long.valueOf(cursor.getInt(cursor.getColumnIndex(DatabaseHandler.KEY_ID)));
+			}
+			while (cursor.moveToNext());
+		}
+	}
+	
 	/**
 	 * Speichert eine neue Kategorie in der Tabelle Eigenschaft.
 	 * 
@@ -45,17 +69,22 @@ public class DataSourceCategory {
 	public Category insertOrUpdateCategory(SQLiteDatabase database, Category category) {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHandler.KEY_NAME, category.getName());
-		if( !ROOT_CATEGORY.equals(category.getName())){
+		if(!ROOT_CATEGORY.equals(category.getName())){
+			//kategorie anlegen
 			values.put(DatabaseHandler.KEY_PRECATEGORY, category.getPreCategoryId());
 		}else{
-			values.put(DatabaseHandler.KEY_PRECATEGORY, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+			//root kategorie anlegen
+			if(DatabaseHandler.INDEX_OF_ROOT_CATEGORY != DatabaseHandler.INITIAL_ID){
+				return Controller.getInstance().getRootCategory();
+			}
+			values.put(DatabaseHandler.KEY_PRECATEGORY,  DatabaseHandler.INITIAL_ID);
 		}
 		
 		if (category.getIcon() != null){
 			values.put(DatabaseHandler.KEY_ICON, category.getIcon().getId());
 		}
 		
-		long rowid;
+		long rowid = 0;
 		
 	    if ( category.getId() != DatabaseHandler.INITIAL_ID ) {
 	    	//update
@@ -70,6 +99,9 @@ public class DataSourceCategory {
 	        rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_CATEGORY, values, category.getName());
 			if (rowid > DatabaseHandler.INITIAL_ID) {
 				category.setId(rowid);
+				if(ROOT_CATEGORY.equals(category.getName())){
+					DatabaseHandler.INDEX_OF_ROOT_CATEGORY = rowid;
+				}
 				return category;
 			}
 	    }
@@ -158,6 +190,9 @@ public class DataSourceCategory {
 		}else{
 			return new ArrayList<Category>();
 		}
+		if(subCategoryIds.isEmpty()){
+			return new ArrayList<Category>();
+		}
 		return  getCategories(database, subCategoryIds, Controller.getInstance().getIcons());
 	}
 	
@@ -204,11 +239,16 @@ public class DataSourceCategory {
 	 *         auftrat
 	 */
 	public ArrayList<Category> getCategories(SQLiteDatabase database, ArrayList<Long> selectCategorieIds, ArrayList<Icon> icons) {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		
+    	if(selectCategorieIds != null && selectCategorieIds.isEmpty()){
+			return categories;
+		}
+		
 		// erstelle where statement
 		String whereStatment = DatabaseHandler.createWhereStatementFromIDList(selectCategorieIds, null);
 		// select types from database
 		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatment, null, null, null, null);
-		ArrayList<Category> categories = new ArrayList<Category>();
 		// add all types to list
 		if (cursor.moveToFirst()) {
 			do {

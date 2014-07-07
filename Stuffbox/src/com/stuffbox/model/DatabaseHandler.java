@@ -12,6 +12,7 @@ import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -22,6 +23,8 @@ import android.util.Log;
 public class DatabaseHandler extends SQLiteOpenHelper{
 
 	private static final String TAG = DatabaseHandler.class.getSimpleName();
+
+	public static final String PREFS_NAME = "STUFFBOX_DATABASE";
 	
 	// All Static variables
     // Database Version
@@ -65,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     public static final String SQL_OR = "OR";
     public static final String SQL_AND = "AND";
     public static final String PREFIX_ICON_CATEGORY = "category_icon_";
-    public static final int INDEX_OF_ROOT_CATEGORY = 1;
+    public static long INDEX_OF_ROOT_CATEGORY = -1;
     public static final long INITIAL_ID = -1; 
     
     private final Context context; 
@@ -96,8 +99,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         	database.execSQL("PRAGMA foreign_keys=ON;");
         }
     } 
-    
-    /**
+
+	/**
      * Tabellen erstellen
      */
     @Override
@@ -127,6 +130,10 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         onCreate(database);
     }   
         
+    public void setRootCategoryID(){
+    	dataSourceCategory.setRootCategoryID(database);
+    }
+    
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

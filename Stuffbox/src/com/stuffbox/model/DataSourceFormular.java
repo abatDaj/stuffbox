@@ -69,11 +69,13 @@ public class DataSourceFormular {
 	        	for(Feature oldFeature : oldFormular.getFeatures()){
 		        	if(feature.getId() == oldFeature.getId()){
 		        		featureFound = oldFeature;
+		        		break;
 		        	}
 	        	}
 	        	if(featureFound != null){
 	        		//wenn gefunden loesche es aus der liste
 	        		oldFormular.removeFeature(featureFound);
+	        		//TODO update
 	        	}else{
 	        		//wenn nicht gefunden fuege es auf der Datenbank hinzu
 	        		insertFeatureOfFormular(database, formular, feature);
@@ -84,8 +86,10 @@ public class DataSourceFormular {
 	        for(Feature oldFeature : oldFormular.getFeatures()){
 	        	selectFormularIds.add(oldFeature.getId());	
 	        }
-			String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
-			DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
+	        if(!selectFormularIds.isEmpty()){
+				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
+				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
+	        }
 	        
 	        if (rowid > 0){
 	        	return formular;
@@ -144,13 +148,21 @@ public class DataSourceFormular {
      */
     public ArrayList<Formular> getFormulars( SQLiteDatabase database, 
     										 		ArrayList<Long> selectFormularIds) {  
+    	
+    	ArrayList<Formular> formulars = new ArrayList<Formular>();
+		if(selectFormularIds != null && selectFormularIds.isEmpty()){
+			return formulars;
+		}
+    	
     	//erstelle where statement
     	String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectFormularIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FORMULAR, null, whereStatement, null, null, null, null);
 		
-		ArrayList<Formular> formulars = new ArrayList<Formular>();
+		if(cursor == null){
+			return formulars;
+		}
 		
 		//add all types to list
 		if (cursor.moveToFirst()) {

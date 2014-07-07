@@ -16,6 +16,7 @@
     <string name="title_activity_detail_item">neuer Eintrag</string>
     <string name="title_activity_choose_formular">Formular auswählen</string>
     <string name="title_activity_choose_category">Kategorie auswählen</string>
+    <string name="title_activity_add_debugentries">Debugeinträge anlegen</string>
     <string name="abort">abbrechen</string>
     <string name="save">fertig</string>
     <string name="delete">löschen</string>

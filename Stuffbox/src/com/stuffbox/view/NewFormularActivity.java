@@ -227,6 +227,9 @@ public class NewFormularActivity  extends ActionBarActivity {
 	        case R.id.menu_save:
 	        	onSave();
 	            return true;
+	        case R.id.menu_update:
+	        	onSave();
+	            return true;
 	        case R.id.menu_abort:
 	        	onBackPressed();
 	            return true;

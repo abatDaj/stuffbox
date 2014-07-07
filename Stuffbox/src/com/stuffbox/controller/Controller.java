@@ -66,18 +66,16 @@ public class Controller {
 		if (init){
 			return;
 		}
-		//getTypes();
 		//initialise database
         initializeDatabase(context);
-		//initialize data
-		getIcons();
 		init = true;
 	}
 	
 	//TODO
 	public static Controller getInstance (Context context) {
-		if (instance == null) 
+		if (instance == null){
 			instance = new Controller (context);
+		}
 		return instance;
 	}
 	
@@ -256,6 +254,12 @@ public class Controller {
 	 */
     public ArrayList<Category> getSubCategories(long categoryId) {
     	return databaseHandler.getSubCategories(categoryId);
+    }
+    
+    public Category getRootCategory(){
+    	ArrayList<Long> ids = new ArrayList<Long>();
+    	ids.add((long) DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
+    	return databaseHandler.getCategories(ids, icons).get(0);
     }
     
     /**
@@ -545,21 +549,45 @@ public class Controller {
      * Setzt die Datenbank neu auf
      */
     public void initializeDatabase(Context context){
-    	databaseHandler.initializeDatabase();
+    	//databaseHandler.initializeDatabase();
     	
+    	
+    	databaseHandler.setRootCategoryID();
+    	
+    	getTypes();
+//    	
+//    	insertDebugFeatureEntries();
+//    	ArrayList<Feature> features = getFeatures(null);
+//    	insertDebugFormularEntries(features);
+    	
+    	fillIconTableWithIcons(context);
+    	getIcons();
+
+    	//Root Kategorie einfuegen
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		this.setCurrentCategory(currentCategory);
+//    	insertDebugCategoryEntries();
+//
+//    	ArrayList<Formular> formulars = getFormulars(null); 
+//    	ArrayList<Category> categories = getCategories(null); 
+//    	insertDebugItemEntries(formulars, categories);
+//    	
+//    	getItems(null);    	
+    	
+    }
+    
+    public void insertDebugEntries(Context context){
+    	databaseHandler.initializeDatabase();
     	getTypes();
     	
     	insertDebugFeatureEntries();
     	ArrayList<Feature> features = getFeatures(null);
     	insertDebugFormularEntries(features);
     	
-
-    	
     	fillIconTableWithIcons(context);
-    	//TODO Icons von fill verwenden
     	getIcons();
     	
-    	//TODO warum wird die root categorie nicht aus der DB gelesen => Weil sie noch nicht in der DB ist
+    	//Root Kategorie einfuegen
 		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
@@ -568,8 +596,7 @@ public class Controller {
     	ArrayList<Category> categories = getCategories(null); 
     	insertDebugItemEntries(formulars, categories);
     	
-    	getItems(null);    	
-    	
+    	getItems(null); 
     }
     
     /**

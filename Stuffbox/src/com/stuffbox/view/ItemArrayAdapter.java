@@ -56,12 +56,12 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		// Falls Bild gespeichert und vorhanden darstellen, andernfalls Icon von Kategorie
 		// aber eingegraut in der Icon-Liste darstellen.
 		
-		ArrayList<Feature> featuresImages = new ArrayList<Feature>();
+		Feature featuresImage = null;
 		for (Feature f : features) 
 		{
 			if(f.getType() == FeatureType.Foto)
 			{
-				featuresImages.add(f);
+				featuresImage = f;
 				break;
 			}
 		}
@@ -69,9 +69,9 @@ public class ItemArrayAdapter extends ArrayAdapter<Item> {
 		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
 
 		
-		if (featuresImages.size() == 1 && featuresImages.get(0).getValue() != null) 
+		if (featuresImage != null && featuresImage.getValue() != null) 
 		{
-			Controller.getInstance().setImageOnImageView(context, imageOfIconInRow, featuresImages.get(0).getValue().toString());
+			Controller.getInstance().setImageOnImageView(context, imageOfIconInRow, featuresImage.getValue().toString());
 		}
 		else
 		{

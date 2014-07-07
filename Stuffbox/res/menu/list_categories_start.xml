@@ -35,4 +35,10 @@
         android:orderInCategory="100"
         android:title="@string/title_activity_formulars_change"
         app:showAsAction="never"/>
+    
+    <item
+        android:id="@+id/action_add_debug_entries"
+        android:orderInCategory="100"
+        android:title="@string/title_activity_add_debugentries"
+        app:showAsAction="never"/>
 </menu>

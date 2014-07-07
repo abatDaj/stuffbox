@@ -102,15 +102,22 @@ public class DataSourceFeature {
     public ArrayList<Feature> getFeatures(	SQLiteDatabase database, 
     										ArrayList<Long> selectFeatureIds, 
     										ArrayList<FeatureType> types) {  
+		ArrayList<Feature> features = new ArrayList<Feature>();
+    	if(selectFeatureIds != null && selectFeatureIds.isEmpty()){
+			return features;
+		}
+    	
     	//erstelle where statement
     	String whereStatment = DatabaseHandler.createWhereStatementFromIDList(selectFeatureIds,null);
     	
     	//select types from database
     	Cursor cursor = database.query(DatabaseHandler.TABLE_FEATURE, null, whereStatment, null, null, null, null);
 		
-		ArrayList<Feature> features = new ArrayList<Feature>();
-		
 		//add all types to list
+		if(cursor == null){
+			return features;
+		}
+		
 		if (cursor.moveToFirst()) {
 			do {
 				int typeid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.TABLE_TYPE)));

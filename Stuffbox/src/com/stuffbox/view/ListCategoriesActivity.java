@@ -6,6 +6,7 @@ import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
+import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
 import com.stuffbox.view.helper.Utility;
@@ -160,6 +161,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	            intentChooseFormulars.putExtra(ListFormularActivity.PURPOSE_IS_CHOOSING_FOR_UPDATE, true);
 	            startActivity(intentChooseFormulars);
 	        	return true;
+	        case R.id.action_add_debug_entries:
+	        	onInsertDebugEntries();
+	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }		
@@ -200,5 +204,16 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	        startActivity(intent);				
     	}
     	finish();
+    }
+    
+    public void onInsertDebugEntries(){
+    	Controller.getInstance().insertDebugEntries(this);
+    	ArrayList<Long> ids = new ArrayList<Long>();
+    	Category rootCategory = Controller.getInstance().getRootCategory();
+		Controller.getInstance().setCurrentCategory(rootCategory);		
+        Intent intentToRoot = new Intent();   
+        intentToRoot.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intentToRoot);	
+        finish();
     }
 }
