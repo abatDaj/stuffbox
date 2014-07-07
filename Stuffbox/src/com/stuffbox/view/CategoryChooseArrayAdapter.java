@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
-import com.stuffbox.model.Icon;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -81,7 +80,6 @@ public class CategoryChooseArrayAdapter extends ArrayAdapter<Category> {
                 	//fuege Kategorie zu ausgewaehlten hinzu
                 	selectedvalues.add(values.get(position));
                 }
-
 			}});
 		
 		return rowView;

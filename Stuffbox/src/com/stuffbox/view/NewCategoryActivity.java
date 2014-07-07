@@ -1,18 +1,11 @@
 package com.stuffbox.view;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +22,6 @@ import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Icon;
 import com.stuffbox.view.DialogDecision.DialogDecisionListener;
-import com.stuffbox.view.helper.Utility;
 
 public class NewCategoryActivity extends ActionBarActivity implements DialogDecisionListener {
 	
@@ -42,9 +34,6 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_category);
 
-		//Spinner spinner = (Spinner) findViewById(R.id.spinner_new_category_icon);
-		//Controller.fillIconTableWithSomeIcons(this);
-		ArrayList<Icon> allicons = Controller.getInstance().getIcons();
 		LinkedList<Icon> list = new LinkedList<Icon>();
 		
 		Icon[] icons = new Icon[list.size()];
@@ -58,7 +47,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		ll.setPadding(10, 30, 0, 0);
 		TextView tV = new TextView(this);
 		tV.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-		tV.setText(getResources().getString(R.id.icon));
+		tV.setText(getResources().getString(R.string.icon));
 		tV.setTextSize(Controller.CSS_TEXT_SIZE_LABELS);
 		
 		int  did = selectedIcon2.getDrawableId();
@@ -75,20 +64,11 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 			    startActivityForResult(intent, Controller.REQUEST_CODE_CHOOSE_ICON) ;
 			}});
 		
-		ll.addView(tV);
-		
-		//ImageView kk = Utility.createGreyClone(getApplicationContext(), did, iV.getLayoutParams().width, iV.getLayoutParams().height);
-		
-		ImageView kk = Utility.stuffBoxStarIconCloner(this, iV, did, 4);
+		ll.addView(tV);		
 		ll.addView(iV);
-
-		ll.addView(kk);
-		
 		LinearLayout view = (LinearLayout)findViewById(R.id.new_category_screen);
 		view.addView(ll);
-		
-		// Icon Auswahl fertig
-		
+				
 		
 		Category serializedCategory = (Category) getIntent().getSerializableExtra(Controller.EXTRA_EDIT_CATEGORY);
 		if (serializedCategory != null) 

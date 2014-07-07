@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import com.stuffbox.R;
-import com.stuffbox.controller.Controller;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -26,7 +25,6 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -140,7 +138,7 @@ public class Utility {
 	 * @param size
 	 * @return
 	 */
-	public static ImageView stuffBoxStarIconCloner (Context context, ImageView imageView, int drawID, int stars) {
+	public static ImageView stuffBoxStarIconCloner (Context context, int drawID, int stars) {
 		//ViewGroup.LayoutParams params = imageView.getLayoutParams();
 		ImageView imageOfIconInRow = new ImageView(context);
 		imageOfIconInRow.setLayoutParams(new LinearLayout.LayoutParams(60, 60));
@@ -175,5 +173,4 @@ public class Utility {
 		imageOfIconInRow.setImageDrawable(layerDrawable);	
 		return imageOfIconInRow;
 	}
-
 }
