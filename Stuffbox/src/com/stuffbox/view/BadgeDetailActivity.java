@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,7 +36,6 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.badge_detail);
 		badge = (Badge) getIntent().getSerializableExtra(Controller.EXTRA_BADGE_SHOW_DETAIL);
-		
 		
 		LinearLayout ll = new LinearLayout(this);
 		ll.setOrientation(LinearLayout.VERTICAL);
@@ -54,30 +54,26 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		rowView.setPadding(0, 20, 0, 20);
 		rowView.setLayoutParams(new ListView.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
-		rowView.addView(textView);
-
 		int drawableId = badge.getCategory().getIcon().getDrawableId();
 
 		ImageView greyPics[] = new ImageView[5];
+		
 		for (int i = 0; i < greyPics.length; i++) {
 			greyPics[i] = new ImageView(this);
 			greyPics[i].setImageResource(drawableId);
 			greyPics[i].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
-			
-			if (badge.isBadge1()) {
-				ImageView star1 = Utility.stuffBoxStarIconCloner(this,drawableId, 1);
+			if (badge.getHighestBadge() > 1) {
+				ImageView star1 = Utility.stuffBoxStarIconCloner(this,drawableId, badge.getHighestBadge());
 				rowView.addView(star1);
 			} else {
-				Utility.makeImageViewGrey(greyPics[1]);
+				Utility.makeImageViewGrey(greyPics[i]);
 				rowView.addView(greyPics[i]);
 			}
-			
 		}
+		ll.addView(rowView);
 		
-		
-		
-		
-		
+		FrameLayout rootLayout = (FrameLayout)findViewById(android.R.id.content);
+		rootLayout.addView(ll);
 		
 	}
 

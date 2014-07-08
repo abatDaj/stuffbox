@@ -33,6 +33,19 @@ public class BadgeActivity extends ActionBarActivity {
 		setContentView(R.layout.badge);
 		
 		mainListView = (ListView) findViewById(R.id.badgeListView);
+		
+		mainListView.setOnItemClickListener(new OnItemClickListener()
+        {
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+	        {		        
+				Badge badge = (Badge) parent.getItemAtPosition(position);
+		        Intent intent = new Intent();        
+		        intent.putExtra(Controller.EXTRA_BADGE_SHOW_DETAIL, badge);
+		        intent.setClassName(getPackageName(), BadgeDetailActivity.class.getName());
+				startActivity(intent);		
+	        }
+        });
 
 //		/**TODO
 //		 * Nur Test um Umgang zu erlernen
@@ -88,7 +101,7 @@ public class BadgeActivity extends ActionBarActivity {
 		getSupportActionBar().setIcon(R.drawable.icon_badge);
 		
 		MenuItem levelText = menu.getItem(0);
-		levelText.setTitle(levelText.getTitle() +  " " + level.getLvlCount());
+		//levelText.setTitle(levelText.getTitle() +  " " + level.getLvlCount());
 		
 		return true;
 	}
