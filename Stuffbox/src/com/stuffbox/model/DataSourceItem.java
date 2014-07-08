@@ -7,7 +7,6 @@ import com.stuffbox.controller.Controller;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 
 public class DataSourceItem {
     /**
@@ -58,8 +57,7 @@ public class DataSourceItem {
     }
 	
     /**
-     * F�gt ein Item der Datenbank hinzu.
-     * TODO Kategoriezuordnung speichern
+     * Fuegt ein Item der Datenbank hinzu.
      * @param name
      */
     public Item insertOrUpdateItem(SQLiteDatabase database, Item item){
@@ -295,8 +293,6 @@ public class DataSourceItem {
 				if (!featureWasFound) {
 					//TODO Exception/Ausgabe
 				}
-				
-				//TODO kategorie
 			} while (cursor.moveToNext());
 		}
     }

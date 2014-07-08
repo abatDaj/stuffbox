@@ -1,6 +1,5 @@
 package com.stuffbox.view.helper;
 
-import android.net.Uri;
 
 public interface ActivityWithATimePickerEditText {
 	

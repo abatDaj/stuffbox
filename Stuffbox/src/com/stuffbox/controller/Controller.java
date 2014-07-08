@@ -611,7 +611,6 @@ public class Controller {
     
     /**
      * temporaer: Fuellt ein paars die Tabelle mit ein paar Icons.
-     * TODO richtig machen
      */
     public void fillIconTableWithIcons (Context context)
     {

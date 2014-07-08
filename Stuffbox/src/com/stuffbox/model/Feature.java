@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Feature implements Comparable<Feature>, Serializable{
 	private long id;
-	private Integer sortnumber; //TODO besserer name
+	private Integer sortnumber;
 	private String name;
 	private FeatureType type;
 	private Object value;

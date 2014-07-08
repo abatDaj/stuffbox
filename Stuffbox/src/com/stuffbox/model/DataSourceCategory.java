@@ -122,8 +122,7 @@ public class DataSourceCategory {
 	}
 	
 	/**
-	 * TODO: Funktioniert noch nicht.
-	 * Loescht eine Kategorie und alle Unterkategorien und die jeweiligen Items.
+	 * TODO: Loescht eine Kategorie und alle Unterkategorien und die jeweiligen Items.
 	 * 
 	 *
 	 * @param database
@@ -151,7 +150,7 @@ public class DataSourceCategory {
 				l.add(idOfPreCategory);
 				Category nextSubCategory = getCategories(database, l, Controller.getInstance().getIcons()).get(0);
 				
-				if (nextSubCategory == null) //TODO Darf eigentlich nie passieren
+				if (nextSubCategory == null) //Darf eigentlich nie passieren
 					break; 
 				idOfPreCategory = nextSubCategory.getId();
 			}						

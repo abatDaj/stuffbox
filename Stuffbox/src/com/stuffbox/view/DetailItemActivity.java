@@ -304,7 +304,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	            onCancel(null);
 	            return true;
 	        case R.id.action_settings:
-	        	//TODO do something
 	        	return true;
 	        case android.R.id.home:
 	        	onBackPressed();

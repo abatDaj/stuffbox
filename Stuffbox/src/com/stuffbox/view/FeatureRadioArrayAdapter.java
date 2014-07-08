@@ -31,13 +31,11 @@ public class FeatureRadioArrayAdapter extends ArrayAdapter<Feature> {
 
 	@Override
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		return getCustomView(position, convertView, parent);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		return getCustomView(position, convertView, parent);
 	}
 

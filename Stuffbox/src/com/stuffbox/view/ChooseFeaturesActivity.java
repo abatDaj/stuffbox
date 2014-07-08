@@ -64,7 +64,7 @@ public class ChooseFeaturesActivity extends ActionBarActivity {
 	 * @param view
 	 */
 	public void onDelete(View view){
-		//TODO Dialog der nachfraget
+		//TODO Dialog nachfragen
 		
 		ArrayList<Feature> selectedFeatures = featureAdapter.getSelectedFeatures();
 		Controller.getInstance().deleteFeatures(selectedFeatures);
