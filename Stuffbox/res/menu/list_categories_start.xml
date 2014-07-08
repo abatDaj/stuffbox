@@ -6,17 +6,17 @@
     <item android:id="@+id/menu_badge"
           android:icon="@drawable/ic_action_medaile" 
           android:title="@string/txt_badge_headline"
-          app:showAsAction="always"/> 
+          app:showAsAction="ifRoom"/> 
               
     <item android:id="@+id/menu_new_categorie"
           android:icon="@drawable/ic_action_new_folder" 
           android:title="@string/title_activity_new_category"
-          app:showAsAction="always"/> 
+          app:showAsAction="ifRoom"/> 
     
     <item android:id="@+id/menu_new_item"
           android:icon="@drawable/ic_action_new_file" 
           android:title="@string/title_activity_new_item"
-          app:showAsAction="always"/>     
+          app:showAsAction="ifRoom"/>     
           
     <item android:id="@+id/action_search"
           android:icon="@drawable/ic_action_search"

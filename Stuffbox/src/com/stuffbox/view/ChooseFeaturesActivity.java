@@ -12,8 +12,6 @@ import android.widget.ListView;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
-import com.stuffbox.controller.Messenger;
-import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 
 public class ChooseFeaturesActivity extends ActionBarActivity {
