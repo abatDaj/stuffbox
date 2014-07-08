@@ -197,7 +197,8 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
     public void onDialogPositiveClick(DialogFragment dialog) {
     	Category preCategory = Controller.getInstance().getPreCategoryId(Controller.getInstance().getCurrentCategory());
     	
-    	Controller.getInstance().deleteCategory(categoryToEdit);
+    	boolean klappt = Controller.getInstance().deleteCategory(categoryToEdit);
+    	Controller.getInstance().sayIt("M: " + klappt);
     	//Controller.getInstance().deleteCategoryRecursively(categoryToEdit); //TODO funktioniert noch nicht.
     	
     	//Gehe zu vorheriger Kategory

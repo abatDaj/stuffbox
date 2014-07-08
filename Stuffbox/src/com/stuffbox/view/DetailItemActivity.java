@@ -165,12 +165,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		}
 		else {
 			if(photoImageView != null){
-				photoImageView.clearFocus();
-				photoImageView.onWindowFocusChanged(true);
 
-				if (this.lastFileNameOfPhoto != null) // String darf nicht null sein !
+				if (this.lastFileNameOfPhoto != null) {// String darf nicht null sein !
 					photoImageView.setTag(this.lastFileNameOfPhoto);
-				
+					Controller.getInstance().sayIt("NAME: " + lastFileNameOfPhoto);
+				}
 				// Kleiner Hack (beide Anweiseungen): "normaler" ClickListener wird unsschädlich gemacht
 				// und die else Block speichert dann den Dateiname des geschossenen Fotos (falls vorhanden)
 				photoImageView.setCallOnCklick(false);
@@ -255,10 +254,10 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	}
     
     @Override
-	public void onClickOfImageViewPhoto (String fileNameOfPhoto) {
+	public void onClickOfImageViewPhoto (final String fileNameOfPhoto) {
 		final CharSequence[] items = { "Foto machen", "Galerie", "Abbrechen" };
 		lastFileNameOfPhoto = fileNameOfPhoto;
-		final String finalStringBecauseOfJava = fileNameOfPhoto;
+		//final String finalStringBecauseOfJava = fileNameOfPhoto;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Bild hinzufuegen");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -266,7 +265,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
             public void onClick(DialogInterface dialog, int item) {
                 if (items[item].equals("Foto machen")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), finalStringBecauseOfJava);
+                    File f = new File(android.os.Environment.getExternalStorageDirectory(), fileNameOfPhoto);
                     Uri uri = Uri.fromFile(f);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(intent, Controller.REQUEST_CAMERA);

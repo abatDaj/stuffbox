@@ -121,7 +121,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		final EditText editNormalText= new EditText(context);
 		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN);
-
+		
 		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
 		editNormalText.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));		
 		
@@ -257,6 +257,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				}
 				else // speichern 
 				{
+					//Controller.getInstance().sayIt("Ich speicher: " + ((String)imageViewPhoto.getTag()).toString());
 					feature.setValue(((String)imageViewPhoto.getTag())); // der TAG ist der Datei-Name
 				}
 			}
