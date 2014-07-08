@@ -21,6 +21,9 @@ public class Controller {
 	
 	public final static String EXTRA_EDIT_CATEGORY = "stuffbox.com.edit.category";
 	public final static String EXTRA_FORMULAR_FOR_NEW_ITEM="stuffbox.com.new.formular.for.item";
+	public final static String EXTRA_BADGE_SHOW_DETAIL = "stuffbox.com.edit.badge.show.detail";
+
+	
 	
 	public final static String DIALOG_ARGUMENT_YES="stuffbox.com.dialog_yes";
 	public final static String DIALOG_ARGUMENT_NO="stuffbox.com.dialog_no";

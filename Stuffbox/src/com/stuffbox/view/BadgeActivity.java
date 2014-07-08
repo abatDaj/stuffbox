@@ -39,12 +39,14 @@ public class BadgeActivity extends ActionBarActivity {
 	        @Override
 	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 	        {		        
-		        Intent intent = new Intent();		        
+		        Intent intent = new Intent();   
+		        Badge clickedBadge = (Badge) parent.getItemAtPosition(position);
+		        intent.putExtra(Controller.EXTRA_BADGE_SHOW_DETAIL, clickedBadge);
 		        intent.setClassName(getPackageName(), BadgeDetailActivity.class.getName());
-		        startActivity(intent);
+				startActivity(intent);	
 	        }
-		
         });
+		
 		/**TODO
 		 * Nur Test um Umgang zu erlernen
 		 */

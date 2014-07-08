@@ -39,9 +39,7 @@ public class BadgeArrayAdapter extends ArrayAdapter<Badge> {
 		rowView.setOrientation(LinearLayout.HORIZONTAL);
 		rowView.setPadding(0, 20, 0, 20);
 		rowView.setLayoutParams(new ListView.LayoutParams( LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		rowView.setOnClickListener(null);
-		rowView.setOnTouchListener(null);
-
+		
 		TextView textView = new TextView(context);
 		textView.setLayoutParams(new LayoutParams(150,LinearLayout.LayoutParams.FILL_PARENT));
 		textView.setGravity(Gravity.CENTER_VERTICAL);
