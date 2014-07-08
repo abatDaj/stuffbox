@@ -78,8 +78,6 @@ public class NewFeatureActivity extends ActionBarActivity implements DialogDecis
 	        case R.id.menu_delete:
 	            onDelete();
 	            return true;	
-	        case R.id.action_settings:
-	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

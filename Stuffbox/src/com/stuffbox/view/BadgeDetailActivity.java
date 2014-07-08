@@ -57,7 +57,6 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		int drawableId = badge.getCategory().getIcon().getDrawableId();
 
 		ImageView greyPics[] = new ImageView[5];
-		Controller.getInstance().sayIt("HHHHH: " + badge.getHighestBadge());
 		for (int i = 0; i < greyPics.length; i++) {
 			greyPics[i] = new ImageView(this);
 			greyPics[i].setImageResource(drawableId);
@@ -85,7 +84,6 @@ public class BadgeDetailActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		getSupportActionBar().setTitle(badge.getCategory().getName() + " ("+ badge.getItemcount() + ") ");
-		getMenuInflater().inflate(R.menu.edit, menu);
 		getMenuInflater().inflate(R.menu.badge_detail, menu);
 		return true;
 	}
@@ -96,9 +94,6 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
 		return super.onOptionsItemSelected(item);
 	}
 }

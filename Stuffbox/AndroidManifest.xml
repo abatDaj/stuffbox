@@ -131,7 +131,11 @@
         </activity>
         <activity
             android:name="com.stuffbox.view.BadgeDetailActivity"
-            android:label="@string/title_activity_badge_detail" >
+            android:label="@string/title_activity_badge_detail"            
+            android:parentActivityName="com.stuffbox.view.BadgeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.stuffbox.view.BadgeActivity" />
         </activity>
     </application>
 

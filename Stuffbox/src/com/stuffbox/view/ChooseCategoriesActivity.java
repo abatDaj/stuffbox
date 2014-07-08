@@ -51,8 +51,6 @@ public class ChooseCategoriesActivity extends ActionBarActivity {
 	        case R.id.menu_abort:
 	            onCancel(null);
 	            return true;
-	        case R.id.action_settings:
-	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

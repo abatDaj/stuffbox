@@ -89,8 +89,6 @@ public class SearchableActivity extends ActionBarActivity {
 			intent.setClassName(getPackageName(), BadgeActivity.class.getName());
 			startActivity(intent);
 			return true;
-		case R.id.action_settings:
-			return true;
 			// Respond to the action bar's Up/Home button
 		case android.R.id.home:
 			if (!Controller.getInstance().getCurrentCategory().getName()

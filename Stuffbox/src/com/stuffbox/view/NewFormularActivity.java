@@ -250,8 +250,6 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 	        case R.id.menu_delete:
 	            onDelete();
 	            return true;	
-	        case R.id.action_settings:
-	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }

@@ -89,8 +89,6 @@ public class ListFormularActivity extends ActionBarActivity{
 		    case R.id.menu_chancel_item:
 		    	onBackPressed();
 		        return true;
-		    case R.id.action_settings:
-		    	return true;
 		    default:
 		    	return super.onOptionsItemSelected(item);
 	    }		

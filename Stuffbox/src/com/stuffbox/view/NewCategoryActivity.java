@@ -226,8 +226,6 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		        case R.id.menu_chancel:
 		            onChancel();
 		            return true;
-		        case R.id.action_settings:
-		        	return true;
 		        default:
 		            return super.onOptionsItemSelected(item);
 		    }		

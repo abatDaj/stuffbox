@@ -209,18 +209,12 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 				//neues Item anlegen
 				Controller.getInstance().insertItem(itemName, formular, selectedCategories);
 				
-				//Dialog anzeigen
+				//Abzeichen Dialog anzeigen
 		    	ArrayList<Badge> badges = Badge.getBadges();
 		    	
 		    	for(int badgeindex = 0; badgeindex < badges.size(); badgeindex++){
 		    		if(badges.get(badgeindex).getCategory().getId() == Controller.getInstance().getCurrentCategory().getId()){
-		    			
-//		    			Dialog dialog = new Dialog(this);
-//		
-//		    			dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
-//		    			dialog.setContentView(R.layout.custom_dialog);
-//		    			dialog.setTitle("Abzeichen erhalten");
-//		    			
+	    			
 		    			int drawableId = badges.get(badgeindex).getCategory().getIcon().getDrawableId();
 		
 		    			ImageView greyPics[] = new ImageView[5];
@@ -238,25 +232,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 						LinearLayout toastView = (LinearLayout) toast.getView();
 						toastView.addView(star, 0);
 						toast.show();
-		    			
-//		    			ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE);
-//		    			LinearLayout layout = new LinearLayout(this);
-//		    			layout.addView(star, params);
-//		    			
-//		    			Button button = (Button) findViewById(R.id.button1);
-//		    			button.setOnClickListener(new OnClickListener() {
-//							
-//							@Override
-//							public void onClick(View v) {
-//								//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
-//								Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
-//								Controller.getInstance().setSelectedCategoriesInItem(null);
-//								Intent intent = getIntent();
-//								startActivity(intent);
-//							}
-//						});
-//		    			
-//		    			dialog.show();
 		    			
 		    			break;
 		    		}
@@ -365,8 +340,6 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        case R.id.menu_chancel:	
 	            onCancel(null);
 	            return true;
-	        case R.id.action_settings:
-	        	return true;
 	        case android.R.id.home:
 	        	onBackPressed();
 	            return true;
