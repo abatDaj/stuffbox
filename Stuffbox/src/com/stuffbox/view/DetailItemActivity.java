@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,17 +13,24 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
+import com.stuffbox.model.Badge;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
@@ -141,9 +149,9 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		
 		int actionbarmenu;
 		if (!changeMode){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_item));
 			actionbarmenu = R.menu.change_menu_edit_item;
 		}else if(!itemExits){
-			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_item));
 			actionbarmenu = R.menu.change_menu;
 		}else{
 			getSupportActionBar().setTitle(item.getName());
@@ -200,6 +208,60 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 			if(!itemExits){	
 				//neues Item anlegen
 				Controller.getInstance().insertItem(itemName, formular, selectedCategories);
+				
+				//Dialog anzeigen
+		    	ArrayList<Badge> badges = Badge.getBadges();
+		    	
+		    	for(int badgeindex = 0; badgeindex < badges.size(); badgeindex++){
+		    		if(badges.get(badgeindex).getCategory().getId() == Controller.getInstance().getCurrentCategory().getId()){
+		    			
+//		    			Dialog dialog = new Dialog(this);
+//		
+//		    			dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+//		    			dialog.setContentView(R.layout.custom_dialog);
+//		    			dialog.setTitle("Abzeichen erhalten");
+//		    			
+		    			int drawableId = badges.get(badgeindex).getCategory().getIcon().getDrawableId();
+		
+		    			ImageView greyPics[] = new ImageView[5];
+		    			for (int layers = 0; layers < greyPics.length; layers++) {
+		    				greyPics[layers] = new ImageView(this);
+		    				greyPics[layers].setImageResource(drawableId);
+		    				greyPics[layers].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
+		    			}
+		    			
+		    			ImageView star = Utility.stuffBoxStarIconCloner(this,drawableId, badges.get(badgeindex).getHighestBadge());
+		    			
+						Toast toast = Toast.makeText(getApplicationContext(),
+								   getResources().getString(R.string.txt_badge_new_badge), Toast.LENGTH_LONG);
+						toast.setGravity(Gravity.CENTER, 0, 0);
+						LinearLayout toastView = (LinearLayout) toast.getView();
+						toastView.addView(star, 0);
+						toast.show();
+		    			
+//		    			ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE);
+//		    			LinearLayout layout = new LinearLayout(this);
+//		    			layout.addView(star, params);
+//		    			
+//		    			Button button = (Button) findViewById(R.id.button1);
+//		    			button.setOnClickListener(new OnClickListener() {
+//							
+//							@Override
+//							public void onClick(View v) {
+//								//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
+//								Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
+//								Controller.getInstance().setSelectedCategoriesInItem(null);
+//								Intent intent = getIntent();
+//								startActivity(intent);
+//							}
+//						});
+//		    			
+//		    			dialog.show();
+		    			
+		    			break;
+		    		}
+		    	}
+		    	
 				//TODO Diese Anweisung fuehrt dazu, das die Rueckspruenge nicht mehr so gut funktionieren.
 				Controller.getInstance().setCurrentItem(Controller.getInstance().popLastInsertedItem());
 				Controller.getInstance().setSelectedCategoriesInItem(null);
