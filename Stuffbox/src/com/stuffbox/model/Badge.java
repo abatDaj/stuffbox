@@ -96,16 +96,16 @@ public class Badge implements Serializable {
 	}
 	
 	public int getHighestBadge(){
-		if (isBadge1()) {
-			return 1;
-		} else if (isBadge2()) {
-			return 2;
+		if (isBadge5()) {
+			return 5;
+		} else if (isBadge4()) {
+			return 4;
 		} if (isBadge3()) {
 			return 3;
-		} else if(isBadge4()) {
-			return 4;
-		} else if (isBadge5()) {
-			return 5;
+		} else if(isBadge2()) {
+			return 2;
+		} else if (isBadge1()) {
+			return 1;
 		} else {
 			return 0;
 		}

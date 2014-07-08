@@ -57,18 +57,22 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		int drawableId = badge.getCategory().getIcon().getDrawableId();
 
 		ImageView greyPics[] = new ImageView[5];
-		
+		Controller.getInstance().sayIt("HHHHH: " + badge.getHighestBadge());
 		for (int i = 0; i < greyPics.length; i++) {
 			greyPics[i] = new ImageView(this);
 			greyPics[i].setImageResource(drawableId);
 			greyPics[i].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
-			if (badge.getHighestBadge() > 1) {
-				ImageView star1 = Utility.stuffBoxStarIconCloner(this,drawableId, badge.getHighestBadge());
+			
+			
+			
+			if (badge.getHighestBadge() > 0) {
+				ImageView star1 = Utility.stuffBoxStarIconCloner(this,drawableId, i +1);
 				rowView.addView(star1);
-			} else {
+			} else if (badge.getHighestBadge() == 0) {
 				Utility.makeImageViewGrey(greyPics[i]);
 				rowView.addView(greyPics[i]);
 			}
+			
 		}
 		ll.addView(rowView);
 		
