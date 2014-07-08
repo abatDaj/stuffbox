@@ -83,7 +83,8 @@
             android:name="com.stuffbox.view.DetailItemActivity"
             android:label="@string/title_activity_detail_item"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize" 
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.stuffbox.view.ListCategoriesActivity" />
@@ -115,7 +116,8 @@
         <activity
             android:name="com.stuffbox.view.SearchableActivity"
             android:label="@string/action_search"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
