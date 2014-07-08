@@ -31,25 +31,18 @@ public class Controller {
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN = 12; 
 	public final static int BADGE_ICON_SIZE = 85; 
-
-	
-	
 	public final static int DEFAULT_RANKING_VALUE = 5;
 	
 	// Default-Wert, die Items für Bilder bekommen, wenns keins
 	// geschossen wurde.
 	public final static String DEFAULT_ICON_VALUE_FOR_PICTURE = "stuffbox.item.without.picture";
-
 	
-	// Für die Bild-Galerie Funktion
+	// Fuer die Bild-Galerie Funktion
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
-
 	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
-	
 	// Java-CSS
 	public static final int CSS_TEXT_SIZE_LABELS = 16;
-	
 
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
@@ -81,7 +74,6 @@ public class Controller {
 		init = true;
 	}
 	
-	//TODO
 	public static Controller getInstance (Context context) {
 		if (instance == null){
 			instance = new Controller (context);
@@ -296,7 +288,10 @@ public class Controller {
     public ArrayList<Category> getSubCategories(long categoryId) {
     	return databaseHandler.getSubCategories(categoryId);
     }
-    
+    /**
+     * Gibt die Root Kategorie zurueck
+     * @return
+     */
     public Category getRootCategory(){
     	ArrayList<Long> ids = new ArrayList<Long>();
     	ids.add((long) DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
@@ -378,6 +373,9 @@ public class Controller {
      */
     public void insertIcon(String name, String description){
     	databaseHandler.insertIcon(name, description);
+ 
+    	//Nur f�r horizontalen Prototypen
+    	
     }
     
     /**
@@ -587,39 +585,25 @@ public class Controller {
 		// holt alle Icons mit dem Prefix "category_icon_"
 		for (int i = 0; i < drawableFields.length; i++)
 			if (drawableFields[i].getName().startsWith( (String) context.getResources().getText(R.string.prefix_icon_category)))  
-				databaseHandler.insertIcon(drawableFields[i].getName(),"egal");
+				databaseHandler.insertIcon(drawableFields[i].getName(),drawableFields[i].getName());
     }
     
     /**
      * Setzt die Datenbank neu auf
      */
     public void initializeDatabase(Context context){
-    	//databaseHandler.initializeDatabase();
-    	
-    	
     	databaseHandler.setRootCategoryID();
     	
     	getTypes();
-//    	
-//    	insertDebugFeatureEntries();
-//    	ArrayList<Feature> features = getFeatures(null);
-//    	insertDebugFormularEntries(features);
+    	databaseHandler.insertIcon("ic_launcher","Stuffbox");
     	if(DatabaseHandler.INDEX_OF_ROOT_CATEGORY == DatabaseHandler.INITIAL_ID){
     		//Nur hinzufuegen, wenn neue initialisierte DB
     		fillIconTableWithIcons(context);
     	}
     	getIcons();
     	//Root Kategorie einfuegen
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(0), -1);    
 		this.setCurrentCategory(currentCategory);
-//    	insertDebugCategoryEntries();
-//
-//    	ArrayList<Formular> formulars = getFormulars(null); 
-//    	ArrayList<Category> categories = getCategories(null); 
-//    	insertDebugItemEntries(formulars, categories);
-//    	
-//    	getItems(null);    	
-    	
     }
     
     public void insertDebugEntries(Context context){
@@ -634,7 +618,7 @@ public class Controller {
     	getIcons();
     	
     	//Root Kategorie einfuegen
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(0), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
 

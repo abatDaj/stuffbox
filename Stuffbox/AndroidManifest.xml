@@ -21,11 +21,6 @@
         <activity
             android:name="com.stuffbox.view.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.stuffbox.view.NewCategoryActivity"
@@ -77,8 +72,12 @@
             android:noHistory="true"
             android:parentActivityName="com.stuffbox.view.ListCategoriesActivity" >
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.stuffbox.view.ListCategoriesActivity" />
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.stuffbox.view.ListCategoriesActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.stuffbox.view.DetailItemActivity"

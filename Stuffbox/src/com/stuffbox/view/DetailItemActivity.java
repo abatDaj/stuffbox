@@ -143,8 +143,10 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		if (!changeMode){
 			actionbarmenu = R.menu.change_menu_edit_item;
 		}else if(!itemExits){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_item));
 			actionbarmenu = R.menu.change_menu;
 		}else{
+			getSupportActionBar().setTitle(item.getName());
 			actionbarmenu = R.menu.edit;
 		}
 		getMenuInflater().inflate(actionbarmenu, menu);

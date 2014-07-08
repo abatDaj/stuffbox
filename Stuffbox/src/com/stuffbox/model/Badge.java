@@ -1,8 +1,11 @@
 package com.stuffbox.model;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.stuffbox.controller.Controller;
 
 public class Badge implements Serializable {
+
 	private Category category; //Kategoriename
 	private String badgeIconSet; //Name des Kategorie Iconsets mit den Badges
 	private int itemcount; //Anzahl Eintraege/Items
@@ -89,6 +92,46 @@ public class Badge implements Serializable {
 		this.itemcount = itemcount;
 	}
 	
-	
+	public static ArrayList<Badge> getBadges(){
+		/**TODO
+		 * Nur Test um Umgang zu erlernen
+		 */
+		ArrayList<Badge> arrList = new ArrayList<Badge>();
+		
+		/**
+		 * Rootkategorien fuer Badgesystem laden
+		 */
+		
+		UserLevel level = new UserLevel();
+		
+		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
+		ArrayList<Category> subCat= new ArrayList<Category>();
+		ArrayList<Category> rootCat = new ArrayList<Category>();
+		ArrayList<Category> interestCat = new ArrayList<Category>();
+		
+		//Dieser Part fuer alle Kategorien
+		for(Category cat : allCat){
+			interestCat.add(cat);
+		}
+		//Tracking und debugging infos
+		System.out.println("AlleKategorien: " + allCat.size());
+		System.out.println("RootKategorien: " + rootCat.size());
+		System.out.println("SubKategorien: " + subCat.size());
+		System.out.println("InteressierendeKategorien: " + interestCat.size());
+		System.out.println("Badges: " + level.getBadgeCount());
+		System.out.println("Level: " + level.getLvlCount());
+		
+		
+		//Anzahl der Items pro Kategorie
+		for(Category cat: interestCat){
+			//Debugging Testing
+			System.out.println(cat.getName() + " "+ "KatLevel: " + level.getBadgeLevel(cat.getId()));
+			System.out.println(cat.getName() + " " + "KatLevelLeft: " + level.getBadgeLevelLeft(cat.getId()));
+			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
+			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
+			arrList.add(new Badge(cat,items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));
+		}
+		return arrList;
+	}
 	
 }
