@@ -71,5 +71,6 @@
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_list_categories">ListCategoriesActivity</string>
     <string name="title_activity_choose_items">ChooseItemsActivity</string>
+    <string name="title_activity_badge_detail">BadgeDetailActivity</string>
 
 </resources>

@@ -170,7 +170,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        dn.show(getSupportFragmentManager(), TAG);
 		}
 		else {
-			if(photoImageView != null && changeMode == false){ //TODO: das sollte ermöglicht werden
+			if(photoImageView != null && !itemExits){ //TODO: das sollte ermöglicht werden
 
 				if (this.lastFileNameOfPhoto != null) {// String darf nicht null sein !
 					//photoImageView.setTag(this.lastFileNameOfPhoto);
