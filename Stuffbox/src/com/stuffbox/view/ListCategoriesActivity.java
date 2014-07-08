@@ -124,8 +124,11 @@ public class ListCategoriesActivity extends ActionBarActivity {
 		}
 		
 		getMenuInflater().inflate(R.menu.choose_items, menu);
+		SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 	    MenuItem searchItem = menu.findItem(R.id.action_search);
-//	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+	    
+	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+	    searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
 //	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 //	        String query = intent.getStringExtra(SearchManager.QUERY);
 //	        doMySearch(query);
@@ -211,9 +214,9 @@ public class ListCategoriesActivity extends ActionBarActivity {
     	Intent intentSearchItem = new Intent();        
     	intentSearchItem.setClassName(getPackageName(), SearchableActivity.class.getName());
     	//intentSearchItem.putExtra(SearchableActivity., true);
-    	if (Intent.ACTION_SEARCH.equals(intentSearchItem.getAction())) {
+    	//if (Intent.ACTION_SEARCH.equals(intentSearchItem.getAction())) {
 	        startActivity(intentSearchItem);
-	      }
+	    //  }
         return true;
         
 //        Bundle appData = new Bundle();
