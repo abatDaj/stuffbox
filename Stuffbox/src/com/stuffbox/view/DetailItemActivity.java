@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,13 +29,14 @@ import com.stuffbox.model.Feature;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
+import com.stuffbox.view.DialogDecision.DialogDecisionListener;
 import com.stuffbox.view.helper.ActivityWithATimePickerEditText;
 import com.stuffbox.view.helper.DatePickerFragment;
 import com.stuffbox.view.helper.EditTextDatePicker;
 import com.stuffbox.view.helper.ImageViewPhoto;
 import com.stuffbox.view.helper.Utility;
 
-public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText {
+public class DetailItemActivity extends ActionBarActivity implements ActivityWithATimePickerEditText, DialogDecisionListener {
 
 	public static final String PURPOSE_IS_UPDATE = "UPDATE";
 	
@@ -312,7 +314,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		        finish();
 	            return true;
 	        case R.id.menu_delete:
-	        	//TODO
+	        	onDelete();
 	        	return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -342,6 +344,34 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 
 		textView.setText(stringBuilder.toString());	
 	}
+	
+	/**
+	 * 
+	 * Loescht das Item
+	 */	
+	public void onDelete(){
+		DialogDecision dd = new DialogDecision();
+		String question = getResources().getText(R.string.delete_dialog_item).toString();
+		String yes = getResources().getText(R.string.btn_alert_de_ok).toString();
+		String no = getResources().getText(R.string.btn_alert_de_no).toString();
+		dd.initDialogAttributes(question, yes, no);
+        dd.show(getSupportFragmentManager(), "DeleteDialogFragment");
+	}
+	
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+		Controller.getInstance().deleteItem(item);
+		Controller.getInstance().setCurrentItem(null);
+		//zurueck zur anfragenden activity
+        Intent intent = new Intent();                
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+    	//nichts machen
+    }
 	
 	@Override
 	public void onBackPressed(){

@@ -30,7 +30,7 @@ public class Controller {
 	public final static int NUMBER_STARS_OF_RANKING = 9; 
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN = 12; 
-	public final static int BADGE_ICON_SIZE = 70; 
+	public final static int BADGE_ICON_SIZE = 85; 
 
 	
 	
@@ -246,7 +246,26 @@ public class Controller {
     public Item updateItem(Item item){
     	return databaseHandler.updateItem(item);
     }
-    
+	/**
+	 * Loescht mehrere Items
+	 *
+	 * @param item
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItems(ArrayList<Item> items) {
+		return databaseHandler.deleteItems(items);
+	}
+	/**
+	 * Loescht mehrere Items
+	 *
+	 * @param item
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItem(Item item) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		items.add(item);
+		return databaseHandler.deleteItems(items);
+	}
 	/**
 	 * Gibt die zuletzt angelegtes Item zurueck und
 	 * entfernt es aus dem Controller
@@ -478,7 +497,7 @@ public class Controller {
     			insertCategory("Sportartikel", icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
     		if (icon.getName().equals("category_icon_music"))
     			insertCategory("Musik", icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
-    		if (icon.getName().equals("category_icon_food"))
+    		if (icon.getName().equals("category_icon_drinks"))
     			insertCategory("Suppen",icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
         	if (icon.getName().equals("category_icon_default"))
         		insertCategory("Sonstiges",icon, DatabaseHandler.INDEX_OF_ROOT_CATEGORY);

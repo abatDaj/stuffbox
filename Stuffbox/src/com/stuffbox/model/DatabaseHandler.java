@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
 
-	private static final String TAG = DatabaseHandler.class.getSimpleName();
+	static final String TAG = DatabaseHandler.class.getSimpleName();
 
 	public static final String PREFS_NAME = "STUFFBOX_DATABASE";
 	
@@ -259,7 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public Item insertItem(String name, Formular formular, ArrayList<Category> categories){
-    	return dataSourceItem.updateItem(database, new Item(INITIAL_ID, name, formular, categories));
+    	return dataSourceItem.insertOrUpdateItem(database, new Item(INITIAL_ID, name, formular, categories));
     }
     /**
      * Speichert die Aenderungen an einem Item in der Tabelle Item und dessen zugeorndete
@@ -270,8 +270,17 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @return
      */
     public Item updateItem(Item item){
-    	return dataSourceItem.updateItem(database, item);
+    	return dataSourceItem.insertOrUpdateItem(database, item);
     }
+	/**
+	 * Loescht mehrere Items
+	 *
+	 * @param item
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItems(ArrayList<Item> items) {
+		return dataSourceItem.deleteItems(database, items);
+	}
     /**
      * Gibt eine Liste aller Kategorien zurueck, deren ids in der id Liste enthalten ist
      * @param selectFeatureIds Liste aller zu selektierenden Ids (bei null werden alle geladen)
@@ -358,9 +367,29 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     		ContentValues whereValues, 
     		String logString){
     	database.beginTransaction();
-    	long rowID = -1;
     	
     	String whereClause = createWhereStatementFromContentValues(whereValues); 
+    	
+    	return updateEntryInDB(database, table, values, whereClause, logString);
+    }    
+	
+    
+    /**
+     * Inserts one entry into the database
+     * @param database
+     * @param table
+     * @param values
+     * @param whereValues
+     * @param logString
+     * @return number of updated rows
+     */
+    public static long updateEntryInDB(SQLiteDatabase database, 
+    		String table, 
+    		ContentValues values, 
+    		String whereClause, 
+    		String logString){
+    	database.beginTransaction();
+    	long rowID = -1; 
     	
     	try{
     		rowID = database.update(table, values, whereClause, null);
@@ -372,8 +401,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	database.setTransactionSuccessful();
     	database.endTransaction();
     	return rowID;
-    }    
-	
+    } 
     
     /**
      * Loescht einen Tupel

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DataSourceFeature {
 	//TODO Zuorndung Text und Foto koennte schoener sein
@@ -150,6 +151,9 @@ public class DataSourceFeature {
      * @return
      */
 	public static String getDatabaseStringOfValue(Object value, FeatureType type){
+		if(value == null){
+			return "null";
+		}
 		return value.toString();
 	}
 	/**
@@ -161,17 +165,23 @@ public class DataSourceFeature {
 	 */
 	public static Object getValueFromDatabaseString(String valueAsString, FeatureType type){
 		Object valueAsObject;
-		switch (type) {
-		case Wahrheitswert:
-			valueAsObject = Boolean.parseBoolean(valueAsString);
-			break;
-		case Ranking:
-			valueAsObject = Integer.parseInt(valueAsString);
-			break;
-		default:
-			valueAsObject = valueAsString.toString();
-			break;
+		try {
+			switch (type) {
+			case Wahrheitswert:
+				valueAsObject = Boolean.parseBoolean(valueAsString);
+				break;
+			case Ranking:
+				valueAsObject = Integer.parseInt(valueAsString);
+				break;
+			default:
+				valueAsObject = valueAsString;
+				break;
+			}
+		} catch (Exception e) {
+			Log.e(DatabaseHandler.TAG, e.toString());
+			valueAsObject = valueAsString;
 		}
+
 		return valueAsObject;
 	}
 }

@@ -71,7 +71,12 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		rowView.setOrientation(LinearLayout.VERTICAL);
 		rowView.setPadding(15, 15, 0, 15);
 		
-		// Der Eigenschaftsname (über dem Eingabefeld)
+		if(feature.getSortnumber() == 0){
+			rowView.setVisibility(LinearLayout.GONE);
+			return rowView;
+		}
+		
+		// Der Eigenschaftsname (Ueber dem Eingabefeld)
 		TextView featureNameTextView = new TextView (context);
 		featureNameTextView.setText(features.get(position).getName());
 		rowView.addView(featureNameTextView);

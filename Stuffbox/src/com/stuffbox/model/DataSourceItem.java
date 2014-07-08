@@ -62,10 +62,9 @@ public class DataSourceItem {
      * TODO Kategoriezuordnung speichern
      * @param name
      */
-    public Item updateItem(SQLiteDatabase database, Item item){
+    public Item insertOrUpdateItem(SQLiteDatabase database, Item item){
     	ContentValues values = new ContentValues();
     	values.put(DatabaseHandler.KEY_NAME, item.getName());
-    	values.put(DatabaseHandler.TABLE_FORMULAR, item.getFormular().getId());
     	
     	boolean isUpdate = item.getId() != DatabaseHandler.INITIAL_ID;
     	Item oldItem = null;
@@ -75,14 +74,23 @@ public class DataSourceItem {
 	    	oldItem = getItems(database, selectItemIds).get(0);
     	}
     	
-    	
-    	long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, item.getName());
-        if (rowid <= 0){
-        	return null;
-        }
+    	//Item anlegen/aktualieren
+    	if(!isUpdate){
+        	values.put(DatabaseHandler.TABLE_FORMULAR, item.getFormular().getId());
+        	
+    		long rowid = DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_ITEM, values, item.getName());
+            if (rowid <= 0){
+            	return null;
+            }
+    		item.setId(rowid);
+    	}else{
+        	ContentValues whereValues = new ContentValues();
+        	whereValues.put(DatabaseHandler.KEY_ID, item.getId());
+        	
+        	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_ITEM, values, whereValues, item.getName());
+    	}
         
-        item.setId(rowid);
-        
+    	//Formular anlegen/aktualiseren
     	for (Feature feature : item.getFormular().getFeatures()) {
     		if(!isUpdate){
     			insertFeatureOfItem(database, feature, item);
@@ -90,16 +98,16 @@ public class DataSourceItem {
     			updateFeatureOfItem(database, feature, item);
     		}
 		}
-    	
+    	//Kategorien anlegen/aktualiseren
     	if(!isUpdate){
 	    	for(Category category : item.getCategories()){
 		    	insertCategoryOfItem(database, category, item);
 	    	}
     	}else{
-			//update features
+			//update Kategorie
 	        for(Category category : item.getCategories()){
 	        	Category categoryFound = null;
-	        	//suche in alten features nach den aktuellen
+	        	//suche in alten Kategorie nach den aktuellen
 	        	for(Category oldCateogry : oldItem.getCategories()){
 		        	if(category.getId() == oldCateogry.getId()){
 		        		categoryFound = oldCateogry;
@@ -144,6 +152,23 @@ public class DataSourceItem {
     	DatabaseHandler.insertIntoDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, item.getName());
     }
 
+	/**
+	 * Loescht mehrere Items
+	 *
+	 * @param item
+	 * @return Ob es erfolgreich geloescht wurde 
+	 */
+	public boolean deleteItems(SQLiteDatabase database, ArrayList<Item> items) {
+		ArrayList<Long> selectItemsIds = new ArrayList<Long>();
+		for (Item item : items) {
+			selectItemsIds.add(item.getId());	
+		}
+		String whereStatement = DatabaseHandler.createWhereStatementFromIDList(selectItemsIds,null);
+	
+		long delRows = DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_ITEM, whereStatement);		
+		return delRows == 1 ? true : false;
+	}
+    
     /**
      * Fuegt den Wert einer Eigenschaft eines Items in der Verknuepfungstabelle auf der Datenbank hinzu
 
@@ -157,9 +182,11 @@ public class DataSourceItem {
     	
     	ContentValues whereValues = new ContentValues();
     	whereValues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
-    	whereValues.put(DatabaseHandler.TABLE_ITEM, item.getId());
     	
-    	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, whereValues, item.getName());
+    	String whereClause = DatabaseHandler.createWhereStatementFromContentValues(whereValues); 
+    	whereClause = "(" + whereClause + ") AND " + DatabaseHandler.TABLE_ITEM + "==" + item.getId();
+    	
+    	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, whereClause, item.getName());
     }    
     
 	/**
@@ -261,6 +288,7 @@ public class DataSourceItem {
 						Object valueAsObject = DataSourceFeature.getValueFromDatabaseString(value, feature.getType());
 						feature.setValue(valueAsObject);
 						featureWasFound = true;
+						break;
 					}
 				}
 				

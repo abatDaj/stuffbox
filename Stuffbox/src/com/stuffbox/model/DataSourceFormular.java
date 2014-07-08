@@ -88,7 +88,6 @@ public class DataSourceFormular {
 	        }
 	        if(!deleteFeatureIds.isEmpty()){
 				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteFeatureIds, DatabaseHandler.TABLE_FEATURE);
-				//TODO testen
 				whereStatement = "(" + whereStatement + ")" + DatabaseHandler.SQL_AND +  DatabaseHandler.TABLE_FORMULAR + " == " + formular.getId();
 				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, whereStatement);		
 	        }
@@ -139,7 +138,7 @@ public class DataSourceFormular {
     	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FORMULAR_FEATURE, featurevalues, whereValues, logString);
     }    
 	/**
-	 * Loescht ein Formular
+	 * Loescht mehere Formulare
 	 * 
 	 * @param formulars
 	 * @return Ob es erfolgreich geloescht wurde 

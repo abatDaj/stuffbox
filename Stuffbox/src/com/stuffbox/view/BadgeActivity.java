@@ -2,6 +2,7 @@ package com.stuffbox.view;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Badge;
 import com.stuffbox.model.Category;
+import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.Item;
 import com.stuffbox.model.UserLevel;
 
@@ -99,4 +101,11 @@ public class BadgeActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+    @Override
+    public void onBackPressed(){	
+        Intent intent = new Intent();   
+        intent.setClassName(getPackageName(), ListCategoriesActivity.class.getName());
+        startActivity(intent);				
+    	finish();
+    }
 }

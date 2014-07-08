@@ -68,6 +68,10 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 			//Zuorndung der Eigenschaften zu ausgewaehlt und nicht ausgewaehlt
 			for (Feature feature : features) {
 				boolean wasFound = false;
+				if(feature.getId() == Formular.idOfNameFeature ){
+					selectedFeatures.add(feature);
+					continue;
+				}
 				for(Feature featureOfFormular : Controller.getInstance().getCurrentFormular().getFeatures()){
 					if(feature.getId() == featureOfFormular.getId() ){
 						wasFound = true;
@@ -256,7 +260,7 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 	
 	/**
 	 * 
-	 * Loescht die Eigenschaft.
+	 * Loescht das Formular.
 	 */	
 	public void onDelete(){
 		DialogDecision dd = new DialogDecision();
