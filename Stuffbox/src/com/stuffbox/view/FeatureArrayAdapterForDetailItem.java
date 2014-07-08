@@ -259,11 +259,11 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 					String randomNumber = String.valueOf(Math.random()).substring(2, 6);
 					String fileNameOfPhoto = Controller.getInstance().getCurrentCategory().getName() + "_" + randomNumber;
 					activityWithATimePickerEditText.onClickOfImageViewPhoto(fileNameOfPhoto);
+					imageViewPhoto.setTag(fileNameOfPhoto);
 				}
 				else // speichern 
 				{
-					//Controller.getInstance().sayIt("Ich speicher: " + ((String)imageViewPhoto.getTag()).toString());
-					feature.setValue(((String)imageViewPhoto.getTag())); // der TAG ist der Datei-Name
+					feature.setValue(((String)imageViewPhoto.getTag())); // der TAG ist der Datei-Name);
 				}
 			}
 		});		

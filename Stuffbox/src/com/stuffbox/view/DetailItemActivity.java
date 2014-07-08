@@ -58,7 +58,11 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_item);		
 		
+		try {
 		formular = Controller.getInstance().getCurrentFormular();
+		}
+		catch (Exception e)
+		{}
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;
@@ -166,11 +170,10 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        dn.show(getSupportFragmentManager(), TAG);
 		}
 		else {
-			if(photoImageView != null){
+			if(photoImageView != null && changeMode == false){ //TODO: das sollte ermöglicht werden
 
 				if (this.lastFileNameOfPhoto != null) {// String darf nicht null sein !
-					photoImageView.setTag(this.lastFileNameOfPhoto);
-					Controller.getInstance().sayIt("NAME: " + lastFileNameOfPhoto);
+					//photoImageView.setTag(this.lastFileNameOfPhoto);
 				}
 				// Kleiner Hack (beide Anweiseungen): "normaler" ClickListener wird unsschädlich gemacht
 				// und die else Block speichert dann den Dateiname des geschossenen Fotos (falls vorhanden)
