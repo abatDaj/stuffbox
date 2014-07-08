@@ -112,9 +112,6 @@ public class Badge implements Serializable {
 	}
 	
 	public static ArrayList<Badge> getBadges(){
-		/**TODO
-		 * Nur Test um Umgang zu erlernen
-		 */
 		ArrayList<Badge> arrList = new ArrayList<Badge>();
 		
 		/**

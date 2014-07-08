@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class DataSourceFeature {
-	//TODO Zuorndung Text und Foto koennte schoener sein
     public static final String[] DEFAULT_FEATURES 
     = {	"Name",
 		"Bild"};
@@ -145,7 +144,6 @@ public class DataSourceFeature {
     
     /**
      * Erstellt aus dem uebergebenen Objekt einen speicherbaren String
-     * TODO Type einbeziehen
      * @param value
      * @param type
      * @return
@@ -158,7 +156,6 @@ public class DataSourceFeature {
 	}
 	/**
 	 * Erstellt aus dem uebergebenen String einen entsprechendes Objekt
-	 * TODO Type einbeziehen
 	 * @param valueAsString
 	 * @param type
 	 * @return

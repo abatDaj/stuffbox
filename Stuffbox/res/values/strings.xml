@@ -46,6 +46,7 @@
     <string name="delete_dialog_formular">Soll das Formular samt aller zugeordneten Gegenständen gelöschen werden?</string>
     <string name="delete_dialog_item">Soll der Gegenstand gelöschen werden?</string>
     <string name="txt_badge_headline">Errungene Abzeichen</string>
+    <string name="txt_badge_new_badge">Neues Abzeichen erhalten</string>
     <string name="btn_alert_de_ok">OK</string>
     <string name="btn_alert_de_yes">Ja</string>
     <string name="btn_alert_de_no">Nein</string>

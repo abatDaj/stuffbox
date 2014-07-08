@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Formular implements Serializable {
-	//TODO mach das Sinn die hier zu speichern
 	public static final long idOfNameFeature = 1;
 	public static final long idOfPictureFeature = 2;
 	

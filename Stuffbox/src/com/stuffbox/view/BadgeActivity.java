@@ -85,6 +85,8 @@ public class BadgeActivity extends ActionBarActivity {
 //			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
 //			arrList.add(new Badge(cat,items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));
 //		}
+
+		level = new UserLevel();
 		
 		arrList = Badge.getBadges();
 		
