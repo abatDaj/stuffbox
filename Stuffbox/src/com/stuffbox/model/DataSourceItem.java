@@ -329,17 +329,7 @@ public class DataSourceItem {
     }
     
     public ArrayList<Item> getItemsFromWordMatches(SQLiteDatabase database, String query, String[] columns) {
-        String selection = DatabaseHandler.KEY_NAME + " LIKE" +query;
-        //String[] selectionArgs = new String[] {"*"+query+"*"};
-//        SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-//        builder.setTables(DatabaseHandler.TABLE_ITEM);
-//
-//        Cursor cursor = builder.query(database,
-//                null, selection, selectionArgs, null, null, null);
-
-      //select types from database
-    	//Cursor cursor = database.query(DatabaseHandler.TABLE_ITEM, null, selection, null, null, null, null);
-    	
+ 	
     	Cursor cursor = database.rawQuery("SELECT  * FROM " +DatabaseHandler.TABLE_ITEM + " WHERE Name LIKE '%" + query + "%' ",null); 
         
         return getItemsFromCursor(database, cursor);

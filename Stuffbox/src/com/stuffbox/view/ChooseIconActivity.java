@@ -7,7 +7,6 @@ import com.stuffbox.view.helper.PredicateLayout;
 
 import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 
 public class ChooseIconActivity extends ActionBarActivity {

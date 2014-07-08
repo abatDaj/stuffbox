@@ -6,7 +6,6 @@ import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
-import com.stuffbox.model.DatabaseHandler;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
 import com.stuffbox.view.helper.Utility;
@@ -14,8 +13,6 @@ import com.stuffbox.view.helper.Utility;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +20,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
@@ -129,32 +124,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	    
 	    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 	    searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-//	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//	        String query = intent.getStringExtra(SearchManager.QUERY);
-//	        doMySearch(query);
-//	      }
-//
-//	    searchView.getQuery();
-	    
-//        searchView.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//		        onSearchRequested();
-//				
-//			}
-//		});
-        //searchView.setOnCloseListener(this);
-	    // Configure the search info and add any event listeners
-	    //
-	    //row_item_list_in_a_category
-	    //searchView.onSearchRequested();
-//	    searchView.setOnQueryTextListener();
-	    
-//	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 	    
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -213,17 +182,8 @@ public class ListCategoriesActivity extends ActionBarActivity {
 	public boolean onSearchRequested(){
     	Intent intentSearchItem = new Intent();        
     	intentSearchItem.setClassName(getPackageName(), SearchableActivity.class.getName());
-    	//intentSearchItem.putExtra(SearchableActivity., true);
-    	//if (Intent.ACTION_SEARCH.equals(intentSearchItem.getAction())) {
-	        startActivity(intentSearchItem);
-	    //  }
+	    startActivity(intentSearchItem);
         return true;
-        
-//        Bundle appData = new Bundle();
-//        appData.putBoolean(SearchableActivity., true);
-//        startSearch(null, false, appData, false);
-//        return true;
-
 	}
 	
 	/**
@@ -265,7 +225,6 @@ public class ListCategoriesActivity extends ActionBarActivity {
     
     public void onInsertDebugEntries(){
     	Controller.getInstance().insertDebugEntries(this);
-    	ArrayList<Long> ids = new ArrayList<Long>();
     	Category rootCategory = Controller.getInstance().getCurrentCategory();
 		Controller.getInstance().setCurrentCategory(rootCategory);	
         Intent intentToRoot = new Intent();   
