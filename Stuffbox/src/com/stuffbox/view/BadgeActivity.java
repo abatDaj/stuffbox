@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.stuffbox.R;
 import com.stuffbox.controller.Controller;
@@ -31,6 +34,17 @@ public class BadgeActivity extends ActionBarActivity {
 		
 		mainListView = (ListView) findViewById(R.id.badgeListView);
 		
+		mainListView.setOnItemClickListener(new OnItemClickListener()
+        {
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+	        {		        
+		        Intent intent = new Intent();		        
+		        intent.setClassName(getPackageName(), BadgeDetailActivity.class.getName());
+		        startActivity(intent);
+	        }
+		
+        });
 		/**TODO
 		 * Nur Test um Umgang zu erlernen
 		 */

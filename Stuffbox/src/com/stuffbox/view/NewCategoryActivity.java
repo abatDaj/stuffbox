@@ -50,7 +50,7 @@ public class NewCategoryActivity extends ActionBarActivity implements DialogDeci
 		tV.setText(getResources().getString(R.string.icon));
 		tV.setTextSize(Controller.CSS_TEXT_SIZE_LABELS);
 		
-		int  did = selectedIcon2.getDrawableId();
+		int  did = Controller.getInstance().getCurrentCategory().getIcon().getDrawableId();
 		iV = new ImageView(this);
 		iV.setImageResource(did);
 		iV.setLayoutParams(new LinearLayout.LayoutParams(150,150));

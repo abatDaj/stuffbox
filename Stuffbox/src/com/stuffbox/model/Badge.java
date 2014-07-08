@@ -1,6 +1,8 @@
 package com.stuffbox.model;
 
-public class Badge {
+import java.io.Serializable;
+
+public class Badge implements Serializable {
 	private Category category; //Kategoriename
 	private String badgeIconSet; //Name des Kategorie Iconsets mit den Badges
 	private int itemcount; //Anzahl Eintraege/Items
