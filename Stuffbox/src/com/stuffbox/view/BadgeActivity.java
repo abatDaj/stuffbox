@@ -33,59 +33,47 @@ public class BadgeActivity extends ActionBarActivity {
 		setContentView(R.layout.badge);
 		
 		mainListView = (ListView) findViewById(R.id.badgeListView);
+
+//		/**TODO
+//		 * Nur Test um Umgang zu erlernen
+//		 */
+//		arrList = new ArrayList<Badge>();
+//		
+//		/**
+//		 * Rootkategorien fuer Badgesystem laden
+//		 */
+//		
+//		level = new UserLevel();
+//		
+//		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
+//		ArrayList<Category> subCat= new ArrayList<Category>();
+//		ArrayList<Category> rootCat = new ArrayList<Category>();
+//		ArrayList<Category> interestCat = new ArrayList<Category>();
+//		
+//		//Dieser Part fuer alle Kategorien
+//		for(Category cat : allCat){
+//			interestCat.add(cat);
+//		}
+//		//Tracking und debugging infos
+//		System.out.println("AlleKategorien: " + allCat.size());
+//		System.out.println("RootKategorien: " + rootCat.size());
+//		System.out.println("SubKategorien: " + subCat.size());
+//		System.out.println("InteressierendeKategorien: " + interestCat.size());
+//		System.out.println("Badges: " + level.getBadgeCount());
+//		System.out.println("Level: " + level.getLvlCount());
+//		
+//		
+//		//Anzahl der Items pro Kategorie
+//		for(Category cat: interestCat){
+//			//Debugging Testing
+//			System.out.println(cat.getName() + " "+ "KatLevel: " + level.getBadgeLevel(cat.getId()));
+//			System.out.println(cat.getName() + " " + "KatLevelLeft: " + level.getBadgeLevelLeft(cat.getId()));
+//			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
+//			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
+//			arrList.add(new Badge(cat,items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));
+//		}
 		
-		mainListView.setOnItemClickListener(new OnItemClickListener()
-        {
-	        @Override
-	        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-	        {		        
-		        Intent intent = new Intent();   
-		        Badge clickedBadge = (Badge) parent.getItemAtPosition(position);
-		        intent.putExtra(Controller.EXTRA_BADGE_SHOW_DETAIL, clickedBadge);
-		        intent.setClassName(getPackageName(), BadgeDetailActivity.class.getName());
-				startActivity(intent);	
-	        }
-        });
-		
-		/**TODO
-		 * Nur Test um Umgang zu erlernen
-		 */
-		arrList = new ArrayList<Badge>();
-		
-		/**
-		 * Rootkategorien fuer Badgesystem laden
-		 */
-		
-		level = new UserLevel();
-		
-		ArrayList<Category> allCat= Controller.getInstance().getCategories(null);
-		ArrayList<Category> subCat= new ArrayList<Category>();
-		ArrayList<Category> rootCat = new ArrayList<Category>();
-		ArrayList<Category> interestCat = new ArrayList<Category>();
-		
-		//Dieser Part fuer alle Kategorien
-		for(Category cat : allCat){
-			interestCat.add(cat);
-		}
-		//Tracking und debugging infos
-		System.out.println("AlleKategorien: " + allCat.size());
-		System.out.println("RootKategorien: " + rootCat.size());
-		System.out.println("SubKategorien: " + subCat.size());
-		System.out.println("InteressierendeKategorien: " + interestCat.size());
-		System.out.println("Badges: " + level.getBadgeCount());
-		System.out.println("Level: " + level.getLvlCount());
-		
-		
-		//Anzahl der Items pro Kategorie
-		for(Category cat: interestCat){
-			//Debugging Testing
-			System.out.println(cat.getName() + " "+ "KatLevel: " + level.getBadgeLevel(cat.getId()));
-			System.out.println(cat.getName() + " " + "KatLevelLeft: " + level.getBadgeLevelLeft(cat.getId()));
-			ArrayList<Item> items = Controller.getInstance().getItemsOfACategory(cat.getId());
-			System.out.println(cat.getName() + "_:anhzahl:_" + items.size() + "_lvl: " + UserLevel.getBadgemark5());
-			arrList.add(new Badge(cat,items.size(), cat.getIcon().getName(),level.awardedBadge1(cat.getId()),level.awardedBadge2(cat.getId()),level.awardedBadge3(cat.getId()),level.awardedBadge4(cat.getId()),level.awardedBadge5(cat.getId())));
-		}
-		
+		arrList = Badge.getBadges();
 		
 		//arrAdapter = new ArrayAdapter<String>(this, arrList);
 		arrAdapter = new BadgeArrayAdapter(this, arrList);

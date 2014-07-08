@@ -12,6 +12,7 @@
     <string name="title_activity_formulars_change">Formular ändern</string>
     <string name="title_activity_new_category">Kategorie anlegen</string>
     <string name="title_activity_new_item">Gegenstand anlegen</string>
+    <string name="actionbartitle_edit_item">Gegenstand ändern</string>
     <string name="actionbartitle_edit_category">Kategorie ändern</string>
     <string name="title_activity_detail_item">neuer Eintrag</string>
     <string name="title_activity_choose_formular">Formular auswählen</string>
@@ -59,7 +60,6 @@
     <string name="text_head_lvl">Level </string>
     <string name="detail_icon_edit_name_hint">Name wird benötigt</string>
 
-    <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>
     <string name="button_new_kategorie">Neue Kategorie Screen</string>
     <string name="button_kategorie">Kategorie Screen</string>

@@ -143,8 +143,10 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		if (!changeMode){
 			actionbarmenu = R.menu.change_menu_edit_item;
 		}else if(!itemExits){
+			getSupportActionBar().setTitle(this.getResources().getString(R.string.actionbartitle_edit_item));
 			actionbarmenu = R.menu.change_menu;
 		}else{
+			getSupportActionBar().setTitle(item.getName());
 			actionbarmenu = R.menu.edit;
 		}
 		getMenuInflater().inflate(actionbarmenu, menu);
@@ -169,12 +171,12 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 	        dn.show(getSupportFragmentManager(), TAG);
 		}
 		else {
-			if(photoImageView != null && !itemExits){ //TODO: das sollte ermöglicht werden
+			if(photoImageView != null && !itemExits){ //TODO: das sollte ermoeglicht werden
 
 				if (this.lastFileNameOfPhoto != null) {// String darf nicht null sein !
 					//photoImageView.setTag(this.lastFileNameOfPhoto);
 				}
-				// Kleiner Hack (beide Anweiseungen): "normaler" ClickListener wird unsschädlich gemacht
+				// "normaler" ClickListener wird unsschädlich gemacht
 				// und die else Block speichert dann den Dateiname des geschossenen Fotos (falls vorhanden)
 				photoImageView.setCallOnCklick(false);
 				photoImageView.performClick();

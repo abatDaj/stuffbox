@@ -3,11 +3,15 @@ package com.stuffbox.controller;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.stuffbox.R;
+import com.stuffbox.model.Badge;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
@@ -16,6 +20,7 @@ import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
+import com.stuffbox.view.helper.Utility;
 
 public class Controller {
 	
@@ -34,25 +39,18 @@ public class Controller {
 	public final static int NUMBER_CHARS_OF_MOST_EDIT_TEXTS_IN_ICON_SCREEN = 7; 
 	public final static int NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN = 12; 
 	public final static int BADGE_ICON_SIZE = 85; 
-
-	
-	
 	public final static int DEFAULT_RANKING_VALUE = 5;
 	
 	// Default-Wert, die Items für Bilder bekommen, wenns keins
 	// geschossen wurde.
 	public final static String DEFAULT_ICON_VALUE_FOR_PICTURE = "stuffbox.item.without.picture";
-
 	
-	// Für die Bild-Galerie Funktion
+	// Fuer die Bild-Galerie Funktion
 	public static final int REQUEST_CAMERA = 42;
 	public static final int SELECT_FILE = 1;
-
 	public static final int  REQUEST_CODE_CHOOSE_ICON = 77;
-	
 	// Java-CSS
 	public static final int CSS_TEXT_SIZE_LABELS = 16;
-	
 
 	private static Controller instance = null;
 	private DatabaseHandler databaseHandler;
@@ -84,7 +82,6 @@ public class Controller {
 		init = true;
 	}
 	
-	//TODO
 	public static Controller getInstance (Context context) {
 		if (instance == null){
 			instance = new Controller (context);
@@ -299,7 +296,10 @@ public class Controller {
     public ArrayList<Category> getSubCategories(long categoryId) {
     	return databaseHandler.getSubCategories(categoryId);
     }
-    
+    /**
+     * Gibt die Root Kategorie zurueck
+     * @return
+     */
     public Category getRootCategory(){
     	ArrayList<Long> ids = new ArrayList<Long>();
     	ids.add((long) DatabaseHandler.INDEX_OF_ROOT_CATEGORY);
@@ -380,7 +380,37 @@ public class Controller {
      * @param description
      */
     public void insertIcon(String name, String description){
+    	ArrayList<Badge> badgesOld = Badge.getBadges();
+    	
     	databaseHandler.insertIcon(name, description);
+ 
+    	ArrayList<Badge> badges = Badge.getBadges();
+    	
+    	for(int badgeindex = 0; badgeindex < badges.size(); badgeindex++){
+    		if(badges.get(badgeindex).getItemcount() > badgesOld.get(badgeindex).getItemcount()){
+    			Dialog dialog = new Dialog(context);
+
+    			dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+    			dialog.setContentView(R.layout.custom_dialog);
+    			dialog.setTitle("Dialog Title");
+
+    			dialog.show();
+    			
+    			int drawableId = badges.get(badgeindex).getCategory().getIcon().getDrawableId();
+
+    			ImageView greyPics[] = new ImageView[5];
+    			for (int layers = 0; layers < greyPics.length; layers++) {
+    				greyPics[layers] = new ImageView(context);
+    				greyPics[layers].setImageResource(drawableId);
+    				greyPics[layers].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
+    			}
+    			
+    			ImageView star1 = Utility.stuffBoxStarIconCloner(context,drawableId, badges.get(badgeindex).getHighestBadge());
+    			
+    			//dialog.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.your_icon);
+    			break;
+    		}
+    	}
     }
     
     /**
@@ -590,39 +620,25 @@ public class Controller {
 		// holt alle Icons mit dem Prefix "category_icon_"
 		for (int i = 0; i < drawableFields.length; i++)
 			if (drawableFields[i].getName().startsWith( (String) context.getResources().getText(R.string.prefix_icon_category)))  
-				databaseHandler.insertIcon(drawableFields[i].getName(),"egal");
+				databaseHandler.insertIcon(drawableFields[i].getName(),drawableFields[i].getName());
     }
     
     /**
      * Setzt die Datenbank neu auf
      */
     public void initializeDatabase(Context context){
-    	//databaseHandler.initializeDatabase();
-    	
-    	
     	databaseHandler.setRootCategoryID();
     	
     	getTypes();
-//    	
-//    	insertDebugFeatureEntries();
-//    	ArrayList<Feature> features = getFeatures(null);
-//    	insertDebugFormularEntries(features);
+    	databaseHandler.insertIcon("ic_launcher","Stuffbox");
     	if(DatabaseHandler.INDEX_OF_ROOT_CATEGORY == DatabaseHandler.INITIAL_ID){
     		//Nur hinzufuegen, wenn neue initialisierte DB
     		fillIconTableWithIcons(context);
     	}
     	getIcons();
     	//Root Kategorie einfuegen
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(0), -1);    
 		this.setCurrentCategory(currentCategory);
-//    	insertDebugCategoryEntries();
-//
-//    	ArrayList<Formular> formulars = getFormulars(null); 
-//    	ArrayList<Category> categories = getCategories(null); 
-//    	insertDebugItemEntries(formulars, categories);
-//    	
-//    	getItems(null);    	
-    	
     }
     
     public void insertDebugEntries(Context context){
@@ -637,7 +653,7 @@ public class Controller {
     	getIcons();
     	
     	//Root Kategorie einfuegen
-		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(5), -1);    
+		Category currentCategory = insertCategory(DataSourceCategory.ROOT_CATEGORY, icons.get(0), -1);    
 		this.setCurrentCategory(currentCategory);
     	insertDebugCategoryEntries();
 
