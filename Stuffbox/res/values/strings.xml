@@ -60,7 +60,6 @@
     <string name="text_head_lvl">Level </string>
     <string name="detail_icon_edit_name_hint">Name wird benötigt</string>
 
-    <!-- TODO loeschen -->
     <string name="button_list_categories">List Categories</string>
     <string name="button_new_kategorie">Neue Kategorie Screen</string>
     <string name="button_kategorie">Kategorie Screen</string>

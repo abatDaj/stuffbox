@@ -3,11 +3,15 @@ package com.stuffbox.controller;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.stuffbox.R;
+import com.stuffbox.model.Badge;
 import com.stuffbox.model.Category;
 import com.stuffbox.model.DataSourceCategory;
 import com.stuffbox.model.DatabaseHandler;
@@ -16,6 +20,7 @@ import com.stuffbox.model.FeatureType;
 import com.stuffbox.model.Formular;
 import com.stuffbox.model.Icon;
 import com.stuffbox.model.Item;
+import com.stuffbox.view.helper.Utility;
 
 public class Controller {
 	
@@ -372,10 +377,37 @@ public class Controller {
      * @param description
      */
     public void insertIcon(String name, String description){
+    	ArrayList<Badge> badgesOld = Badge.getBadges();
+    	
     	databaseHandler.insertIcon(name, description);
  
-    	//Nur für horizontalen Prototypen
+    	ArrayList<Badge> badges = Badge.getBadges();
     	
+    	for(int badgeindex = 0; badgeindex < badges.size(); badgeindex++){
+    		if(badges.get(badgeindex).getItemcount() > badgesOld.get(badgeindex).getItemcount()){
+    			Dialog dialog = new Dialog(context);
+
+    			dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+    			dialog.setContentView(R.layout.custom_dialog);
+    			dialog.setTitle("Dialog Title");
+
+    			dialog.show();
+    			
+    			int drawableId = badges.get(badgeindex).getCategory().getIcon().getDrawableId();
+
+    			ImageView greyPics[] = new ImageView[5];
+    			for (int layers = 0; layers < greyPics.length; layers++) {
+    				greyPics[layers] = new ImageView(context);
+    				greyPics[layers].setImageResource(drawableId);
+    				greyPics[layers].setLayoutParams(new LinearLayout.LayoutParams(Controller.BADGE_ICON_SIZE, Controller.BADGE_ICON_SIZE));
+    			}
+    			
+    			ImageView star1 = Utility.stuffBoxStarIconCloner(context,drawableId, badges.get(badgeindex).getHighestBadge());
+    			
+    			//dialog.setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.your_icon);
+    			break;
+    		}
+    	}
     }
     
     /**

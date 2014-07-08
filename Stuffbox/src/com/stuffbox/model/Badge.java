@@ -2,7 +2,10 @@ package com.stuffbox.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import android.widget.ImageView;
+
 import com.stuffbox.controller.Controller;
+import com.stuffbox.view.helper.Utility;
 
 public class Badge implements Serializable {
 
@@ -90,6 +93,22 @@ public class Badge implements Serializable {
 
 	public void setItemcount(int itemcount) {
 		this.itemcount = itemcount;
+	}
+	
+	public int getHighestBadge(){
+		if (isBadge1()) {
+			return 1;
+		} else if (isBadge2()) {
+			return 2;
+		} if (isBadge3()) {
+			return 3;
+		} else if(isBadge4()) {
+			return 4;
+		} else if (isBadge5()) {
+			return 5;
+		} else {
+			return 0;
+		}
 	}
 	
 	public static ArrayList<Badge> getBadges(){
