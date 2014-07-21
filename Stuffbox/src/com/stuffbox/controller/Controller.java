@@ -72,7 +72,8 @@ public class Controller {
 	
 	private  Controller (Context context) {
 		this.context = context;
-		databaseHandler = new DatabaseHandler(context);		
+		//databaseHandler = new DatabaseHandler(context);	
+		databaseHandler = DatabaseHandler.getInstance(context);
 	}
 	
 	public void init (){

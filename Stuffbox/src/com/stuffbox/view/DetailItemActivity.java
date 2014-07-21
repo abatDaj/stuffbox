@@ -65,11 +65,7 @@ public class DetailItemActivity extends ActionBarActivity implements ActivityWit
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_item);		
 		
-		try {
 		formular = Controller.getInstance().getCurrentFormular();
-		}
-		catch (Exception e)
-		{}
 		
 		if (Controller.getInstance().getCurrentItem() != null){
 			itemExits = true;

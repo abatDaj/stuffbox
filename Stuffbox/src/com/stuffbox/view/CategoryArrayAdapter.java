@@ -43,7 +43,11 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 		rowView.setPadding(10, 10, 0, 10);
 		
 		ImageView imageView  = new ImageView(context);
-		imageView.setLayoutParams(new LinearLayout.LayoutParams(80, 80));
+		//Listengröße entsprechend Display einstellen
+	    int param_in_dp = 80;
+	    final float scale = context.getResources().getDisplayMetrics().density;
+	    int param_in_px = (int) (param_in_dp * scale + 0.5f);
+		imageView.setLayoutParams(new LinearLayout.LayoutParams(param_in_px, param_in_px));
 
 		Icon icon = values.get(position).getIcon();
 		String iconName = icon == null || !icon.getName().startsWith("category_icon_") ? "category_icon_default" : icon.getName();
@@ -51,9 +55,16 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 		
 		TextView mainText  = new TextView(context);
 		mainText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.FILL_PARENT));
-		mainText.setPadding(10, 0, 0, 0);
+		//TODO check device size
+		mainText.setPadding(50, 0, 0, 0);
 		mainText.setGravity(Gravity.CENTER_VERTICAL);
 		mainText.setText(values.get(position).getName());
+		
+		//Textgröße entsprechend Display einstellen
+	    int textSize_in_dp = 10;  // 6 dps
+	    int textSize_in_px = (int) (textSize_in_dp * scale + 0.5f);
+	    mainText.setTextSize(textSize_in_px);
+		
 		rowView.addView(imageView);
 		mainText.setTextColor(Color.WHITE);
 		rowView.addView(mainText);

@@ -127,7 +127,7 @@ public class DataSourceItem {
 	        }
 	        if(!deleteCategoryIds.isEmpty()){
 				String whereStatement = DatabaseHandler.createWhereStatementFromIDList(deleteCategoryIds, DatabaseHandler.TABLE_CATEGORY);
-				whereStatement = "(" + whereStatement + ")" + DatabaseHandler.SQL_AND +  DatabaseHandler.TABLE_ITEM + " == " + item.getId();
+				whereStatement = "(" + whereStatement + ") " + DatabaseHandler.SQL_AND + " " +  DatabaseHandler.TABLE_ITEM + " == " + item.getId();
 				DatabaseHandler.deletefromDB(database, DatabaseHandler.TABLE_CATEGORY_ITEM, whereStatement);		
 	        }
 		}
@@ -182,7 +182,7 @@ public class DataSourceItem {
     	whereValues.put(DatabaseHandler.TABLE_FEATURE, feature.getId());
     	
     	String whereClause = DatabaseHandler.createWhereStatementFromContentValues(whereValues); 
-    	whereClause = "(" + whereClause + ") AND " + DatabaseHandler.TABLE_ITEM + "==" + item.getId();
+    	whereClause = "(" + whereClause + ") AND " + DatabaseHandler.TABLE_ITEM + " == " + item.getId();
     	
     	DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_FEATURE_ITEM, values, whereClause, item.getName());
     }    

@@ -1,23 +1,14 @@
 package com.stuffbox.model;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Map;
-
-import com.stuffbox.controller.Controller;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper{
@@ -81,8 +72,23 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private DataSourceCategory dataSourceCategory;
     private DataSourceItem dataSourceItem;
     
-    public DatabaseHandler(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    private static DatabaseHandler sInstance;
+    
+    public static DatabaseHandler getInstance(Context context) {
+
+        // Use the application context, which will ensure that you 
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+          sInstance = new DatabaseHandler(context.getApplicationContext());
+        }
+        return sInstance;
+      }
+    
+    private DatabaseHandler(Context context) {
+    	//TODO rausnehmen für richtige Anwendung
+//        super(context, "/mnt/sdcard/" + DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, "/mnt/sdcard/Stuffbox/" + DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
         
         //instance datasources
@@ -307,7 +313,8 @@ public class DatabaseHandler extends SQLiteOpenHelper{
      * @param name
      */
     public Category insertOrUpdateCategory(Category category){
-    	return dataSourceCategory.insertOrUpdateCategory(database, category);
+    	Category cat = dataSourceCategory.insertOrUpdateCategory(database, category);
+    	return cat;
     }
     /**
      * Speichert eine neues Icon in der Tabelle Icon
@@ -388,18 +395,22 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     		ContentValues values, 
     		String whereClause, 
     		String logString){
+    	
     	database.beginTransaction();
     	long rowID = -1; 
     	
     	try{
     		rowID = database.update(table, values, whereClause, null);
+//    		rowID = database.update(table, values, KEY_ID + "=?", new String[]{2+""});
     	}catch(SQLiteException e){
     		Log.e(TAG, "update " + table + " " + logString, e);
     	}finally{
-    		Log.d(TAG, "update " + table + " rowId=" + rowID + " " + logString);
+    		Log.d(TAG, "update " + table + " geänderte Zeilen: " + rowID + " " + logString);
     	}
+
     	database.setTransactionSuccessful();
     	database.endTransaction();
+    	
     	return rowID;
     } 
     

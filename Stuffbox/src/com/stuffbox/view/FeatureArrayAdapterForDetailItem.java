@@ -121,9 +121,13 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 	 */
 	private void buildTextEdit(LinearLayout rowView, final Feature feature){
 		final EditText editNormalText= new EditText(context);
-		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN);
-		
+		//Textgröße entsprechend Display einstellen
+	    int textSize_in_dp = 10;
+	    final float scale = context.getResources().getDisplayMetrics().density;
+	    int textSize_in_px = (int) (textSize_in_dp * scale + 0.5f);
+		editNormalText.setTextSize(textSize_in_px);
 		//Textfarbe setzen, damit Texte auch im Aenderungsmodus lesbar sind
 		editNormalText.setTextColor(context.getResources().getColor(R.drawable.selector_item_fields));		
 		
@@ -254,7 +258,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 				if (imageViewPhoto.isCallOnCklick()) // Foto schieÃŸen
 				{
 					String randomNumber = String.valueOf(Math.random()).substring(2, 6);
-					String fileNameOfPhoto = Controller.getInstance().getCurrentCategory().getName() + "_" + randomNumber;
+					String fileNameOfPhoto = Controller.getInstance().getCurrentCategory().getName() + "_" + randomNumber + ".jpg";
 					activityWithATimePickerEditText.onClickOfImageViewPhoto(fileNameOfPhoto);
 					imageViewPhoto.setTag(fileNameOfPhoto);
 				}

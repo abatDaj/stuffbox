@@ -69,6 +69,7 @@ public class NewFormularActivity  extends ActionBarActivity implements DialogDec
 			for (Feature feature : features) {
 				boolean wasFound = false;
 				if(feature.getId() == Formular.idOfNameFeature ){
+					feature.setSortnumber(0);
 					selectedFeatures.add(feature);
 					continue;
 				}

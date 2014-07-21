@@ -69,6 +69,7 @@ public class NewFeatureActivity extends ActionBarActivity implements DialogDecis
 		int itemId = item.getItemId();
 	    switch (itemId) {
 	        case R.id.menu_save:
+	        case R.id.menu_update:
 	        	onSave();
 	            return true;
 	        case R.id.menu_abort:

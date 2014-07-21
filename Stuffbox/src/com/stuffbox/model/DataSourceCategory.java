@@ -92,7 +92,8 @@ public class DataSourceCategory {
 	    	whereValues.put(DatabaseHandler.KEY_ID, category.getId());
 	        rowid = DatabaseHandler.updateEntryInDB(database, DatabaseHandler.TABLE_CATEGORY, values, whereValues, category.getName());
 	        if (rowid > 0){
-	        	return category;
+	        	return getCategory(database, category.getId());
+	        	//return category;
 	        }
 	    } else {	    	
 	    	//insert
@@ -174,7 +175,7 @@ public class DataSourceCategory {
 	 * @return Die Unterkategorien, gegebenenfalls eine leere Liste
 	 */
 	public ArrayList<Category> getSubCategories(SQLiteDatabase database, long categoryId) {
-		String whereStatement = DatabaseHandler.KEY_PRECATEGORY + "=" + categoryId;
+		String whereStatement = DatabaseHandler.KEY_PRECATEGORY + " = " + categoryId;
 		Cursor cursor = database.query(DatabaseHandler.TABLE_CATEGORY, null, whereStatement, null, null, null, null);
 		ArrayList<Long> subCategoryIds = new ArrayList<Long>();
 		if (cursor.moveToFirst()){
@@ -252,17 +253,19 @@ public class DataSourceCategory {
 		if (cursor.moveToFirst()) {
 			do {
 				Icon icon = null;
+				int iconid = -1;
 				try {
 					// NumberFormatException parseInt kann keine "null" verarbeiten
 					// (NumberFormatException), also wenn die Kategorie kein Icon hat, was nicht vorkommen darf
-					int iconid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ICON)));
-					for (Icon temp : icons) {
-						if (iconid == temp.getId()) {
-							icon = temp;
-						}
-					}
+					iconid = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ICON)));
 				} catch (NumberFormatException e) {
 					return null;
+				}
+				
+				for (Icon temp : icons) {
+					if (iconid == temp.getId()) {
+						icon = temp;
+					}
 				}
 				
 				long pre;
