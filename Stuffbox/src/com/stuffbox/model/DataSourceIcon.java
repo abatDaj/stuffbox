@@ -69,6 +69,7 @@ public class DataSourceIcon {
 				icons.add(icon);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		return icons;
     } 
     
@@ -86,6 +87,7 @@ public class DataSourceIcon {
 			icon = new Icon( Integer.parseInt(cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_ID))),
 							 cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_NAME)),
 							 cursor.getString(cursor.getColumnIndex(DatabaseHandler.KEY_DESCRIPTION)));
+		cursor.close();
 		return icon;
 	}
 

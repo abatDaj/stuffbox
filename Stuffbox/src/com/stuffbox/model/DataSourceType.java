@@ -57,7 +57,7 @@ public class DataSourceType {
 				types.add(type);
 			} while (cursor.moveToNext());
 		}
-		 
+		cursor.close();
 		return types;
     }  
 }

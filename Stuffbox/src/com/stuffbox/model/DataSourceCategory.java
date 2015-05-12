@@ -190,6 +190,7 @@ public class DataSourceCategory {
 		}else{
 			return new ArrayList<Category>();
 		}
+		cursor.close();
 		if(subCategoryIds.isEmpty()){
 			return new ArrayList<Category>();
 		}
@@ -281,6 +282,7 @@ public class DataSourceCategory {
 				categories.add(category);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		return categories;
 	}
 }

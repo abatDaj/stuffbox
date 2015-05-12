@@ -295,6 +295,8 @@ public class DataSourceItem {
 				}
 			} while (cursor.moveToNext());
 		}
+		
+		cursor.close();
     }
     
     /**
@@ -321,6 +323,7 @@ public class DataSourceItem {
 				anIdinAList.add(itemId);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		return this.getItems(database, anIdinAList);
     }
     
@@ -363,6 +366,7 @@ public class DataSourceItem {
 				items.add(item);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		return items;
     }
     

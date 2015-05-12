@@ -372,9 +372,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     		String table, 
     		ContentValues values, 
     		ContentValues whereValues, 
-    		String logString){
-    	database.beginTransaction();
-    	
+    		String logString){ 	
     	String whereClause = createWhereStatementFromContentValues(whereValues); 
     	
     	return updateEntryInDB(database, table, values, whereClause, logString);
@@ -402,6 +400,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     	try{
     		rowID = database.update(table, values, whereClause, null);
 //    		rowID = database.update(table, values, KEY_ID + "=?", new String[]{2+""});
+//    		database.execSQL("UPDATE kategorie SET name='t‰‰st' WHERE id=1 "); rowID = 1;
     	}catch(SQLiteException e){
     		Log.e(TAG, "update " + table + " " + logString, e);
     	}finally{
@@ -561,6 +560,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
 			} while (cursor.moveToNext());
 		}
 		
+		cursor.close();
 		return selectFeatureIds;
     }
 }

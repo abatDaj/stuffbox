@@ -227,7 +227,7 @@ public class DataSourceFormular {
 				formulars.add(formular);
 			} while (cursor.moveToNext());
 		}
-		 
+		cursor.close();
 		return formulars;
     }
 }

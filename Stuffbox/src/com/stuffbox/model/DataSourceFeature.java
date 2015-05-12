@@ -138,7 +138,8 @@ public class DataSourceFeature {
 				features.add(feature);
 			} while (cursor.moveToNext());
 		}
-		 
+		cursor.close();
+		
 		return features;
     }
     

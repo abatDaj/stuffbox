@@ -45,7 +45,7 @@ public class BadgeDetailActivity extends ActionBarActivity {
 		TextView textView = new TextView(this);
 		textView.setLayoutParams(new LayoutParams(150,LinearLayout.LayoutParams.FILL_PARENT));
 		textView.setGravity(Gravity.CENTER_VERTICAL);
-		textView.setText("Anzahl Eintr√§ge: " + badge.getItemcount());
+		textView.setText("Anzahl Eintr‰ge: " + badge.getItemcount());
 		textView.setPadding(20, 0, 0, 0);
 		ll.addView(textView);
 		

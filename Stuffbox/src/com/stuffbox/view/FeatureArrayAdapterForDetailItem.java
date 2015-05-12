@@ -124,6 +124,7 @@ public class FeatureArrayAdapterForDetailItem extends ArrayAdapter<Feature> {
 		editNormalText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		editNormalText.setEms(Controller.NUMBER_CHARS_OF_LARGER_EDIT_TEXTS_IN_ICON_SCREEN);
 		//Textgröße entsprechend Display einstellen
+		//TODO move to static method
 	    int textSize_in_dp = 10;
 	    final float scale = context.getResources().getDisplayMetrics().density;
 	    int textSize_in_px = (int) (textSize_in_dp * scale + 0.5f);

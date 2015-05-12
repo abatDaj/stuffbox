@@ -9,6 +9,7 @@ import com.stuffbox.model.Icon;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 		
 		ImageView imageView  = new ImageView(context);
 		//Listengröße entsprechend Display einstellen
+		//TODO move to static method
 	    int param_in_dp = 80;
 	    final float scale = context.getResources().getDisplayMetrics().density;
 	    int param_in_px = (int) (param_in_dp * scale + 0.5f);
@@ -59,6 +61,9 @@ public class CategoryArrayAdapter extends ArrayAdapter<Category> {
 		mainText.setPadding(50, 0, 0, 0);
 		mainText.setGravity(Gravity.CENTER_VERTICAL);
 		mainText.setText(values.get(position).getName());
+		//TODO hübschen font auswählen
+		Typeface textfont = Typeface.createFromAsset(context.getAssets(), "fonts/dk_crayon_crumble.ttf");
+		mainText.setTypeface(textfont);
 		
 		//Textgröße entsprechend Display einstellen
 	    int textSize_in_dp = 10;  // 6 dps
